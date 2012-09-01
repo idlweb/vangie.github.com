@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Mac OS X终端里SSH会话管理 - Code Life</title>
+  <title>MacOS X终端里SSH会话管理 - Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="本文主要针对Mac OS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。 虽然windows没有对SSH的原生支持，但是XShell和Putty都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能 &hellip;">
+  <meta name="description" content="本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。 虽然windows没有对SSH的原生支持，但是XShell和Putty都挺好用的。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Mac OS X终端里SSH会话管理</h1>
+      <h1 class="entry-title">MacOS X终端里SSH会话管理</h1>
     
     
       <p class="meta">
@@ -102,7 +102,7 @@
   </header>
 
 
-<div class="entry-content"><blockquote><p>本文主要针对Mac OS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
+<div class="entry-content"><blockquote><p>本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
 
 <p>虽然windows没有对SSH的原生支持，但是<a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a>和<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能。</p>
 
@@ -132,13 +132,14 @@
 </code></pre>
 
 <p>依照提示完成即可，然后将<code>id_rsa</code>和<code>id_rsa.pub</code>文件拷贝到<code>~/.ssh/</code>目录。</p></li>
-<li><p><strong>拷贝公钥到远程服务器</strong>
-需要将公钥<code>id_rsa.pub</code>的内容拷贝到远程服务器<code>~/.ssh/authorized_keys</code>文件里。该文件里可能不存在，需要新建。若该文件已经存在，里面可能有其他用户添加的公钥，所以需要将公钥<code>id_rsa.pub</code>的内容追加在文件尾部(独立成行)，而不是覆盖该文件.</p>
+<li><p><strong>拷贝公钥到远程服务器</strong></p>
+
+<p>需要将公钥<code>id_rsa.pub</code>的内容拷贝到远程服务器<code>~/.ssh/authorized_keys</code>文件里。该文件里可能不存在，需要新建。若该文件已经存在，里面可能有其他用户添加的公钥，所以需要将公钥<code>id_rsa.pub</code>的内容追加在文件尾部(独立成行)，而不是覆盖该文件.</p>
 
 <ul>
 <li><p>若<code>authorized_keys</code>已存在</p>
 
-<pre><code>cat ~/.ssh/id_rsa.pub | ssh username@example.com "cat - &gt;&gt; ~/.ssh/authorized_keys"
+<pre><code>cat ~/.ssh/id_rsa.pub | ssh username@example.com "cat - &gt;&gt; ~/.ssh/authorized_keys"      
 </code></pre></li>
 <li><p>若<code>authorized_keys</code>不存在</p>
 
@@ -225,6 +226,8 @@
     <p class="meta">
       
       
+        <a class="basic-alignment right" href="/blog/2012/09/02/how-to-set-proxy-for-terminal/" title="Next Post: 如何为MacOS X终端设置代理">如何为MacOS X终端设置代理 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -238,7 +241,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/">Mac OS X终端里SSH会话管理</a>
+        <a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">如何为MacOS X终端设置代理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/">MacOS X终端里SSH会话管理</a>
       </li>
     
   </ul>

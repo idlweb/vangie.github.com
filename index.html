@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="本文主要针对Mac OS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。 虽然windows没有对SSH的原生支持，但是XShell和Putty都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能 &hellip;">
+  <meta name="description" content="本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。 实在无法忍受linode日本机房的高延迟，动手配置了一个goagent服务。但是HTTP代理和VPN不同，没法全局代理（至少不能简单配置）， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,76 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/">Mac OS X终端里SSH会话管理</a></h1>
+      <h1 class="entry-title"><a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">如何为MacOS X终端设置代理</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。</p></blockquote>
+
+<p>实在无法忍受<a href="http://www.linode.com/" title="linode">linode</a>日本机房的高延迟，动手配置了一个<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>服务。但是HTTP代理和VPN不同，没法全局代理（<em>至少不能简单配置</em>），在Terminal里下载最新版本的Ruby，奇慢无比，下面介绍如何让Terminal里执行的程序使用<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>代理。</p>
+
+<h3>HTTP代理</h3>
+
+<pre><code>$ export http_proxy='http://YOUR_USERNAME:YOUR_PASSWORD@PROXY_IP:PROXY_PORT/'
+</code></pre>
+
+<h3>HTTPS代理</h3>
+
+<pre><code>$ export https_proxy='http://YOUR_USERNAME:YOUR_PASSWORD@PROXY_IP:PROXY_PORT/'
+</code></pre>
+
+<h3>例子</h3>
+
+<p>让Terminal里的http访问走<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>的默认端口8087</p>
+
+<pre><code>$ export http_proxy='http://localhost:8087'
+$ export https_proxy='http://localhost:8087'
+</code></pre>
+
+<h3>取消代理</h3>
+
+<pre><code>$ unset http_proxy
+$ unset https_proxy
+</code></pre>
+
+<h4>参考文章</h4>
+
+<ol>
+<li><a href="http://www.webupd8.org/2010/10/how-to-set-proxy-for-terminal-quick.html">HOW TO SET A PROXY FOR THE TERMINAL [QUICK LINUX TIP]</a></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/">MacOS X终端里SSH会话管理</a></h1>
     
     
       <p class="meta">
@@ -105,7 +174,7 @@
   </header>
 
 
-  <div class="entry-content"><blockquote><p>本文主要针对Mac OS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
+  <div class="entry-content"><blockquote><p>本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
 
 <p>虽然windows没有对SSH的原生支持，但是<a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a>和<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能。</p>
 
@@ -135,13 +204,14 @@
 </code></pre>
 
 <p>依照提示完成即可，然后将<code>id_rsa</code>和<code>id_rsa.pub</code>文件拷贝到<code>~/.ssh/</code>目录。</p></li>
-<li><p><strong>拷贝公钥到远程服务器</strong>
-需要将公钥<code>id_rsa.pub</code>的内容拷贝到远程服务器<code>~/.ssh/authorized_keys</code>文件里。该文件里可能不存在，需要新建。若该文件已经存在，里面可能有其他用户添加的公钥，所以需要将公钥<code>id_rsa.pub</code>的内容追加在文件尾部(独立成行)，而不是覆盖该文件.</p>
+<li><p><strong>拷贝公钥到远程服务器</strong></p>
+
+<p>需要将公钥<code>id_rsa.pub</code>的内容拷贝到远程服务器<code>~/.ssh/authorized_keys</code>文件里。该文件里可能不存在，需要新建。若该文件已经存在，里面可能有其他用户添加的公钥，所以需要将公钥<code>id_rsa.pub</code>的内容追加在文件尾部(独立成行)，而不是覆盖该文件.</p>
 
 <ul>
 <li><p>若<code>authorized_keys</code>已存在</p>
 
-<pre><code>cat ~/.ssh/id_rsa.pub | ssh username@example.com "cat - &gt;&gt; ~/.ssh/authorized_keys"
+<pre><code>cat ~/.ssh/id_rsa.pub | ssh username@example.com "cat - &gt;&gt; ~/.ssh/authorized_keys"      
 </code></pre></li>
 <li><p>若<code>authorized_keys</code>不存在</p>
 
@@ -208,7 +278,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/">Mac OS X终端里SSH会话管理</a>
+        <a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">如何为MacOS X终端设置代理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/">MacOS X终端里SSH会话管理</a>
       </li>
     
   </ul>
