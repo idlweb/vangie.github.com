@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。 实在无法忍受linode日本机房的高延迟，动手配置了一个goagent服务。但是HTTP代理和VPN不同，没法全局代理（至少不能简单配置）， &hellip;">
+  <meta name="description" content="其实挺简单的，官方文档也写的很清晰，不过还是碰到了让人受挫的404错误。 添加CNAME文件 echo 'your-domain.com' &gt;&gt; source/CNAME 修改DNS记录 然后去域名注册商那里配置DNS记录（本站域名在godaddy注册的，NS记录指向了DNSPod， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,75 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/02/custom-domain-for-octopress/">为Octopress博客设置个性化域名</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-02T20:31:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/02/custom-domain-for-octopress/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>其实挺简单的，官方文档也写的很清晰，不过还是碰到了让人受挫的404错误。</p>
+
+<h2>添加CNAME文件</h2>
+
+<pre><code>echo 'your-domain.com' &gt;&gt; source/CNAME
+</code></pre>
+
+<h2>修改DNS记录</h2>
+
+<p>然后去域名注册商那里配置DNS记录（本站域名在godaddy注册的，NS记录指向了DNSPod，国内用户强烈推荐DNSPod，配置方便，记录变更生效快）。</p>
+
+<h4>顶级域名</h4>
+
+<p>A记录指向 <code>204.232.175.78</code></p>
+
+<h4>二级域名</h4>
+
+<p>CNAME记录指向 <code>[your-username].github.com</code></p>
+
+<h4>若配置多个域名</h4>
+
+<p><code>source/CNAME</code>文件只能有配置一个域名，其他域名通过DNS的CNAME记录指向<code>source/CNAME</code>里配置的域名</p>
+
+<h2>重新发布</h2>
+
+<p>接下来就只需要重新发布一下</p>
+
+<pre><code>rake generate
+rake deploy
+</code></pre>
+
+<blockquote><p>别忘了<code>rake generate</code>否则使用新域名打开页面可能就会遇上404错误。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -280,6 +349,10 @@ $ unset https_proxy
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/09/02/custom-domain-for-octopress/">为Octopress博客设置个性化域名</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">如何为MacOS X终端设置代理</a>

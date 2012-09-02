@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>如何为MacOS X终端设置代理 - Code Life</title>
+  <title>为Octopress博客设置个性化域名 - Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。 实在无法忍受linode日本机房的高延迟，动手配置了一个goagent服务。但是HTTP代理和VPN不同，没法全局代理（至少不能简单配置）， &hellip;">
+  <meta name="description" content="其实挺简单的，官方文档也写的很清晰，不过还是碰到了让人受挫的404错误。 添加CNAME文件 echo 'your-domain.com' &gt;&gt; source/CNAME 修改DNS记录 然后去域名注册商那里配置DNS记录（本站域名在godaddy注册的，NS记录指向了DNSPod， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/">
+  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/02/custom-domain-for-octopress/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">如何为MacOS X终端设置代理</h1>
+      <h1 class="entry-title">为Octopress博客设置个性化域名</h1>
     
     
       <p class="meta">
@@ -95,7 +95,7 @@
   
 
 
-<time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+<time datetime="2012-09-02T20:31:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -104,40 +104,38 @@
   </header>
 
 
-<div class="entry-content"><blockquote><p>本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。</p></blockquote>
+<div class="entry-content"><p>其实挺简单的，官方文档也写的很清晰，不过还是碰到了让人受挫的404错误。</p>
 
-<p>实在无法忍受<a href="http://www.linode.com/" title="linode">linode</a>日本机房的高延迟，动手配置了一个<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>服务。但是HTTP代理和VPN不同，没法全局代理（<em>至少不能简单配置</em>），在Terminal里下载最新版本的Ruby，奇慢无比，下面介绍如何让Terminal里执行的程序使用<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>代理。</p>
+<h2>添加CNAME文件</h2>
 
-<h3>HTTP代理</h3>
-
-<pre><code>$ export http_proxy='http://YOUR_USERNAME:YOUR_PASSWORD@PROXY_IP:PROXY_PORT/'
+<pre><code>echo 'your-domain.com' &gt;&gt; source/CNAME
 </code></pre>
 
-<h3>HTTPS代理</h3>
+<h2>修改DNS记录</h2>
 
-<pre><code>$ export https_proxy='http://YOUR_USERNAME:YOUR_PASSWORD@PROXY_IP:PROXY_PORT/'
+<p>然后去域名注册商那里配置DNS记录（本站域名在godaddy注册的，NS记录指向了DNSPod，国内用户强烈推荐DNSPod，配置方便，记录变更生效快）。</p>
+
+<h4>顶级域名</h4>
+
+<p>A记录指向 <code>204.232.175.78</code></p>
+
+<h4>二级域名</h4>
+
+<p>CNAME记录指向 <code>[your-username].github.com</code></p>
+
+<h4>若配置多个域名</h4>
+
+<p><code>source/CNAME</code>文件只能有配置一个域名，其他域名通过DNS的CNAME记录指向<code>source/CNAME</code>里配置的域名</p>
+
+<h2>重新发布</h2>
+
+<p>接下来就只需要重新发布一下</p>
+
+<pre><code>rake generate
+rake deploy
 </code></pre>
 
-<h3>例子</h3>
-
-<p>让Terminal里的http访问走<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>的默认端口8087</p>
-
-<pre><code>$ export http_proxy='http://localhost:8087'
-$ export https_proxy='http://localhost:8087'
-</code></pre>
-
-<h3>取消代理</h3>
-
-<pre><code>$ unset http_proxy
-$ unset https_proxy
-</code></pre>
-
-<h4>参考文章</h4>
-
-<ol>
-<li><a href="http://www.webupd8.org/2010/10/how-to-set-proxy-for-terminal-quick.html">HOW TO SET A PROXY FOR THE TERMINAL [QUICK LINUX TIP]</a></li>
-</ol>
-
+<blockquote><p>别忘了<code>rake generate</code>否则使用新域名打开页面可能就会遇上404错误。</p></blockquote>
 </div>
 
 
@@ -160,7 +158,7 @@ $ unset https_proxy
   
 
 
-<time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+<time datetime="2012-09-02T20:31:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
       
 
 
@@ -175,12 +173,12 @@ $ unset https_proxy
     height="16" 
     frameborder="0" 
     src=
-      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/&amp;type=3&amp;count=1&amp;ralateUid=2115310013&amp;language=zh_cn" allowtransparency="true">
+      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://vangie.github.com/blog/2012/09/02/custom-domain-for-octopress/&amp;type=3&amp;count=1&amp;ralateUid=2115310013&amp;language=zh_cn" allowtransparency="true">
   </iframe>
   </span>
   
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/" data-via="vangie_du" data-counturl="http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/02/custom-domain-for-octopress/" data-via="vangie_du" data-counturl="http://vangie.github.com/blog/2012/09/02/custom-domain-for-octopress/" >Tweet</a>
   
   
   
@@ -189,10 +187,8 @@ $ unset https_proxy
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/" title="Previous Post: MacOS X终端里SSH会话管理">&laquo; MacOS X终端里SSH会话管理</a>
+        <a class="basic-alignment left" href="/blog/2012/09/02/how-to-set-proxy-for-terminal/" title="Previous Post: 如何为MacOS X终端设置代理">&laquo; 如何为MacOS X终端设置代理</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/09/02/custom-domain-for-octopress/" title="Next Post: 为Octopress博客设置个性化域名">为Octopress博客设置个性化域名 &raquo;</a>
       
     </p>
   </footer>
@@ -296,8 +292,8 @@ $ unset https_proxy
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/';
-        var disqus_url = 'http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/';
+        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/02/custom-domain-for-octopress/';
+        var disqus_url = 'http://vangie.github.com/blog/2012/09/02/custom-domain-for-octopress/';
         var disqus_script = 'embed.js';
       
     (function () {
