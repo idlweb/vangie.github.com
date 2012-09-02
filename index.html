@@ -100,6 +100,8 @@
 
 <time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
         
+         | <a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -168,6 +170,8 @@ $ unset https_proxy
 
 
 <time datetime="2012-09-01T23:31:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/#disqus_thread">Comments</a>
         
       </p>
     
@@ -288,6 +292,51 @@ $ unset https_proxy
   </ul>
 </section>
 
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/vangie">@vangie</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'vangie',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("vangie_du", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/vangie_du" class="twitter-follow-button" data-show-count="false">Follow @vangie_du</a>
+  
+</section>
 
 
 
@@ -305,6 +354,19 @@ $ unset https_proxy
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
