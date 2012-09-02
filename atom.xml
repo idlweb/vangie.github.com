@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-09-02T20:51:54+08:00</updated>
+  <updated>2012-09-02T21:28:56+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -50,6 +50,14 @@ rake deploy
 </code></pre>
 
 <blockquote><p>别忘了<code>rake generate</code>否则使用新域名打开页面可能就会遇上404错误。</p></blockquote>
+
+<h3>参考文献</h3>
+
+<ol>
+<li><a href="http://octopress.org/docs/deploying/github/">Deploying to Github Pages</a></li>
+<li><a href="https://help.github.com/articles/my-custom-domain-isn-t-working">My custom domain isn&#8217;t working</a></li>
+</ol>
+
 ]]></content>
   </entry>
   
