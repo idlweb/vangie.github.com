@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="其实挺简单的，官方文档也写的很清晰，不过还是碰到了让人受挫的404错误。 添加CNAME文件 echo 'your-domain.com' &gt;&gt; source/CNAME 修改DNS记录 然后去域名注册商那里配置DNS记录（本站域名在godaddy注册的，NS记录指向了DNSPod， &hellip;">
+  <meta name="description" content="goagent官方推荐使用[GoAgent Mac GUI]或者[GoAgentX]作为Mac下的客户端，[GoAgent Mac GUI]不支持随机启动，图标太难看。[GoAgentX]图标和功能都不错，但是内置的goagent版本不是最新的。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,90 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X里让Goagent运行为后台服务</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-03T22:22:00+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>goagent官方推荐使用[GoAgent Mac GUI]或者[GoAgentX]作为Mac下的客户端，[GoAgent Mac GUI]不支持随机启动，图标太难看。[GoAgentX]图标和功能都不错，但是内置的goagent版本不是最新的。所有自己折腾了一下使用Mac下的LaunchAgent机制将goagent配置成自启动的后台服务。</p>
+
+<h2>新建plist文件</h2>
+
+<p>在<code>~/Library/LaunchAgents/</code>目录里新建<code>com.googlecode.goagent.plist</code>文件。</p></blockquote>
+
+<p>文件内容如下</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+    &lt;dict&gt;
+        &lt;key&gt;RunAtLoad&lt;/key&gt;  
+        &lt;true/&gt;
+        &lt;key&gt;KeepAlive&lt;/key&gt;
+        &lt;true/&gt;
+        &lt;key&gt;Label&lt;/key&gt;
+        &lt;string&gt;com.googlecode.goagent&lt;/string&gt;
+        &lt;key&gt;NetworkState&lt;/key&gt;
+        &lt;true/&gt;
+        &lt;key&gt;ProgramArguments&lt;/key&gt;
+        &lt;array&gt;
+            &lt;string&gt;/usr/bin/python&lt;/string&gt;
+            &lt;string&gt;/Users/vangie/Library/goagent-goagent-dcb39d4/local/proxy.py&lt;/string&gt;
+        &lt;/array&gt;
+        &lt;key&gt;StartCalendarInterval&lt;/key&gt;
+        &lt;dict&gt;
+            &lt;key&gt;Hour&lt;/key&gt;
+            &lt;integer&gt;5&lt;/integer&gt;
+            &lt;key&gt;Minute&lt;/key&gt;
+            &lt;integer&gt;10&lt;/integer&gt;
+        &lt;/dict&gt;
+        &lt;key&gt;ServiceDescription&lt;/key&gt;
+        &lt;string&gt;goagent Local Service&lt;/string&gt;
+    &lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre>
+
+<p>注意<code>/Users/vangie/Library/goagent-goagent-dcb39d4/local/proxy.py</code>根据goagent的存放位置做相应的修改。</p>
+
+<h2>载入并运行该文件</h2>
+
+<pre><code>$ launchctl load ~/Library/LaunchAgents/com.googlecode.goagent.plist
+$ launchctl start com.googlecode.goagent
+</code></pre>
+
+<p>just enjoy it!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -357,6 +441,10 @@ $ unset https_proxy
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X里让Goagent运行为后台服务</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/09/02/custom-domain-for-octopress/">为Octopress博客设置个性化域名</a>
