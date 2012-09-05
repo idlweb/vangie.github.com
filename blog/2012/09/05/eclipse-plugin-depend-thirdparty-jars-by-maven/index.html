@@ -251,6 +251,15 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 </code></pre>
 
 <p>一些说明，这个pom会生成Osgi的描述文件<code>META-INF/MANIFEST.MF</code>,但是不会将jars目录下的jar加到<code>Referenced Libraries</code>里去，虽然<code>Maven Dependencies</code>里有，但是仍然会导致PDE编辑器对<code>Export-Package</code>段的校验报错。所以需要在PDE编辑器<code>Runtime-&gt;Classpath</code>里把jar全部删掉，再重新添加一次。</p>
+
+<h4>参考文献</h4>
+
+<ol>
+<li><a href="http://felix.apache.org/site/apache-felix-maven-bundle-plugin-bnd.html">Bundle Plugin for Maven</a></li>
+<li><a href="http://maxrohde.com/2010/12/02/%E2%80%9Cno-required-execution-environment-has-been-set%E2%80%9D-from-maven-bundle-plugin/">No required execution environment has been set” from Maven Bundle Plugin</a></li>
+<li><a href="http://maven.apache.org/plugins/maven-dependency-plugin/copy-dependencies-mojo.html">Maven Dependency plugin > dependency:copy-dependencies</a></li>
+</ol>
+
 </div>
 
 
