@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="虽然一致在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。 第一章 HTTP概述 MIME 媒体类型MIME（Multipurpose Internet Mail Extension） &hellip;">
+  <meta name="description" content="虽然一直在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。 第一章 HTTP概述 MIME 媒体类型MIME（Multipurpose Internet Mail Extension） &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,6 +28,17 @@
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js" type="text/javascript"></script>
+<script>window.jQuery || document.write('<script src="/javascripts/jquery-1.8.1.min.js"><\/script>')</script>
+<script type="text/javascript">
+  // Revert jQuery's '$' alias, to avoid clashes with ender.js. NOTE: Use
+  // jQuery(...), instead of $(...) from here on.
+  jQuery.noConflict();
+</script>
+<script src="/javascripts/jquery.tableofcontents.min.js" type="text/javascript"></script>
+<script src="/javascripts/generate-toc.js" type="text/javascript"></script>
+
 
   
   <script type="text/javascript">
@@ -104,11 +115,11 @@
   </header>
 
 
-<div class="entry-content"><p>虽然一致在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。</p>
+<div class="entry-content"><p>虽然一直在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。</p>
 
-<h3>第一章 HTTP概述</h3>
+<h1>第一章 HTTP概述</h1>
 
-<h4>MIME</h4>
+<h2>MIME</h2>
 
 <p>媒体类型<code>MIME</code>（Multipurpose Internet Mail Extension）最初设计是为了解决不同的电子邮件系统之间搬移报文时存在的问题。</p>
 
@@ -122,7 +133,7 @@
 </ul>
 
 
-<h4>URI</h4>
+<h2>URI</h2>
 
 <p>URI(Uniform Resource Identifier)统一资源标识符，他有两种形式URL和URN</p>
 
@@ -140,7 +151,7 @@
 </ul>
 
 
-<h4>协议</h4>
+<h2>协议</h2>
 
 <p>HTTP协议是基于TCP协议的文本类型的报文，报文非为请求（Request）和相应（Response），报文的结构由3部分组成</p>
 
@@ -153,7 +164,7 @@
 
 <p>Telnet实质上就是一个基于TCP协议的工具，所有可以使用Telnet工具模拟HTTP报文与web服务器通讯。</p>
 
-<h4>HTTP协议的版本</h4>
+<h2>HTTP协议的版本</h2>
 
 <ul>
 <li>HTTP/0.9 已经废弃</li>
@@ -164,29 +175,29 @@
 </ul>
 
 
-<h4>web的结构组件</h4>
+<h2>web的结构组件</h2>
 
-<h6>代理</h6>
+<h3>代理</h3>
 
 <p>位于客户端和服务器之间的HTTP中间实体。客户端向代理发出请求，代理代替客户端向服务端发出请求。</p>
 
-<h6>缓存</h6>
+<h3>缓存</h3>
 
 <p>HTTP的仓库，使常用的页面的副本可以保存在离客户端更近的地方。</p>
 
-<h6>网关</h6>
+<h3>网关</h3>
 
 <p>连接其他应用程序的特殊web服务器，将HTTP协议转换为其他协议，如FTP协议</p>
 
-<h6>隧道</h6>
+<h3>隧道</h3>
 
 <p>对HTTP通信报文进行盲目转发的特殊代理，常见用途，通过HTTP连接承载SSL流量</p>
 
-<h6>Agent 代理</h6>
+<h3>Agent 代理</h3>
 
 <p>发起自动HTTP请求的半智能web客户端，浏览器或者网络蜘蛛。</p>
 
-<h4>相关资源链接</h4>
+<h2>相关资源链接</h2>
 
 <ol>
 <li><a href="http://www.ietf.org/rfc/rfc2616.txt">RFC2616 超文本传输协议-HTTP/1.1</a></li>
@@ -201,7 +212,105 @@
 </ol>
 
 
-<p>(未完待续&#8230;)</p>
+<h1>第二章 URL与资源</h1>
+
+<h2>URL的语法</h2>
+
+<pre><code>&lt;schema&gt;://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:&lt;port&gt;/&lt;path&gt;;&lt;params&gt;?&lt;query&gt;#&lt;frag&gt;
+</code></pre>
+
+<p>几乎没有URL包含上面的全部，最常见的部分是：<code>schema</code>，<code>host</code>，<code>path</code></p>
+
+<ul>
+<li><p>&lt;params>:参数</p>
+
+<p>参数和参数，参数和路径之间使用<code>;</code>分割，每一级路径都可以带参数</p>
+
+<pre><code>  ftp://prep.ai.mit.edu/pub/gnu;type=d
+  http://www.joes-hardware.com/hammers;sale=false/index.html;graphics=true
+</code></pre></li>
+</ul>
+
+
+<h2>URL字符集</h2>
+
+<p>URL可以接受的字符是US-ASCII字符集的子集，超过该字符集的字符需要使用<code>%</code>+两位16进制数进行转义。</p>
+
+<h2>需要转义的字符</h2>
+
+<table>
+<thead>
+<tr>
+<th align="left">字符           </th>
+<th align="left">保留/受限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">%             </td>
+<td align="left">转移字符</td>
+</tr>
+<tr>
+<td align="left">/             </td>
+<td align="left">路径分隔符</td>
+</tr>
+<tr>
+<td align="left">.             </td>
+<td align="left">路径当前目录</td>
+</tr>
+<tr>
+<td align="left">..            </td>
+<td align="left">路径上一级目录</td>
+</tr>
+<tr>
+<td align="left">#            </td>
+<td align="left">分段定界符号</td>
+</tr>
+<tr>
+<td align="left">?             </td>
+<td align="left">查询定界符号</td>
+</tr>
+<tr>
+<td align="left">;             </td>
+<td align="left">参数定界符号</td>
+</tr>
+<tr>
+<td align="left">:             </td>
+<td align="left">方案，用户/口令,主机/端口定界符号</td>
+</tr>
+<tr>
+<td align="left">$ , +         </td>
+<td align="left">保留</td>
+</tr>
+<tr>
+<td align="left">@ &amp; =         </td>
+<td align="left">用户/主机,查询条件,键值对定界符号</td>
+</tr>
+<tr>
+<td align="left">{}\</td>
+<td align="left">\<sup>~[]&#8217;</sup>   |由于各种传输Agent代理不安全处理，受限</td>
+</tr>
+<tr>
+<td align="left">&lt;>&#8221;           </td>
+<td align="left">不安全，会破坏html文档</td>
+</tr>
+<tr>
+<td align="left">0x00-0x1F,0x7F</td>
+<td align="left">不可见</td>
+</tr>
+<tr>
+<td align="left">>0x7F        </td>
+<td align="left">超出US-ASCII字符集范围</td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>PURL</h2>
+
+<p>PURL(persistent uniform resource locators)<a href="http://purl.oclc.org">永久统一资源定位符</a>，是一种使用URL实现URN功能的方案。</p>
+
+<p>(未完待续…)</p>
 </div>
 
 
@@ -395,6 +504,14 @@
 
 
 
+
+
+  <script type="text/javascript">
+  jQuery(document).ready(function() {
+    // Put a TOC right before the entry content.
+    generateTOC('.entry-content', '目录');
+  });
+  </script>
 
 
 </body>
