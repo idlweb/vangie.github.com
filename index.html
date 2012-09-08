@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="linux下部署的jetty，隔大哥一周时间就会访问出错，或者出现web应用的目录列表。很长一段时间都被这个问题困扰着，由于是个演示系统，持续运行的要求不高，无奈配置了一个cron，定时重启。 最近发现原来linux下有一个叫做tmpwatch的命令，而且默认配置成了cron.daily。 &hellip;">
+  <meta name="description" content="虽然一致在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头数还是很吸引我，开了两章觉得很不错，对于巩固基础很有帮助，最近感觉记性不好了，烂笔头越来越重要了。 第一章 HTTP概述 MIME 媒体类型MIME（Multipurpose Internet Mail Extension） &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,141 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">《HTTP权威指南》读书笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-08T12:45:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>虽然一致在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头数还是很吸引我，开了两章觉得很不错，对于巩固基础很有帮助，最近感觉记性不好了，烂笔头越来越重要了。</p>
+
+<h3>第一章 HTTP概述</h3>
+
+<h4>MIME</h4>
+
+<p>媒体类型<code>MIME</code>（Multipurpose Internet Mail Extension）最初设计是为了解决不同的电子邮件系统之间搬移报文时存在的问题。</p>
+
+<p>MIME类型是一种文本标记，表示一种主要的对象类型和一个特定的子类型，中间由一条斜杠来分割</p>
+
+<ul>
+<li>HTML格式 text/html</li>
+<li>ASCII文本 text/plain</li>
+<li>JPEG图片 image/jpeg</li>
+<li>GIF图片 image/gif</li>
+</ul>
+
+
+<h4>URI</h4>
+
+<p>URI(Uniform Resource Identifier)统一资源标识符，他有两种形式URL和URN</p>
+
+<ul>
+<li>URL（Uniform Resource Locator）同一资源定位符</li>
+<li>URN（Uniform Resource Name）同一资源名
+
+<ul>
+<li>由唯一的资源名来定位文件，解决URL因服务器变更等原因导致资源无法找到的问题，但是由于URL已被广泛的接受，目前URN技术没推广计划。</li>
+<li>语法 <code>urn:&lt;NID&gt;:&lt;NSS&gt;</code><br/>
+  <code>&lt;NID&gt;</code>表示命名空间标识符<br/>
+  <code>&lt;NSS&gt;</code>表示命名空间里的特定字符</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>协议</h4>
+
+<p>HTTP协议是基于TCP协议的文本类型的报文，报文非为请求（Request）和相应（Response），报文的结构由3部分组成</p>
+
+<ul>
+<li>起始行（start line）</li>
+<li>首部字段（header）</li>
+<li>主体（body）</li>
+</ul>
+
+
+<p>Telnet实质上就是一个基于TCP协议的工具，所有可以使用Telnet工具模拟HTTP报文与web服务器通讯。</p>
+
+<h4>HTTP协议的版本</h4>
+
+<ul>
+<li>HTTP/0.9 已经废弃</li>
+<li>HTTP/1.0</li>
+<li>HTTP/1.0+ 各家厂商自己扩展的协议</li>
+<li>HTTP/1.1 当前使用版本</li>
+<li>HTTP/2.0(HTTP-NG) 尚未推广</li>
+</ul>
+
+
+<h4>web的结构组件</h4>
+
+<h6>代理</h6>
+
+<p>位于客户端和服务器之间的HTTP中间实体。客户端向代理发出请求，代理代替客户端向服务端发出请求。</p>
+
+<h6>缓存</h6>
+
+<p>HTTP的仓库，使常用的页面的副本可以保存在离客户端更近的地方。</p>
+
+<h6>网关</h6>
+
+<p>连接其他应用程序的特殊web服务器，将HTTP协议转换为其他协议，如FTP协议</p>
+
+<h6>隧道</h6>
+
+<p>对HTTP通信报文进行盲目转发的特殊代理，常见用途，通过HTTP连接承载SSL流量</p>
+
+<h6>Agent 代理</h6>
+
+<p>发起自动HTTP请求的半智能web客户端，浏览器或者网络蜘蛛。</p>
+
+<h4>相关资源链接</h4>
+
+<ol>
+<li><a href="http://www.ietf.org/rfc/rfc2616.txt">RFC2616 超文本传输协议-HTTP/1.1</a></li>
+<li><a href="http://www.ietf.org/rfc/rfc1945.txt">RFC1945 超文本传输协议-HTTP/1.0</a></li>
+<li><a href="http://www.ietf.org/rfc/rfc2396.txt">RFC2396 统一资源标识符：通用语法</a></li>
+<li><a href="http://www.ietf.org/rfc/rfc2141.txt">RFC2141 URN语法规范</a></li>
+<li><a href="http://www.ietf.org/rfc/rfc2046.txt">RFC2046 MIME第二部分：媒体类型</a></li>
+<li><a href="http://www.wrec.org/Drafts/draft-ieft-wrec-taxonomy-06.txt">因特网Web复制和缓存分类法</a></li>
+<li><a href="http://www.w3.org/Protocols/WhyHTTP.html">Why HTTP</a></li>
+<li><a href="http://www.w3.org/History.html">万维网简史</a></li>
+<li><a href="http://www.w3.org/DesignIssues/Architecture.html">高考俯瞰Web结构</a></li>
+</ol>
+
+
+<p>(未完待续&#8230;)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -793,6 +928,10 @@ $ unset https_proxy
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">《HTTP权威指南》读书笔记</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/">jetty临时目录被tmpwatch定时任务删除</a>
       </li>
     
@@ -806,10 +945,6 @@ $ unset https_proxy
     
       <li class="post">
         <a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X将GoAgent位置为后台服务</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/02/custom-domain-for-octopress/">为Octopress博客设置个性化域名</a>
       </li>
     
   </ul>

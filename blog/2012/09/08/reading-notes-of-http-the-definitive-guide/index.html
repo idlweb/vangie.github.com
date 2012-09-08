@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>MacOS X将GoAgent位置为后台服务 - Code Life</title>
+  <title>《HTTP权威指南》读书笔记 - Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="GoAgent官方推荐使用GoAgent Mac GUI或者GoAgentX作为Mac下的客户端，GoAgent Mac GUI不支持随机启动，图标太难看。GoAgentX图标和功能都不错，但是内置的goagent版本不是最新的。 &hellip;">
+  <meta name="description" content="虽然一致在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头数还是很吸引我，开了两章觉得很不错，对于巩固基础很有帮助，最近感觉记性不好了，烂笔头越来越重要了。 第一章 HTTP概述 MIME 媒体类型MIME（Multipurpose Internet Mail Extension） &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">
+  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">MacOS X将GoAgent位置为后台服务</h1>
+      <h1 class="entry-title">《HTTP权威指南》读书笔记</h1>
     
     
       <p class="meta">
@@ -95,7 +95,7 @@
   
 
 
-<time datetime="2012-09-03T22:22:00+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2012</time>
+<time datetime="2012-09-08T12:45:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -104,53 +104,104 @@
   </header>
 
 
-<div class="entry-content"><blockquote><p><a href="http://code.google.com/p/goagent/" title="GoAgent">GoAgent</a>官方推荐使用<a href="https://goagent.googlecode.com/files/GoAgentMac.dmg" title="GoAgent Mac GUI">GoAgent Mac GUI</a>或者<a href="https://github.com/ohdarling/GoAgentX" title="GoAgentX">GoAgentX</a>作为Mac下的客户端，<a href="https://goagent.googlecode.com/files/GoAgentMac.dmg" title="GoAgent Mac GUI">GoAgent Mac GUI</a>不支持随机启动，图标太难看。<a href="https://github.com/ohdarling/GoAgentX" title="GoAgentX">GoAgentX</a>图标和功能都不错，但是内置的goagent版本不是最新的。所有自己折腾了一下使用Mac下的LaunchAgent机制将goagent配置成自启动的后台服务。</p></blockquote>
+<div class="entry-content"><p>虽然一致在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头数还是很吸引我，开了两章觉得很不错，对于巩固基础很有帮助，最近感觉记性不好了，烂笔头越来越重要了。</p>
 
-<h2>新建plist文件</h2>
+<h3>第一章 HTTP概述</h3>
 
-<p>在<code>~/Library/LaunchAgents/</code>目录里新建<code>com.googlecode.goagent.plist</code>文件。</p>
+<h4>MIME</h4>
 
-<p>文件内容如下</p>
+<p>媒体类型<code>MIME</code>（Multipurpose Internet Mail Extension）最初设计是为了解决不同的电子邮件系统之间搬移报文时存在的问题。</p>
 
-<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
-&lt;plist version="1.0"&gt;
-    &lt;dict&gt;
-        &lt;key&gt;RunAtLoad&lt;/key&gt;  
-        &lt;true/&gt;
-        &lt;key&gt;KeepAlive&lt;/key&gt;
-        &lt;true/&gt;
-        &lt;key&gt;Label&lt;/key&gt;
-        &lt;string&gt;com.googlecode.goagent&lt;/string&gt;
-        &lt;key&gt;NetworkState&lt;/key&gt;
-        &lt;true/&gt;
-        &lt;key&gt;ProgramArguments&lt;/key&gt;
-        &lt;array&gt;
-            &lt;string&gt;/usr/bin/python&lt;/string&gt;
-            &lt;string&gt;/Users/vangie/Library/goagent-goagent-dcb39d4/local/proxy.py&lt;/string&gt;
-        &lt;/array&gt;
-        &lt;key&gt;StartCalendarInterval&lt;/key&gt;
-        &lt;dict&gt;
-            &lt;key&gt;Hour&lt;/key&gt;
-            &lt;integer&gt;5&lt;/integer&gt;
-            &lt;key&gt;Minute&lt;/key&gt;
-            &lt;integer&gt;10&lt;/integer&gt;
-        &lt;/dict&gt;
-        &lt;key&gt;ServiceDescription&lt;/key&gt;
-        &lt;string&gt;goagent Local Service&lt;/string&gt;
-    &lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre>
+<p>MIME类型是一种文本标记，表示一种主要的对象类型和一个特定的子类型，中间由一条斜杠来分割</p>
 
-<p>注意<code>/Users/vangie/Library/goagent-goagent-dcb39d4/local/proxy.py</code>根据<a href="http://code.google.com/p/goagent/" title="GoAgent">GoAgent</a>的存放位置做相应的修改。 </p>
+<ul>
+<li>HTML格式 text/html</li>
+<li>ASCII文本 text/plain</li>
+<li>JPEG图片 image/jpeg</li>
+<li>GIF图片 image/gif</li>
+</ul>
 
-<h2>载入并运行该文件</h2>
 
-<pre><code>$ launchctl load ~/Library/LaunchAgents/com.googlecode.goagent.plist
-$ launchctl start com.googlecode.goagent
-</code></pre>
+<h4>URI</h4>
 
-<p>just enjoy it!</p>
+<p>URI(Uniform Resource Identifier)统一资源标识符，他有两种形式URL和URN</p>
+
+<ul>
+<li>URL（Uniform Resource Locator）同一资源定位符</li>
+<li>URN（Uniform Resource Name）同一资源名
+
+<ul>
+<li>由唯一的资源名来定位文件，解决URL因服务器变更等原因导致资源无法找到的问题，但是由于URL已被广泛的接受，目前URN技术没推广计划。</li>
+<li>语法 <code>urn:&lt;NID&gt;:&lt;NSS&gt;</code><br/>
+  <code>&lt;NID&gt;</code>表示命名空间标识符<br/>
+  <code>&lt;NSS&gt;</code>表示命名空间里的特定字符</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>协议</h4>
+
+<p>HTTP协议是基于TCP协议的文本类型的报文，报文非为请求（Request）和相应（Response），报文的结构由3部分组成</p>
+
+<ul>
+<li>起始行（start line）</li>
+<li>首部字段（header）</li>
+<li>主体（body）</li>
+</ul>
+
+
+<p>Telnet实质上就是一个基于TCP协议的工具，所有可以使用Telnet工具模拟HTTP报文与web服务器通讯。</p>
+
+<h4>HTTP协议的版本</h4>
+
+<ul>
+<li>HTTP/0.9 已经废弃</li>
+<li>HTTP/1.0</li>
+<li>HTTP/1.0+ 各家厂商自己扩展的协议</li>
+<li>HTTP/1.1 当前使用版本</li>
+<li>HTTP/2.0(HTTP-NG) 尚未推广</li>
+</ul>
+
+
+<h4>web的结构组件</h4>
+
+<h6>代理</h6>
+
+<p>位于客户端和服务器之间的HTTP中间实体。客户端向代理发出请求，代理代替客户端向服务端发出请求。</p>
+
+<h6>缓存</h6>
+
+<p>HTTP的仓库，使常用的页面的副本可以保存在离客户端更近的地方。</p>
+
+<h6>网关</h6>
+
+<p>连接其他应用程序的特殊web服务器，将HTTP协议转换为其他协议，如FTP协议</p>
+
+<h6>隧道</h6>
+
+<p>对HTTP通信报文进行盲目转发的特殊代理，常见用途，通过HTTP连接承载SSL流量</p>
+
+<h6>Agent 代理</h6>
+
+<p>发起自动HTTP请求的半智能web客户端，浏览器或者网络蜘蛛。</p>
+
+<h4>相关资源链接</h4>
+
+<ol>
+<li><a href="http://www.ietf.org/rfc/rfc2616.txt">RFC2616 超文本传输协议-HTTP/1.1</a></li>
+<li><a href="http://www.ietf.org/rfc/rfc1945.txt">RFC1945 超文本传输协议-HTTP/1.0</a></li>
+<li><a href="http://www.ietf.org/rfc/rfc2396.txt">RFC2396 统一资源标识符：通用语法</a></li>
+<li><a href="http://www.ietf.org/rfc/rfc2141.txt">RFC2141 URN语法规范</a></li>
+<li><a href="http://www.ietf.org/rfc/rfc2046.txt">RFC2046 MIME第二部分：媒体类型</a></li>
+<li><a href="http://www.wrec.org/Drafts/draft-ieft-wrec-taxonomy-06.txt">因特网Web复制和缓存分类法</a></li>
+<li><a href="http://www.w3.org/Protocols/WhyHTTP.html">Why HTTP</a></li>
+<li><a href="http://www.w3.org/History.html">万维网简史</a></li>
+<li><a href="http://www.w3.org/DesignIssues/Architecture.html">高考俯瞰Web结构</a></li>
+</ol>
+
+
+<p>(未完待续&#8230;)</p>
 </div>
 
 
@@ -173,7 +224,7 @@ $ launchctl start com.googlecode.goagent
   
 
 
-<time datetime="2012-09-03T22:22:00+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2012</time>
+<time datetime="2012-09-08T12:45:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2012</time>
       
 
 
@@ -188,12 +239,12 @@ $ launchctl start com.googlecode.goagent
     height="16" 
     frameborder="0" 
     src=
-      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://vangie.github.com/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/&amp;type=3&amp;count=1&amp;ralateUid=2115310013&amp;language=zh_cn" allowtransparency="true">
+      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/&amp;type=3&amp;count=1&amp;ralateUid=2115310013&amp;language=zh_cn" allowtransparency="true">
   </iframe>
   </span>
   
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/" data-via="vangie_du" data-counturl="http://vangie.github.com/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/" data-via="vangie_du" data-counturl="http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/" >Tweet</a>
   
   
   
@@ -202,10 +253,8 @@ $ launchctl start com.googlecode.goagent
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/09/02/custom-domain-for-octopress/" title="Previous Post: 为Octopress博客设置个性化域名">&laquo; 为Octopress博客设置个性化域名</a>
+        <a class="basic-alignment left" href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/" title="Previous Post: jetty临时目录被tmpwatch定时任务删除">&laquo; jetty临时目录被tmpwatch定时任务删除</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/" title="Next Post: Tweetbot for Mac使用GoAgent代理">Tweetbot for Mac使用GoAgent代理 &raquo;</a>
       
     </p>
   </footer>
@@ -317,8 +366,8 @@ $ launchctl start com.googlecode.goagent
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/';
-        var disqus_url = 'http://vangie.github.com/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/';
+        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/';
+        var disqus_url = 'http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/';
         var disqus_script = 'embed.js';
       
     (function () {
