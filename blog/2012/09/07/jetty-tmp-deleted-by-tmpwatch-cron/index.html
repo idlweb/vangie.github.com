@@ -5,14 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - Code Life</title>
+  <title>jetty临时目录被tmpwatch定时任务删除 - Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="Blog Archive 2012 jetty临时目录被tmpwatch定时任务删除
-Sep 07 2012 Eclipse插件通过Maven依赖第三方jar包
-Sep 05 2012 Tweetbot for Mac使用GoAgent代理
-Sep 04 2012 MacOS &hellip;">
+  <meta name="description" content="linux下部署的jetty，隔大哥一周时间就会访问出错，或者出现web应用的目录列表。很长一段时间都被这个问题困扰着，由于是个演示系统，持续运行的要求不高，无奈配置了一个cron，定时重启。 最近发现原来linux下有一个叫做tmpwatch的命令，而且默认配置成了cron.daily。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +18,7 @@ Sep 04 2012 MacOS &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vangie.github.com/blog/archives/">
+  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -78,92 +75,141 @@ Sep 04 2012 MacOS &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Jetty临时目录被tmpwatch定时任务删除</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-07T16:44:00+08:00" pubdate data-updated="true">Sep 7<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>linux下部署的jetty，隔大哥一周时间就会访问出错，或者出现web应用的目录列表。很长一段时间都被这个问题困扰着，由于是个演示系统，持续运行的要求不高，无奈配置了一个cron，定时重启。</p>
 
-  
-  <h2>2012</h2>
+<p>最近发现原来linux下有一个叫做<code>tmpwatch</code>的命令，而且默认配置成了<code>cron.daily</code>。每日执行一次。</p>
 
-<article>
-  
-<h1><a href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/">jetty临时目录被tmpwatch定时任务删除</a></h1>
-<time datetime="2012-09-07T16:44:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>07</span> <span class='year'>2012</span></time>
+<pre><code>[root@bsdn02 ~]# cat /etc/cron.daily/tmpwatch 
+#! /bin/sh
+flags=-umc
+/usr/sbin/tmpwatch "$flags" -x /tmp/.X11-unix -x /tmp/.XIM-unix \
+    -x /tmp/.font-unix -x /tmp/.ICE-unix -x /tmp/.Test-unix \
+    -X '/tmp/hsperfdata_*' 10d /tmp
+/usr/sbin/tmpwatch "$flags" 30d /var/tmp
+for d in /var/{cache/man,catman}/{cat?,X11R6/cat?,local/cat?}; do
+    if [ -d "$d" ]; then
+        /usr/sbin/tmpwatch "$flags" -f 30d "$d"
+    fi
+done
+</code></pre>
 
+<p>此定时任务根据文件的修改/创建时间,清理<code>/tmp</code>下的10天前创建或修改的文件。</p>
 
-</article>
+<p>jetty启动一个Web应用时，需要先按照<code>jetty_host_port_virtualHost_contextPath_hash</code>的格式创建一个子目录。该临时目录注册给ServletContext里的<code>javax.servlet.context.tempdir</code>属性。临时目前确定的规则如下</p>
 
-
-
-<article>
-  
-<h1><a href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/">Eclipse插件通过Maven依赖第三方jar包</a></h1>
-<time datetime="2012-09-05T22:32:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>05</span> <span class='year'>2012</span></time>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/">Tweetbot for Mac使用GoAgent代理</a></h1>
-<time datetime="2012-09-04T22:45:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>04</span> <span class='year'>2012</span></time>
-
-
-</article>
+<ol>
+<li>通过<code>WebAppContext.setTempDirectory</code>设置的临时文件目录</li>
+<li>上下文中已经定义的<code>javax.servlet.context.tempdir</code>所对应的目录</li>
+<li><code>${jetty.home}/work</code>目录</li>
+<li><code>WEB-INF/work</code>目录</li>
+<li><code>${java.io.tmpdir}</code>目录</li>
+</ol>
 
 
+<p>默认情况下，jetty取得的临时目录是<code>${java.io.tmpdir}</code>目录,linux系统里，该目录通常指向<code>/tmp</code>目录。jetty会在临时目录里创建一个<code>webapp</code>子目录，用户存放war包里解压出来的内容。若<code>tmpwatch</code>真好删除了，<code>webapp</code>目录里的文件，特别是index.html或者index.jsp，就会导致上述的问题。</p>
 
-<article>
-  
-<h1><a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X将GoAgent位置为后台服务</a></h1>
-<time datetime="2012-09-03T22:22:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>03</span> <span class='year'>2012</span></time>
+<p>这里面需要注意的是，除了第一种（并且仅当该目录为Jetty创建的前提下）和最后一种使用场景下Jetty会在Web应用程序退出以后自动删除临时目录以外，其余场景Jetty都会保留临时文件目录。这就解释了为什么每隔一段时间重启服务能避开这个问题。但是更好的解决方法是，通过设置虚拟机的启动参数<code>-Djava.io.tmpdir</code>，把临时文件指向不受<code>tmpwatch</code>影响的目录位置。</p>
 
+<h4>参考文献</h4>
 
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2012/09/02/custom-domain-for-octopress/">为Octopress博客设置个性化域名</a></h1>
-<time datetime="2012-09-02T20:31:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2012</span></time>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">如何为MacOS X终端设置代理</a></h1>
-<time datetime="2012-09-02T04:06:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2012</span></time>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/">MacOS X终端里SSH会话管理</a></h1>
-<time datetime="2012-09-01T23:31:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>01</span> <span class='year'>2012</span></time>
-
-
-</article>
+<ol>
+<li><a href="http://lostinmalmo.com/others/2009/04/20/jetty_tmp_dir.html">在Jetty中定位临时文件目录</a></li>
+<li><a href="http://www.colorfuldays.org/program/%E9%81%87%E5%88%B0%E4%B8%80%E4%B8%AAjetty-tmp%E7%9A%84%E9%99%B7%E9%98%B1/">遇到一个Jetty tmp的陷阱</a></li>
+<li><a href="http://www.longtask.com/blog/?p=734">Jetty部署中tmpdir导致服务不可用的问题</a></li>
+</ol>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Vangie Du</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-07T16:44:00+08:00" pubdate data-updated="true">Sep 7<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <span>
+  <iframe 
+    width="455555" 
+    scrolling="no" 
+    height="16" 
+    frameborder="0" 
+    src=
+      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/&amp;type=3&amp;count=1&amp;ralateUid=2115310013&amp;language=zh_cn" allowtransparency="true">
+  </iframe>
+  </span>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/" data-via="vangie_du" data-counturl="http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/" title="Previous Post: Eclipse插件通过Maven依赖第三方jar包">&laquo; Eclipse插件通过Maven依赖第三方jar包</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -264,7 +310,10 @@ Sep 04 2012 MacOS &hellip;">
       var disqus_shortname = 'code-life';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/';
+        var disqus_url = 'http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
