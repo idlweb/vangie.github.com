@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-09-08T14:45:17+08:00</updated>
+  <updated>2012-09-08T14:50:34+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -18,7 +18,7 @@
     <link href="http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/"/>
     <updated>2012-09-08T12:45:00+08:00</updated>
     <id>http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide</id>
-    <content type="html"><![CDATA[<p>虽然一致在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头数还是很吸引我，开了两章觉得很不错，对于巩固基础很有帮助，最近感觉记性不好了，烂笔头越来越重要了。</p>
+    <content type="html"><![CDATA[<p>虽然一致在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。</p>
 
 <h3>第一章 HTTP概述</h3>
 
@@ -108,7 +108,7 @@
 <li><a href="http://www.ietf.org/rfc/rfc2396.txt">RFC2396 统一资源标识符：通用语法</a></li>
 <li><a href="http://www.ietf.org/rfc/rfc2141.txt">RFC2141 URN语法规范</a></li>
 <li><a href="http://www.ietf.org/rfc/rfc2046.txt">RFC2046 MIME第二部分：媒体类型</a></li>
-<li><a href="http://www.wrec.org/Drafts/draft-ieft-wrec-taxonomy-06.txt">因特网Web复制和缓存分类法</a></li>
+<li><a href="http://www.wrec.org/Drafts/draft-ietf-wrec-taxonomy-06.txt">因特网Web复制和缓存分类法</a></li>
 <li><a href="http://www.w3.org/Protocols/WhyHTTP.html">Why HTTP</a></li>
 <li><a href="http://www.w3.org/History.html">万维网简史</a></li>
 <li><a href="http://www.w3.org/DesignIssues/Architecture.html">高考俯瞰Web结构</a></li>
