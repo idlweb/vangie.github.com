@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-09-09T01:16:44+08:00</updated>
+  <updated>2012-09-09T01:44:34+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -18,13 +18,16 @@
     <link href="http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/"/>
     <updated>2012-09-08T12:45:00+08:00</updated>
     <id>http://vangie.github.com/blog/2012/09/08/reading-notes-of-http-the-definitive-guide</id>
-    <content type="html"><![CDATA[<p>虽然一直在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。</p>
+    <content type="html"><![CDATA[<blockquote><p>一直在做web开放，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。</p></blockquote>
 
 <h1>第一章 HTTP概述</h1>
 
 <h2>MIME</h2>
 
 <p>媒体类型<code>MIME</code>（Multipurpose Internet Mail Extension）最初设计是为了解决不同的电子邮件系统之间搬移报文时存在的问题。</p>
+
+<!-- more -->
+
 
 <p>MIME类型是一种文本标记，表示一种主要的对象类型和一个特定的子类型，中间由一条斜杠来分割</p>
 
@@ -226,6 +229,9 @@
 
 <p>最近发现原来linux下有一个叫做<code>tmpwatch</code>的命令，而且默认配置成了<code>cron.daily</code>。每日执行一次。</p>
 
+<!-- more -->
+
+
 <pre><code>[root@bsdn02 ~]# cat /etc/cron.daily/tmpwatch 
 #! /bin/sh
 flags=-umc
@@ -278,6 +284,9 @@ done
 <h3>tycho让plugin和maven结合在一起</h3>
 
 <p><a href="http://www.eclipse.org/tycho/" title="Building Eclipse plug-ins with maven">tycho</a>可以让一个eclipse plugin项目变成一个maven项目，把maven的自动构建和自动测试的优势带到了plugin项目。但是maven的另一个优势依赖管理并没有能够和plugin项目结合。</p>
+
+<!-- more -->
+
 
 <h3>OSGI如何处理依赖</h3>
 
@@ -427,7 +436,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
     <id>http://vangie.github.com/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy</id>
     <content type="html"><![CDATA[<blockquote><p><a href="http://tapbots.com/blog/news/tweetbot-for-mac-beta-sort-of" title="Tweetbot for Mac">Tweetbot for Mac</a>是MacOS X上推的不二选择，但是该软件的所有版本都没有提供Proxy设置。网上少有几篇关于<a href="http://tapbots.com/software/tweetbot/" title="Tweetbot for iOS">Tweetbot</a>如何使用<a href="http://code.google.com/p/goagent/" title="a gae proxy forked from gappproxy/wallproxy">GoAgent</a>代理上网的教程是针对iOS平台的。</p></blockquote>
 
-<p>玩Ubuntu的时候好像有个工具软件可以作为启动器启动另一个软件，然后让被启动的软件使用该工具软件设定好的代理上网。这个工具可以解决需要使用代理上网但软件自身未提供代理配置功能的问题。</p>
+<p>玩Ubuntu的时候有个工具软件可以作为启动器启动另一个软件，然后让被启动的软件使用该工具软件设定好的代理上网。这个工具可以解决需要使用代理上网但软件自身未提供代理配置功能的问题。</p>
+
+<!-- more -->
+
 
 <p>为什么不使用全局代理呢？</p>
 
@@ -491,6 +503,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
 <p>在<code>~/Library/LaunchAgents/</code>目录里新建<code>com.googlecode.goagent.plist</code>文件。</p>
 
+<!-- more -->
+
+
 <p>文件内容如下</p>
 
 <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -547,6 +562,9 @@ $ launchctl start com.googlecode.goagent
 <pre><code>echo 'your-domain.com' &gt;&gt; source/CNAME
 </code></pre>
 
+<!-- more -->
+
+
 <h2>修改DNS记录</h2>
 
 <p>然后去域名注册商那里配置DNS记录（本站域名在godaddy注册的，NS记录指向了<a href="https://www.dnspod.cn/" title="DNSPod">DNSPod</a>，国内用户强烈推荐<a href="https://www.dnspod.cn/" title="DNSPod">DNSPod</a>，配置方便，记录变更生效快）。</p>
@@ -592,6 +610,9 @@ rake deploy
 
 <p>实在无法忍受<a href="http://www.linode.com/" title="linode">linode</a>日本机房的高延迟，动手配置了一个<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>服务。但是HTTP代理和VPN不同，没法全局代理（<em>至少不能简单配置</em>），在Terminal里下载最新版本的Ruby，奇慢无比，下面介绍如何让Terminal里执行的程序使用<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>代理。</p>
 
+<!-- more -->
+
+
 <h3>HTTP代理</h3>
 
 <pre><code>$ export http_proxy='http://YOUR_USERNAME:YOUR_PASSWORD@PROXY_IP:PROXY_PORT/'
@@ -633,6 +654,9 @@ $ unset https_proxy
     <content type="html"><![CDATA[<blockquote><p>本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
 
 <p>虽然windows没有对SSH的原生支持，但是<a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a>和<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能。</p>
+
+<!-- more -->
+
 
 <p>在Mac平台没有找到合适的与<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>功能类似的软件。可能由于*nix系的操作系统对SSH原生支持，开发者也就没有兴趣去折腾桌面软件，当然也可能是有好的，只是没有找到。</p>
 
