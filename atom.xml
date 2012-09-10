@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-09-11T00:44:13+08:00</updated>
+  <updated>2012-09-11T00:46:07+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -19,6 +19,9 @@
     <updated>2012-09-10T13:57:00+08:00</updated>
     <id>http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event</id>
     <content type="html"><![CDATA[<p>表单的输入校验通常会使用<code>onBlur</code>事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的<code>onBlur</code>事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是<code>onChange</code>事件了，但是<code>onChange</code>事件在<code>onBlur</code>事件之后触发，所有只能用<code>onKeyup</code>或者<code>onKeyPress</code>方法来感知输入框的变化。但是如果在输入时浏览器提供自动补全的功能，那<code>onKeyup</code>和<code>onKeyPress</code>事件不会被触发。</p>
+
+<!-- more -->
+
 
 <p>下面是通过轮询输入框来模拟change事件的方法，来解决文本框内容变化不被感知的问题。</p>
 
