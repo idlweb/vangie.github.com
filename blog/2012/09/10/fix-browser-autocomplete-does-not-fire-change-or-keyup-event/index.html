@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>jetty临时目录被tmpwatch定时任务删除 - Code Life</title>
+  <title>浏览器自动补全不触发Input控件的onChange和onKeyup事件 - Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="linux下部署的jetty，隔大哥一周时间就会访问出错，或者出现web应用的目录列表。很长一段时间都被这个问题困扰着，由于是个演示系统，持续运行的要求不高，无奈配置了一个cron，定时重启。 最近发现原来linux下有一个叫做tmpwatch的命令，而且默认配置成了cron.daily。 &hellip;">
+  <meta name="description" content="表单的输入校验通常会使用onBlur事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的onBlur事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是onChange事件了，但是onChange事件在onBlur事件之后触发， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/">
+  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -113,7 +113,7 @@ jQuery(document).ready(function() {
   
   <header>
     
-      <h1 class="entry-title">Jetty临时目录被tmpwatch定时任务删除</h1>
+      <h1 class="entry-title">浏览器自动补全不触发Input控件的onChange和onKeyup事件</h1>
     
     
       <p class="meta">
@@ -129,7 +129,7 @@ jQuery(document).ready(function() {
   
 
 
-<time datetime="2012-09-07T16:44:00+08:00" pubdate data-updated="true">Sep 7<span>th</span>, 2012</time>
+<time datetime="2012-09-10T13:57:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -138,50 +138,60 @@ jQuery(document).ready(function() {
   </header>
 
 
-<div class="entry-content"><p>linux下部署的jetty，隔大哥一周时间就会访问出错，或者出现web应用的目录列表。很长一段时间都被这个问题困扰着，由于是个演示系统，持续运行的要求不高，无奈配置了一个cron，定时重启。</p>
+<div class="entry-content"><p>表单的输入校验通常会使用<code>onBlur</code>事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的<code>onBlur</code>事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是<code>onChange</code>事件了，但是<code>onChange</code>事件在<code>onBlur</code>事件之后触发，所有只能用<code>onKeyup</code>或者<code>onKeyPress</code>方法来感知输入框的变化。但是如果在输入时浏览器提供自动补全的功能，那<code>onKeyup</code>和<code>onKeyPress</code>事件不会被触发。</p>
 
-<p>最近发现原来linux下有一个叫做<code>tmpwatch</code>的命令，而且默认配置成了<code>cron.daily</code>。每日执行一次。</p>
+<p>下面是通过轮询输入框来模拟change事件的方法，来解决文本框内容变化不被感知的问题。</p>
 
-<!-- more -->
+<pre><code>(function($) {
+    $.fn.listenForChange = function(options) {
+        settings = $.extend({
+            interval: 200 // 毫秒
+        }, options);
 
+        var jquery_object = this;
+        var current_focus = null;
 
-<pre><code>[root@bsdn02 ~]# cat /etc/cron.daily/tmpwatch 
-#! /bin/sh
-flags=-umc
-/usr/sbin/tmpwatch "$flags" -x /tmp/.X11-unix -x /tmp/.XIM-unix \
-    -x /tmp/.font-unix -x /tmp/.ICE-unix -x /tmp/.Test-unix \
-    -X '/tmp/hsperfdata_*' 10d /tmp
-/usr/sbin/tmpwatch "$flags" 30d /var/tmp
-for d in /var/{cache/man,catman}/{cat?,X11R6/cat?,local/cat?}; do
-    if [ -d "$d" ]; then
-        /usr/sbin/tmpwatch "$flags" -f 30d "$d"
-    fi
-done
+        jquery_object.filter(":input").add(":input", jquery_object).focus( function() {
+            current_focus = this;
+        }).blur( function() {
+            current_focus = null;
+        });
+
+        setInterval(function() {
+            // allow
+            jquery_object.filter(":input").add(":input", jquery_object).each(function() {
+                // set data cache on element to input value if not yet set
+                if ($(this).data('change_listener') == undefined) {
+                    $(this).data('change_listener', $(this).val());
+                    return;
+                }
+                // return if the value matches the cache
+                if ($(this).data('change_listener') == $(this).val()) {
+                    return;
+                }
+                // ignore if element is in focus (since change event will fire on blur)
+                if (this == current_focus) {
+                    return;
+                }
+                // if we make it here, manually fire the change event and set the new value
+                $(this).trigger('change');
+                $(this).data('change_listener', $(this).val());
+            });
+        }, settings.interval);
+        return this;
+    };
+})(jQuery);
 </code></pre>
 
-<p>此定时任务根据文件的修改/创建时间,清理<code>/tmp</code>下的10天前创建或修改的文件。</p>
+<p>然后只需要</p>
 
-<p>jetty启动一个Web应用时，需要先按照<code>jetty_host_port_virtualHost_contextPath_hash</code>的格式创建一个子目录。该临时目录注册给ServletContext里的<code>javax.servlet.context.tempdir</code>属性。临时目前确定的规则如下</p>
-
-<ol>
-<li>通过<code>WebAppContext.setTempDirectory</code>设置的临时文件目录</li>
-<li>上下文中已经定义的<code>javax.servlet.context.tempdir</code>所对应的目录</li>
-<li><code>${jetty.home}/work</code>目录</li>
-<li><code>WEB-INF/work</code>目录</li>
-<li><code>${java.io.tmpdir}</code>目录</li>
-</ol>
-
-
-<p>默认情况下，jetty取得的临时目录是<code>${java.io.tmpdir}</code>目录,linux系统里，该目录通常指向<code>/tmp</code>目录。jetty会在临时目录里创建一个<code>webapp</code>子目录，用户存放war包里解压出来的内容。若<code>tmpwatch</code>真好删除了，<code>webapp</code>目录里的文件，特别是index.html或者index.jsp，就会导致上述的问题。</p>
-
-<p>这里面需要注意的是，除了第一种（并且仅当该目录为Jetty创建的前提下）和最后一种使用场景下Jetty会在Web应用程序退出以后自动删除临时目录以外，其余场景Jetty都会保留临时文件目录。这就解释了为什么每隔一段时间重启服务能避开这个问题。但是更好的解决方法是，通过设置虚拟机的启动参数<code>-Djava.io.tmpdir</code>，把临时文件指向不受<code>tmpwatch</code>影响的目录位置。</p>
+<pre><code>$("form").listenForChange();
+</code></pre>
 
 <h4>参考文献</h4>
 
 <ol>
-<li><a href="http://lostinmalmo.com/others/2009/04/20/jetty_tmp_dir.html">在Jetty中定位临时文件目录</a></li>
-<li><a href="http://www.colorfuldays.org/program/%E9%81%87%E5%88%B0%E4%B8%80%E4%B8%AAjetty-tmp%E7%9A%84%E9%99%B7%E9%98%B1/">遇到一个Jetty tmp的陷阱</a></li>
-<li><a href="http://www.longtask.com/blog/?p=734">Jetty部署中tmpdir导致服务不可用的问题</a></li>
+<li><a href="http://furrybrains.com/2009/01/02/capturing-autofill-as-a-change-event/">Capturing AutoFill as a Change Event</a></li>
 </ol>
 
 </div>
@@ -206,7 +216,7 @@ done
   
 
 
-<time datetime="2012-09-07T16:44:00+08:00" pubdate data-updated="true">Sep 7<span>th</span>, 2012</time>
+<time datetime="2012-09-10T13:57:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2012</time>
       
 
 
@@ -214,7 +224,7 @@ done
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/" data-via="" data-counturl="http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/" data-via="" data-counturl="http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/" >Tweet</a>
   
   
   
@@ -223,10 +233,8 @@ done
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/" title="Previous Post: Eclipse插件通过Maven依赖第三方jar包">&laquo; Eclipse插件通过Maven依赖第三方jar包</a>
+        <a class="basic-alignment left" href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/" title="Previous Post: 《HTTP权威指南》读书笔记">&laquo; 《HTTP权威指南》读书笔记</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/" title="Next Post: 《HTTP权威指南》读书笔记">《HTTP权威指南》读书笔记 &raquo;</a>
       
     </p>
   </footer>
@@ -322,8 +330,8 @@ done
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/';
-        var disqus_url = 'http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/';
+        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/';
+        var disqus_url = 'http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/';
         var disqus_script = 'embed.js';
       
     (function () {

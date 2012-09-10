@@ -41,11 +41,17 @@
         <lastmod>2012-09-09T02:36:27+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/
+        </loc>
+        <lastmod>2012-09-11T00:33:32+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://vangie.github.com/blog/archives/</loc>
-        <lastmod>2012-09-09T02:36:27+08:00</lastmod>
+        <lastmod>2012-09-11T00:33:32+08:00</lastmod>
     </url>
     <url>
         <loc>http://vangie.github.com/</loc>
-        <lastmod>2012-09-09T02:36:27+08:00</lastmod>
+        <lastmod>2012-09-11T00:33:32+08:00</lastmod>
     </url>
 </urlset>
