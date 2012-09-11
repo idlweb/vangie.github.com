@@ -336,6 +336,95 @@ jQuery(document).ready(function() {
 
 <p>PURL(persistent uniform resource locators)<a href="http://purl.oclc.org">永久统一资源定位符</a>，是一种使用URL实现URN功能的方案。</p>
 
+<h1>第三章 HTTP报文</h1>
+
+<p>这张全面的介绍了http报文。</p>
+
+<h2>报文的结构</h2>
+
+<h3>报文语法</h3>
+
+<p><strong>请求报文</strong></p>
+
+<pre><code>&lt;method&gt; &lt;request-URL&gt; &lt;version&gt;
+&lt;headers&gt;
+
+&lt;entity-body&gt;
+</code></pre>
+
+<p><strong>响应报文</strong></p>
+
+<pre><code>&lt;version&gt; &lt;status&gt; &lt;reason-phrase&gt;
+&lt;headers&gt;
+
+&lt;entity-body&gt;
+</code></pre>
+
+<h3>起始行</h3>
+
+<p><strong>方法</strong></p>
+
+<p>HTTP规范定义的方法：<code>GET</code>、<code>HEAD</code>、<code>POST</code>、<code>PUT</code>、<code>TRACE</code>、<code>OPTIONS</code>、<code>DELETE</code>。其中除了POST方法外，其它方法都是幂等的。</p>
+
+<p>除了规范定义的7中方法，其他服务器可以实现一些自己的请求方法，这类自己实现的方法称为<code>扩展方法</code>。</p>
+
+<p><strong>状态码分类</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">整体范围      </th>
+<th align="left">已定义范围   </th>
+<th align="left">分类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">100~199      </td>
+<td align="left">100-101    </td>
+<td align="left">信息提示</td>
+</tr>
+<tr>
+<td align="left">200~299      </td>
+<td align="left">200-206    </td>
+<td align="left">成功</td>
+</tr>
+<tr>
+<td align="left">300~399      </td>
+<td align="left">300-305    </td>
+<td align="left">重定向</td>
+</tr>
+<tr>
+<td align="left">400~499      </td>
+<td align="left">400-415    </td>
+<td align="left">客户端错误</td>
+</tr>
+<tr>
+<td align="left">500~599      </td>
+<td align="left">500-505    </td>
+<td align="left">服务端错误</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><strong>原因短语</strong></p>
+
+<p>原因短语是响应起始行中的最后部分。他是文本形式，<code>HTTP/1.0 200 OK</code>，<code>OK</code>就是原因短语。原因短语没有控制作用，原因短语与状态码不匹配不会引发任何异常。</p>
+
+<h3>首部</h3>
+
+<p>首部紧接着起始行，为请求和响应添加一些附加信息，可分为</p>
+
+<ul>
+<li>通用首部</li>
+<li>请求首部</li>
+<li>响应首部</li>
+<li>实体首部</li>
+<li>扩展首部</li>
+</ul>
+
+
 <p>(未完待续…)</p>
 </div>
 
