@@ -9,7 +9,8 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="表单的输入校验通常会使用onBlur事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的onBlur事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是onChange事件了，但是onChange事件在onBlur事件之后触发， &hellip;">
+  <meta name="description" content="何为HTTP基本认证(HTTP Basic Auth) 在HTTP中，基本认证是一种用来允许Web浏览器，或其他客户端程序在请求时提供以用户名和口令形式的凭证。
+通常我们通过浏览器去访问一个SVN代码库，浏览器会弹出一个窗口，要求输入用户名和密码。一般SVN的的Web服务端采用Apache服务器， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,6 +111,149 @@ jQuery(document).ready(function() {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/13/http-basic-auth-in-nodejs/">NodeJs里实现HTTP基本认证</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-13T00:58:00+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/13/http-basic-auth-in-nodejs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>何为HTTP基本认证(HTTP Basic Auth)</h2>
+
+<p>在HTTP中，基本认证是一种用来允许Web浏览器，或其他客户端程序在请求时提供以用户名和口令形式的凭证。
+通常我们通过浏览器去访问一个SVN代码库，浏览器会弹出一个窗口，要求输入用户名和密码。一般SVN的的Web服务端采用Apache服务器，因为Apache实现了WebDAV协议，支持HTTP协议管理SVN库。Apache里HTTP基本认证的功能是通过<a href="http://httpd.apache.org/docs/2.2/mod/mod_auth_basic.html" title="Apache Module mod_auth_basic">mod_auth_basic</a>模块实现的。</p>
+
+<pre><code>&lt;Location /secure&gt;
+    AuthType basic
+    AuthName "private area"
+    AuthBasicProvider dbm
+    AuthDBMType SDBM
+    AuthDBMUserFile /www/etc/dbmpasswd
+    Require valid-user
+&lt;/Location&gt;
+</code></pre>
+
+<h2>HTTP基本认证的实现机制</h2>
+
+<ol>
+<li>客户端请求一个需要身份认证的页面，但是没有提供用户名和口令。</li>
+<li>服务端响应一个401应答码，并提供一个认证域。在响应消息的同步加入<code>WWW-Authenticate: Basic realm="Secure Area"</code></li>
+<li>接到应答后，客户端显示该认证域（通常是所访问的计算机或系统的描述）给用户并提示输入用户名和口令。此时用户可以确定取消。</li>
+<li>用户输入了用户名和口令后，客户端在原先的请求上添加了认证消息头（值是<code>base64encode(username+":"+password)</code>），然后重新发送。</li>
+<li>服务器接受了认证并返回了页面。如果用户名非法或口令不对，服务器可能返回401应答码，客户端可以再次提示用户输入口令，服务器也可以返回403，提示访问的内容被禁止，用户需要刷新页面再次打开用户名和口令输入窗口。</li>
+</ol>
+
+
+<p><strong>客户端请求</strong>（没有认证信息）:</p>
+
+<pre><code>GET /private/index.html HTTP/1.0
+Host: localhost
+</code></pre>
+
+<p><strong>服务端应答</strong>:</p>
+
+<pre><code>HTTP/1.0 401 Authorization Required
+Server: HTTPd/1.0
+Date: Sat, 27 Nov 2004 10:18:15 GMT
+WWW-Authenticate: Basic realm="Secure Area"
+Content-Type: text/html
+Content-Length: 311
+
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd"&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+    &lt;TITLE&gt;Error&lt;/TITLE&gt;
+    &lt;META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1"&gt;
+&lt;/HEAD&gt;
+&lt;BODY&gt;&lt;H1&gt;401 Unauthorized.&lt;/H1&gt;&lt;/BODY&gt;
+&lt;/HTML&gt;
+</code></pre>
+
+<p><strong>客户端的请求</strong>（用户名“&#8221;Aladdin”，口令, password “open sesame”）:</p>
+
+<pre><code>GET /private/index.html HTTP/1.0
+Host: localhost
+Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+</code></pre>
+
+<h2>如何在NodeJs里实现HTTP基本认证</h2>
+
+<pre><code>var http = require('http');
+
+var server = http.createServer(function(req, res) {
+    var auth = req.headers['authorization'];          
+    console.log("Authorization Header is: ", auth);
+    if(!auth) {     
+        res.statusCode = 401;
+        res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
+        res.end();
+    } else if(auth) {
+        var tmp = auth.split(' '); 
+        var buf = new Buffer(tmp[1], 'base64');                 
+        var plain_auth = buf.toString();
+        console.log("Decoded Authorization ", plain_auth);
+        var creds = plain_auth.split(':');      // split on a ':'
+        var username = creds[0];
+        var password = creds[1];
+        if((username == 'hack') &amp;&amp; (password == 'thegibson')) {  
+            res.statusCode = 200;  // OK
+            res.end('&lt;html&gt;&lt;body&gt;登录成功!&lt;/body&gt;&lt;/html&gt;');
+        } else {
+            res.statusCode = 401; 
+            res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
+            res.end();
+        }
+    }
+}).listen(5000, function() { console.log("Server Listening on http://localhost:5000/"); });
+</code></pre>
+
+<h2>HTTP基本认证的缺点</h2>
+
+<p>所有流行的网页浏览器都支持基本认证,而且非常容易实现，但它有两个非常明显的缺点。</p>
+
+<ul>
+<li>以明文传输的密钥和口令很容易被拦截</li>
+<li>不关闭浏览器的情况下无法登出</li>
+</ul>
+
+
+<h3>参考文献</h3>
+
+<ol>
+<li><a href="http://zh.wikipedia.org/wiki/HTTP%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%81">维基百科-HTTP基本认证</a></li>
+<li><a href="https://gist.github.com/1686663">Example of HTTP Basic Auth in NodeJS</a></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -538,6 +682,10 @@ jQuery(document).ready(function() {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/13/http-basic-auth-in-nodejs/">NodeJs里实现HTTP基本认证</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/">浏览器自动补全不触发Input控件的onChange和onKeyup事件</a>
       </li>
     
@@ -551,10 +699,6 @@ jQuery(document).ready(function() {
     
       <li class="post">
         <a href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/">Eclipse插件通过Maven依赖第三方jar包</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/">Tweetbot for Mac使用GoAgent代理</a>
       </li>
     
   </ul>
