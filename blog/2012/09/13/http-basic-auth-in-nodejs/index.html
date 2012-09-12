@@ -144,6 +144,9 @@ jQuery(document).ready(function() {
 <p>在HTTP中，基本认证是一种用来允许Web浏览器，或其他客户端程序在请求时提供以用户名和口令形式的凭证。
 通常我们通过浏览器去访问一个SVN代码库，浏览器会弹出一个窗口，要求输入用户名和密码。一般SVN的的Web服务端采用Apache服务器，因为Apache实现了WebDAV协议，支持HTTP协议管理SVN库。Apache里HTTP基本认证的功能是通过<a href="http://httpd.apache.org/docs/2.2/mod/mod_auth_basic.html" title="Apache Module mod_auth_basic">mod_auth_basic</a>模块实现的。</p>
 
+<!-- more -->
+
+
 <pre><code>&lt;Location /secure&gt;
     AuthType basic
     AuthName "private area"
