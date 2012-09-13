@@ -10,7 +10,7 @@
 
   
   <meta name="description" content="对于一个给定的前景色，如何找到一个与之色差较大的背景色，使之醒目？ 反色 对颜色值取反，比较简单的方法：0xFFFFFF - $color // coffeescript
-invertColor = (hexTripletColor) -&gt; "#" + ("000000" + ( &hellip;">
+invert = (color) -&gt; "#" + ("000000" + (0xFFFFFF ^ parseInt( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -149,8 +149,8 @@ jQuery(document).ready(function() {
 <p>对颜色值取反，比较简单的方法：<code>0xFFFFFF - $color</code></p>
 
 <pre><code>// coffeescript
-invertColor = (hexTripletColor) -&gt;
-  "#" + ("000000" + (0xFFFFFF ^ parseInt(hexTripletColor.substring(1),16)).toString(16)).slice(-6);
+invert = (color) -&gt;
+  "#" + ("000000" + (0xFFFFFF ^ parseInt(color.substring(1),16)).toString(16)).slice(-6);
 </code></pre>
 
 <p>但是当<code>$color = 0x808080</code>时,<code>$color ≈ 0xFFFFFF - $color</code>前景色和背景色非常接近，显然取反的方法有瑕疵。</p>
