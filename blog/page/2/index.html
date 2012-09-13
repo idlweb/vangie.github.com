@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>浏览器自动补全不触发Input控件的onChange和onKeyup事件 - Code Life</title>
+  <title>Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="表单的输入校验通常会使用onBlur事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的onBlur事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是onChange事件了，但是onChange事件在onBlur事件之后触发， &hellip;">
+  <meta name="description" content="本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。 虽然windows没有对SSH的原生支持，但是XShell和Putty都挺好用的。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/">
+  <link rel="canonical" href="http://vangie.github.com/blog/page/2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -108,12 +108,15 @@ jQuery(document).ready(function() {
 </nav>
   <div id="main">
     <div id="content">
-      <div>
-<article class="hentry" role="article">
+      <div class="blog-index">
   
+  
+  
+    <article>
+      
   <header>
     
-      <h1 class="entry-title">浏览器自动补全不触发Input控件的onChange和onKeyup事件</h1>
+      <h1 class="entry-title"><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/">MacOS X终端里SSH会话管理</a></h1>
     
     
       <p class="meta">
@@ -129,130 +132,38 @@ jQuery(document).ready(function() {
   
 
 
-<time datetime="2012-09-10T13:57:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2012</time>
+<time datetime="2012-09-01T23:31:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2012</time>
         
-         | <a href="#disqus_thread">Comments</a>
+         | <a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>表单的输入校验通常会使用<code>onBlur</code>事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的<code>onBlur</code>事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是<code>onChange</code>事件了，但是<code>onChange</code>事件在<code>onBlur</code>事件之后触发，所有只能用<code>onKeyup</code>或者<code>onKeyPress</code>方法来感知输入框的变化。但是如果在输入时浏览器提供自动补全的功能，那<code>onKeyup</code>和<code>onKeyPress</code>事件不会被触发。</p>
+  <div class="entry-content"><blockquote><p>本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
 
-<!-- more -->
-
-
-<p>下面是通过轮询输入框来模拟change事件的方法，来解决文本框内容变化不被感知的问题。</p>
-
-<pre><code>(function($) {
-    $.fn.listenForChange = function(options) {
-        settings = $.extend({
-            interval: 200 // 毫秒
-        }, options);
-
-        var jquery_object = this;
-        var current_focus = null;
-
-        jquery_object.filter(":input").add(":input", jquery_object).focus( function() {
-            current_focus = this;
-        }).blur( function() {
-            current_focus = null;
-        });
-
-        setInterval(function() {
-            // allow
-            jquery_object.filter(":input").add(":input", jquery_object).each(function() {
-                // set data cache on element to input value if not yet set
-                if ($(this).data('change_listener') == undefined) {
-                    $(this).data('change_listener', $(this).val());
-                    return;
-                }
-                // return if the value matches the cache
-                if ($(this).data('change_listener') == $(this).val()) {
-                    return;
-                }
-                // ignore if element is in focus (since change event will fire on blur)
-                if (this == current_focus) {
-                    return;
-                }
-                // if we make it here, manually fire the change event and set the new value
-                $(this).trigger('change');
-                $(this).data('change_listener', $(this).val());
-            });
-        }, settings.interval);
-        return this;
-    };
-})(jQuery);
-</code></pre>
-
-<p>然后只需要</p>
-
-<pre><code>$("form").listenForChange();
-</code></pre>
-
-<h4>参考文献</h4>
-
-<ol>
-<li><a href="http://furrybrains.com/2009/01/02/capturing-autofill-as-a-change-event/">Capturing AutoFill as a Change Event</a></li>
-</ol>
+<p>虽然windows没有对SSH的原生支持，但是<a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a>和<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能。</p>
 
 </div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Vangie Du</span></span>
-
-      
-
-
-
-
-
-
-
-
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-mac-osx/">继续阅读 &rarr;</a>
+    </footer>
   
 
 
-<time datetime="2012-09-10T13:57:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2012</time>
-      
-
-
-    </p>
+    </article>
+  
+  <div class="pagination">
     
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/" data-via="" data-counturl="http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/" >Tweet</a>
-  
-  
-  
-</div>
-
+    <a href="/blog/archives">Blog Archives</a>
     
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/" title="Previous Post: 《HTTP权威指南》读书笔记">&laquo; 《HTTP权威指南》读书笔记</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2012/09/13/http-basic-auth-in-nodejs/" title="Next Post: NodeJs里实现HTTP基本认证">NodeJs里实现HTTP基本认证 &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
 </div>
-  </section>
-
-</div>
-
 <aside class="sidebar">
   
     <section>
@@ -285,7 +196,7 @@ jQuery(document).ready(function() {
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
+    <li class="loading">Status updating&#8230;</li>
   </ul>
   
   <a href="https://github.com/vangie">@vangie</a> on GitHub
@@ -319,7 +230,6 @@ jQuery(document).ready(function() {
   
 </aside>
 
-
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -334,10 +244,7 @@ jQuery(document).ready(function() {
       var disqus_shortname = 'code-life';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/';
-        var disqus_url = 'http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

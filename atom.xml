@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-09-13T01:31:59+08:00</updated>
+  <updated>2012-09-14T00:25:22+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[求最大色差颜色]]></title>
+    <link href="http://vangie.github.com/blog/2012/09/13/calculate-max-difference-color/"/>
+    <updated>2012-09-13T22:51:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2012/09/13/calculate-max-difference-color</id>
+    <content type="html"><![CDATA[<blockquote><p>对于一个给定的前景色，如何找到一个与之色差较大的背景色，使之醒目？</p></blockquote>
+
+<h3>反色</h3>
+
+<p>对颜色值取反，比较简单的方法：<code>0xFFFFFF - $color</code></p>
+
+<pre><code>// coffeescript
+invertColor = (hexTripletColor) -&gt;
+  "#" + ("000000" + (0xFFFFFF ^ parseInt(hexTripletColor.substring(1),16)).toString(16)).slice(-6);
+</code></pre>
+
+<p>但是当<code>$color = 0x808080</code>时,<code>$color ≈ 0xFFFFFF - $color</code>前景色和背景色非常接近，显然取反的方法有瑕疵。</p>
+
+<h3>何为色差</h3>
+
+<p>色差简单来说就是颜色的差别,定量表示的色知觉差异。从<strong>明度</strong>、<strong>色调</strong>和<strong>彩度</strong>这三种颜色属性的差异来表示。明度差表示深浅的差异，色调差表示色相的差异（即偏红或偏蓝等），彩度差表示鲜艳度的差异。通过明度(L)、色调(A)和彩度(B)表示的颜色模型，称为LAB颜色模型，区别于RGB和CMYK颜色模型。</p>
+
+<p><strong>LAB的取值范围</strong></p>
+
+<ul>
+<li>L [0, 100]</li>
+<li>A [-128, 127]</li>
+<li>B [-128, 127]</li>
+</ul>
+
+
+<h3>如何计算色差</h3>
+
+<p><img src="http://upload.wikimedia.org/math/9/1/0/910227e12a98c6df4664034d33c2e91c.png" alt="色差计算公式" />
+ ，其中<img src="http://upload.wikimedia.org/math/b/0/6/b06a11157eefd0439922bc2c5f390502.png" alt="颜色1" />和<img src="http://upload.wikimedia.org/math/4/0/1/4013fe6a2bdda4d686baa791861d3db5.png" alt="颜色2" />分别表示两个不同的LAB模型颜色。</p>
+
+<h3>求得与某一颜色的色差最大的颜色</h3>
+
+<p>根据上面的色差计算公式，对于一个给定的LAB颜色，计算出色差最大的颜色是很容易的。L1，a1和b1分别与对应取值范围的中值比较，小于中值取上界，大于中值去下届</p>
+
+<pre><code>L2 = L1&lt;50?100:0
+a2 = a1&lt;0?127:-128
+b2 = b1&lt;0?127:-128
+</code></pre>
+
+<p>但是计算机和常见程序设计语言的采用RGB模型表示颜色。所以需要先将RGB颜色转换成LAB颜色，计算出最大色差颜色的LAB表示法，然后再转换成RGB颜色。</p>
+
+<p><strong>RGB -> LAB</strong></p>
+
+<pre><code>L = (13933 * R + 46871 * G + 4732 * B) / 2^16
+a = 377 * (14503 * R - 22218 * G + 7714 * B) / 2^24 + 128
+b = 160 * (12773 * R + 39695 * G - 52468 * B) / 2^24 + 128
+</code></pre>
+
+<p><strong>LAB -> RGB</strong></p>
+
+<pre><code>R = L1 + (a1 * 100922 + b1 * 17790) / 2^23
+G = L1 - (a1 * 30176 + b1 * 1481) / 2^23
+B = L1 + (a1 * 1740 - b1 * 37719) / 2^23
+</code></pre>
+
+<p>真的有必要通过繁琐的步骤求出最大色差么，能不能简单的获得一个较大色差？</p>
+
+<h3>近似求法</h3>
+
+<p>如果我们略去RGB与LAB的转换，分别找出与R值，G值和B值的差值最大的R‘，G’和B‘也能取得较好的效果</p>
+
+<pre><code>R' = R&lt;128 ? 255 : 0
+G' = G&lt;128 ? 255 : 0
+B' = B&lt;128 ? 255 : 0
+</code></pre>
+
+<h3>参考文献</h3>
+
+<ol>
+<li><a href="http://maestric.com/doc/color_brightness_difference_calculator">Online calculator of color difference and color brightness difference</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Color_difference">Wikipedia - Color difference</a></li>
+<li><a href="http://hao.qinz.net/comments.php?y=08&amp;m=07&amp;entry=entry080727-033517">从RGB到Lab色彩空间的转换</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NodeJs里实现HTTP基本认证]]></title>
