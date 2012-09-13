@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-09-14T00:25:22+08:00</updated>
+  <updated>2012-09-14T00:26:29+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -30,6 +30,9 @@ invertColor = (hexTripletColor) -&gt;
 </code></pre>
 
 <p>但是当<code>$color = 0x808080</code>时,<code>$color ≈ 0xFFFFFF - $color</code>前景色和背景色非常接近，显然取反的方法有瑕疵。</p>
+
+<!-- more -->
+
 
 <h3>何为色差</h3>
 
