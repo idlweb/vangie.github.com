@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-09-14T23:06:10+08:00</updated>
+  <updated>2012-09-14T23:06:41+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -19,6 +19,9 @@
     <updated>2012-09-14T22:49:00+08:00</updated>
     <id>http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery</id>
     <content type="html"><![CDATA[<p>Pinterest创造的瀑布流布局,有一种让人眼睛一亮,让看图的过程变得很享受,改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过度页面加载缓慢的问题.国内的花瓣网,借鉴了瀑布流的设计,也做的相对的不错.</p>
+
+<!-- more -->
+
 
 <p>找了几个瀑布流的插件</p>
 
