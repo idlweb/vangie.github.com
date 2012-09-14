@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Tweetbot for Mac使用GoAgent代理 - Code Life</title>
+  <title>几个瀑布流风格布局的jQuery插件 - Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="Tweetbot for Mac是MacOS X上推的不二选择，但是该软件的所有版本都没有提供Proxy设置。网上少有几篇关于Tweetbot如何使用GoAgent代理上网的教程是针对iOS平台的。 玩Ubuntu的时候有个工具软件可以作为启动器启动另一个软件， &hellip;">
+  <meta name="description" content="Pinterest创造的瀑布流布局,有一种让人眼睛一亮,让看图的过程变得很享受,改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过度页面加载缓慢的问题.国内的花瓣网,借鉴了瀑布流的设计,也做的相对的不错. 找了几个瀑布流的插件 jQuery Masonry
+jQuery &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/">
+  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -113,7 +114,7 @@ jQuery(document).ready(function() {
   
   <header>
     
-      <h1 class="entry-title">Tweetbot for Mac使用GoAgent代理</h1>
+      <h1 class="entry-title">几个瀑布流风格布局的jQuery插件</h1>
     
     
       <p class="meta">
@@ -129,7 +130,7 @@ jQuery(document).ready(function() {
   
 
 
-<time datetime="2012-09-04T22:45:00+08:00" pubdate data-updated="true">Sep 4<span>th</span>, 2012</time>
+<time datetime="2012-09-14T22:49:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -138,61 +139,24 @@ jQuery(document).ready(function() {
   </header>
 
 
-<div class="entry-content"><blockquote><p><a href="http://tapbots.com/blog/news/tweetbot-for-mac-beta-sort-of" title="Tweetbot for Mac">Tweetbot for Mac</a>是MacOS X上推的不二选择，但是该软件的所有版本都没有提供Proxy设置。网上少有几篇关于<a href="http://tapbots.com/software/tweetbot/" title="Tweetbot for iOS">Tweetbot</a>如何使用<a href="http://code.google.com/p/goagent/" title="a gae proxy forked from gappproxy/wallproxy">GoAgent</a>代理上网的教程是针对iOS平台的。</p></blockquote>
+<div class="entry-content"><p>Pinterest创造的瀑布流布局,有一种让人眼睛一亮,让看图的过程变得很享受,改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过度页面加载缓慢的问题.国内的花瓣网,借鉴了瀑布流的设计,也做的相对的不错.</p>
 
-<p>玩Ubuntu的时候有个工具软件可以作为启动器启动另一个软件，然后让被启动的软件使用该工具软件设定好的代理上网。这个工具可以解决需要使用代理上网但软件自身未提供代理配置功能的问题。</p>
+<p>找了几个瀑布流的插件</p>
 
-<!-- more -->
+<ul>
+<li><a href="http://masonry.desandro.com/">jQuery Masonry</a></li>
+<li><a href="http://isotope.metafizzy.co/">jQuery Isotope</a></li>
+<li><a href="http://www.wookmark.com/jquery-plugin">The Wookmark jQuery plugin</a></li>
+<li><a href="http://imakewebthings.com/jquery-waypoints/">jQuery Waypoints plugin</a> 这款插件可以实现无线滚动条</li>
+</ul>
 
 
-<p>为什么不使用全局代理呢？</p>
+<h4>参考文献</h4>
 
 <ol>
-<li>浪费<a href="http://code.google.com/p/goagent/" title="a gae proxy forked from gappproxy/wallproxy">GoAgent</a>有限的浏览，下个迅雷就玩完了。</li>
-<li>国内的站点到绕道国外一圈在回来，不是折腾么。</li>
+<li><a href="http://ericbae.com/2012/01/30/implement-a-pinterest-like-layout/">Implement a Pinterest-like layout!</a></li>
 </ol>
 
-
-<p>可惜在Mac没能找到那么一款神奇的工具，庆幸的是找到了<a href="http://www.proxycap.com/" title="Proxifier and SSH Tunneler for Windows/Mac OS X">ProxyCap</a>和<a href="http://www.proxifier.com/" title="Bypass firewall and proxy, tunnel connections through an HTTPS and SOCKS proxy">Proxifier</a>两款软件，这两款软件的功能类似，都是通过配置规则来指定某些应用程序使用指定的代理访问网络。不管哪种方式，到达的效果是一样的,当两款都是收费软件，提供了30天的使用。经过测试<a href="http://www.proxycap.com/" title="Proxifier and SSH Tunneler for Windows/Mac OS X">ProxyCap</a>无法在Mountian Lion下工作，而且提供的是pkg的安装包，安装完需要重启。<a href="http://www.proxifier.com/" title="Bypass firewall and proxy, tunnel connections through an HTTPS and SOCKS proxy">Proxifier</a>可用，下面介绍如何配置。官网提供了30天使用的安装版本下载，dmg的安装过程就直接跳过了。</p>
-
-<h3>配置Proxy</h3>
-
-<p>打开<code>Proxies-&gt;Add</code>,针对本机<a href="http://code.google.com/p/goagent/" title="a gae proxy forked from gappproxy/wallproxy">GoAgent</a>的配置添加一个代理</p>
-
-<ul>
-<li>类型: <code>HTTPS</code></li>
-<li>地址: <code>127.0.0.1</code></li>
-<li>端口: <code>8087</code></li>
-</ul>
-
-
-<p><img src="/images/post/2012-09-04/Proxies.jpg" alt="Proxy Setting" /></p>
-
-<h3>配置规则</h3>
-
-<p>打开<code>Rules-&gt;Add</code>,添加一个规则，指定<a href="http://tapbots.com/software/tweetbot/" title="Tweetbot for iOS">Tweetbot</a>使用改成配置的代理上网</p>
-
-<ul>
-<li>名称: Tweetbot</li>
-<li>应用程序：选择Tweetbot（默认是Any，右下角有一个<code>+</code>可以选择应用程序的位置）</li>
-<li>目标主机(Target Hosts): <code>Any</code></li>
-<li>目标端口(Target Port): <code>Any</code></li>
-<li>行为(Action): <code>Proxy HTTPS 127.0.0.1:8087</code></li>
-</ul>
-
-
-<p><img src="/images/post/2012-09-04/Rules.jpg" alt="Rule Setting" /></p>
-
-<h3>修改DNS设置</h3>
-
-<p>打开 <code>DNS</code>,勾上<code>Resolve hostnames through proxy</code>。
-这一步很重要，漏掉了会因为DNS污染导致连接不上。</p>
-
-<p><img src="/images/post/2012-09-04/DNS.jpg" alt="DNS Setting" /></p>
-
-<p>接下打开<a href="http://tapbots.com/software/tweetbot/" title="Tweetbot for iOS">Tweetbot</a>就可以尽情的Tweet了。在<a href="http://www.proxifier.com/" title="Bypass firewall and proxy, tunnel connections through an HTTPS and SOCKS proxy">Proxifier</a>的<code>Connections</code>Tab页能看到链接信息。</p>
-
-<p><img src="/images/post/2012-09-04/Connections.jpg" alt="Connections information" /></p>
 </div>
 
 
@@ -215,7 +179,7 @@ jQuery(document).ready(function() {
   
 
 
-<time datetime="2012-09-04T22:45:00+08:00" pubdate data-updated="true">Sep 4<span>th</span>, 2012</time>
+<time datetime="2012-09-14T22:49:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
       
 
 
@@ -223,7 +187,7 @@ jQuery(document).ready(function() {
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/" data-via="" data-counturl="http://vangie.github.com/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/" data-via="" data-counturl="http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/" >Tweet</a>
   
   
   
@@ -232,10 +196,8 @@ jQuery(document).ready(function() {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/" title="Previous Post: MacOS X将GoAgent位置为后台服务">&laquo; MacOS X将GoAgent位置为后台服务</a>
+        <a class="basic-alignment left" href="/blog/2012/09/13/calculate-max-difference-color/" title="Previous Post: 求最大色差颜色">&laquo; 求最大色差颜色</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/" title="Next Post: Eclipse插件通过Maven依赖第三方jar包">Eclipse插件通过Maven依赖第三方jar包 &raquo;</a>
       
     </p>
   </footer>
@@ -331,8 +293,8 @@ jQuery(document).ready(function() {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/';
-        var disqus_url = 'http://vangie.github.com/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/';
+        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/';
+        var disqus_url = 'http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/';
         var disqus_script = 'embed.js';
       
     (function () {

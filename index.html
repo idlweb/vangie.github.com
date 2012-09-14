@@ -9,8 +9,8 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="对于一个给定的前景色，如何找到一个与之色差较大的背景色，使之醒目？ 反色 对颜色值取反，比较简单的方法：0xFFFFFF - $color // coffeescript
-invert = (color) -&gt; "#" + ("000000" + (0xFFFFFF ^ parseInt( &hellip;">
+  <meta name="description" content="Pinterest创造的瀑布流布局,有一种让人眼睛一亮,让看图的过程变得很享受,改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过度页面加载缓慢的问题.国内的花瓣网,借鉴了瀑布流的设计,也做的相对的不错. 找了几个瀑布流的插件 jQuery Masonry
+jQuery &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,6 +111,61 @@ jQuery(document).ready(function() {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">几个瀑布流风格布局的jQuery插件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-14T22:49:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Pinterest创造的瀑布流布局,有一种让人眼睛一亮,让看图的过程变得很享受,改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过度页面加载缓慢的问题.国内的花瓣网,借鉴了瀑布流的设计,也做的相对的不错.</p>
+
+<p>找了几个瀑布流的插件</p>
+
+<ul>
+<li><a href="http://masonry.desandro.com/">jQuery Masonry</a></li>
+<li><a href="http://isotope.metafizzy.co/">jQuery Isotope</a></li>
+<li><a href="http://www.wookmark.com/jquery-plugin">The Wookmark jQuery plugin</a></li>
+<li><a href="http://imakewebthings.com/jquery-waypoints/">jQuery Waypoints plugin</a> 这款插件可以实现无线滚动条</li>
+</ul>
+
+
+<h4>参考文献</h4>
+
+<ol>
+<li><a href="http://ericbae.com/2012/01/30/implement-a-pinterest-like-layout/">Implement a Pinterest-like layout!</a></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -536,51 +591,6 @@ invert = (color) -&gt;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">如何为MacOS X终端设置代理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
-        
-         | <a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。</p></blockquote>
-
-<p>实在无法忍受<a href="http://www.linode.com/" title="linode">linode</a>日本机房的高延迟，动手配置了一个<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>服务。但是HTTP代理和VPN不同，没法全局代理（<em>至少不能简单配置</em>），在Terminal里下载最新版本的Ruby，奇慢无比，下面介绍如何让Terminal里执行的程序使用<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>代理。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -596,6 +606,10 @@ invert = (color) -&gt;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">几个瀑布流风格布局的jQuery插件</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/13/calculate-max-difference-color/">求最大色差颜色</a>
       </li>
     
@@ -609,10 +623,6 @@ invert = (color) -&gt;
     
       <li class="post">
         <a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">《HTTP权威指南》读书笔记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/">jetty临时目录被tmpwatch定时任务删除</a>
       </li>
     
   </ul>
