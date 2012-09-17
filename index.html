@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="Pinterest的瀑布流布局,让人眼睛一亮,看图的过程变得很享受.巧妙的改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过多页面加载缓慢的问题.国内的花瓣网,借鉴了瀑布流的设计,做得挺不错的. ">
+  <meta name="description" content="中文文件名在不同的平台下常常会出现乱码问题.除了理清编码关系,正确的编解码外,比较简单的办法就是把中文去掉或者不用中文. 最近在做一个文件上传相关的功能,windows下的中文文件传到linux服务器上变成一串乱码文件名.于是想把文件名里的中文字符转换成拼音字母,这样相比直接使用UUID之类的做法 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,6 +116,51 @@ jQuery(document).ready(function() {
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/">NodeJs里将中文字符转换成拼音字母</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-18T01:12:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>中文文件名在不同的平台下常常会出现乱码问题.除了理清编码关系,正确的编解码外,比较简单的办法就是把中文去掉或者不用中文.</p>
+
+<p>最近在做一个文件上传相关的功能,windows下的中文文件传到linux服务器上变成一串乱码文件名.于是想把文件名里的中文字符转换成拼音字母,这样相比直接使用UUID之类的做法,保留了部分语意.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">几个瀑布流风格布局的jQuery插件</a></h1>
     
     
@@ -190,10 +235,14 @@ jQuery(document).ready(function() {
 
 <p>对颜色值取反，比较简单的方法：<code>0xFFFFFF - $color</code></p>
 
-<pre><code>// coffeescript
-invert = (color) -&gt;
-  "#" + ("000000" + (0xFFFFFF ^ parseInt(color.substring(1),16)).toString(16)).slice(-6);
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="o">//</span> <span class="nx">coffeescript</span>
+</span><span class='line'><span class="nv">invert = </span><span class="nf">(color) -&gt;</span>
+</span><span class='line'>  <span class="s">&quot;</span><span class="err">#</span><span class="s">&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;000000&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="mh">0xFFFFFF</span> <span class="o">^</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">16</span><span class="p">)).</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)).</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>但是当<code>$color = 0x808080</code>时,<code>$color ≈ 0xFFFFFF - $color</code>前景色和背景色非常接近，显然取反的方法有瑕疵。</p>
 
@@ -530,54 +579,6 @@ invert = (color) -&gt;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/02/custom-domain-for-octopress/">为Octopress博客设置个性化域名</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-02T20:31:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
-        
-         | <a href="/blog/2012/09/02/custom-domain-for-octopress/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>其实挺简单的，官方文档也写的很清晰，不过还是碰到了让人受挫的404错误。</p>
-
-<h2>添加CNAME文件</h2>
-
-<pre><code>echo 'your-domain.com' &gt;&gt; source/CNAME
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/02/custom-domain-for-octopress/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -593,6 +594,10 @@ invert = (color) -&gt;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/">NodeJs里将中文字符转换成拼音字母</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">几个瀑布流风格布局的jQuery插件</a>
       </li>
     
@@ -606,10 +611,6 @@ invert = (color) -&gt;
     
       <li class="post">
         <a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/">浏览器自动补全不触发Input控件的onChange和onKeyup事件</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">《HTTP权威指南》读书笔记</a>
       </li>
     
   </ul>

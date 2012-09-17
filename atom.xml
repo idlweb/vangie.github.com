@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-09-14T23:09:18+08:00</updated>
+  <updated>2012-09-18T01:39:44+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,79 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NodeJs里将中文字符转换成拼音字母]]></title>
+    <link href="http://vangie.github.com/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/"/>
+    <updated>2012-09-18T01:12:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs</id>
+    <content type="html"><![CDATA[<p>中文文件名在不同的平台下常常会出现乱码问题.除了理清编码关系,正确的编解码外,比较简单的办法就是把中文去掉或者不用中文.</p>
+
+<p>最近在做一个文件上传相关的功能,windows下的中文文件传到linux服务器上变成一串乱码文件名.于是想把文件名里的中文字符转换成拼音字母,这样相比直接使用UUID之类的做法,保留了部分语意.</p>
+
+<!-- more -->
+
+
+<p>Javascript作为一个轻量级的脚本语言本身并不支持字符到拼音的转换,甚至不支持字符集的转换.<a href="https://github.com/hotoo/pinyin.js">pinyin.js</a>是一个支持汉字转换成拼音的js库,<a href="https://github.com/vingel/node-pinyin">node-pinyin</a>是基于该库在node平台的一个简单移植版本.使用起来比较简单.</p>
+
+<p>安装</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>npm install pinyin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面给出中文文件名的转换拼音方法源码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">pinyin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;pinyin&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">normalize</span><span class="p">(</span><span class="nx">originalName</span><span class="p">){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">originalName</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">charcode</span> <span class="o">=</span> <span class="nx">originalName</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="kr">char</span> <span class="o">=</span> <span class="nx">originalName</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span><span class="p">(</span><span class="nx">charcode</span> <span class="o">&gt;</span> <span class="mi">47</span> <span class="o">&amp;&amp;</span> <span class="nx">charcode</span> <span class="o">&lt;</span><span class="mi">58</span><span class="p">){</span>
+</span><span class='line'>            <span class="nx">result</span> <span class="o">+=</span> <span class="kr">char</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">charcode</span><span class="o">&gt;</span><span class="mi">64</span> <span class="o">&amp;&amp;</span> <span class="nx">charcode</span><span class="o">&lt;</span><span class="mi">91</span><span class="p">){</span>
+</span><span class='line'>            <span class="nx">result</span> <span class="o">+=</span> <span class="kr">char</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">charcode</span><span class="o">&gt;</span><span class="mi">96</span> <span class="o">&amp;&amp;</span> <span class="nx">charcode</span><span class="o">&lt;</span><span class="mi">123</span><span class="p">){</span>
+</span><span class='line'>            <span class="nx">result</span> <span class="o">+=</span> <span class="kr">char</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">charcode</span><span class="o">&gt;</span> <span class="mh">0x4E00</span> <span class="o">&amp;&amp;</span> <span class="nx">charcode</span> <span class="o">&lt;</span> <span class="mh">0x9FA5</span><span class="p">){</span>
+</span><span class='line'>            <span class="nx">result</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nx">pinyin</span><span class="p">(</span><span class="kr">char</span><span class="p">,</span><span class="kc">true</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">).</span><span class="nx">toLowerCase</span><span class="p">());</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">charcode</span><span class="o">==</span><span class="mi">46</span><span class="p">){</span>
+</span><span class='line'>            <span class="nx">result</span> <span class="o">+=</span> <span class="s1">&#39;.&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+</span><span class='line'>            <span class="nx">result</span> <span class="o">+=</span> <span class="s1">&#39;_&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[几个瀑布流风格布局的jQuery插件]]></title>
@@ -53,10 +126,14 @@
 
 <p>对颜色值取反，比较简单的方法：<code>0xFFFFFF - $color</code></p>
 
-<pre><code>// coffeescript
-invert = (color) -&gt;
-  "#" + ("000000" + (0xFFFFFF ^ parseInt(color.substring(1),16)).toString(16)).slice(-6);
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="o">//</span> <span class="nx">coffeescript</span>
+</span><span class='line'><span class="nv">invert = </span><span class="nf">(color) -&gt;</span>
+</span><span class='line'>  <span class="s">&quot;</span><span class="err">#</span><span class="s">&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;000000&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="mh">0xFFFFFF</span> <span class="o">^</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">16</span><span class="p">)).</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)).</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>但是当<code>$color = 0x808080</code>时,<code>$color ≈ 0xFFFFFF - $color</code>前景色和背景色非常接近，显然取反的方法有瑕疵。</p>
 
@@ -119,14 +196,22 @@ B' = B&lt;128 ? 255 : 0
 
 <p>源码</p>
 
-<pre><code>//coffeescript
-diff = (color) -&gt;
-  hex = parseInt(color.substring(1),16);
-  r = if ( hex &gt;&gt; 16 ) &gt; 128 then '00' else 'FF'
-  g = if ( hex &gt;&gt; 8 &amp; 0xFF ) &gt; 128 then '00' else 'FF'
-  b = if ( hex &amp; 0xFF ) &gt; 128 then '00' else 'FF'
-  "#" + r + g + b
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="o">//</span><span class="nx">coffeescript</span>
+</span><span class='line'><span class="nv">diff = </span><span class="nf">(color) -&gt;</span>
+</span><span class='line'>  <span class="nv">hex = </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">16</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">r = </span><span class="k">if</span> <span class="p">(</span> <span class="nx">hex</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">128</span> <span class="k">then</span> <span class="s">&#39;00&#39;</span> <span class="k">else</span> <span class="s">&#39;FF&#39;</span>
+</span><span class='line'>  <span class="nv">g = </span><span class="k">if</span> <span class="p">(</span> <span class="nx">hex</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">128</span> <span class="k">then</span> <span class="s">&#39;00&#39;</span> <span class="k">else</span> <span class="s">&#39;FF&#39;</span>
+</span><span class='line'>  <span class="nv">b = </span><span class="k">if</span> <span class="p">(</span> <span class="nx">hex</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">128</span> <span class="k">then</span> <span class="s">&#39;00&#39;</span> <span class="k">else</span> <span class="s">&#39;FF&#39;</span>
+</span><span class='line'>  <span class="s">&quot;</span><span class="err">#</span><span class="s">&quot;</span> <span class="o">+</span> <span class="nx">r</span> <span class="o">+</span> <span class="nx">g</span> <span class="o">+</span> <span class="nx">b</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>参考文献</h3>
 
@@ -152,15 +237,26 @@ diff = (color) -&gt;
 <!-- more -->
 
 
-<pre><code>&lt;Location /secure&gt;
-    AuthType basic
-    AuthName "private area"
-    AuthBasicProvider dbm
-    AuthDBMType SDBM
-    AuthDBMUserFile /www/etc/dbmpasswd
-    Require valid-user
-&lt;/Location&gt;
-</code></pre>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;Location</span> <span class="err">/secure</span><span class="nt">&gt;</span>
+</span><span class='line'>  AuthType basic
+</span><span class='line'>  AuthName &quot;private area&quot;
+</span><span class='line'>  AuthBasicProvider dbm
+</span><span class='line'>  AuthDBMType SDBM
+</span><span class='line'>  AuthDBMUserFile /www/etc/dbmpasswd
+</span><span class='line'>  Require valid-user
+</span><span class='line'><span class="nt">&lt;/Location&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>HTTP基本认证的实现机制</h2>
 
@@ -207,34 +303,62 @@ Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
 
 <h2>如何在NodeJs里实现HTTP基本认证</h2>
 
-<pre><code>var http = require('http');
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">auth</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;authorization&#39;</span><span class="p">];</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Authorization Header is: &quot;</span><span class="p">,</span> <span class="nx">auth</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">auth</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">=</span> <span class="mi">401</span><span class="p">;</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s1">&#39;WWW-Authenticate&#39;</span><span class="p">,</span> <span class="s1">&#39;Basic realm=&quot;Secure Area&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">auth</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="nx">auth</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">buf</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;base64&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">plain_auth</span> <span class="o">=</span> <span class="nx">buf</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Decoded Authorization &quot;</span><span class="p">,</span> <span class="nx">plain_auth</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">creds</span> <span class="o">=</span> <span class="nx">plain_auth</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">);</span>      <span class="c1">// split on a &#39;:&#39;</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">creds</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">password</span> <span class="o">=</span> <span class="nx">creds</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">((</span><span class="nx">username</span> <span class="o">==</span> <span class="s1">&#39;hack&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">password</span> <span class="o">==</span> <span class="s1">&#39;thegibson&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>  <span class="c1">// OK</span>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&lt;body&gt;登录成功!&lt;/body&gt;&lt;/html&gt;&#39;</span><span class="p">);</span>
+</span><span class='line'>           <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">=</span> <span class="mi">401</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s1">&#39;WWW-Authenticate&#39;</span><span class="p">,</span> <span class="s1">&#39;Basic realm=&quot;Secure Area&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Server Listening on http://localhost:5000/&quot;</span><span class="p">);</span> <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
-var server = http.createServer(function(req, res) {
-    var auth = req.headers['authorization'];          
-    console.log("Authorization Header is: ", auth);
-    if(!auth) {     
-        res.statusCode = 401;
-        res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
-        res.end();
-    } else if(auth) {
-        var tmp = auth.split(' '); 
-        var buf = new Buffer(tmp[1], 'base64');                 
-        var plain_auth = buf.toString();
-        console.log("Decoded Authorization ", plain_auth);
-        var creds = plain_auth.split(':');      // split on a ':'
-        var username = creds[0];
-        var password = creds[1];
-        if((username == 'hack') &amp;&amp; (password == 'thegibson')) {  
-            res.statusCode = 200;  // OK
-            res.end('&lt;html&gt;&lt;body&gt;登录成功!&lt;/body&gt;&lt;/html&gt;');
-        } else {
-            res.statusCode = 401; 
-            res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
-            res.end();
-        }
-    }
-}).listen(5000, function() { console.log("Server Listening on http://localhost:5000/"); });
-</code></pre>
 
 <h2>HTTP基本认证的缺点</h2>
 

@@ -147,15 +147,26 @@ jQuery(document).ready(function() {
 <!-- more -->
 
 
-<pre><code>&lt;Location /secure&gt;
-    AuthType basic
-    AuthName "private area"
-    AuthBasicProvider dbm
-    AuthDBMType SDBM
-    AuthDBMUserFile /www/etc/dbmpasswd
-    Require valid-user
-&lt;/Location&gt;
-</code></pre>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;Location</span> <span class="err">/secure</span><span class="nt">&gt;</span>
+</span><span class='line'>  AuthType basic
+</span><span class='line'>  AuthName &quot;private area&quot;
+</span><span class='line'>  AuthBasicProvider dbm
+</span><span class='line'>  AuthDBMType SDBM
+</span><span class='line'>  AuthDBMUserFile /www/etc/dbmpasswd
+</span><span class='line'>  Require valid-user
+</span><span class='line'><span class="nt">&lt;/Location&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>HTTP基本认证的实现机制</h2>
 
@@ -202,34 +213,62 @@ Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
 
 <h2>如何在NodeJs里实现HTTP基本认证</h2>
 
-<pre><code>var http = require('http');
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">auth</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;authorization&#39;</span><span class="p">];</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Authorization Header is: &quot;</span><span class="p">,</span> <span class="nx">auth</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">auth</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">=</span> <span class="mi">401</span><span class="p">;</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s1">&#39;WWW-Authenticate&#39;</span><span class="p">,</span> <span class="s1">&#39;Basic realm=&quot;Secure Area&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">auth</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="nx">auth</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">buf</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;base64&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">plain_auth</span> <span class="o">=</span> <span class="nx">buf</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Decoded Authorization &quot;</span><span class="p">,</span> <span class="nx">plain_auth</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">creds</span> <span class="o">=</span> <span class="nx">plain_auth</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">);</span>      <span class="c1">// split on a &#39;:&#39;</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">creds</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">password</span> <span class="o">=</span> <span class="nx">creds</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">((</span><span class="nx">username</span> <span class="o">==</span> <span class="s1">&#39;hack&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">password</span> <span class="o">==</span> <span class="s1">&#39;thegibson&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>  <span class="c1">// OK</span>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&lt;body&gt;登录成功!&lt;/body&gt;&lt;/html&gt;&#39;</span><span class="p">);</span>
+</span><span class='line'>           <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nx">res</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">=</span> <span class="mi">401</span><span class="p">;</span>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="s1">&#39;WWW-Authenticate&#39;</span><span class="p">,</span> <span class="s1">&#39;Basic realm=&quot;Secure Area&quot;&#39;</span><span class="p">);</span>
+</span><span class='line'>          <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">listen</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Server Listening on http://localhost:5000/&quot;</span><span class="p">);</span> <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
 
-var server = http.createServer(function(req, res) {
-    var auth = req.headers['authorization'];          
-    console.log("Authorization Header is: ", auth);
-    if(!auth) {     
-        res.statusCode = 401;
-        res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
-        res.end();
-    } else if(auth) {
-        var tmp = auth.split(' '); 
-        var buf = new Buffer(tmp[1], 'base64');                 
-        var plain_auth = buf.toString();
-        console.log("Decoded Authorization ", plain_auth);
-        var creds = plain_auth.split(':');      // split on a ':'
-        var username = creds[0];
-        var password = creds[1];
-        if((username == 'hack') &amp;&amp; (password == 'thegibson')) {  
-            res.statusCode = 200;  // OK
-            res.end('&lt;html&gt;&lt;body&gt;登录成功!&lt;/body&gt;&lt;/html&gt;');
-        } else {
-            res.statusCode = 401; 
-            res.setHeader('WWW-Authenticate', 'Basic realm="Secure Area"');
-            res.end();
-        }
-    }
-}).listen(5000, function() { console.log("Server Listening on http://localhost:5000/"); });
-</code></pre>
 
 <h2>HTTP基本认证的缺点</h2>
 
@@ -311,6 +350,10 @@ var server = http.createServer(function(req, res) {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/">NodeJs里将中文字符转换成拼音字母</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">几个瀑布流风格布局的jQuery插件</a>
       </li>
     
@@ -324,10 +367,6 @@ var server = http.createServer(function(req, res) {
     
       <li class="post">
         <a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/">浏览器自动补全不触发Input控件的onChange和onKeyup事件</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">《HTTP权威指南》读书笔记</a>
       </li>
     
   </ul>
