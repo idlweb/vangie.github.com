@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-09-18T01:39:44+08:00</updated>
+  <updated>2012-09-20T01:18:38+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,113 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NodeJs里给图片添加水印]]></title>
+    <link href="http://vangie.github.com/blog/2012/09/20/create-warkmarked-picture-using-node-js/"/>
+    <updated>2012-09-20T00:44:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2012/09/20/create-warkmarked-picture-using-node-js</id>
+    <content type="html"><![CDATA[<p><a href="http://imagemagick.org/">ImageMagick</a>和<a href="http://www.graphicsmagick.org/">GraphicsMagick</a>是两款强大的跨平台图片命令行工具,据说<a href="http://www.graphicsmagick.org/">GraphicsMagick</a>是从<a href="http://imagemagick.org/">ImageMagick</a>分支出来的,更稳定些.</p>
+
+<p>Java平台图片处理包<a href="http://im4java.sourceforge.net/">im4java</a>使用JNI的方式封装了<a href="http://imagemagick.org/">ImageMagick</a>.NodeJs平台图片处理模块<a href="http://aheckmann.github.com/gm/">gm</a>只需要<a href="http://www.graphicsmagick.org/">GraphicsMagick</a>和<a href="http://imagemagick.org/">ImageMagick</a>任选一种安装就好了.</p>
+
+<!-- more -->
+
+
+<p>使用<a href="http://aheckmann.github.com/gm/">gm</a>进行图片处理非常之方便</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">gm</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gm&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">gm</span><span class="p">(</span><span class="s1">&#39;/path/to/image.jpg&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="mi">353</span><span class="p">,</span> <span class="mi">257</span><span class="p">)</span>
+</span><span class='line'><span class="p">.</span><span class="nx">autoOrient</span><span class="p">()</span>
+</span><span class='line'><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">writeStream</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39; hooray! &#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但在Mac平台安装有些麻烦,由于<a href="http://www.graphicsmagick.org/">GraphicsMagick</a>使用了linux的图形库,所以需要先安装<a href="http://xquartz.macosforge.org/">XQuartz</a>,最新版本已经支持Mountain Lion了.</p>
+
+<p><a href="http://www.graphicsmagick.org/">GraphicsMagick</a>可以通过homebrew安装</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew install graphicsmagick
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>装<a href="http://aheckmann.github.com/gm/">gm</a>就不多说了<code>npm install gm</code></p>
+
+<p><a href="http://aheckmann.github.com/gm/">gm</a>目前只封装了<a href="http://www.graphicsmagick.org/">GraphicsMagick</a>的<code>convert</code>子命令,添加水印需要的用到<code>composite</code>子命令.所以只能采用下策:直接调用<a href="http://www.graphicsmagick.org/">GraphicsMagick</a>命令行接口</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">spawn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;child_process&#39;</span><span class="p">).</span><span class="nx">spawn</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">composite</span> <span class="o">=</span> <span class="nx">spawn</span><span class="p">(</span><span class="s1">&#39;gm&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">[</span>
+</span><span class='line'>      <span class="s1">&#39;composite&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s1">&#39;-gravity&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s1">&#39;SouthEast&#39;</span><span class="p">,</span> <span class="c1">//右下角</span>
+</span><span class='line'>      <span class="s1">&#39;-dissolve&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s1">&#39;80&#39;</span><span class="p">,</span> <span class="c1">//溶解度,和透明度类似</span>
+</span><span class='line'>      <span class="s1">&#39;watermark.png&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s1">&#39;src.jpg&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s1">&#39;dest.jpg&#39;</span>
+</span><span class='line'>  <span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">composite</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">composite</span><span class="p">.</span><span class="nx">stderr</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">composite</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;exit&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">code</span><span class="p">){</span>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="nx">code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">){</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;gm composite process exited with code &#39;</span> <span class="o">+</span> <span class="nx">code</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NodeJs里将中文字符转换成拼音字母]]></title>
