@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-10-07T18:29:01+08:00</updated>
+  <updated>2012-10-09T16:06:17+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,95 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[解决rinse安装CentOS 6报错找不到'/dev/urandom'的问题]]></title>
+    <link href="http://vangie.github.com/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/"/>
+    <updated>2012-10-09T15:53:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6</id>
+    <content type="html"><![CDATA[<blockquote><p>Debian系统xen安装centos 6.3失败，报错找不到<code>/dev/urandom</code>。</p></blockquote>
+
+<h3>错误如下</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  File "/usr/lib64/python2.4/random.py", line 109, in seed
+</span><span class='line'>    a = long(_hexlify(_urandom(16)), 16)
+</span><span class='line'>OSError: [Errno 2] No such file or directory: '/dev/urandom'</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<h3>解决方法</h3>
+
+<p><code>vim /usr/lib/rinse/common/30-dev-urandom.sh</code>内容如下</p>
+
+<pre><code>#!/bin/sh
+#
+#  Ensure the chroot has /dev/random and /dev/urandom
+#
+# Dan Kegel
+# --
+
+
+#
+#  Get the root of the chroot.
+#
+prefix=$1
+
+#
+#  Ensure it exists.
+#
+if [ ! -d "${prefix}" ]; then
+  echo "Serious error - the named directory doesn't     exist."
+  exit
+fi
+
+#
+#  Ensure we have /dev
+#
+if [ ! -d "${prefix}/dev" ]; then
+    mkdir "${prefix}/dev"
+fi
+
+
+#
+#  Create the nodes
+#
+echo "  Creating random devices in /dev"
+if [ !  -e "${prefix}/dev/random" ]; then
+    mknod -m 666 "${prefix}/dev/random" c 1 8
+    chown root:root "${prefix}/dev/random"
+fi
+if [ !  -e "${prefix}/dev/urandom" ]; then
+    mknod -m 666 "${prefix}/dev/urandom" c 1 9
+    chown root:root "${prefix}/dev/urandom"
+fi
+</code></pre>
+
+<p>然后</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>chmod +x /usr/lib/rinse/common/30-dev-urandom.sh
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重新执行<code>xen-create-image</code>命令即可</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>xen-create-image --hostname<span class="o">=</span>yourHostName --ip<span class="o">=</span>yourIP --dist<span class="o">=</span>centos-6 --install-method<span class="o">=</span>rinse --force --arch<span class="o">=</span>amd64
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考文献</h3>
+
+<p>1.<a href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=685640">yum aborts with missing /dev/urandom at end of &#8220;rinse &#8211;arch amd64 &#8211;distribution centos-6&#8221;</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[MacOS X配置I2P匿名网络]]></title>

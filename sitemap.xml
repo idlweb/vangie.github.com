@@ -75,11 +75,17 @@
         <lastmod>2012-10-07T12:57:09+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://vangie.github.com/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/
+        </loc>
+        <lastmod>2012-10-09T16:05:57+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://vangie.github.com/blog/archives/</loc>
-        <lastmod>2012-10-07T12:57:09+08:00</lastmod>
+        <lastmod>2012-10-09T16:05:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://vangie.github.com/</loc>
-        <lastmod>2012-10-07T12:57:09+08:00</lastmod>
+        <lastmod>2012-10-09T16:05:57+08:00</lastmod>
     </url>
 </urlset>
