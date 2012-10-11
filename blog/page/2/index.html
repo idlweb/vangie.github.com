@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="Osgi和Maven都分别提供了依赖管理的机制，在Osgi世界可以被依赖的单元称之为Bundle(一种特殊格式的jar)，在Maven世界称之为POM。各自的领域中都是优雅的技术，但是当两者结合在一起，就不那么美好了。 tycho让plugin和maven结合在一起 &hellip;">
+  <meta name="description" content="linux下部署的jetty，隔大哥一周时间就会访问出错，或者出现web应用的目录列表。很长一段时间都被这个问题困扰着，由于是个演示系统，持续运行的要求不高，无奈配置了一个cron，定时重启。 最近发现原来linux下有一个叫做tmpwatch的命令，而且默认配置成了cron.daily。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,6 +110,51 @@ jQuery(document).ready(function() {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/">Jetty临时目录被tmpwatch定时任务删除</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-07T16:44:00+08:00" pubdate data-updated="true">Sep 7<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>linux下部署的jetty，隔大哥一周时间就会访问出错，或者出现web应用的目录列表。很长一段时间都被这个问题困扰着，由于是个演示系统，持续运行的要求不高，无奈配置了一个cron，定时重启。</p>
+
+<p>最近发现原来linux下有一个叫做<code>tmpwatch</code>的命令，而且默认配置成了<code>cron.daily</code>。每日执行一次。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -403,6 +448,10 @@ jQuery(document).ready(function() {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/">登录Shell和交互Shell的区别</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/">解决rinse安装CentOS 6报错找不到&#8217;/dev/urandom&#8217;的问题</a>
       </li>
     
@@ -416,10 +465,6 @@ jQuery(document).ready(function() {
     
       <li class="post">
         <a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/">NodeJs里将中文字符转换成拼音字母</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">几个瀑布流风格布局的jQuery插件</a>
       </li>
     
   </ul>

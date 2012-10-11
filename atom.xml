@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-10-09T16:06:17+08:00</updated>
+  <updated>2012-10-12T00:04:42+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[登录Shell和交互Shell的区别]]></title>
+    <link href="http://vangie.github.com/blog/2012/10/11/different-between-login-shell-and-interactive-shell/"/>
+    <updated>2012-10-11T14:47:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2012/10/11/different-between-login-shell-and-interactive-shell</id>
+    <content type="html"><![CDATA[<blockquote><p>遇到两个shell的概念：<code>交互式登录shell</code>和<code>交互式非登录shell</code>。要理解上面两个术语，先要理清两个概念<code>登录shell</code>和<code>交互shell</code></p></blockquote>
+
+<!-- more -->
+
+
+<h3>登录shell（Login shell）</h3>
+
+<p>从tty下登录（login）进去的shell称为<code>登录shell</code>,在已经登录的shell执行bash或者su命令启动的shell称为<code>非登录shell</code>（non-login shell）注意：通过命令<code>su -l [username]</code>可以进入<code>登录shell</code>，另外在图形界面（如Gnome）打开的命令行窗口（terminal）属于<code>非登录shell</code>。</p>
+
+<h5>配置文件</h5>
+
+<p>登录shell和非登录shell启动的时候会装载不同的配置文件。</p>
+
+<p>登录shell</p>
+
+<ul>
+<li><code>/etc/profile</code></li>
+<li><code>~/.bash_profile</code></li>
+<li><code>~/.profile</code></li>
+</ul>
+
+
+<p>非登录shell</p>
+
+<ul>
+<li><code>/etc/bashrc</code>或者<code>/etc/bash.bashrc</code></li>
+<li><code>~/.bash_rc</code></li>
+</ul>
+
+
+<h3>交互shell（Interactive Shell）</h3>
+
+<p>交互就是<code>REPL</code>（Read-Eval-Print-Loop）。通俗的说，就是你输入点什么，它执行，然后你查看输出结果，周而复始。我们通常使用的shell都是<code>交互shell</code>。而<code>非交互shell</code>常见的场景是执行bash脚本的时候<code>bash script.sh</code>。shell以一种静默的方式逐行连续执行脚本。</p>
+
+<p><code>登录shell</code>和<code>交互shell</code>是两个不同纬度的概念，所以组合就有所谓的<code>交互式登录shell</code>和<code>交互式非登录shell</code>。</p>
+
+<h5>如何退出交互shell</h5>
+
+<p>对于<code>非登录shell</code>执行<code>exit</code>命令，对于<code>登录shell</code>执行<code>logout</code>命令.</p>
+
+<h3>参考文献</h3>
+
+<ol>
+<li><a href="http://www.51testing.com/?uid-225738-action-viewspace-itemid-216858">交互式shell和非交互式shell、登录shell和非登录shell的区别</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[解决rinse安装CentOS 6报错找不到'/dev/urandom'的问题]]></title>

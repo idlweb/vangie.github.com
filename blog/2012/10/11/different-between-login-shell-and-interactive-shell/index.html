@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>几个瀑布流风格布局的jQuery插件 - Code Life</title>
+  <title>登录Shell和交互Shell的区别 - Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="Pinterest的瀑布流布局,让人眼睛一亮,看图的过程变得很享受.巧妙的改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过多页面加载缓慢的问题.国内的花瓣网,借鉴了瀑布流的设计,做得挺不错的. 找了几个瀑布流的插件 jQuery Masonry
-jQuery &hellip;">
+  <meta name="description" content="遇到两个shell的概念：交互式登录shell和交互式非登录shell。要理解上面两个术语，先要理清两个概念登录shell和交互shell 登录shell（Login shell） 从tty下登录（login）进去的shell称为登录shell, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ jQuery &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/">
+  <link rel="canonical" href="http://vangie.github.com/blog/2012/10/11/different-between-login-shell-and-interactive-shell/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -114,7 +113,7 @@ jQuery(document).ready(function() {
   
   <header>
     
-      <h1 class="entry-title">几个瀑布流风格布局的jQuery插件</h1>
+      <h1 class="entry-title">登录Shell和交互Shell的区别</h1>
     
     
       <p class="meta">
@@ -130,7 +129,7 @@ jQuery(document).ready(function() {
   
 
 
-<time datetime="2012-09-14T22:49:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
+<time datetime="2012-10-11T14:47:00+08:00" pubdate data-updated="true">Oct 11<span>th</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -139,25 +138,50 @@ jQuery(document).ready(function() {
   </header>
 
 
-<div class="entry-content"><p>Pinterest的瀑布流布局,让人眼睛一亮,看图的过程变得很享受.巧妙的改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过多页面加载缓慢的问题.国内的<a href="http://huaban.com/">花瓣网</a>,借鉴了瀑布流的设计,做得挺不错的.</p>
+<div class="entry-content"><blockquote><p>遇到两个shell的概念：<code>交互式登录shell</code>和<code>交互式非登录shell</code>。要理解上面两个术语，先要理清两个概念<code>登录shell</code>和<code>交互shell</code></p></blockquote>
 
 <!-- more -->
 
 
-<p>找了几个瀑布流的插件</p>
+<h3>登录shell（Login shell）</h3>
+
+<p>从tty下登录（login）进去的shell称为<code>登录shell</code>,在已经登录的shell执行bash或者su命令启动的shell称为<code>非登录shell</code>（non-login shell）注意：通过命令<code>su -l [username]</code>可以进入<code>登录shell</code>，另外在图形界面（如Gnome）打开的命令行窗口（terminal）属于<code>非登录shell</code>。</p>
+
+<h5>配置文件</h5>
+
+<p>登录shell和非登录shell启动的时候会装载不同的配置文件。</p>
+
+<p>登录shell</p>
 
 <ul>
-<li><a href="http://masonry.desandro.com/">jQuery Masonry</a></li>
-<li><a href="http://isotope.metafizzy.co/">jQuery Isotope</a></li>
-<li><a href="http://www.wookmark.com/jquery-plugin">The Wookmark jQuery plugin</a></li>
-<li><a href="http://imakewebthings.com/jquery-waypoints/">jQuery Waypoints plugin</a> 这款插件可以实现无线滚动条</li>
+<li><code>/etc/profile</code></li>
+<li><code>~/.bash_profile</code></li>
+<li><code>~/.profile</code></li>
 </ul>
 
 
-<h4>参考文献</h4>
+<p>非登录shell</p>
+
+<ul>
+<li><code>/etc/bashrc</code>或者<code>/etc/bash.bashrc</code></li>
+<li><code>~/.bash_rc</code></li>
+</ul>
+
+
+<h3>交互shell（Interactive Shell）</h3>
+
+<p>交互就是<code>REPL</code>（Read-Eval-Print-Loop）。通俗的说，就是你输入点什么，它执行，然后你查看输出结果，周而复始。我们通常使用的shell都是<code>交互shell</code>。而<code>非交互shell</code>常见的场景是执行bash脚本的时候<code>bash script.sh</code>。shell以一种静默的方式逐行连续执行脚本。</p>
+
+<p><code>登录shell</code>和<code>交互shell</code>是两个不同纬度的概念，所以组合就有所谓的<code>交互式登录shell</code>和<code>交互式非登录shell</code>。</p>
+
+<h5>如何退出交互shell</h5>
+
+<p>对于<code>非登录shell</code>执行<code>exit</code>命令，对于<code>登录shell</code>执行<code>logout</code>命令.</p>
+
+<h3>参考文献</h3>
 
 <ol>
-<li><a href="http://ericbae.com/2012/01/30/implement-a-pinterest-like-layout/">Implement a Pinterest-like layout!</a></li>
+<li><a href="http://www.51testing.com/?uid-225738-action-viewspace-itemid-216858">交互式shell和非交互式shell、登录shell和非登录shell的区别</a></li>
 </ol>
 
 </div>
@@ -182,7 +206,7 @@ jQuery(document).ready(function() {
   
 
 
-<time datetime="2012-09-14T22:49:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
+<time datetime="2012-10-11T14:47:00+08:00" pubdate data-updated="true">Oct 11<span>th</span>, 2012</time>
       
 
 
@@ -190,7 +214,7 @@ jQuery(document).ready(function() {
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/" data-via="" data-counturl="http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/10/11/different-between-login-shell-and-interactive-shell/" data-via="" data-counturl="http://vangie.github.com/blog/2012/10/11/different-between-login-shell-and-interactive-shell/" >Tweet</a>
   
   
   
@@ -199,10 +223,8 @@ jQuery(document).ready(function() {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/09/13/calculate-max-difference-color/" title="Previous Post: 求最大色差颜色">&laquo; 求最大色差颜色</a>
+        <a class="basic-alignment left" href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/" title="Previous Post: 解决rinse安装CentOS 6报错找不到'/dev/urandom'的问题">&laquo; 解决rinse安装CentOS 6报错找不到'/dev/urandom'的问题</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/" title="Next Post: NodeJs里将中文字符转换成拼音字母">NodeJs里将中文字符转换成拼音字母 &raquo;</a>
       
     </p>
   </footer>
@@ -298,8 +320,8 @@ jQuery(document).ready(function() {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/';
-        var disqus_url = 'http://vangie.github.com/blog/2012/09/14/pinterest-like-layout-by-jquery/';
+        var disqus_identifier = 'http://vangie.github.com/blog/2012/10/11/different-between-login-shell-and-interactive-shell/';
+        var disqus_url = 'http://vangie.github.com/blog/2012/10/11/different-between-login-shell-and-interactive-shell/';
         var disqus_script = 'embed.js';
       
     (function () {
