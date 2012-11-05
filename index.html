@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="遇到两个shell的概念：交互式登录shell和交互式非登录shell。要理解上面两个术语，先要理清两个概念登录shell和交互shell ">
+  <meta name="description" content="Jackson数据绑定可以很方便的将java的对象类型和json数据格式之间进行转换。对于有多个子类型的多态集成结构的对象，Jackson在序列化的时候加入一些类型信息，可以在反序列化的时候准确的还原某个类型的子类。 想要把JSON数据准确的反序列化为正确的子类型， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,6 +110,51 @@ jQuery(document).ready(function() {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/03/jackson-polymorphic-deserialization/">Jackson多态类型数据绑定</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-03T14:28:00+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/03/jackson-polymorphic-deserialization/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>Jackson数据绑定可以很方便的将java的对象类型和json数据格式之间进行转换。对于有多个子类型的多态集成结构的对象，Jackson在序列化的时候加入一些类型信息，可以在反序列化的时候准确的还原某个类型的子类。</p></blockquote>
+
+<p>想要把JSON数据准确的反序列化为正确的子类型，简单的方法就是在数据中存储数据的类型。但是Jackson序列化时默认不会将对象的类型信息保存到Json数据中。有两种方式开始使Jackson序列化类型信息</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/03/jackson-polymorphic-deserialization/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -534,55 +579,6 @@ jQuery(document).ready(function() {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">《HTTP权威指南》读书笔记</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-08T12:45:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>一直在做web开发，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。</p></blockquote>
-
-<h1>第一章 HTTP概述</h1>
-
-<h2>MIME</h2>
-
-<p>媒体类型<code>MIME</code>（Multipurpose Internet Mail Extension）最初设计是为了解决不同的电子邮件系统之间搬移报文时存在的问题。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -598,6 +594,10 @@ jQuery(document).ready(function() {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/11/03/jackson-polymorphic-deserialization/">Jackson多态类型数据绑定</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/">登录Shell和交互Shell的区别</a>
       </li>
     
@@ -611,10 +611,6 @@ jQuery(document).ready(function() {
     
       <li class="post">
         <a href="/blog/2012/09/20/create-warkmarked-picture-using-node-js/">NodeJs里给图片添加水印</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/">NodeJs里将中文字符转换成拼音字母</a>
       </li>
     
   </ul>

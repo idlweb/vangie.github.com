@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Jackson多态类型数据绑定 - Code Life</title>
+  <meta name="author" content="Vangie Du">
+
+  
+  <meta name="description" content="Jackson数据绑定可以很方便的将java的对象类型和json数据格式之间进行转换。对于有多个子类型的多态集成结构的对象，Jackson在序列化的时候加入一些类型信息，可以在反序列化的时候准确的还原某个类型的子类。 想要把JSON数据准确的反序列化为正确的子类型， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://vangie.github.com/blog/2012/11/03/jackson-polymorphic-deserialization/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Metamorphous' rel='stylesheet' type='text/css'>
+
+<!--Table of Contents-->
+<script src="/javascripts/jquery-1.8.1.min.js" type="text/javascript"></script>
+<script src="/javascripts/jquery.tableofcontents.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+  // Revert jQuery's '$' alias, to avoid clashes with ender.js. NOTE: Use
+  // jQuery(...), instead of $(...) from here on.
+  jQuery.noConflict();
+</script>
+<script src="/javascripts/generate-toc.js" type="text/javascript"></script>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    jQuery("body").css("display", "none").fadeIn(300);
+ 
+    jQuery("a").click(function(event){
+    	var href = this.href;
+    	if(href){
+	    	event.preventDefault();
+	        jQuery("body").fadeOut(300, function(){
+		        window.location = href;
+	        });      
+    	}
+    });
+});
+</script>
+
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34493191-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1>
+	  <a href="/" title="Code Life">
+	  	
+	  		<img src="/images/logo.png" alt="Code Life" border="0"/>
+	  	
+	  </a>
+  </h1>
+  
+    <h2>Succinctness is Power</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:vangie.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Jackson多态类型数据绑定</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-03T14:28:00+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p>Jackson数据绑定可以很方便的将java的对象类型和json数据格式之间进行转换。对于有多个子类型的多态集成结构的对象，Jackson在序列化的时候加入一些类型信息，可以在反序列化的时候准确的还原某个类型的子类。</p></blockquote>
+
+<p>想要把JSON数据准确的反序列化为正确的子类型，简单的方法就是在数据中存储数据的类型。但是Jackson序列化时默认不会将对象的类型信息保存到Json数据中。有两种方式开始使Jackson序列化类型信息</p>
+
+<!-- more -->
+
+
+<h3>方式一：全局Default Typing机制</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">objectMapper</span><span class="o">.</span><span class="na">enableDefaultTyping</span><span class="o">();</span> <span class="c1">// default to using DefaultTyping.OBJECT_AND_NON_CONCRETE</span>
+</span><span class='line'><span class="n">objectMapper</span><span class="o">.</span><span class="na">enableDefaultTyping</span><span class="o">(</span><span class="n">ObjectMapper</span><span class="o">.</span><span class="na">DefaultTyping</span><span class="o">.</span><span class="na">NON_FINAL</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>DefaultTyping有四个选项</p>
+
+<ul>
+<li><strong>JAVA_LANG_OBJECT</strong>: 当对象属性类型为Object时生效</li>
+<li><strong>OBJECT_AND_NON_CONCRETE</strong>: 当对象属性类型为Object或者非具体类型（抽象类和接口）时生效</li>
+<li><strong>NON_CONCRETE_AND+_ARRAYS</strong>: 同上, 另外所有的数组元素的类型都是非具体类型或者对象类型</li>
+<li><strong>NON_FINAL</strong>: 对所有非final类型或者非final类型元素的数组</li>
+</ul>
+
+
+<p>开启DefaultTyping，并且让所有的非final类型对象持久化时都存储类型信息显然能准确的反序列多态类型的数据。</p>
+
+<h3>方式二： 为Class添加@JsonTypeInfo</h3>
+
+<p>先来看看<code>objectMapper.enableDefaultTyping()</code>的源码。</p>
+
+<pre><code>/**
+ * Convenience method that is equivalent to calling
+ *&lt;pre&gt;
+ *  enableObjectTyping(DefaultTyping.OBJECT_AND_NON_CONCRETE);
+ *&lt;/pre&gt;
+ */
+public ObjectMapper enableDefaultTyping() {
+    return enableDefaultTyping(DefaultTyping.OBJECT_AND_NON_CONCRETE);
+}
+
+/**
+ * Convenience method that is equivalent to calling
+ *&lt;pre&gt;
+ *  enableObjectTyping(dti, JsonTypeInfo.As.WRAPPER_ARRAY);
+ *&lt;/pre&gt;
+ */
+public ObjectMapper enableDefaultTyping(DefaultTyping dti) {
+    return enableDefaultTyping(dti, JsonTypeInfo.As.WRAPPER_ARRAY);
+}
+</code></pre>
+
+<p>该方法内部调用涉及到了<code>JsonTypeInfo.As.WRAPPER_ARRAY</code>。下面我们来看看如何使用@JsonTypeInfo这个注释来更精细的定制序列化的JSON文件格式。</p>
+
+<pre><code>@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
+class Animal { } 
+</code></pre>
+
+<p>在超类Animal上加上一段@JsonTypeInfo，所有Animal的子类反序列化都可以准确的对于子类型。
+我们来解释一下这段注释的意思：</p>
+
+<ul>
+<li><code>use=JsonTypeInfo.Id.CLASS</code>:使用类的完全限定名作为唯一识别</li>
+<li><code>include=JsonTypeInfo.As.PROPERTY</code>:将这个唯一识别的字段保存为属性值</li>
+<li><code>property="@class"</code>该属性值的名称为@class</li>
+<li><code>@JsonTypeResolver</code>和<code>@JsonTypeIdResolver</code>取默认值时可以省略</li>
+<li>加上了该注释的类型和子类型都会生效</li>
+</ul>
+
+
+<p>use的几个可选值</p>
+
+<ul>
+<li>CLASS 完全限定名</li>
+<li>MINIMAL_CLASS 类名，若基类和子类在同一包类，会省略包名</li>
+<li>NAME 逻辑名，需要单独定义名称与类的对应关系</li>
+<li>CUSTOM 由@JsonTypeIdResolver对应</li>
+</ul>
+
+
+<p>include的几个选值</p>
+
+<ul>
+<li>PROPERTY 将属性包含在对象成员属性里</li>
+<li>WRAPPER_OBJECT 属性作为键，序列化的对象作为值</li>
+<li>WRAPPER_ARRAY 第一个元素是类型ID，第二原始是序列化的对象</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>  <span class="c1">// Type name as a property, same as above</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>    <span class="s">&quot;@type&quot;</span> <span class="o">:</span> <span class="s">&quot;Employee&quot;</span><span class="o">,</span>
+</span><span class='line'>     <span class="o">...</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Wrapping class name as pseudo-property (similar to JAXB)</span>
+</span><span class='line'>  <span class="o">{</span>
+</span><span class='line'>    <span class="s">&quot;com.fasterxml.beans.EmployeeImpl&quot;</span> <span class="o">:</span> <span class="o">{</span>
+</span><span class='line'>       <span class="o">...</span> <span class="c1">// actual instance data without any metadata properties</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Wrapping class name as first element of wrapper array:</span>
+</span><span class='line'>  <span class="o">[</span>
+</span><span class='line'>    <span class="s">&quot;com.fasterxml.beans.EmployeeImpl&quot;</span><span class="o">,</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>       <span class="o">...</span> <span class="c1">// actual instance data without any metadata properties</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考文献</h3>
+
+<ol>
+<li><a href="http://wiki.fasterxml.com/JacksonPolymorphicDeserialization">JacksonPolymorphicDeserialization</a></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Vangie Du</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-03T14:28:00+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/11/03/jackson-polymorphic-deserialization/" data-via="" data-counturl="http://vangie.github.com/blog/2012/11/03/jackson-polymorphic-deserialization/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/" title="Previous Post: 登录Shell和交互Shell的区别">&laquo; 登录Shell和交互Shell的区别</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/03/jackson-polymorphic-deserialization/">Jackson多态类型数据绑定</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/">登录Shell和交互Shell的区别</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/">解决rinse安装CentOS 6报错找不到'/dev/urandom'的问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/07/config-i2p-router-in-macos-x/">MacOS X配置I2P匿名网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/20/create-warkmarked-picture-using-node-js/">NodeJs里给图片添加水印</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/vangie">@vangie</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'vangie',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Vangie Du -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2012/11/03/jackson-polymorphic-deserialization/';
+        var disqus_url = 'http://vangie.github.com/blog/2012/11/03/jackson-polymorphic-deserialization/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
