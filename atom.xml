@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-11-07T15:14:52+08:00</updated>
+  <updated>2012-11-07T22:48:30+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,78 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac下安装Gate One]]></title>
+    <link href="http://vangie.github.com/blog/2012/11/07/install-gateone-on-mac-osx/"/>
+    <updated>2012-11-07T22:07:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2012/11/07/install-gateone-on-mac-osx</id>
+    <content type="html"><![CDATA[<blockquote><p>HTML5终端模拟器/SSH客户端<a href="http://liftoffsoftware.com/Products/GateOne">Gate One</a>发布了<a href="https://github.com/liftoff/GateOne/downloads">v1.1版</a>。主要新特性包括：安全增强，性能改进，移动浏览器支持，改进终端模拟，系统日志信息的自动语法高亮，捕捉以及以图像形式展示PDF，Python 3支持，IE10支持，等等。官方DEMO演示显示你可以在浏览器上尝试vim，玩终端游戏，在lynx中冲浪，等等。</p></blockquote>
+
+<p>官方给出了RPM，DEB安装包唯独没有mac下的安装包，由于该项目太新，也就不指望homebrew安装了，只能选择从源码安装。</p>
+
+<!-- more -->
+
+
+<h3>准备</h3>
+
+<p>根据<a href="http://liftoff.github.com/GateOne/About/index.html#installation">官方的安装指南</a>,安装前置需求软件：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">软件               </th>
+<th align="right"> 版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Python               </td>
+<td align="right"> 2.6+ 或者 3.2+</td>
+</tr>
+<tr>
+<td align="left">Tornado Framework    </td>
+<td align="right"> 2.2+  </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>终端执行如下命令验证</p>
+
+<pre><code>user@modern-host:~ $ python -V 
+Python 2.7.2+ 
+user@modern-host:~ $ python -c "import tornado;print(tornado.version)" 
+2.4 
+</code></pre>
+
+<p>若tornado没有安装，执行如下命令安装</p>
+
+<pre><code>user@modern-host:~ $ sudo pip install tornado kerberos
+</code></pre>
+
+<h3>安装</h3>
+
+<p>执行如下命令即可完成安装，安装目录位于/opt/gateone</p>
+
+<pre><code>user@whatever:~ $ tar zxvf gateone*.tar.gz; cd GateOne*; sudo python setup.py install
+</code></pre>
+
+<p>由于gateone依赖dtach和PIL，如果没有安装这两个东西，启动的时候会提示某些功能会失效</p>
+
+<pre><code>$ brew install dtach
+$ sudo pip install PIL
+</code></pre>
+
+<h3>启动</h3>
+
+<pre><code>$ cd /opt/gateone
+$ sudo ./gateone.py
+</code></pre>
+
+<p>在chrome浏览器打开https://127.0.0.1即可。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[通过IP地址获得windows机制主机名]]></title>

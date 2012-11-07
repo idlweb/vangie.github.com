@@ -9,7 +9,8 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="表单的输入校验通常会使用onBlur事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的onBlur事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是onChange事件了，但是onChange事件在onBlur事件之后触发， &hellip;">
+  <meta name="description" content="何为HTTP基本认证(HTTP Basic Auth) 在HTTP中，基本认证是一种用来允许Web浏览器，或其他客户端程序在请求时提供以用户名和口令形式的凭证。
+通常我们通过浏览器去访问一个SVN代码库，浏览器会弹出一个窗口，要求输入用户名和密码。一般SVN的的Web服务端采用Apache服务器， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,6 +111,52 @@ jQuery(document).ready(function() {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/13/http-basic-auth-in-nodejs/">NodeJs里实现HTTP基本认证</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-13T00:58:00+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/09/13/http-basic-auth-in-nodejs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>何为HTTP基本认证(HTTP Basic Auth)</h2>
+
+<p>在HTTP中，基本认证是一种用来允许Web浏览器，或其他客户端程序在请求时提供以用户名和口令形式的凭证。
+通常我们通过浏览器去访问一个SVN代码库，浏览器会弹出一个窗口，要求输入用户名和密码。一般SVN的的Web服务端采用Apache服务器，因为Apache实现了WebDAV协议，支持HTTP协议管理SVN库。Apache里HTTP基本认证的功能是通过<a href="http://httpd.apache.org/docs/2.2/mod/mod_auth_basic.html" title="Apache Module mod_auth_basic">mod_auth_basic</a>模块实现的。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/13/http-basic-auth-in-nodejs/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -540,6 +587,10 @@ jQuery(document).ready(function() {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/11/07/install-gateone-on-mac-osx/">Mac下安装Gate One</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/11/06/get-the-hostname-of-a-windows-machine-by-ip-address/">通过IP地址获得windows机制主机名</a>
       </li>
     
@@ -553,10 +604,6 @@ jQuery(document).ready(function() {
     
       <li class="post">
         <a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/">解决rinse安装CentOS 6报错找不到&#8217;/dev/urandom&#8217;的问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/10/07/config-i2p-router-in-macos-x/">MacOS X配置I2P匿名网络</a>
       </li>
     
   </ul>

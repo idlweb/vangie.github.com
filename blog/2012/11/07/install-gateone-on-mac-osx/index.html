@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>MacOS X终端里SSH会话管理 - Code Life</title>
+  <title>Mac下安装Gate One - Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。 虽然windows没有对SSH的原生支持，但是XShell和Putty都挺好用的。 &hellip;">
+  <meta name="description" content="HTML5终端模拟器/SSH客户端Gate One发布了v1.1版。主要新特性包括：安全增强，性能改进，移动浏览器支持，改进终端模拟，系统日志信息的自动语法高亮，捕捉以及以图像形式展示PDF，Python 3支持，IE10支持，等等。官方DEMO演示显示你可以在浏览器上尝试vim，玩终端游戏， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/">
+  <link rel="canonical" href="http://vangie.github.com/blog/2012/11/07/install-gateone-on-mac-osx/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -113,7 +113,7 @@ jQuery(document).ready(function() {
   
   <header>
     
-      <h1 class="entry-title">MacOS X终端里SSH会话管理</h1>
+      <h1 class="entry-title">Mac下安装Gate One</h1>
     
     
       <p class="meta">
@@ -129,7 +129,7 @@ jQuery(document).ready(function() {
   
 
 
-<time datetime="2012-09-01T23:31:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2012</time>
+<time datetime="2012-11-07T22:07:00+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -138,93 +138,70 @@ jQuery(document).ready(function() {
   </header>
 
 
-<div class="entry-content"><blockquote><p>本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
+<div class="entry-content"><blockquote><p>HTML5终端模拟器/SSH客户端<a href="http://liftoffsoftware.com/Products/GateOne">Gate One</a>发布了<a href="https://github.com/liftoff/GateOne/downloads">v1.1版</a>。主要新特性包括：安全增强，性能改进，移动浏览器支持，改进终端模拟，系统日志信息的自动语法高亮，捕捉以及以图像形式展示PDF，Python 3支持，IE10支持，等等。官方DEMO演示显示你可以在浏览器上尝试vim，玩终端游戏，在lynx中冲浪，等等。</p></blockquote>
 
-<p>虽然windows没有对SSH的原生支持，但是<a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a>和<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能。</p>
+<p>官方给出了RPM，DEB安装包唯独没有mac下的安装包，由于该项目太新，也就不指望homebrew安装了，只能选择从源码安装。</p>
 
 <!-- more -->
 
 
-<p>在Mac平台没有找到合适的与<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>功能类似的软件。可能由于*nix系的操作系统对SSH原生支持，开发者也就没有兴趣去折腾桌面软件，当然也可能是有好的，只是没有找到。</p>
+<h3>准备</h3>
 
-<p>在Terminal里使用SSH便捷登录需要解决三个问题</p>
+<p>根据<a href="http://liftoff.github.com/GateOne/About/index.html#installation">官方的安装指南</a>,安装前置需求软件：</p>
 
-<ul>
-<li>免密码</li>
-<li>别名快捷登录</li>
-<li>自动补全</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th align="left">软件               </th>
+<th align="right"> 版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">Python               </td>
+<td align="right"> 2.6+ 或者 3.2+</td>
+</tr>
+<tr>
+<td align="left">Tornado Framework    </td>
+<td align="right"> 2.2+  </td>
+</tr>
+</tbody>
+</table>
 
 
-<h2>免密码</h2>
+<p>终端执行如下命令验证</p>
 
-<p>SSH有两种验证方式：密码和非对称密钥。虽然相比密码来说，非对称密钥的安全性会低一些<em>（某用户拥有你本地root权限，可能就可以操作你的远程服务器，当然密钥本身也设置有密码）</em>，但是这种与系统绑定的信任机制给无人值守的远程拷贝和系统备份提高了便利。</p>
-
-<p>配置步骤如下：</p>
-
-<ol>
-<li><p><strong>创建密钥对</strong></p>
-
-<p>开启终端并执行</p>
-
-<pre><code>ssh-keygen -t rsa
+<pre><code>user@modern-host:~ $ python -V 
+Python 2.7.2+ 
+user@modern-host:~ $ python -c "import tornado;print(tornado.version)" 
+2.4 
 </code></pre>
 
-<p>依照提示完成即可，然后将<code>id_rsa</code>和<code>id_rsa.pub</code>文件拷贝到<code>~/.ssh/</code>目录。</p></li>
-<li><p><strong>拷贝公钥到远程服务器</strong></p>
+<p>若tornado没有安装，执行如下命令安装</p>
 
-<p>需要将公钥<code>id_rsa.pub</code>的内容拷贝到远程服务器<code>~/.ssh/authorized_keys</code>文件里。该文件里可能不存在，需要新建。若该文件已经存在，里面可能有其他用户添加的公钥，所以需要将公钥<code>id_rsa.pub</code>的内容追加在文件尾部(独立成行)，而不是覆盖该文件.</p>
-
-<ul>
-<li><p>若<code>authorized_keys</code>已存在</p>
-
-<pre><code>cat ~/.ssh/id_rsa.pub | ssh username@example.com "cat - &gt;&gt; ~/.ssh/authorized_keys"      
-</code></pre></li>
-<li><p>若<code>authorized_keys</code>不存在</p>
-
-<pre><code>scp ~/.ssh/id_rsa.pub username@example.com:~/.ssh/authorized_keys
-</code></pre></li>
-</ul>
-</li>
-<li><p>[可选] <strong>提高系统安全性</strong></p>
-
-<pre><code> chmod 0600 ~/.ssh/authorized_keys
-</code></pre></li>
-</ol>
-
-
-<h2>别名快捷登录</h2>
-
-<p>SSH可以在<code>/etc/ssh_config</code>或者<code>~/.ssh/config</code>文件里给远程连接主机配置别名。相当与Putty里的会话管理。</p>
-
-<p>在<code>~/.ssh/config</code>里添加如下配置</p>
-
-<pre><code>Host dv
-    HostName example.com
-    User domainuser
+<pre><code>user@modern-host:~ $ sudo pip install tornado kerberos
 </code></pre>
 
-<p>然后在终端里执行<code>ssh dv</code>，就相当于<code>ssh domainuser@example.com</code></p>
+<h3>安装</h3>
 
-<p>至此，已经可以在命令行里实现类似<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>里免密码快捷登录了。但是随着<code>~/.ssh/config</code>里服务器别名项的增多，或者某些服务器长期不用，别名记不起来了。当然使用<code>cat</code>和<code>grep</code>命令可以轻松搞定。如果<code>ssh</code>命令能如<code>ls</code>命令有自动补全就好了。这个真可以有。</p>
+<p>执行如下命令即可完成安装，安装目录位于/opt/gateone</p>
 
-<h2>自动补全</h2>
-
-<p>往<code>~/.bash_profile</code>文件末尾追加如下行</p>
-
-<pre><code>complete -W "$(echo `cat ~/.ssh/config | grep 'Host '| cut -f 2 -d ' '|uniq`;)" ssh
+<pre><code>user@whatever:~ $ tar zxvf gateone*.tar.gz; cd GateOne*; sudo python setup.py install
 </code></pre>
 
-<p>重启终端，<code>ssh + TAB</code>是不是很酷。</p>
+<p>由于gateone依赖dtach和PIL，如果没有安装这两个东西，启动的时候会提示某些功能会失效</p>
 
-<h4>参考文献</h4>
+<pre><code>$ brew install dtach
+$ sudo pip install PIL
+</code></pre>
 
-<ol>
-<li><a href="http://smbjorklund.no/ssh-login-without-password-using-os-x">SSH login without password using OS X</a></li>
-<li><a href="http://ccn.ucla.edu/wiki/index.php/Creating_SSH_Shortcuts_Using_SSH_Config">Creating SSH Shortcuts Using SSH Config</a></li>
-<li><a href="http://www.commandlinefu.com/commands/view/2759/ssh-autocomplete">ssh autocomplete</a></li>
-</ol>
+<h3>启动</h3>
 
+<pre><code>$ cd /opt/gateone
+$ sudo ./gateone.py
+</code></pre>
+
+<p>在chrome浏览器打开https://127.0.0.1即可。</p>
 </div>
 
 
@@ -247,7 +224,7 @@ jQuery(document).ready(function() {
   
 
 
-<time datetime="2012-09-01T23:31:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2012</time>
+<time datetime="2012-11-07T22:07:00+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2012</time>
       
 
 
@@ -255,7 +232,7 @@ jQuery(document).ready(function() {
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/" data-via="" data-counturl="http://vangie.github.com/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/11/07/install-gateone-on-mac-osx/" data-via="" data-counturl="http://vangie.github.com/blog/2012/11/07/install-gateone-on-mac-osx/" >Tweet</a>
   
   
   
@@ -264,8 +241,8 @@ jQuery(document).ready(function() {
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2012/11/06/get-the-hostname-of-a-windows-machine-by-ip-address/" title="Previous Post: 通过IP地址获得windows机制主机名">&laquo; 通过IP地址获得windows机制主机名</a>
       
-        <a class="basic-alignment right" href="/blog/2012/09/02/how-to-set-proxy-for-terminal/" title="Next Post: 如何为MacOS X终端设置代理">如何为MacOS X终端设置代理 &raquo;</a>
       
     </p>
   </footer>
@@ -361,8 +338,8 @@ jQuery(document).ready(function() {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/';
-        var disqus_url = 'http://vangie.github.com/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/';
+        var disqus_identifier = 'http://vangie.github.com/blog/2012/11/07/install-gateone-on-mac-osx/';
+        var disqus_url = 'http://vangie.github.com/blog/2012/11/07/install-gateone-on-mac-osx/';
         var disqus_script = 'embed.js';
       
     (function () {
