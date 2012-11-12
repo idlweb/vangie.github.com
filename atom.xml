@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-11-07T22:48:30+08:00</updated>
+  <updated>2012-11-12T11:44:19+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mountain Lion系统安装GNU Grep]]></title>
+    <link href="http://vangie.github.com/blog/2012/11/12/install-gnu-grep-in-mountain-lion/"/>
+    <updated>2012-11-12T11:32:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2012/11/12/install-gnu-grep-in-mountain-lion</id>
+    <content type="html"><![CDATA[<blockquote><p><a href="http://news.ycombinator.com/item?id=4588304">由于License的问题</a>，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&#8211;per-regex）选项，缺少了对Perl正则表达式的支持。</p></blockquote>
+
+<p>可以通过使用homebrew自己安装GNU Grep以兼容包含-P参数的bash脚本。</p>
+
+<pre><code>$ brew tap homebrew/dupes/
+$ brew install homebrew/dupes/grep
+</code></pre>
+
+<p>记得在PATH里确保/usr/local/bin在/usr/bin前面，并重启终端。</p>
+
+<!-- more -->
+
+
+<h4>参考文献</h4>
+
+<ol>
+<li><a href="http://superuser.com/questions/419467/grep-in-mac-os-xs-terminal-only-displaying-one-color">Grep in Mac OS X&#8217;s terminal — only displaying one color</a></li>
+<li><a href="http://www.dirtdon.com/?p=1452">Perl Regex Removed From Grep in Mountain Lion</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac下安装Gate One]]></title>
@@ -1745,101 +1773,6 @@ $ unset https_proxy
 <ol>
 <li><a href="http://www.webupd8.org/2010/10/how-to-set-proxy-for-terminal-quick.html">HOW TO SET A PROXY FOR THE TERMINAL [QUICK LINUX TIP]</a></li>
 <li><a href="https://whatbox.ca/wiki/tsocks">tsocks</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MacOS X终端里SSH会话管理]]></title>
-    <link href="http://vangie.github.com/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/"/>
-    <updated>2012-09-01T23:31:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x</id>
-    <content type="html"><![CDATA[<blockquote><p>本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
-
-<p>虽然windows没有对SSH的原生支持，但是<a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a>和<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能。</p>
-
-<!-- more -->
-
-
-<p>在Mac平台没有找到合适的与<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>功能类似的软件。可能由于*nix系的操作系统对SSH原生支持，开发者也就没有兴趣去折腾桌面软件，当然也可能是有好的，只是没有找到。</p>
-
-<p>在Terminal里使用SSH便捷登录需要解决三个问题</p>
-
-<ul>
-<li>免密码</li>
-<li>别名快捷登录</li>
-<li>自动补全</li>
-</ul>
-
-
-<h2>免密码</h2>
-
-<p>SSH有两种验证方式：密码和非对称密钥。虽然相比密码来说，非对称密钥的安全性会低一些<em>（某用户拥有你本地root权限，可能就可以操作你的远程服务器，当然密钥本身也设置有密码）</em>，但是这种与系统绑定的信任机制给无人值守的远程拷贝和系统备份提高了便利。</p>
-
-<p>配置步骤如下：</p>
-
-<ol>
-<li><p><strong>创建密钥对</strong></p>
-
-<p>开启终端并执行</p>
-
-<pre><code>ssh-keygen -t rsa
-</code></pre>
-
-<p>依照提示完成即可，然后将<code>id_rsa</code>和<code>id_rsa.pub</code>文件拷贝到<code>~/.ssh/</code>目录。</p></li>
-<li><p><strong>拷贝公钥到远程服务器</strong></p>
-
-<p>需要将公钥<code>id_rsa.pub</code>的内容拷贝到远程服务器<code>~/.ssh/authorized_keys</code>文件里。该文件里可能不存在，需要新建。若该文件已经存在，里面可能有其他用户添加的公钥，所以需要将公钥<code>id_rsa.pub</code>的内容追加在文件尾部(独立成行)，而不是覆盖该文件.</p>
-
-<ul>
-<li><p>若<code>authorized_keys</code>已存在</p>
-
-<pre><code>cat ~/.ssh/id_rsa.pub | ssh username@example.com "cat - &gt;&gt; ~/.ssh/authorized_keys"      
-</code></pre></li>
-<li><p>若<code>authorized_keys</code>不存在</p>
-
-<pre><code>scp ~/.ssh/id_rsa.pub username@example.com:~/.ssh/authorized_keys
-</code></pre></li>
-</ul>
-</li>
-<li><p>[可选] <strong>提高系统安全性</strong></p>
-
-<pre><code> chmod 0600 ~/.ssh/authorized_keys
-</code></pre></li>
-</ol>
-
-
-<h2>别名快捷登录</h2>
-
-<p>SSH可以在<code>/etc/ssh_config</code>或者<code>~/.ssh/config</code>文件里给远程连接主机配置别名。相当与Putty里的会话管理。</p>
-
-<p>在<code>~/.ssh/config</code>里添加如下配置</p>
-
-<pre><code>Host dv
-    HostName example.com
-    User domainuser
-</code></pre>
-
-<p>然后在终端里执行<code>ssh dv</code>，就相当于<code>ssh domainuser@example.com</code></p>
-
-<p>至此，已经可以在命令行里实现类似<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>里免密码快捷登录了。但是随着<code>~/.ssh/config</code>里服务器别名项的增多，或者某些服务器长期不用，别名记不起来了。当然使用<code>cat</code>和<code>grep</code>命令可以轻松搞定。如果<code>ssh</code>命令能如<code>ls</code>命令有自动补全就好了。这个真可以有。</p>
-
-<h2>自动补全</h2>
-
-<p>往<code>~/.bash_profile</code>文件末尾追加如下行</p>
-
-<pre><code>complete -W "$(echo `cat ~/.ssh/config | grep 'Host '| cut -f 2 -d ' '|uniq`;)" ssh
-</code></pre>
-
-<p>重启终端，<code>ssh + TAB</code>是不是很酷。</p>
-
-<h4>参考文献</h4>
-
-<ol>
-<li><a href="http://smbjorklund.no/ssh-login-without-password-using-os-x">SSH login without password using OS X</a></li>
-<li><a href="http://ccn.ucla.edu/wiki/index.php/Creating_SSH_Shortcuts_Using_SSH_Config">Creating SSH Shortcuts Using SSH Config</a></li>
-<li><a href="http://www.commandlinefu.com/commands/view/2759/ssh-autocomplete">ssh autocomplete</a></li>
 </ol>
 
 ]]></content>

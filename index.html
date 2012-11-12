@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="HTML5终端模拟器/SSH客户端Gate One发布了v1.1版。主要新特性包括：安全增强，性能改进，移动浏览器支持，改进终端模拟，系统日志信息的自动语法高亮，捕捉以及以图像形式展示PDF，Python 3支持，IE10支持，等等。官方DEMO演示显示你可以在浏览器上尝试vim，玩终端游戏， &hellip;">
+  <meta name="description" content="由于License的问题，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&#8211;per-regex）选项，缺少了对Perl正则表达式的支持。 可以通过使用homebrew自己安装GNU Grep以兼容包含- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,6 +110,57 @@ jQuery(document).ready(function() {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/">Mountain Lion系统安装GNU Grep</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-12T11:32:00+08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p><a href="http://news.ycombinator.com/item?id=4588304">由于License的问题</a>，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&#8211;per-regex）选项，缺少了对Perl正则表达式的支持。</p></blockquote>
+
+<p>可以通过使用homebrew自己安装GNU Grep以兼容包含-P参数的bash脚本。</p>
+
+<pre><code>$ brew tap homebrew/dupes/
+$ brew install homebrew/dupes/grep
+</code></pre>
+
+<p>记得在PATH里确保/usr/local/bin在/usr/bin前面，并重启终端。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -530,64 +581,6 @@ jQuery(document).ready(function() {
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/13/calculate-max-difference-color/">求最大色差颜色</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-13T22:51:00+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/09/13/calculate-max-difference-color/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>对于一个给定的前景色，如何找到一个与之色差较大的背景色，使之醒目？</p></blockquote>
-
-<h3>反色</h3>
-
-<p>对颜色值取反，比较简单的方法：<code>0xFFFFFF - $color</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="o">//</span> <span class="nx">coffeescript</span>
-</span><span class='line'><span class="nv">invert = </span><span class="nf">(color) -&gt;</span>
-</span><span class='line'>  <span class="s">&quot;</span><span class="err">#</span><span class="s">&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;000000&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="mh">0xFFFFFF</span> <span class="o">^</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">16</span><span class="p">)).</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)).</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但是当<code>$color = 0x808080</code>时,<code>$color ≈ 0xFFFFFF - $color</code>前景色和背景色非常接近，显然取反的方法有瑕疵。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/13/calculate-max-difference-color/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -603,6 +596,10 @@ jQuery(document).ready(function() {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/">Mountain Lion系统安装GNU Grep</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/11/07/install-gateone-on-mac-osx/">Mac下安装Gate One</a>
       </li>
     
@@ -616,10 +613,6 @@ jQuery(document).ready(function() {
     
       <li class="post">
         <a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/">登录Shell和交互Shell的区别</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/">解决rinse安装CentOS 6报错找不到&#8217;/dev/urandom&#8217;的问题</a>
       </li>
     
   </ul>
