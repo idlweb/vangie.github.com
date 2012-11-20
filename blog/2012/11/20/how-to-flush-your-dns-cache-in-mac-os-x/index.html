@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>如何为MacOS X终端设置代理 - Code Life</title>
+  <title>MacOS X下如何清除DNS缓存 - Code Life</title>
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。 实在无法忍受linode日本机房的高延迟，动手配置了一个goagent服务。但是HTTP代理和VPN不同，没法全局代理（至少不能简单配置）， &hellip;">
+  <meta name="description" content="系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清楚，那需要一个段漫长的等待 OS X Lion (10.7) and OS X Mountain Lion (10.8) $ sudo killall -HUP mDNSResponder Mac OS X &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/">
+  <link rel="canonical" href="http://vangie.github.com/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -113,7 +113,7 @@ jQuery(document).ready(function() {
   
   <header>
     
-      <h1 class="entry-title">如何为MacOS X终端设置代理</h1>
+      <h1 class="entry-title">MacOS X下如何清除DNS缓存</h1>
     
     
       <p class="meta">
@@ -129,7 +129,7 @@ jQuery(document).ready(function() {
   
 
 
-<time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+<time datetime="2012-11-20T16:23:00+08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -138,65 +138,27 @@ jQuery(document).ready(function() {
   </header>
 
 
-<div class="entry-content"><blockquote><p>本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。</p></blockquote>
+<div class="entry-content"><blockquote><p>系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清楚，那需要一个段漫长的等待</p></blockquote>
 
-<p>实在无法忍受<a href="http://www.linode.com/" title="linode">linode</a>日本机房的高延迟，动手配置了一个<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>服务。但是HTTP代理和VPN不同，没法全局代理（<em>至少不能简单配置</em>），在Terminal里下载最新版本的Ruby，奇慢无比，下面介绍如何让Terminal里执行的程序使用<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>代理。</p>
+<p>OS X Lion (10.7) and OS X Mountain Lion (10.8)</p>
 
-<!-- more -->
-
-
-<h3>HTTP代理</h3>
-
-<pre><code>$ export http_proxy='http://YOUR_USERNAME:YOUR_PASSWORD@PROXY_IP:PROXY_PORT/'
+<pre><code>$ sudo killall -HUP mDNSResponder
 </code></pre>
 
-<h3>HTTPS代理</h3>
+<p>Mac OS X 10.5, Mac OS X 10.6</p>
 
-<pre><code>$ export https_proxy='http://YOUR_USERNAME:YOUR_PASSWORD@PROXY_IP:PROXY_PORT/'
+<pre><code>$ dscacheutil -flushcache
 </code></pre>
 
-<h3>Socks代理</h3>
+<p>Mac OS X 10.4 Tiger</p>
 
-<p>使用tsocks可以为任意程序提供socks代理</p>
-
-<h4>安装tsocks</h4>
-
-<pre><code>$ brew tap adamv/alt
-$ brew install tsocks
+<pre><code>$ lookupd -flushcache
 </code></pre>
 
-<h4>配置tsocks</h4>
-
-<p>打开配置文件/usr/local/etc/tsocks.conf</p>
-
-<p>修改如下</p>
-
-<pre><code>local = 192.168.0.0/255.255.255.0
-server = 127.0.0.1
-server_type = 5
-server_port = 8080
-</code></pre>
-
-<h3>例子</h3>
-
-<p>让Terminal里的http访问走<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>的默认端口8087</p>
-
-<pre><code>$ export http_proxy='http://localhost:8087'
-$ export https_proxy='http://localhost:8087'
-$ tsocks /Applications/Textual.app/Contents/MacOS/Textual
-</code></pre>
-
-<h3>取消代理</h3>
-
-<pre><code>$ unset http_proxy
-$ unset https_proxy
-</code></pre>
-
-<h4>参考文章</h4>
+<h4>参考文献</h4>
 
 <ol>
-<li><a href="http://www.webupd8.org/2010/10/how-to-set-proxy-for-terminal-quick.html">HOW TO SET A PROXY FOR THE TERMINAL [QUICK LINUX TIP]</a></li>
-<li><a href="https://whatbox.ca/wiki/tsocks">tsocks</a></li>
+<li><a href="http://osxdaily.com/2008/03/21/how-to-flush-your-dns-cache-in-mac-os-x/">How to Flush DNS Cache in Mac OS X</a></li>
 </ol>
 
 </div>
@@ -221,7 +183,7 @@ $ unset https_proxy
   
 
 
-<time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+<time datetime="2012-11-20T16:23:00+08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
       
 
 
@@ -229,7 +191,7 @@ $ unset https_proxy
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/" data-via="" data-counturl="http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://vangie.github.com/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/" data-via="" data-counturl="http://vangie.github.com/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/" >Tweet</a>
   
   
   
@@ -238,10 +200,8 @@ $ unset https_proxy
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/" title="Previous Post: MacOS X终端里SSH会话管理">&laquo; MacOS X终端里SSH会话管理</a>
+        <a class="basic-alignment left" href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/" title="Previous Post: Mountain Lion系统安装GNU Grep">&laquo; Mountain Lion系统安装GNU Grep</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2012/09/02/custom-domain-for-octopress/" title="Next Post: 为Octopress博客设置个性化域名">为Octopress博客设置个性化域名 &raquo;</a>
       
     </p>
   </footer>
@@ -337,8 +297,8 @@ $ unset https_proxy
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/';
-        var disqus_url = 'http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/';
+        var disqus_identifier = 'http://vangie.github.com/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/';
+        var disqus_url = 'http://vangie.github.com/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-11-12T11:44:19+08:00</updated>
+  <updated>2012-11-20T16:28:32+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MacOS X下如何清除DNS缓存]]></title>
+    <link href="http://vangie.github.com/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/"/>
+    <updated>2012-11-20T16:23:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x</id>
+    <content type="html"><![CDATA[<blockquote><p>系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清楚，那需要一个段漫长的等待</p></blockquote>
+
+<p>OS X Lion (10.7) and OS X Mountain Lion (10.8)</p>
+
+<pre><code>$ sudo killall -HUP mDNSResponder
+</code></pre>
+
+<p>Mac OS X 10.5, Mac OS X 10.6</p>
+
+<pre><code>$ dscacheutil -flushcache
+</code></pre>
+
+<p>Mac OS X 10.4 Tiger</p>
+
+<pre><code>$ lookupd -flushcache
+</code></pre>
+
+<h4>参考文献</h4>
+
+<ol>
+<li><a href="http://osxdaily.com/2008/03/21/how-to-flush-your-dns-cache-in-mac-os-x/">How to Flush DNS Cache in Mac OS X</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mountain Lion系统安装GNU Grep]]></title>
@@ -1704,75 +1735,6 @@ rake deploy
 <ol>
 <li><a href="http://octopress.org/docs/deploying/github/">Deploying to Github Pages</a></li>
 <li><a href="https://help.github.com/articles/my-custom-domain-isn-t-working">My custom domain isn&#8217;t working</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何为MacOS X终端设置代理]]></title>
-    <link href="http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal/"/>
-    <updated>2012-09-02T04:06:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2012/09/02/how-to-set-proxy-for-terminal</id>
-    <content type="html"><![CDATA[<blockquote><p>本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。</p></blockquote>
-
-<p>实在无法忍受<a href="http://www.linode.com/" title="linode">linode</a>日本机房的高延迟，动手配置了一个<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>服务。但是HTTP代理和VPN不同，没法全局代理（<em>至少不能简单配置</em>），在Terminal里下载最新版本的Ruby，奇慢无比，下面介绍如何让Terminal里执行的程序使用<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>代理。</p>
-
-<!-- more -->
-
-
-<h3>HTTP代理</h3>
-
-<pre><code>$ export http_proxy='http://YOUR_USERNAME:YOUR_PASSWORD@PROXY_IP:PROXY_PORT/'
-</code></pre>
-
-<h3>HTTPS代理</h3>
-
-<pre><code>$ export https_proxy='http://YOUR_USERNAME:YOUR_PASSWORD@PROXY_IP:PROXY_PORT/'
-</code></pre>
-
-<h3>Socks代理</h3>
-
-<p>使用tsocks可以为任意程序提供socks代理</p>
-
-<h4>安装tsocks</h4>
-
-<pre><code>$ brew tap adamv/alt
-$ brew install tsocks
-</code></pre>
-
-<h4>配置tsocks</h4>
-
-<p>打开配置文件/usr/local/etc/tsocks.conf</p>
-
-<p>修改如下</p>
-
-<pre><code>local = 192.168.0.0/255.255.255.0
-server = 127.0.0.1
-server_type = 5
-server_port = 8080
-</code></pre>
-
-<h3>例子</h3>
-
-<p>让Terminal里的http访问走<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>的默认端口8087</p>
-
-<pre><code>$ export http_proxy='http://localhost:8087'
-$ export https_proxy='http://localhost:8087'
-$ tsocks /Applications/Textual.app/Contents/MacOS/Textual
-</code></pre>
-
-<h3>取消代理</h3>
-
-<pre><code>$ unset http_proxy
-$ unset https_proxy
-</code></pre>
-
-<h4>参考文章</h4>
-
-<ol>
-<li><a href="http://www.webupd8.org/2010/10/how-to-set-proxy-for-terminal-quick.html">HOW TO SET A PROXY FOR THE TERMINAL [QUICK LINUX TIP]</a></li>
-<li><a href="https://whatbox.ca/wiki/tsocks">tsocks</a></li>
 </ol>
 
 ]]></content>

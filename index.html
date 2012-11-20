@@ -9,7 +9,7 @@
   <meta name="author" content="Vangie Du">
 
   
-  <meta name="description" content="由于License的问题，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&#8211;per-regex）选项，缺少了对Perl正则表达式的支持。 可以通过使用homebrew自己安装GNU Grep以兼容包含- &hellip;">
+  <meta name="description" content="系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清楚，那需要一个段漫长的等待 OS X Lion (10.7) and OS X Mountain Lion (10.8) $ sudo killall -HUP mDNSResponder Mac OS X &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -110,6 +110,66 @@ jQuery(document).ready(function() {
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/">MacOS X下如何清除DNS缓存</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:23:00+08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清楚，那需要一个段漫长的等待</p></blockquote>
+
+<p>OS X Lion (10.7) and OS X Mountain Lion (10.8)</p>
+
+<pre><code>$ sudo killall -HUP mDNSResponder
+</code></pre>
+
+<p>Mac OS X 10.5, Mac OS X 10.6</p>
+
+<pre><code>$ dscacheutil -flushcache
+</code></pre>
+
+<p>Mac OS X 10.4 Tiger</p>
+
+<pre><code>$ lookupd -flushcache
+</code></pre>
+
+<h4>参考文献</h4>
+
+<ol>
+<li><a href="http://osxdaily.com/2008/03/21/how-to-flush-your-dns-cache-in-mac-os-x/">How to Flush DNS Cache in Mac OS X</a></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -538,49 +598,6 @@ $ brew install homebrew/dupes/grep
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">几个瀑布流风格布局的jQuery插件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-14T22:49:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time>
-        
-         | <a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Pinterest的瀑布流布局,让人眼睛一亮,看图的过程变得很享受.巧妙的改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过多页面加载缓慢的问题.国内的<a href="http://huaban.com/">花瓣网</a>,借鉴了瀑布流的设计,做得挺不错的.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">继续阅读 &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -596,6 +613,10 @@ $ brew install homebrew/dupes/grep
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/">MacOS X下如何清除DNS缓存</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/">Mountain Lion系统安装GNU Grep</a>
       </li>
     
@@ -609,10 +630,6 @@ $ brew install homebrew/dupes/grep
     
       <li class="post">
         <a href="/blog/2012/11/03/jackson-polymorphic-deserialization/">Jackson多态类型数据绑定</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/">登录Shell和交互Shell的区别</a>
       </li>
     
   </ul>
