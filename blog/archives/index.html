@@ -1,433 +1,447 @@
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE HTML>
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>Blog Archive - Code Life</title>
-  <meta name="author" content="Vangie Du">
+	<meta charset="utf-8">
+	<title>Blog Archives - Code Life</title>
+	<meta name="author" content="Vangie Du">
 
-  
-  <meta name="description" content="Blog Archive 2012 MacOS X下如何清除DNS缓存
-Nov 20 2012 Mountain Lion系统安装GNU Grep
-Nov 12 2012 Mac下安装Gate One
-Nov 07 2012 通过IP地址获得windows机制主机名
-Nov 06 2012 &hellip;">
-  
+	
+	<meta name="description" content="2012 MacOS X下如何清除DNS缓存 Nov 20 Comments Mountain Lion系统安装GNU Grep Nov 12 Comments Mac下安装Gate One Nov 7 Comments 通过IP地址获得windows机制主机名 Nov 6 Comments &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://vangie.github.com/blog/archives/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Metamorphous' rel='stylesheet' type='text/css'>
-
-<!--Table of Contents-->
-<script src="/javascripts/jquery-1.8.1.min.js" type="text/javascript"></script>
-<script src="/javascripts/jquery.tableofcontents.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-  // Revert jQuery's '$' alias, to avoid clashes with ender.js. NOTE: Use
-  // jQuery(...), instead of $(...) from here on.
-  jQuery.noConflict();
-</script>
-<script src="/javascripts/generate-toc.js" type="text/javascript"></script>
-<script type="text/javascript">
-jQuery(document).ready(function() {
-    jQuery("body").css("display", "none").fadeIn(300);
- 
-    jQuery("a").click(function(event){
-    	var href = this.href;
-    	if(href){
-	    	event.preventDefault();
-	        jQuery("body").fadeOut(300, function(){
-		        window.location = href;
-	        });      
-    	}
-    });
-});
-</script>
-
-
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-34493191-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1>
-	  <a href="/" title="Code Life">
-	  	
-	  		<img src="/images/logo.png" alt="Code Life" border="0"/>
-	  	
-	  </a>
-  </h1>
-  
-    <h2>Succinctness is Power</h2>
-  
-</hgroup>
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vangie.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vangie.github.com">
+	</form>
+</nav>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:vangie.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article role="article">
-  
-  <header>
-    <h1 class="entry-title">Blog Archive</h1>
-    
-  </header>
-  
-  <div id="blog-archives">
+	
+		
+	
+	<div id="content" class="inner">
+	
 
 
-
-  
-  <h2>2012</h2>
+	
+	
+	<section class="archives"><h1 class="year">2012</h1>
 
 <article>
-  
-<h1><a href="/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/">MacOS X下如何清除DNS缓存</a></h1>
-<time datetime="2012-11-20T16:23:00+08:00" pubdate><span class='month'>Nov</span> <span class='day'>20</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/">MacOS X下如何清除DNS缓存</a></h2>
+	<div class="meta">
+		<span class="date">Nov 20</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/">Mountain Lion系统安装GNU Grep</a></h1>
-<time datetime="2012-11-12T11:32:00+08:00" pubdate><span class='month'>Nov</span> <span class='day'>12</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/">Mountain Lion系统安装GNU Grep</a></h2>
+	<div class="meta">
+		<span class="date">Nov 12</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/11/07/install-gateone-on-mac-osx/">Mac下安装Gate One</a></h1>
-<time datetime="2012-11-07T22:07:00+08:00" pubdate><span class='month'>Nov</span> <span class='day'>07</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/11/07/install-gateone-on-mac-osx/">Mac下安装Gate One</a></h2>
+	<div class="meta">
+		<span class="date">Nov  7</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/11/07/install-gateone-on-mac-osx/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/11/06/get-the-hostname-of-a-windows-machine-by-ip-address/">通过IP地址获得windows机制主机名</a></h1>
-<time datetime="2012-11-06T11:46:00+08:00" pubdate><span class='month'>Nov</span> <span class='day'>06</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/11/06/get-the-hostname-of-a-windows-machine-by-ip-address/">通过IP地址获得windows机制主机名</a></h2>
+	<div class="meta">
+		<span class="date">Nov  6</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/11/06/get-the-hostname-of-a-windows-machine-by-ip-address/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/11/03/jackson-polymorphic-deserialization/">Jackson多态类型数据绑定</a></h1>
-<time datetime="2012-11-03T14:28:00+08:00" pubdate><span class='month'>Nov</span> <span class='day'>03</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/11/03/jackson-polymorphic-deserialization/">Jackson多态类型数据绑定</a></h2>
+	<div class="meta">
+		<span class="date">Nov  3</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/11/03/jackson-polymorphic-deserialization/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/">登录Shell和交互Shell的区别</a></h1>
-<time datetime="2012-10-11T14:47:00+08:00" pubdate><span class='month'>Oct</span> <span class='day'>11</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/">登录Shell和交互Shell的区别</a></h2>
+	<div class="meta">
+		<span class="date">Oct 11</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/">解决rinse安装CentOS 6报错找不到&#8217;/dev/urandom&#8217;的问题</a></h1>
-<time datetime="2012-10-09T15:53:00+08:00" pubdate><span class='month'>Oct</span> <span class='day'>09</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/">解决rinse安装CentOS 6报错找不到&#8217;/dev/urandom&#8217;的问题</a></h2>
+	<div class="meta">
+		<span class="date">Oct  9</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/10/07/config-i2p-router-in-macos-x/">MacOS X配置I2P匿名网络</a></h1>
-<time datetime="2012-10-07T11:37:00+08:00" pubdate><span class='month'>Oct</span> <span class='day'>07</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/10/07/config-i2p-router-in-macos-x/">MacOS X配置I2P匿名网络</a></h2>
+	<div class="meta">
+		<span class="date">Oct  7</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/10/07/config-i2p-router-in-macos-x/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/20/create-warkmarked-picture-using-node-js/">NodeJs里给图片添加水印</a></h1>
-<time datetime="2012-09-20T00:44:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>20</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/20/create-warkmarked-picture-using-node-js/">NodeJs里给图片添加水印</a></h2>
+	<div class="meta">
+		<span class="date">Sep 20</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/20/create-warkmarked-picture-using-node-js/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/">NodeJs里将中文字符转换成拼音字母</a></h1>
-<time datetime="2012-09-18T01:12:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>18</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/">NodeJs里将中文字符转换成拼音字母</a></h2>
+	<div class="meta">
+		<span class="date">Sep 18</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">几个瀑布流风格布局的jQuery插件</a></h1>
-<time datetime="2012-09-14T22:49:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>14</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">几个瀑布流风格布局的jQuery插件</a></h2>
+	<div class="meta">
+		<span class="date">Sep 14</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/13/calculate-max-difference-color/">求最大色差颜色</a></h1>
-<time datetime="2012-09-13T22:51:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>13</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/13/calculate-max-difference-color/">求最大色差颜色</a></h2>
+	<div class="meta">
+		<span class="date">Sep 13</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/13/calculate-max-difference-color/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/13/http-basic-auth-in-nodejs/">NodeJs里实现HTTP基本认证</a></h1>
-<time datetime="2012-09-13T00:58:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>13</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/13/http-basic-auth-in-nodejs/">NodeJs里实现HTTP基本认证</a></h2>
+	<div class="meta">
+		<span class="date">Sep 13</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/13/http-basic-auth-in-nodejs/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/">浏览器自动补全不触发Input控件的onChange和onKeyup事件</a></h1>
-<time datetime="2012-09-10T13:57:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>10</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/">浏览器自动补全不触发Input控件的onChange和onKeyup事件</a></h2>
+	<div class="meta">
+		<span class="date">Sep 10</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">《HTTP权威指南》读书笔记</a></h1>
-<time datetime="2012-09-08T12:45:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>08</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">《HTTP权威指南》读书笔记</a></h2>
+	<div class="meta">
+		<span class="date">Sep  8</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/">jetty临时目录被tmpwatch定时任务删除</a></h1>
-<time datetime="2012-09-07T16:44:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>07</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/">jetty临时目录被tmpwatch定时任务删除</a></h2>
+	<div class="meta">
+		<span class="date">Sep  7</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/">Eclipse插件通过Maven依赖第三方jar包</a></h1>
-<time datetime="2012-09-05T22:32:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>05</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/">Eclipse插件通过Maven依赖第三方jar包</a></h2>
+	<div class="meta">
+		<span class="date">Sep  5</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/">Tweetbot for Mac使用GoAgent代理</a></h1>
-<time datetime="2012-09-04T22:45:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>04</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/">Tweetbot for Mac使用GoAgent代理</a></h2>
+	<div class="meta">
+		<span class="date">Sep  4</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/04/tweetbot-for-mac-using-goagent-as-proxy/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X将GoAgent位置为后台服务</a></h1>
-<time datetime="2012-09-03T22:22:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>03</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X将GoAgent位置为后台服务</a></h2>
+	<div class="meta">
+		<span class="date">Sep  3</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/02/custom-domain-for-octopress/">为Octopress博客设置个性化域名</a></h1>
-<time datetime="2012-09-02T20:31:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/02/custom-domain-for-octopress/">为Octopress博客设置个性化域名</a></h2>
+	<div class="meta">
+		<span class="date">Sep  2</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/02/custom-domain-for-octopress/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">如何为MacOS X终端设置代理</a></h1>
-<time datetime="2012-09-02T04:06:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>02</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">如何为MacOS X终端设置代理</a></h2>
+	<div class="meta">
+		<span class="date">Sep  2</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
 
+	
 
 
 <article>
-  
-<h1><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/">MacOS X终端里SSH会话管理</a></h1>
-<time datetime="2012-09-01T23:31:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>01</span> <span class='year'>2012</span></time>
+	<h2 class="title"><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/">MacOS X终端里SSH会话管理</a></h2>
+	<div class="meta">
+		<span class="date">Sep  1</span>
+		<span class="tags">
 
-
+</span>
+	    
+	    <span class="comments"><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/#disqus_thread">Comments</a></span>
+	    
+	</div>
 </article>
-
 </div>
+	<footer id="footer" class="inner">Copyright &copy; 2012
 
-  
-</article>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/">MacOS X下如何清除DNS缓存</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/">Mountain Lion系统安装GNU Grep</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/07/install-gateone-on-mac-osx/">Mac下安装Gate One</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/06/get-the-hostname-of-a-windows-machine-by-ip-address/">通过IP地址获得windows机制主机名</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/03/jackson-polymorphic-deserialization/">Jackson多态类型数据绑定</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/vangie">@vangie</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'vangie',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Vangie Du -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+    Vangie Du
 
 </footer>
-  
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
 
 <script type="text/javascript">
       var disqus_shortname = 'code-life';
@@ -444,23 +458,17 @@ jQuery(document).ready(function() {
 
 
 
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
 
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 
 
 
