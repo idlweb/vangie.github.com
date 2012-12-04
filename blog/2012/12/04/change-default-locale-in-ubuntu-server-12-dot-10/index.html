@@ -78,11 +78,22 @@
 
 <p>网上大部分文章都提到修改<code>/etc/environment</code>文件，但是打开<code>/etc/environment</code>文件，默认是空的，说明这种方法虽然可以达到效果，但不是最完美的。更好的方式如下：</p>
 
-<pre><code>sudo update-locale LANG=en_US.UTF-8
-sudo update-locale LANGUAGE=en_US.en
+<pre><code>$ sudo update-locale LANG=en_US.UTF-8
+$ sudo update-locale LANGUAGE=en_US.en
 </code></pre>
 
 <p>然后重启系统即可。</p>
+
+<!-- more -->
+
+
+<h3>参考文献</h3>
+
+<ol>
+<li><a href="http://askubuntu.com/questions/89976/how-to-change-the-default-locale-in-ubuntu-10-10-server">How to change the default locale in ubuntu 10.10 server</a></li>
+<li><a href="http://www.slyar.com/blog/ubuntu-server-utf8-zhcn.html">Ubuntu Server下配置UTF-8中文/英文环境</a></li>
+</ol>
+
 </div>
 
 
