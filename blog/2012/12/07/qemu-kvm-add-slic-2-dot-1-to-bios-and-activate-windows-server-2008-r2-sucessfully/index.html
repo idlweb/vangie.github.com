@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="在一台DELL R310的宿主机上安装了Ubuntu Server 12.10默认集成KVM虚拟机，用户态虚拟机软件qemu-kvm使用的seabios的bios实现(位于 /usr/share/qemu-kvm/bios.bin,来自于qemu-common 1.2.0+noroms- &hellip;">
+	<meta name="description" content="在一台DELL R310的宿主机上安装了Ubuntu Server 12.10默认集成KVM虚拟机，用户态虚拟机软件qemu-kvm使用seabios的作为bios实现(位于 /usr/share/qemu-kvm/bios.bin,来自于qemu-common 1.2.0+noroms- &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -74,9 +74,9 @@
 	
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">qemu-kvm将SLIc 2.1刷入BIOS并成功激活Windows Server 2008 R2</h2>
-	<div class="entry-content"><blockquote><p>在一台DELL R310的宿主机上安装了Ubuntu Server 12.10默认集成KVM虚拟机，用户态虚拟机软件qemu-kvm使用的seabios的bios实现(位于 <code>/usr/share/qemu-kvm/bios.bin</code>,来自于qemu-common 1.2.0+noroms-0ubuntu2)，该bios.bin仅包含部分来自宿主机的SLIC信息，但不完整，无法通过window对OEM的验证。</p></blockquote>
+	<div class="entry-content"><blockquote><p>在一台DELL R310的宿主机上安装了Ubuntu Server 12.10默认集成KVM虚拟机，用户态虚拟机软件qemu-kvm使用seabios的作为bios实现(位于 <code>/usr/share/qemu-kvm/bios.bin</code>,来自于qemu-common 1.2.0+noroms-0ubuntu2)，该bios.bin仅包含部分来自宿主机的SLIC信息，但不完整，无法通过Window OEM验证。</p></blockquote>
 
-<p>本文将介绍如何在使用virt-install安装windows，去除bios.bin里内置的错误SLIC，然后使用-acpitable参数载入正确的SLIc 2.1，通过OEM证书和OEM key激活windows。</p>
+<p>本文将介绍安装KVM虚拟机，借助virt-install安装Windows客户机，去除bios.bin里内置的SLIC，然后使用-acpitable参数载入正确的SLIc 2.1信息，导入OEM证书和OEM key激活Windows。</p>
 
 <p>由于Ubuntu Server没有安装图形环境，DELL R310服务器也是不带显示器的，所有windows的安装过程是通过本来的Macbook Air的VNC客户端操作的。</p>
 
@@ -163,7 +163,7 @@ cloud03@cloud03:~$
 
 <h3>编译bios.bin</h3>
 
-<p>https://github.com/ghuntley/seaslic 项目对seabios项目打了一个patch用于解决预安装正版windows的宿主机，改装linux运行kvm后，让虚拟机bios也有和宿主机一样的SLIc。简单的说就是把宿主机bios里的SLIc信息导入到虚拟机的bios.bin文件中去。让虚拟机也有正确的OEM标识。</p>
+<p><a href="https://github.com/ghuntley/seaslic">seaslic</a> 项目对seabios项目打了一个patch用于解决预安装正版windows的宿主机，改装linux运行kvm后，让虚拟机bios也有和宿主机一样的SLIc。简单的说就是把宿主机bios里的SLIc信息导入到虚拟机的bios.bin文件中去。让虚拟机也有正确的OEM标识。</p>
 
 <p>经过测试seaslic项目导入的SLIc信息不完整，（至少在DELL R310下是不完整的），无法通过windows校验。</p>
 
