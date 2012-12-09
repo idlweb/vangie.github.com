@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-12-09T23:53:49+08:00</updated>
+  <updated>2012-12-10T00:05:57+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -26,7 +26,7 @@
 
 <h3>SSH隧道的类型</h3>
 
-<p>ssh隧道有3中类型：</p>
+<p>ssh隧道有3种类型：</p>
 
 <ol>
 <li>动态端口转发（Socks 代理）</li>
