@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="想通过ssh隧道连接远端机器的VNC服务，对ssh -L命令不太熟悉，man ssh后发现3组与隧道（turnnel）相关的参数:ssh -D，ssh -L，ssh -R，一下子就搞糊涂了，所有下决心仔细研究一番。 何谓SSH隧道 隧道是一种把一种网络协议封装进另外一种网络协议进行传输的技术。 &hellip;">
+	<meta name="description" content="使用virt-install安装了一个CentOS虚拟机，安装过程未指定网络参数，默认使用内置虚拟NAT的方式上网，现在希望给虚拟机另外安装一块虚拟的网卡，然后给其分配一个外网IP地址（与宿主机处于同一网段）。 安装CentOS $ sudo virt-install --connect &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,181 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/12/11/add-secondary-network-interface-to-vm-of-centos/">
+		
+			为CentOS虚拟机添加第二块网卡</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>使用virt-install安装了一个CentOS虚拟机，安装过程未指定网络参数，默认使用内置虚拟NAT的方式上网，现在希望给虚拟机另外安装一块虚拟的网卡，然后给其分配一个外网IP地址（与宿主机处于同一网段）。</p></blockquote>
+
+<h3>安装CentOS</h3>
+
+<pre><code>$ sudo virt-install --connect qemu:///system --noautoconsole -n centos -r 4096 --vcpus=4 --arch=x86_64 --os-type=linux --os-variant=rhel6 --accelerate -v -l http://mirrors.163.com/centos/6.3/os/x86_64/ --disk path=/var/lib/libvirt/images/centos.img,size=200 --graphics vnc,password=foobar,listen=0.0.0.0,port=5901 
+</code></pre>
+
+<h3>为宿主机添加虚拟网桥</h3>
+
+<pre><code>$ vim /etc/network/interfaces
+</code></pre>
+
+<p>修改如下</p>
+
+<pre><code># This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+iface em1 inet manual
+
+auto br0
+iface br0 inet static
+    bridge_ports    em1
+    bridge_stp  on
+    bridge_maxwait  0
+    bridge_fd   0
+    address     192.168.18.130
+    netmask     255.255.255.0
+    network     192.168.18.0
+    broadcast   192.168.18.255
+    gateway     192.168.18.1
+    dns-nameservers 192.168.18.1
+</code></pre>
+
+<p>添加虚拟网桥配置br0,并且把主网卡em1（大多数情况下主网卡为eth0）配置由dhcp或者static改成manual。</p>
+
+<p>然后重启网络服务</p>
+
+<pre><code>$ sudo service networking restart
+</code></pre>
+
+<h3>为虚拟机添加一张额外的虚拟网卡</h3>
+
+<p>首先关闭VM</p>
+
+<pre><code>$ virsh destory centos
+</code></pre>
+
+<p>然后编辑VM配置文件</p>
+
+<pre><code>$ virsh edit centos
+</code></pre>
+
+<p>在</interface>之后加入如下xml片段</p>
+
+<pre><code>&lt;interface type='bridge'&gt;
+  &lt;mac address='00:16:3e:1a:b3:4a'/&gt;
+  &lt;source bridge='br0'/&gt;
+  &lt;model type='virtio'/&gt;
+  &lt;address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0'/&gt;
+&lt;/interface&gt;
+</code></pre>
+
+<p>然后保存退出。</p>
+
+<p>启动刚才修改过的VM虚拟节点</p>
+
+<pre><code>$ virsh start centos
+</code></pre>
+
+<h3>为CentOS添加新网卡配置</h3>
+
+<p>参看<code>/sys/class/net</code>可以看到新添加的网卡eth1</p>
+
+<pre><code># ls /sys/class/net/
+eth0  eth1  lo
+</code></pre>
+
+<p>通过ifconfig获得该网卡的MAC地址</p>
+
+<pre><code># ifconfig eth1
+eth1    Link encap:Ethernet  HWaddr 00:16:3E:1A:B3:4A  
+        inet addr:192.168.18.210  Bcast:192.168.18.255  Mask:255.255.255.0
+        inet6 addr: fe80::216:3eff:fe1a:b34a/64 Scope:Link
+        UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+        RX packets:3343 errors:0 dropped:0 overruns:0 frame:0
+        TX packets:12 errors:0 dropped:0 overruns:0 carrier:0
+        collisions:0 txqueuelen:1000 
+        RX bytes:216373 (211.3 KiB)  TX bytes:1364 (1.3 KiB)
+</code></pre>
+
+<p>执行uuidgen生成一个随机的UUID</p>
+
+<pre><code># uuidgen
+e5281311-f265-4afa-a7e1-4d76718f7de0
+</code></pre>
+
+<p>然后完事具备只欠东方了，</p>
+
+<pre><code># cd /etc/sysconfig/network-scripts
+# cp ifcfg-eth0 ifcfg-eth1
+# vim ifcfg-eth1
+</code></pre>
+
+<p>结合上面的MAC地址和UUID，修改内容如下</p>
+
+<pre><code>DEVICE="eth1"
+BOOTPROTO="dhcp"
+HWADDR="00:16:3E:1A:B3:4A"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+NM_CONTROLLED="yes"
+ONBOOT="yes"
+TYPE="Ethernet"
+UUID="e5281311-f265-4afa-a7e1-4d76718f7de0"
+</code></pre>
+
+<p>然后VM网络服务即可</p>
+
+<pre><code># service network restart
+</code></pre>
+
+<h3>参考文献</h3>
+
+<ol>
+<li><a href="http://www.centos.org/docs/5/html/Deployment_Guide-en-US/s1-networkscripts-interfaces.html">Interface Configuration Files</a></li>
+<li><a href="http://libvirt.org/archnetwork.html">Network management architecture</a></li>
+<li><a href="http://libvirt.org/formatnetwork.html">Network XML format</a></li>
+<li><a href="http://wiki.libvirt.org/page/Networking">libvirt networking</a></li>
+<li><a href="http://wiki.debian.org/BridgeNetworkConnections">Bridging Network Connections</a></li>
+<li><a href="http://www.linux-kvm.org/page/Networking">KVM setting guest network</a></li>
+<li><a href="http://www.selbytech.com/2009/10/adding-virtual-network-interfaces-on-centos-5-x/">Adding Virtual Network Interfaces on CentOS 5.x</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-11T18:43:00+08:00" pubdate data-updated="true">Dec 11<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/12/11/add-secondary-network-interface-to-vm-of-centos//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -496,57 +671,6 @@ $ brew install homebrew/dupes/grep
 </div>
 	
 		<span class="comments"><a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/">
-		
-			解决rinse安装CentOS 6报错找不到&#8217;/dev/urandom&#8217;的问题</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>Debian系统xen安装centos 6.3失败，报错找不到<code>/dev/urandom</code>。</p></blockquote>
-
-<h3>错误如下</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  File "/usr/lib64/python2.4/random.py", line 109, in seed
-</span><span class='line'>    a = long(_hexlify(_urandom(16)), 16)
-</span><span class='line'>OSError: [Errno 2] No such file or directory: '/dev/urandom'</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-		
-		<a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-09T15:53:00+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
