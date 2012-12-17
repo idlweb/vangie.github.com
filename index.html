@@ -87,7 +87,11 @@
 
 <h3>安装CentOS</h3>
 
-<pre><code>$ sudo virt-install --connect qemu:///system --noautoconsole -n centos -r 4096 --vcpus=4 --arch=x86_64 --os-type=linux --os-variant=rhel6 --accelerate -v -l http://mirrors.163.com/centos/6.3/os/x86_64/ --disk path=/var/lib/libvirt/images/centos.img,size=200 --graphics vnc,password=foobar,listen=0.0.0.0,port=5901 
+<pre><code>$ sudo virt-install --connect qemu:///system --noautoconsole \
+-n centos -r 4096 --vcpus=4 --arch=x86_64 --os-type=linux \
+--os-variant=rhel6 --accelerate -v -l http://mirrors.163.com/centos/6.3/os/x86_64/ \
+--disk path=/var/lib/libvirt/images/centos.img,size=200 \
+--graphics vnc,password=foobar,listen=0.0.0.0,port=5901 
 </code></pre>
 
 
