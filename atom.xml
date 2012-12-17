@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-12-17T15:45:18+08:00</updated>
+  <updated>2012-12-17T16:33:14+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -614,7 +614,7 @@ $ sudo update-locale LANGUAGE=en_US.en
 
 <p>Vista/Win7 以上系统</p>
 
-<p>参看DNS缓存</p>
+<p>查看DNS缓存</p>
 
 <pre><code>&gt; ipconfig /displaydns
 </code></pre>
