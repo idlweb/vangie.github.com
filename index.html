@@ -270,12 +270,14 @@ $ sudo update-locale LANGUAGE=en_US.en
     <article class="post">
 	<h2 class="title">
 		
-		<a href="/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x/">
+		<a href="/blog/2012/11/20/how-to-flush-your-dns-cache/">
 		
-			MacOS X下如何清除DNS缓存</a>
+			如何清除DNS缓存</a>
 	</h2>
 	<div class="entry-content">
 		<blockquote><p>系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清除，那需要一段漫长的等待</p></blockquote>
+
+<h3>Mac OS</h3>
 
 <p>OS X Lion (10.7) and OS X Mountain Lion (10.8)</p>
 
@@ -292,10 +294,37 @@ $ sudo update-locale LANGUAGE=en_US.en
 <pre><code>$ lookupd -flushcache
 </code></pre>
 
+<h3>Windows</h3>
+
+<p>Vista/Win7 以上系统</p>
+
+<p>参看DNS缓存</p>
+
+<pre><code>&gt; ipconfig /displaydns
+</code></pre>
+
+<p>清除DNS缓存</p>
+
+<pre><code>&gt; ipconfig /flushdns 
+</code></pre>
+
+<p>Winxp和之前的老系统</p>
+
+<pre><code>&gt; net stop dnscache
+&gt; net start dnscache
+</code></pre>
+
+<h3>Linux</h3>
+
+<pre><code>$ sudo /etc/init.d/nscd restart
+</code></pre>
+
 <h4>参考文献</h4>
 
 <ol>
 <li><a href="http://osxdaily.com/2008/03/21/how-to-flush-your-dns-cache-in-mac-os-x/">How to Flush DNS Cache in Mac OS X</a></li>
+<li><a href="http://www.cnblogs.com/yryz/archive/2012/02/13/2299756.html">Vista/Win7以上系统查看和清除本地DNS缓存新方法</a></li>
+<li><a href="http://www.techiecorner.com/35/how-to-flush-dns-cache-in-linux-windows-mac/">How to flush DNS cache in Linux / Windows / Mac</a></li>
 </ol>
 
 
@@ -322,7 +351,7 @@ $ sudo update-locale LANGUAGE=en_US.en
 
 </div>
 	
-		<span class="comments"><a href="/blog/2012/11/20/how-to-flush-your-dns-cache-in-mac-os-x//index.html#disqus_thread">Comments</a></span>
+		<span class="comments"><a href="/blog/2012/11/20/how-to-flush-your-dns-cache//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
