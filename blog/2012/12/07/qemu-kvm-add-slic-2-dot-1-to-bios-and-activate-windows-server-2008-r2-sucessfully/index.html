@@ -113,8 +113,8 @@ KVM acceleration can be used</p></blockquote>
 
 <p>之后，将当前用户添加到libvirtd群组</p>
 
-<pre><code>$ adduser `id -un` libvirtd
-$ adduser `id -un` kvm
+<pre><code>$ sudo adduser `id -un` libvirtd
+$ sudo adduser `id -un` kvm
 </code></pre>
 
 <p>你需要要重新登录一下，才能让新群组生效。</p>
@@ -219,7 +219,7 @@ $ make
 
 <p>替换系统内置bios.bin</p>
 
-<pre><code>$ sudo cp out/bios.bin /usr/share/qemu-kvm/bios.sh
+<pre><code>$ sudo cp out/bios.bin /usr/share/qemu-kvm/bios.bin
 </code></pre>
 
 <h3>修改虚拟机配置</h3>
@@ -264,6 +264,11 @@ $ make
 
 <pre><code>&gt; slmgr -ipk D7TCH-6P8JP-KRG4P-VJKYY-P9GFF
 </code></pre>
+
+<blockquote><p>Server 2008 R2 Standard DELL OEM KEY <br/>
+D7TCH-6P8JP-KRG4P-VJKYY-P9GFF<br/>
+Server 2008 R2 Enterprise DELL OEM KEY<br/>
+BKCJJ-J6G9Y-4P7YF-8D4J7-7TCWD</p></blockquote>
 
 <p>重新打开<a href="http://forums.mydigitallife.info/threads/6925-SLIC-ToolKit-x86-x64-(Includes-PKey-amp-Cert-Backup">SLIC Toolkit</a>工具，若“<strong>序列号与证书验证及备份</strong>”栏显示<strong>证书正确</strong>，那表示已经大功告成。</p>
 
