@@ -126,6 +126,10 @@
 
 <pre><code> chmod 0600 ~/.ssh/authorized_keys
 </code></pre></li>
+<li><p><strong>[注意]</strong>如果系统开启的SELinux，完成上述配置以后仍然会提速输入密码，需要执行如下命令</p>
+
+<pre><code> restorecon -R -v /root/.ssh
+</code></pre></li>
 </ol>
 
 
