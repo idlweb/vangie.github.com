@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2012-12-20T16:35:21+08:00</updated>
+  <updated>2013-02-03T20:49:32+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,34 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Keynote里输入Font Awesome字符]]></title>
+    <link href="http://vangie.github.com/blog/2013/01/28/using-font-awesome-in-keynote/"/>
+    <updated>2013-01-28T23:23:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/01/28/using-font-awesome-in-keynote</id>
+    <content type="html"><![CDATA[<blockquote><p><a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a>提供了200多个矢量图标的字体文件。矢量字体可以支持无线的放缩，而且体积更好，如果能放到keynote里作为幻灯片的图标素材非常不错。想法是好的，但是由于这些字体对应了一些保留的unicode编码，使用通常的输入法无法输入。</p></blockquote>
+
+<h3>安装Font Awesome字体</h3>
+
+<p>下载 <a href="https://github.com/FortAwesome/Font-Awesome/zipball/master">FontAwesome-Font-Awesome.zip</a>，解压缩后，找到font/FontAwesome.otf文件，双击安装即可。</p>
+
+<h3>找到icon对应的Unicode编码</h3>
+
+<p>找到css/font-awesome.css文件，使用编辑器打开。可以找到许多形如</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.icon-key</span><span class="nd">:before</span>                  <span class="p">{</span> <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;\f084&quot;</span><span class="p">;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中<code>f084</code>就是icon-key图标对应的unicode编码。</p>
+
+<h3>开启Mac OS的unicode16进制输入法</h3>
+
+<p>打开“系统偏好设置\语言与文本\输入源”,在左侧&#8221;请选择要使用的输入源&#8221;列表中勾上”Unicode 十六进制输入“。然后将系统输入法切换为”Unicode输入法“。按住Control健输入4位unicode字符即可输入.若当前字体不存在对应的unicode编码的字形会出现框框，所有输入前需要在keynote里把当前字体改为FontAwesome。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[为CentOS虚拟机添加第二块网卡]]></title>
@@ -1963,60 +1991,6 @@ Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
 
 
 <p>(未完待续…)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[jetty临时目录被tmpwatch定时任务删除]]></title>
-    <link href="http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron/"/>
-    <updated>2012-09-07T16:44:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron</id>
-    <content type="html"><![CDATA[<p>linux下部署的jetty，隔大哥一周时间就会访问出错，或者出现web应用的目录列表。很长一段时间都被这个问题困扰着，由于是个演示系统，持续运行的要求不高，无奈配置了一个cron，定时重启。</p>
-
-<p>最近发现原来linux下有一个叫做<code>tmpwatch</code>的命令，而且默认配置成了<code>cron.daily</code>。每日执行一次。</p>
-
-<!-- more -->
-
-
-<pre><code>[root@bsdn02 ~]# cat /etc/cron.daily/tmpwatch 
-#! /bin/sh
-flags=-umc
-/usr/sbin/tmpwatch "$flags" -x /tmp/.X11-unix -x /tmp/.XIM-unix \
-    -x /tmp/.font-unix -x /tmp/.ICE-unix -x /tmp/.Test-unix \
-    -X '/tmp/hsperfdata_*' 10d /tmp
-/usr/sbin/tmpwatch "$flags" 30d /var/tmp
-for d in /var/{cache/man,catman}/{cat?,X11R6/cat?,local/cat?}; do
-    if [ -d "$d" ]; then
-        /usr/sbin/tmpwatch "$flags" -f 30d "$d"
-    fi
-done
-</code></pre>
-
-<p>此定时任务根据文件的修改/创建时间,清理<code>/tmp</code>下的10天前创建或修改的文件。</p>
-
-<p>jetty启动一个Web应用时，需要先按照<code>jetty_host_port_virtualHost_contextPath_hash</code>的格式创建一个子目录。该临时目录注册给ServletContext里的<code>javax.servlet.context.tempdir</code>属性。临时目前确定的规则如下</p>
-
-<ol>
-<li>通过<code>WebAppContext.setTempDirectory</code>设置的临时文件目录</li>
-<li>上下文中已经定义的<code>javax.servlet.context.tempdir</code>所对应的目录</li>
-<li><code>${jetty.home}/work</code>目录</li>
-<li><code>WEB-INF/work</code>目录</li>
-<li><code>${java.io.tmpdir}</code>目录</li>
-</ol>
-
-
-<p>默认情况下，jetty取得的临时目录是<code>${java.io.tmpdir}</code>目录,linux系统里，该目录通常指向<code>/tmp</code>目录。jetty会在临时目录里创建一个<code>webapp</code>子目录，用户存放war包里解压出来的内容。若<code>tmpwatch</code>真好删除了，<code>webapp</code>目录里的文件，特别是index.html或者index.jsp，就会导致上述的问题。</p>
-
-<p>这里面需要注意的是，除了第一种（并且仅当该目录为Jetty创建的前提下）和最后一种使用场景下Jetty会在Web应用程序退出以后自动删除临时目录以外，其余场景Jetty都会保留临时文件目录。这就解释了为什么每隔一段时间重启服务能避开这个问题。但是更好的解决方法是，通过设置虚拟机的启动参数<code>-Djava.io.tmpdir</code>，把临时文件指向不受<code>tmpwatch</code>影响的目录位置。</p>
-
-<h4>参考文献</h4>
-
-<ol>
-<li><a href="http://lostinmalmo.com/others/2009/04/20/jetty_tmp_dir.html">在Jetty中定位临时文件目录</a></li>
-<li><a href="http://www.colorfuldays.org/program/%E9%81%87%E5%88%B0%E4%B8%80%E4%B8%AAjetty-tmp%E7%9A%84%E9%99%B7%E9%98%B1/">遇到一个Jetty tmp的陷阱</a></li>
-<li><a href="http://www.longtask.com/blog/?p=734">Jetty部署中tmpdir导致服务不可用的问题</a></li>
-</ol>
-
 ]]></content>
   </entry>
   
