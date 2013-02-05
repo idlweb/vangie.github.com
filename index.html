@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="Font Awesome提供了200多个矢量图标的字体文件。矢量字体可以支持无线的放缩，而且体积更好，如果能放到keynote里作为幻灯片的图标素材非常不错。想法是好的，但是由于这些字体对应了一些保留的unicode编码，使用通常的输入法无法输入。 安装Font Awesome字体 下载 &hellip;">
+	<meta name="description" content="mac air里下载的电影通过开启upnp服务，然后iPad安装一个支持upnp服务的播放器可以直接播放电影，免去拷贝的过程。 Mac OS端安装Mediatomb mediatomb是一个跨平台免费的upnp服务器，以web ui的方式管理，仅仅是一个命令行工具。 brew install &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,57 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/02/05/ipad-play-video-from-macbook-over-upnp/">
+		
+			Ipad-play-video-from-macbook-over-upnp</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>mac air里下载的电影通过开启upnp服务，然后iPad安装一个支持upnp服务的播放器可以直接播放电影，免去拷贝的过程。</p></blockquote>
+
+<h1>Mac OS端安装Mediatomb</h1>
+
+<p>mediatomb是一个跨平台免费的upnp服务器，以web ui的方式管理，仅仅是一个命令行工具。</p>
+
+<pre><code>brew install mediatomb
+</code></pre>
+
+<p>安装完成以后执行命令<code>mediatomb</code>,如果遇到端口被占用的错误，需要重启一下机器。我重启两次就好了。</p>
+
+<h1>iOS端安装aceplayer</h1>
+
+<p><a href="https://itunes.apple.com/us/app/aceplayer-powerful-media-player/id540326056?mt=8">aceplayer</a>是一个近乎全能的播放器，支持upnp，可以直接播放或者下载upnp服务器里的视频文件。但是播放时色彩还原效果相对差一点。</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-05T00:58:00+08:00" pubdate data-updated="true">Feb 5<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/02/05/ipad-play-video-from-macbook-over-upnp//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -550,47 +601,6 @@ $ brew install homebrew/dupes/grep
 </div>
 	
 		<span class="comments"><a href="/blog/2012/11/06/get-the-hostname-of-a-windows-machine-by-ip-address//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/11/03/jackson-polymorphic-deserialization/">
-		
-			Jackson多态类型数据绑定</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>Jackson数据绑定可以很方便的将java的对象类型和json数据格式之间进行转换。对于有多个子类型的多态集成结构的对象，Jackson在序列化的时候加入一些类型信息，可以在反序列化的时候准确的还原某个类型的子类。</p></blockquote>
-
-<p>想要把JSON数据准确的反序列化为正确的子类型，简单的方法就是在数据中存储数据的类型。但是Jackson序列化时默认不会将对象的类型信息保存到Json数据中。有两种方式开始使Jackson序列化类型信息</p>
-
-
-		
-		<a href="/blog/2012/11/03/jackson-polymorphic-deserialization/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-03T14:28:00+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/11/03/jackson-polymorphic-deserialization//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
