@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-02-05T15:52:21+08:00</updated>
+  <updated>2013-02-07T20:36:33+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS6安装KuaiDial]]></title>
+    <link href="http://vangie.github.com/blog/2013/02/07/install-kuaidial-on-ios6/"/>
+    <updated>2013-02-07T17:27:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/02/07/install-kuaidial-on-ios6</id>
+    <content type="html"><![CDATA[<blockquote><p>iOS6 越狱程序<a href="http://evasi0n.com/">evasi0n</a>自本周一发布以来，累计被下载了170万次。果断升级了，升级以后发现KuaiDial没有用了。</p></blockquote>
+
+<p>kuaidial原来的升级源http://kuaidail.googlecode.com/svn/deb没有用了，装威锋源里的kuaidial也没有用。改用<strong>第一中文源</strong>http://apt.178.com,然后安装<strong>Kuaidial iOS6 测试版</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[ipad-play-video-from-macbook-over-upnp]]></title>
@@ -1648,73 +1659,6 @@ Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
 <ol>
 <li><a href="http://zh.wikipedia.org/wiki/HTTP%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%81">维基百科-HTTP基本认证</a></li>
 <li><a href="https://gist.github.com/1686663">Example of HTTP Basic Auth in NodeJS</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[浏览器自动补全不触发Input控件的onChange和onKeyup事件]]></title>
-    <link href="http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/"/>
-    <updated>2012-09-10T13:57:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event</id>
-    <content type="html"><![CDATA[<p>表单的输入校验通常会使用<code>onBlur</code>事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的<code>onBlur</code>事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是<code>onChange</code>事件了，但是<code>onChange</code>事件在<code>onBlur</code>事件之后触发，所有只能用<code>onKeyup</code>或者<code>onKeyPress</code>方法来感知输入框的变化。但是如果在输入时浏览器提供自动补全的功能，那<code>onKeyup</code>和<code>onKeyPress</code>事件不会被触发。</p>
-
-<!-- more -->
-
-
-<p>下面是通过轮询输入框来模拟change事件的方法，来解决文本框内容变化不被感知的问题。</p>
-
-<pre><code>(function($) {
-    $.fn.listenForChange = function(options) {
-        settings = $.extend({
-            interval: 200 // 毫秒
-        }, options);
-
-        var jquery_object = this;
-        var current_focus = null;
-
-        jquery_object.filter(":input").add(":input", jquery_object).focus( function() {
-            current_focus = this;
-        }).blur( function() {
-            current_focus = null;
-        });
-
-        setInterval(function() {
-            // allow
-            jquery_object.filter(":input").add(":input", jquery_object).each(function() {
-                // set data cache on element to input value if not yet set
-                if ($(this).data('change_listener') == undefined) {
-                    $(this).data('change_listener', $(this).val());
-                    return;
-                }
-                // return if the value matches the cache
-                if ($(this).data('change_listener') == $(this).val()) {
-                    return;
-                }
-                // ignore if element is in focus (since change event will fire on blur)
-                if (this == current_focus) {
-                    return;
-                }
-                // if we make it here, manually fire the change event and set the new value
-                $(this).trigger('change');
-                $(this).data('change_listener', $(this).val());
-            });
-        }, settings.interval);
-        return this;
-    };
-})(jQuery);
-</code></pre>
-
-<p>然后只需要</p>
-
-<pre><code>$("form").listenForChange();
-</code></pre>
-
-<h4>参考文献</h4>
-
-<ol>
-<li><a href="http://furrybrains.com/2009/01/02/capturing-autofill-as-a-change-event/">Capturing AutoFill as a Change Event</a></li>
 </ol>
 
 ]]></content>
