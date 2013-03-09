@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-03-03T22:52:51+08:00</updated>
+  <updated>2013-03-09T11:04:34+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,137 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[coffeescript人民币小写转换为大写]]></title>
+    <link href="http://vangie.github.com/blog/2013/03/09/convert-amount-from-figures-to-words-by-coffeescript/"/>
+    <updated>2013-03-09T10:43:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/03/09/convert-amount-from-figures-to-words-by-coffeescript</id>
+    <content type="html"><![CDATA[<blockquote><p>windows系统的搜狗输入法v模式可以很贴心地把人民币由小写转换为大写模式，Mac平台的输入法迄今还没有发现类似的功能。OSChina上看到一个哥们写了个java的版本的，于是依葫芦画瓢倒腾了个coffee的版本只用</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="c1">#! /usr/bin/env coffee</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># convert amount from figures to words</span>
+</span><span class='line'><span class="c1"># @author vangie.du</span>
+</span><span class='line'><span class="c1"># @url http://codelife.me/blog/2013/03/09/convert-amount-from-figures-to-words-by-coffeescript/</span>
+</span><span class='line'><span class="c1"># @version 1.0</span>
+</span><span class='line'><span class="c1"># @since 2013-03-09</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+</span><span class='line'>  <span class="nv">n = </span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;</span>
+</span><span class='line'><span class="s">  Usage: \n</span>
+</span><span class='line'><span class="s">      rmb figure_number\n</span>
+</span><span class='line'><span class="s">  Example:\n</span>
+</span><span class='line'><span class="s">      rmb 42342.33\n</span>
+</span><span class='line'><span class="s">      肆万贰仟叁佰肆拾贰元叁角叁分&quot;</span>
+</span><span class='line'>  <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nv">fractions = </span><span class="p">[</span><span class="s">&quot;角&quot;</span><span class="p">,</span> <span class="s">&quot;分&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="nv">digits = </span><span class="p">[</span><span class="s">&quot;零&quot;</span><span class="p">,</span> <span class="s">&quot;壹&quot;</span><span class="p">,</span> <span class="s">&quot;贰&quot;</span><span class="p">,</span> <span class="s">&quot;叁&quot;</span><span class="p">,</span> <span class="s">&quot;肆&quot;</span><span class="p">,</span> <span class="s">&quot;伍&quot;</span><span class="p">,</span> <span class="s">&quot;陆&quot;</span><span class="p">,</span> <span class="s">&quot;柒&quot;</span><span class="p">,</span> <span class="s">&quot;捌&quot;</span><span class="p">,</span> <span class="s">&quot;玖&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="nv">units = </span><span class="p">[[</span><span class="s">&quot;元&quot;</span><span class="p">,</span> <span class="s">&quot;万&quot;</span><span class="p">,</span> <span class="s">&quot;亿&quot;</span><span class="p">],[</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;拾&quot;</span><span class="p">,</span> <span class="s">&quot;佰&quot;</span><span class="p">,</span> <span class="s">&quot;仟&quot;</span><span class="p">]]</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">[</span><span class="nx">head</span><span class="p">,</span> <span class="nx">n</span><span class="p">]</span> <span class="o">=</span> <span class="k">if</span> <span class="nx">n</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span> <span class="p">[</span><span class="s">&#39;负&#39;</span><span class="p">,</span> <span class="o">-</span><span class="nx">n</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="nx">n</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">s = </span><span class="s">&#39;&#39;</span>
+</span><span class='line'><span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</span><span class='line'>  <span class="nx">s</span> <span class="o">+=</span> <span class="p">(</span><span class="nx">digits</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">n</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">%</span> <span class="mi">10</span><span class="p">]</span> <span class="o">+</span> <span class="nx">fractions</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+</span><span class='line'>      <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)+/g</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">s = </span><span class="s">&#39;整&#39;</span> <span class="nx">unless</span> <span class="nx">s</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">intPart = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="nx">units</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">when</span> <span class="nx">intPart</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="nv">p = </span><span class="s">&#39;&#39;</span>
+</span><span class='line'>  <span class="k">for</span> <span class="nx">j</span> <span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="nx">units</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">when</span> <span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="nv">p = </span><span class="nx">digits</span><span class="p">[</span><span class="nx">intPart</span> <span class="o">%</span> <span class="mi">10</span><span class="p">]</span> <span class="o">+</span> <span class="nx">units</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">+</span> <span class="nx">p</span>
+</span><span class='line'>      <span class="nv">intPart = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">intPart</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>  <span class="nv">s = </span><span class="nx">p</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)*零$/g</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^$/g</span><span class="p">,</span> <span class="s">&quot;零&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">units</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="nx">s</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">head</span> <span class="o">+</span> <span class="nx">s</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)*零元/g</span><span class="p">,</span> <span class="s">&quot;元&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)+/</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)+/g</span><span class="p">,</span> <span class="s">&quot;零&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^整$/g</span><span class="p">,</span> <span class="s">&quot;零元整&quot;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将上面的文件保存为<code>~/bin/rmb</code>,或者其他$PATH中目录位置。</p>
+
+<p>然后命令行执行</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>chmod + x ~/bin/rmb
+</span><span class='line'>rmb 42342.33
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更进一步</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ln -s ~/bin/rmb ~/bin/￥
+</span><span class='line'>￥ 42342.33
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考</h3>
+
+<ol>
+<li><a href="http://www.oschina.net/code/snippet_32903_18900">人民币小写转换为大写</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在iTerm2中使用Zmodem传输文件]]></title>
@@ -1578,115 +1709,6 @@ fi
 
 <ol>
 <li><a href="http://ericbae.com/2012/01/30/implement-a-pinterest-like-layout/">Implement a Pinterest-like layout!</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[求最大色差颜色]]></title>
-    <link href="http://vangie.github.com/blog/2012/09/13/calculate-max-difference-color/"/>
-    <updated>2012-09-13T22:51:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2012/09/13/calculate-max-difference-color</id>
-    <content type="html"><![CDATA[<blockquote><p>对于一个给定的前景色，如何找到一个与之色差较大的背景色，使之醒目？</p></blockquote>
-
-<h3>反色</h3>
-
-<p>对颜色值取反，比较简单的方法：<code>0xFFFFFF - $color</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="o">//</span> <span class="nx">coffeescript</span>
-</span><span class='line'><span class="nv">invert = </span><span class="nf">(color) -&gt;</span>
-</span><span class='line'>  <span class="s">&quot;</span><span class="err">#</span><span class="s">&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;000000&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="mh">0xFFFFFF</span> <span class="o">^</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">16</span><span class="p">)).</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)).</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但是当<code>$color = 0x808080</code>时,<code>$color ≈ 0xFFFFFF - $color</code>前景色和背景色非常接近，显然取反的方法有瑕疵。</p>
-
-<!-- more -->
-
-
-<h3>何为色差</h3>
-
-<p>色差简单来说就是颜色的差别,定量表示的色知觉差异。从<strong>明度</strong>、<strong>色调</strong>和<strong>彩度</strong>这三种颜色属性的差异来表示。明度差表示深浅的差异，色调差表示色相的差异（即偏红或偏蓝等），彩度差表示鲜艳度的差异。通过明度(L)、色调(A)和彩度(B)表示的颜色模型，称为LAB颜色模型，区别于RGB和CMYK颜色模型。</p>
-
-<p><strong>LAB的取值范围</strong></p>
-
-<ul>
-<li>L [0, 100]</li>
-<li>A [-128, 127]</li>
-<li>B [-128, 127]</li>
-</ul>
-
-
-<h3>如何计算色差</h3>
-
-<p><img src="http://upload.wikimedia.org/math/9/1/0/910227e12a98c6df4664034d33c2e91c.png" alt="色差计算公式" />
- ，其中<img src="http://upload.wikimedia.org/math/b/0/6/b06a11157eefd0439922bc2c5f390502.png" alt="颜色1" />和<img src="http://upload.wikimedia.org/math/4/0/1/4013fe6a2bdda4d686baa791861d3db5.png" alt="颜色2" />分别表示两个不同的LAB模型颜色。</p>
-
-<h3>求得与某一颜色的色差最大的颜色</h3>
-
-<p>根据上面的色差计算公式，对于一个给定的LAB颜色，计算出色差最大的颜色是很容易的。L1，a1和b1分别与对应取值范围的中值比较，小于中值取上界，大于中值去下届</p>
-
-<pre><code>L2 = L1&lt;50?100:0
-a2 = a1&lt;0?127:-128
-b2 = b1&lt;0?127:-128
-</code></pre>
-
-<p>但是计算机和常见程序设计语言的采用RGB模型表示颜色。所以需要先将RGB颜色转换成LAB颜色，计算出最大色差颜色的LAB表示法，然后再转换成RGB颜色。</p>
-
-<p><strong>RGB -> LAB</strong></p>
-
-<pre><code>L = (13933 * R + 46871 * G + 4732 * B) / 2^16
-a = 377 * (14503 * R - 22218 * G + 7714 * B) / 2^24 + 128
-b = 160 * (12773 * R + 39695 * G - 52468 * B) / 2^24 + 128
-</code></pre>
-
-<p><strong>LAB -> RGB</strong></p>
-
-<pre><code>R = L1 + (a1 * 100922 + b1 * 17790) / 2^23
-G = L1 - (a1 * 30176 + b1 * 1481) / 2^23
-B = L1 + (a1 * 1740 - b1 * 37719) / 2^23
-</code></pre>
-
-<p>真的有必要通过繁琐的步骤求出最大色差么，能不能简单的获得一个较大色差？</p>
-
-<h3>近似求法</h3>
-
-<p>如果我们略去RGB与LAB的转换，分别找出与R值，G值和B值的差值最大的R‘，G’和B‘也能取得较好的效果</p>
-
-<pre><code>R' = R&lt;128 ? 255 : 0
-G' = G&lt;128 ? 255 : 0
-B' = B&lt;128 ? 255 : 0
-</code></pre>
-
-<p>源码</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="o">//</span><span class="nx">coffeescript</span>
-</span><span class='line'><span class="nv">diff = </span><span class="nf">(color) -&gt;</span>
-</span><span class='line'>  <span class="nv">hex = </span><span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">16</span><span class="p">);</span>
-</span><span class='line'>  <span class="nv">r = </span><span class="k">if</span> <span class="p">(</span> <span class="nx">hex</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">128</span> <span class="k">then</span> <span class="s">&#39;00&#39;</span> <span class="k">else</span> <span class="s">&#39;FF&#39;</span>
-</span><span class='line'>  <span class="nv">g = </span><span class="k">if</span> <span class="p">(</span> <span class="nx">hex</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">128</span> <span class="k">then</span> <span class="s">&#39;00&#39;</span> <span class="k">else</span> <span class="s">&#39;FF&#39;</span>
-</span><span class='line'>  <span class="nv">b = </span><span class="k">if</span> <span class="p">(</span> <span class="nx">hex</span> <span class="o">&amp;</span> <span class="mh">0xFF</span> <span class="p">)</span> <span class="o">&gt;</span> <span class="mi">128</span> <span class="k">then</span> <span class="s">&#39;00&#39;</span> <span class="k">else</span> <span class="s">&#39;FF&#39;</span>
-</span><span class='line'>  <span class="s">&quot;</span><span class="err">#</span><span class="s">&quot;</span> <span class="o">+</span> <span class="nx">r</span> <span class="o">+</span> <span class="nx">g</span> <span class="o">+</span> <span class="nx">b</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>参考文献</h3>
-
-<ol>
-<li><a href="http://maestric.com/doc/color_brightness_difference_calculator">Online calculator of color difference and color brightness difference</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Color_difference">Wikipedia - Color difference</a></li>
-<li><a href="http://hao.qinz.net/comments.php?y=08&amp;m=07&amp;entry=entry080727-033517">从RGB到Lab色彩空间的转换</a></li>
 </ol>
 
 ]]></content>

@@ -149,11 +149,17 @@
         <lastmod>2013-03-03T22:52:17+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://vangie.github.com/blog/2013/03/09/convert-amount-from-figures-to-words-by-coffeescript/
+        </loc>
+        <lastmod>2013-03-09T11:04:33+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://vangie.github.com/blog/archives/</loc>
-        <lastmod>2013-03-03T22:52:17+08:00</lastmod>
+        <lastmod>2013-03-09T11:04:33+08:00</lastmod>
     </url>
     <url>
         <loc>http://vangie.github.com/</loc>
-        <lastmod>2013-03-03T22:52:17+08:00</lastmod>
+        <lastmod>2013-03-09T11:04:33+08:00</lastmod>
     </url>
 </urlset>
