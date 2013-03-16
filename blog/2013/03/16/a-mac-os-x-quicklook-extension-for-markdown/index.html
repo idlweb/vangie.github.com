@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Code Life</title>
+	<title>支持Markdown的Finder快速预览插件 - Code Life</title>
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。 实在无法忍受linode日本机房的高延迟，动手配置了一个goagent服务。但是HTTP代理和VPN不同，没法全局代理（至少不能简单配置）， &hellip;">
+	<meta name="description" content="寻找一个可扩展的markdown parser的java或者javascript实现，wikipedia上有一个列表非常全。比较之后决定弃用pagedown改用markdown4j，明显后者功能更加全面，而且同样可扩展。在这个长长的列表里意外的发现了qlmarkdown。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -72,25 +72,23 @@
 	
 		
 	
-	<div id="content" class="inner">
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">支持Markdown的Finder快速预览插件</h2>
+	<div class="entry-content"><blockquote><p>寻找一个可扩展的markdown parser的java或者javascript实现，wikipedia上有一个<a href="http://en.wikipedia.org/wiki/List_of_Markdown_implementations">列表</a>非常全。比较之后决定弃用<a href="http://code.google.com/p/pagedown/">pagedown</a>改用<a href="http://code.google.com/p/markdown4j">markdown4j</a>，明显后者功能更加全面，而且同样可扩展。在这个长长的列表里意外的发现了<a href="(https://github.com/toland/qlmarkdown/)">qlmarkdown</a>。</p></blockquote>
+
+<p><a href="(https://github.com/toland/qlmarkdown/)">qlmarkdown</a>是一个QuickLook的扩展（在Finder里选中文件敲空格键弹出的那个窗口就是Quicklook功能）。安装了这个扩展以后就可以快速的预览markdown文件了。</p>
+
+<!-- more -->
 
 
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">
-		
-			如何为MacOS X终端设置代理</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。</p></blockquote>
+<p>下载地址：https://github.com/toland/qlmarkdown/downloads</p>
 
-<p>实在无法忍受<a href="http://www.linode.com/" title="linode">linode</a>日本机房的高延迟，动手配置了一个<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>服务。但是HTTP代理和VPN不同，没法全局代理（<em>至少不能简单配置</em>），在Terminal里下载最新版本的Ruby，奇慢无比，下面介绍如何让Terminal里执行的程序使用<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>代理。</p>
+<p>安装步骤很简单，拷贝QLMarkdown.qlgenerator到目录 <code>~/Library/QuickLook</code> 或者 <code>/Library/QuickLook</code>即可。</p>
 
+<p>效果图</p>
 
-		
-		<a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/" class="more-link">继续阅读 &rarr;</a>
-	</div>
+<p><img src="/images/post/2013-03-16/quicklook.png" alt="Quicklook" /></p>
+</div>
 
 
 <div class="meta">
@@ -106,63 +104,35 @@
   
 
 
-<time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time></div>
+<time datetime="2013-03-16T12:33:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2013</time></div>
 	<div class="tags">
 
 </div>
 	
-		<span class="comments"><a href="/blog/2012/09/02/how-to-set-proxy-for-terminal//blog/page/4/index.html#disqus_thread">Comments</a></span>
+		<span class="comments"><a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/#disqus_thread">Comments</a></span>
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/">
-		
-			MacOS X终端里SSH会话管理</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
-
-<p>虽然windows没有对SSH的原生支持，但是<a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a>和<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能。</p>
-
-
-		
-		<a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/" class="more-link">继续阅读 &rarr;</a>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
 	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-01T23:31:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2012</time></div>
-	<div class="tags">
-
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
-	
-		<span class="comments"><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x//blog/page/4/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
 
-<nav id="pagenavi">
-    
-        <a href="/blog/page/3/" class="prev">Prev</a>
-    
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
 	<footer id="footer" class="inner">Copyright &copy; 2013
 
     Vangie Du
@@ -181,7 +151,10 @@
       var disqus_shortname = 'code-life';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/';
+        var disqus_url = 'http://vangie.github.com/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

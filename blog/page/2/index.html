@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="由于License的问题，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&#8211;per-regex）选项，缺少了对Perl正则表达式的支持。 可以通过使用homebrew自己安装GNU Grep以兼容包含 &hellip;">
+	<meta name="description" content="系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清除，那需要一段漫长的等待 Mac OS OS X Lion (10.7) and OS X Mountain Lion (10.8) $ sudo killall -HUP mDNSResponder Mac &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,95 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/11/20/how-to-flush-your-dns-cache/">
+		
+			如何清除DNS缓存</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清除，那需要一段漫长的等待</p></blockquote>
+
+<h3>Mac OS</h3>
+
+<p>OS X Lion (10.7) and OS X Mountain Lion (10.8)</p>
+
+<pre><code>$ sudo killall -HUP mDNSResponder
+</code></pre>
+
+<p>Mac OS X 10.5, Mac OS X 10.6</p>
+
+<pre><code>$ dscacheutil -flushcache
+</code></pre>
+
+<p>Mac OS X 10.4 Tiger</p>
+
+<pre><code>$ lookupd -flushcache
+</code></pre>
+
+<h3>Windows</h3>
+
+<p>Vista/Win7 以上系统</p>
+
+<p>查看DNS缓存</p>
+
+<pre><code>&gt; ipconfig /displaydns
+</code></pre>
+
+<p>清除DNS缓存</p>
+
+<pre><code>&gt; ipconfig /flushdns 
+</code></pre>
+
+<p>Winxp和之前的老系统</p>
+
+<pre><code>&gt; net stop dnscache
+&gt; net start dnscache
+</code></pre>
+
+<h3>Linux</h3>
+
+<pre><code>$ sudo /etc/init.d/nscd restart
+</code></pre>
+
+<h4>参考文献</h4>
+
+<ol>
+<li><a href="http://osxdaily.com/2008/03/21/how-to-flush-your-dns-cache-in-mac-os-x/">How to Flush DNS Cache in Mac OS X</a></li>
+<li><a href="http://www.cnblogs.com/yryz/archive/2012/02/13/2299756.html">Vista/Win7以上系统查看和清除本地DNS缓存新方法</a></li>
+<li><a href="http://www.techiecorner.com/35/how-to-flush-dns-cache-in-linux-windows-mac/">How to flush DNS cache in Linux / Windows / Mac</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:23:00+08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/11/20/how-to-flush-your-dns-cache//blog/page/2/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -466,45 +555,6 @@ $ brew install homebrew/dupes/grep
 </div>
 	
 		<span class="comments"><a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs//blog/page/2/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">
-		
-			几个瀑布流风格布局的jQuery插件</a>
-	</h2>
-	<div class="entry-content">
-		<p>Pinterest的瀑布流布局,让人眼睛一亮,看图的过程变得很享受.巧妙的改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过多页面加载缓慢的问题.国内的<a href="http://huaban.com/">花瓣网</a>,借鉴了瀑布流的设计,做得挺不错的.</p>
-
-
-		
-		<a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-14T22:49:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/14/pinterest-like-layout-by-jquery//blog/page/2/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
