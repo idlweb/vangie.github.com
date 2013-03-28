@@ -1,0 +1,295 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>MacOS X里升级GoAgent后台服务 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="本篇是MacOS X将GoAgent配置为后台服务的姊妹篇，主要分享一下将GoAgent配置成随机启动的LaunchAgent后如何升级，并提供一个方便的管理脚本。 升级 下载安装 假设GoAgent的安装目录为~/Library/ 下载最新的GoAgent，当前版本为v2.1.14。 &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vangie.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vangie.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">MacOS X里升级GoAgent后台服务</h2>
+	<div class="entry-content"><blockquote><p>本篇是<a href="http://codelife.me/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X将GoAgent配置为后台服务</a>的姊妹篇，主要分享一下将GoAgent配置成随机启动的LaunchAgent后如何升级，并提供一个方便的管理脚本。</p></blockquote>
+
+<h2>升级</h2>
+
+<h3>下载安装</h3>
+
+<p>假设GoAgent的安装目录为<code>~/Library/</code></p>
+
+<p>下载最新的GoAgent，当前版本为v2.1.14。解压后得到<code>goagent-goagent-beadcf8</code>目录,将其移动到<code>~/Library/</code>目录</p>
+
+<pre><code>mv goagent-goagent-beadcf8 ~/Library/
+</code></pre>
+
+<p>并在同目录下创建一个文件链接，</p>
+
+<pre><code>ln -sf goagent-goagent-beadcf8 goagent
+</code></pre>
+
+<!-- more -->
+
+
+<h3>上传服务端</h3>
+
+<p>进入<code>~/Library/goagent/server</code>目录执行</p>
+
+<pre><code>uploaddir=python python uploader.zip
+</code></pre>
+
+<p>然后按照命令行的提示输入APPID，还有gmail账号和密码上传服务端。</p>
+
+<h3>配置客户端</h3>
+
+<p>打开<code>~/Library/goagent/local/proxy.ini</code>文件,修改[gae]段的appid，如果有password别忘了填。</p>
+
+<h3>修改LaunchAgent脚本</h3>
+
+<p>修改<code>~/Library/LaunchAgents/com.googlecode.goagent.plist</code>文件</p>
+
+<p>将</p>
+
+<pre><code>/Users/vangie/Library/goagent-goagent-******/local/proxy.py
+</code></pre>
+
+<p>改为</p>
+
+<pre><code>/Users/vangie/Library/goagent/local/proxy.py
+</code></pre>
+
+<p>这个文件只需要该一次，今后升级只需要<code>ln -sf</code>创建一个链接就可以了。</p>
+
+<h2>重启LaunchAgent</h2>
+
+<pre><code>launchctl unload -w ~/Library/LaunchAgents/com.googlecode.goagent.plist
+launchctl load -w ~/Library/LaunchAgents/com.googlecode.goagent.plist
+</code></pre>
+
+<p>launchctl没有reload或者restart参数，重启挺麻烦的，而且命令不好记。</p>
+
+<p>使用下面的脚本就方便多了，把脚本保存为<code>goagentctl</code>，保存到<code>$PATH</code>目录，我放在<code>~/bin</code>下面</p>
+
+<pre><code>#!/bin/sh
+#
+# author: Vangie Du
+# url: http://codelife.me/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x
+# version: 1.0
+#
+#
+ARGV="$@"
+#
+# |||||||||||||||||||| START CONFIGURATION SECTION  ||||||||||||||||||||
+# --------------------                              --------------------
+#
+# pick up any necessary environment variables
+if test -f /usr/sbin/envvars; then
+  . /usr/sbin/envvars
+fi
+# --------------------                              --------------------
+# ||||||||||||||||||||   END CONFIGURATION SECTION  ||||||||||||||||||||
+
+LAUNCHCTL="/bin/launchctl"
+LAUNCHD_JOB="/Users/vangie/Library/LaunchAgents/com.googlecode.goagent.plist"
+LAUNCHD_JOB_NAME="com.googlecode.goagent"
+
+
+run_launchctl() {
+    $LAUNCHCTL $@
+}
+
+
+ERROR=0
+
+case $ARGV in
+start)
+    run_launchctl load -w $LAUNCHD_JOB
+    ERROR=$?
+    ;;
+stop)
+    run_launchctl unload -w $LAUNCHD_JOB
+    ERROR=$?
+    ;;
+restart)
+    run_launchctl unload -w $LAUNCHD_JOB 2&gt; /dev/null
+    run_launchctl load -w $LAUNCHD_JOB
+    ERROR=$?
+    ;;
+status)
+    run_launchctl list | grep  $LAUNCHD_JOB_NAME &gt; /dev/null
+    if [ $? -eq 1 ]
+    then
+        echo goagent daemon is stopped.
+    else
+        echo goagent daemon is running...
+    fi
+    ;;
+*)
+    echo 'goagentctl (start|stop|restart|status)'
+    ;;
+esac
+
+exit $ERROR
+</code></pre>
+
+<p> 然后执行</p>
+
+<pre><code>goagentctl restart
+</code></pre>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-28T10:04:00+08:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/';
+        var disqus_url = 'http://vangie.github.com/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

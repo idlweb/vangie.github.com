@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="寻找一个可扩展的markdown parser的java或者javascript实现，wikipedia上有一个列表非常全。比较之后决定弃用pagedown改用markdown4j，明显后者功能更加全面，而且同样可扩展。在这个长长的列表里意外的发现了qlmarkdown。 &hellip;">
+	<meta name="description" content="本篇是MacOS X将GoAgent配置为后台服务的姊妹篇，主要分享一下将GoAgent配置成随机启动的LaunchAgent后如何升级，并提供一个方便的管理脚本。 升级 下载安装 假设GoAgent的安装目录为~/Library/ 下载最新的GoAgent，当前版本为v2.1.14。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -78,6 +78,61 @@
     <article class="post">
 	<h2 class="title">
 		
+		<a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/">
+		
+			MacOS X里升级GoAgent后台服务</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>本篇是<a href="http://codelife.me/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X将GoAgent配置为后台服务</a>的姊妹篇，主要分享一下将GoAgent配置成随机启动的LaunchAgent后如何升级，并提供一个方便的管理脚本。</p></blockquote>
+
+<h2>升级</h2>
+
+<h3>下载安装</h3>
+
+<p>假设GoAgent的安装目录为<code>~/Library/</code></p>
+
+<p>下载最新的GoAgent，当前版本为v2.1.14。解压后得到<code>goagent-goagent-beadcf8</code>目录,将其移动到<code>~/Library/</code>目录</p>
+
+<pre><code>mv goagent-goagent-beadcf8 ~/Library/
+</code></pre>
+
+<p>并在同目录下创建一个文件链接，</p>
+
+<pre><code>ln -sf goagent-goagent-beadcf8 goagent
+</code></pre>
+
+
+		
+		<a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-28T10:04:00+08:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
 		<a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/">
 		
 			支持Markdown的Finder快速预览插件</a>
@@ -126,134 +181,9 @@
 	<div class="entry-content">
 		<blockquote><p>windows系统的搜狗输入法v模式可以很贴心地把人民币由小写转换为大写模式，Mac平台的输入法迄今还没有发现类似的功能。OSChina上看到一个哥们写了个java的版本的，于是依葫芦画瓢倒腾了个coffee的版本只用</p></blockquote>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="c1">#! /usr/bin/env coffee</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># convert amount from figures to words</span>
-</span><span class='line'><span class="c1"># @author vangie.du</span>
-</span><span class='line'><span class="c1"># @url http://codelife.me/blog/2013/03/09/convert-amount-from-figures-to-words-by-coffeescript/</span>
-</span><span class='line'><span class="c1"># @version 1.1</span>
-</span><span class='line'><span class="c1"># @since 2013-03-09</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">if</span> <span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="mi">3</span>
-</span><span class='line'>  <span class="nv">n = </span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]).</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</span><span class='line'><span class="k">else</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&quot;</span>
-</span><span class='line'><span class="s">  Usage: \n</span>
-</span><span class='line'><span class="s">      rmb figure_number\n</span>
-</span><span class='line'><span class="s">  Example:\n</span>
-</span><span class='line'><span class="s">      rmb 42342.33\n</span>
-</span><span class='line'><span class="s">      肆万贰仟叁佰肆拾贰元叁角叁分&quot;</span>
-</span><span class='line'>  <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="nv">fractions = </span><span class="p">[</span><span class="s">&quot;角&quot;</span><span class="p">,</span> <span class="s">&quot;分&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="nv">digits = </span><span class="p">[</span><span class="s">&quot;零&quot;</span><span class="p">,</span> <span class="s">&quot;壹&quot;</span><span class="p">,</span> <span class="s">&quot;贰&quot;</span><span class="p">,</span> <span class="s">&quot;叁&quot;</span><span class="p">,</span> <span class="s">&quot;肆&quot;</span><span class="p">,</span> <span class="s">&quot;伍&quot;</span><span class="p">,</span> <span class="s">&quot;陆&quot;</span><span class="p">,</span> <span class="s">&quot;柒&quot;</span><span class="p">,</span> <span class="s">&quot;捌&quot;</span><span class="p">,</span> <span class="s">&quot;玖&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="nv">units = </span><span class="p">[[</span><span class="s">&quot;元&quot;</span><span class="p">,</span> <span class="s">&quot;万&quot;</span><span class="p">,</span> <span class="s">&quot;亿&quot;</span><span class="p">],[</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;拾&quot;</span><span class="p">,</span> <span class="s">&quot;佰&quot;</span><span class="p">,</span> <span class="s">&quot;仟&quot;</span><span class="p">]]</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">[</span><span class="nx">head</span><span class="p">,</span> <span class="nx">n</span><span class="p">]</span> <span class="o">=</span> <span class="k">if</span> <span class="nx">n</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span> <span class="p">[</span><span class="s">&#39;负&#39;</span><span class="p">,</span> <span class="o">-</span><span class="nx">n</span><span class="p">]</span> <span class="k">else</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="nx">n</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">s = </span><span class="s">&#39;&#39;</span>
-</span><span class='line'><span class="nv">fractionalPart = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nx">n</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">%</span> <span class="mi">100</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="mi">1</span><span class="p">]</span>
-</span><span class='line'>  <span class="nx">s</span> <span class="o">+=</span> <span class="p">(</span><span class="nx">digits</span><span class="p">[</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">fractionalPart</span> <span class="o">/</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="nx">i</span><span class="p">))</span> <span class="o">%</span> <span class="mi">10</span><span class="p">]</span> <span class="o">+</span> <span class="nx">fractions</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
-</span><span class='line'>      <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)+/g</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">s = </span><span class="s">&#39;整&#39;</span> <span class="nx">unless</span> <span class="nx">s</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">intPart = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="nx">units</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">when</span> <span class="nx">intPart</span> <span class="o">&gt;</span> <span class="mi">0</span>
-</span><span class='line'>  <span class="nv">p = </span><span class="s">&#39;&#39;</span>
-</span><span class='line'>  <span class="k">for</span> <span class="nx">j</span> <span class="k">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">..</span><span class="nx">units</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">when</span> <span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span>
-</span><span class='line'>      <span class="nv">p = </span><span class="nx">digits</span><span class="p">[</span><span class="nx">intPart</span> <span class="o">%</span> <span class="mi">10</span><span class="p">]</span> <span class="o">+</span> <span class="nx">units</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span> <span class="o">+</span> <span class="nx">p</span>
-</span><span class='line'>      <span class="nv">intPart = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">intPart</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
-</span><span class='line'>  <span class="nv">s = </span><span class="nx">p</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)*零$/g</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^$/g</span><span class="p">,</span> <span class="s">&quot;零&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">units</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="nx">s</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">head</span> <span class="o">+</span> <span class="nx">s</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)*零元/g</span><span class="p">,</span> <span class="s">&quot;元&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)+/</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/(零.)+/g</span><span class="p">,</span> <span class="s">&quot;零&quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^整$/g</span><span class="p">,</span> <span class="s">&quot;零元整&quot;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>将上面的文件保存为<code>~/bin/rmb</code>,或者其他$PATH中目录位置。</p>
-
-<p>然后命令行执行</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>chmod + x ~/bin/rmb
-</span><span class='line'>rmb 42342.33
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>更进一步</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ln -s ~/bin/rmb ~/bin/￥
-</span><span class='line'>￥ 42342.33
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>参考</h3>
-
-<ol>
-<li><a href="http://www.oschina.net/code/snippet_32903_18900">人民币小写转换为大写</a></li>
-</ol>
-
 
 		
-		
+		<a href="/blog/2013/03/09/convert-amount-from-figures-to-words-by-coffeescript/" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 
@@ -612,53 +542,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2012/12/07/qemu-kvm-add-slic-2-dot-1-to-bios-and-activate-windows-server-2008-r2-sucessfully//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/">
-		
-			Ubuntu Server 12.10修改语言环境</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>安装的时候把ubuntu server的默认语言设置成了中文，由于默认没有安装中文字体，控制台一片乱码。所有要么安装字体<code>sudo apt-get install language-pack-zh</code>,要么把语言环境设置成英文。</p></blockquote>
-
-<p>网上大部分文章都提到修改<code>/etc/environment</code>文件，但是打开<code>/etc/environment</code>文件，默认是空的，说明这种方法虽然可以达到效果，但不是最完美的。更好的方式如下：</p>
-
-<pre><code>$ sudo update-locale LANG=en_US.UTF-8
-$ sudo update-locale LANGUAGE=en_US.en
-</code></pre>
-
-<p>然后重启系统即可。</p>
-
-
-		
-		<a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-04T16:59:00+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
