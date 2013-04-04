@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-04-05T00:25:10+08:00</updated>
+  <updated>2013-04-05T00:26:41+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[mixing-goagent-and-ssh-forwarding-on-iso-6]]></title>
+    <title type="html"><![CDATA[iOS6里GoAgent和SSH Forwarding共用]]></title>
     <link href="http://vangie.github.com/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/"/>
     <updated>2013-04-04T22:15:00+08:00</updated>
     <id>http://vangie.github.com/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6</id>
