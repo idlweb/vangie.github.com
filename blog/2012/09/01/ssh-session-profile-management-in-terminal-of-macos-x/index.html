@@ -120,6 +120,10 @@
 
 <pre><code>scp ~/.ssh/id_rsa.pub username@example.com:~/.ssh/authorized_keys
 </code></pre></li>
+<li><p><strong>更好的方式</strong>（无论<code>authorized_keys</code>在与不在）</p>
+
+<pre><code>  ssh-copy-id username@example.com
+</code></pre></li>
 </ul>
 </li>
 <li><p>[可选] <strong>提高系统安全性</strong></p>

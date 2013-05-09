@@ -1,0 +1,495 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>使用NodeJs开发微信公众平台账号 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="微信越来越火，信息、语音短信、视频电话等非常实用OTT业务加上QQ好友和通讯录的导入一时间吸引了大量的用户。前段时间各大运营商开始吵着要收微信的费用。所谓“发现即晚期”，当运营商发现苗条不对的时候，已经来不及了。微信除了提供了好用的通讯替代功能，还是一个可扩展的平台，比如：微信公众平台， &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vangie.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vangie.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">使用NodeJs开发微信公众平台账号</h2>
+	<div class="entry-content"><blockquote><p>微信越来越火，信息、语音短信、视频电话等非常实用OTT业务加上QQ好友和通讯录的导入一时间吸引了大量的用户。前段时间各大运营商开始吵着要收微信的费用。所谓“发现即晚期”，当运营商发现苗条不对的时候，已经来不及了。微信除了提供了好用的通讯替代功能，还是一个可扩展的平台，比如：微信公众平台，一种账号层面的扩展，可以理解为一种微信的公众账号区别于个人账号，通常可作为一种的资讯发布渠道，也可被实现成机器人程序与用户互动。本文介绍如何基于微信公众平台的Open API使用NodeJs开发一个HelloWord程序。</p></blockquote>
+
+<!-- more -->
+
+
+<h3>开启开发模式</h3>
+
+<p>前往http://mp.weixin.qq.com 注册一个公众平台账号，注册过程与通常无异。激活并登录账号，前往【高级功能】开启【开发模式】（开启之前要确保头像已上传）。</p>
+
+<h4>接口配置信息</h4>
+
+<p>接口配置信息用于公众平台与应用程序之间相互验证。
+假设配置信息如下</p>
+
+<pre><code>URL:    http://mydomain.com/weixin
+Tokan:  balabala
+</code></pre>
+
+<p>在提交该信息之前需要先保证该URL已经可访问，</p>
+
+<h3>使用ExpressJs编写一个WebServer</h3>
+
+<h4>server.js</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//setup Dependencies</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">connect</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">,</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">,</span> <span class="nx">io</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;socket.io&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">,</span> <span class="nx">weixin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./lib/weixin&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">,</span> <span class="nx">xmlBodyParser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./lib/xmlBodyParser&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">,</span> <span class="nx">port</span> <span class="o">=</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">80</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//Setup Express</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">express</span><span class="p">.</span><span class="nx">createServer</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">configure</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="nx">bodyParser</span><span class="p">());</span>
+</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">xmlBodyParser</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="nx">bodyParser</span><span class="p">());</span>
+</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">cookieParser</span><span class="p">());</span>
+</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">session</span><span class="p">({</span> <span class="nx">secret</span><span class="o">:</span> <span class="s2">&quot;shhhhhhhhh!&quot;</span><span class="p">}));</span>
+</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/static&#39;</span><span class="p">));</span>
+</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">server</span><span class="p">.</span><span class="nx">router</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="s1">&#39;mydomain.com&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//Setup Socket.IO</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">io</span> <span class="o">=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">server</span><span class="p">);</span>
+</span><span class='line'><span class="nx">io</span><span class="p">.</span><span class="nx">sockets</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">socket</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Client Connected&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+</span><span class='line'>    <span class="nx">socket</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;server_message&#39;</span><span class="p">,</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;server_message&#39;</span><span class="p">,</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>  <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;disconnect&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Client Disconnected.&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/weixin&#39;</span><span class="p">,</span> <span class="nx">weixin</span><span class="p">.</span><span class="nx">doGet</span><span class="p">);</span>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/weixin&#39;</span><span class="p">,</span> <span class="nx">weixin</span><span class="p">.</span><span class="nx">doPost</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Listening on http://mydomain.com:&#39;</span> <span class="o">+</span> <span class="nx">port</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>lib/xmlBodyParser.js</h4>
+
+<p>这是一个处理xml请求的工具包，expressJs默认值不解析MIME类型为text/xml类型的请求。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">xml2js</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;xml2js&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">mime</span><span class="p">(</span><span class="nx">req</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;content-type&#39;</span><span class="p">]</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">str</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">xmlBodyParser</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">_body</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">body</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span> <span class="o">||</span> <span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// ignore GET</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;GET&#39;</span> <span class="o">==</span> <span class="nx">req</span><span class="p">.</span><span class="nx">method</span> <span class="o">||</span> <span class="s1">&#39;HEAD&#39;</span> <span class="o">==</span> <span class="nx">req</span><span class="p">.</span><span class="nx">method</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// check Content-Type</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;text/xml&#39;</span> <span class="o">!=</span> <span class="nx">mime</span><span class="p">(</span><span class="nx">req</span><span class="p">))</span> <span class="k">return</span> <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// flag as parsed</span>
+</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">_body</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// parse</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">buf</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">setEncoding</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">){</span> <span class="nx">buf</span> <span class="o">+=</span> <span class="nx">chunk</span> <span class="p">});</span>
+</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>        <span class="kd">var</span> <span class="nx">parseString</span> <span class="o">=</span> <span class="nx">xml2js</span><span class="p">.</span><span class="nx">parseString</span><span class="p">;</span>
+</span><span class='line'>        <span class="nx">parseString</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">json</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">err</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>
+</span><span class='line'>                <span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">req</span><span class="p">.</span><span class="nx">body</span> <span class="o">=</span> <span class="nx">json</span><span class="p">;</span>
+</span><span class='line'>                <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">});</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>lib/weixin.js</h4>
+
+<p>处理来自微信公众平台的get和post请求。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">almanac</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./almanac&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;crypto&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nx">util</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;util&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="nx">xmlbuilder</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;xmlbuilder&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">exports</span><span class="p">.</span><span class="nx">doGet</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">checkSource</span><span class="p">(</span><span class="nx">req</span><span class="p">)){</span>
+</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">echostr</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">exports</span><span class="p">.</span><span class="nx">doPost</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">checkSource</span><span class="p">(</span><span class="nx">req</span><span class="p">)){</span>
+</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">xml</span> <span class="o">=</span> <span class="nx">buildXml</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">FromUserName</span><span class="p">,</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">ToUserName</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">xml</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">xml</span><span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;Content&#39;</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">.</span><span class="nx">dat</span><span class="p">(</span><span class="s1">&#39;hello world&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">xml</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">contentType</span><span class="p">(</span><span class="s1">&#39;text/xml&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">xml</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">checkSource</span><span class="p">(</span><span class="nx">req</span><span class="p">){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">signature</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">signature</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">timestamp</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">timestamp</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">nonce</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">nonce</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">shasum</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHash</span><span class="p">(</span><span class="s1">&#39;sha1&#39;</span><span class="p">),</span>
+</span><span class='line'>        <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;balabala&#39;</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">nonce</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">shasum</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">sort</span><span class="p">().</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="s1">&#39;utf-8&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">shasum</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="nx">signature</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">buildXml</span><span class="p">(</span><span class="nx">to</span><span class="p">,</span> <span class="nx">from</span><span class="p">,</span> <span class="nx">msgType</span><span class="p">,</span> <span class="nx">funFlag</span><span class="p">,</span> <span class="nx">callback</span><span class="p">){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">xml</span> <span class="o">=</span> <span class="nx">xmlbuilder</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;xml&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;ToUserName&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">dat</span><span class="p">(</span><span class="nx">to</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">up</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;FromUserName&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">dat</span><span class="p">(</span><span class="nx">from</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">up</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;CreateTime&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">txt</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getMilliseconds</span><span class="p">())</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">up</span><span class="p">()</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;MsgType&#39;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">dat</span><span class="p">(</span><span class="nx">msgType</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">.</span><span class="nx">up</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">xml</span> <span class="o">=</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">xml</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">xml</span><span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;FuncFlag&#39;</span><span class="p">,{},</span><span class="nx">funFlag</span><span class="p">).</span><span class="nx">end</span><span class="p">({</span><span class="nx">pretty</span><span class="o">:</span><span class="kc">true</span><span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参阅</h3>
+
+<ol>
+<li><a href="http://www.tfan.org/using-xml2js-for-express-body-parser/">如何让 Node-express 支持 XML 形式的 POST 请求？</a></li>
+<li><a href="https://gist.github.com/davidkrisch/2210498">Express-Node: Accepting POST with Content-Type: application/xml</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-23T16:25:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/';
+        var disqus_url = 'http://vangie.github.com/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

@@ -7,7 +7,9 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="I2P 是一个匿名网络项目，它提供了一个简单的网络层供对身份敏感的程序进行安全的匿名通讯。I2P 网络是动态的分布式网络，它在设计上并不信任网络中的任何一方，其中的所有数据都经过多层加密。 简单的说I2P和Tor一样都可以作为梯子。相比Tor，I2P不需要中央服务器，属于分布式的匿名网络， &hellip;">
+	<meta name="description" content="Debian系统xen安装centos 6.3失败，报错找不到/dev/urandom。 错误如下 1
+2
+3 File "/usr/lib64/python2.4/random.py", line 109, in seed a = long(_hexlify(_urandom(16)), 16 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +75,57 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/">
+		
+			解决rinse安装CentOS 6报错找不到&#8217;/dev/urandom&#8217;的问题</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>Debian系统xen安装centos 6.3失败，报错找不到<code>/dev/urandom</code>。</p></blockquote>
+
+<h3>错误如下</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  File "/usr/lib64/python2.4/random.py", line 109, in seed
+</span><span class='line'>    a = long(_hexlify(_urandom(16)), 16)
+</span><span class='line'>OSError: [Errno 2] No such file or directory: '/dev/urandom'</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+		
+		<a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-09T15:53:00+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6//blog/page/3/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -454,49 +507,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2012/09/07/jetty-tmp-deleted-by-tmpwatch-cron//blog/page/3/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/">
-		
-			Eclipse插件通过Maven依赖第三方jar包</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>Osgi和Maven都分别提供了依赖管理的机制，在Osgi世界可以被依赖的单元称之为Bundle(一种特殊格式的jar)，在Maven世界称之为POM。各自的领域中都是优雅的技术，但是当两者结合在一起，就不那么美好了。</p></blockquote>
-
-<h3>tycho让plugin和maven结合在一起</h3>
-
-<p><a href="http://www.eclipse.org/tycho/" title="Building Eclipse plug-ins with maven">tycho</a>可以让一个eclipse plugin项目变成一个maven项目，把maven的自动构建和自动测试的优势带到了plugin项目。但是maven的另一个优势依赖管理并没有能够和plugin项目结合。</p>
-
-
-		
-		<a href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-05T22:32:00+08:00" pubdate data-updated="true">Sep 5<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/05/eclipse-plugin-depend-thirdparty-jars-by-maven//blog/page/3/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

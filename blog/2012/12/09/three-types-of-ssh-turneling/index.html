@@ -94,7 +94,7 @@
 <!-- more -->
 
 
-<h4>动态端口转发</h4>
+<h3>动态端口转发</h3>
 
 <p>动态端口允许通过配置一个本地端口，把通过隧道到数据转发到远端的所有地址。本地的应用程序需要使用Socks协议与本地端口通讯。此时SSH充当Socks代理服务器的角色。</p>
 
@@ -141,9 +141,11 @@
 </ul>
 
 
-<h4>本地端口转发</h4>
+<h3>本地端口转发</h3>
 
 <p>通过SSH隧道，将一个远端机器能够访问到的地址和端口，映射为一个本地的端口。</p>
+
+<p><img src="/images/post/2012-12-09/local_forwarding.jpg" alt="本地端口转发" /></p>
 
 <p><strong>命令格式</strong></p>
 
@@ -188,9 +190,11 @@
 </ul>
 
 
-<h4>远端端口转发</h4>
+<h3>远端端口转发</h3>
 
 <p>远程端口转发用于某些单向阻隔的内网环境，比如说NAT，网络防火墙。在NAT设备之后的内网主机可以直接访问公网主机，但外网主机却无法访问内网主机的服务。如果内网主机向外网主机建立一个远程转发端口，就可以让外网主机通过该端口访问该内网主机的服务。可以把这个内网主机理解为“内应”和“开门者”。</p>
+
+<p><img src="/images/post/2012-12-09/remote_forwarding.jpg" alt="远端端口转发" /></p>
 
 <p><strong>命令格式</strong></p>
 
@@ -247,6 +251,7 @@
 <ol>
 <li><a href="http://chamibuddhika.wordpress.com/2012/03/21/ssh-tunnelling-explained/">SSH Tunneling Explained</a></li>
 <li><a href="http://www.ramkitech.com/2012/04/how-to-do-ssh-tunneling-port-forwarding.html">How to do SSH Tunneling (Port Forwarding) </a></li>
+<li><a href="http://www.liugj.com/2013/04/SSH-port-forwarding/">SSH端口转发以及应用实例</a></li>
 </ol>
 
 </div>
