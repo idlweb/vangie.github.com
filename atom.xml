@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-06-20T22:09:54+08:00</updated>
+  <updated>2013-06-20T22:12:33+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -18,7 +18,7 @@
     <link href="http://vangie.github.com/blog/2013/06/20/jailbreak-kindle-paperwhite-and-install-koreader/"/>
     <updated>2013-06-20T00:42:00+08:00</updated>
     <id>http://vangie.github.com/blog/2013/06/20/jailbreak-kindle-paperwhite-and-install-koreader</id>
-    <content type="html"><![CDATA[<blockquote><p>亚马逊中国的kindle paperwhite开卖了，与之前坊间谣传的500块的价格相比，849元真的很不给你。正好碰上有个朋友去日本，托人捎了台过来，￥7980，是日元，折合人民币550左右，相当给力。kindle paperwhite的屏幕已经比较细腻了，翻页是屏幕依然闪烁，电子墨水的通病。但是这个版本的kindle已经有内置光源了，一个非常人性化的功能，这么多年以后才加有，不知道亚马逊怎么想的。亚马逊的用户体验那个差呀，不知道是不是老外的思维和我们不一样，反正个人觉得京东和淘宝的页面看上去要顺眼得多。</p></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>亚马逊中国的kindle paperwhite开卖了，与之前坊间谣传的500块的价格相比，849元真的很不给力。正好碰上有个朋友去日本，托人捎了台过来，￥7980，是日元，折合人民币550左右。kindle paperwhite的屏幕已经比较细腻了，翻页是屏幕依然闪烁，电子墨水的通病。但是这个版本的kindle已经有内置光源了，一个非常人性化的功能，这么多年以后才加有，不知道亚马逊怎么想的。亚马逊的用户体验那个差呀，不知道是不是老外的思维和我们不一样，反正个人觉得京东和淘宝的页面看上去要顺眼得多。</p></blockquote>
 
 <p>Kindle支持阅读PDF文档，但是效果不怎么好，特别是扫描版本的。Kindle PaperWhite可以安装一个第三方的阅读器KOReader，这个阅读器支持多种电子书格式，包括DJVU，FB2，EPUB，TXT，CBZ，HTML。在PDF显示方面KOreader得益于开源项目<a href="http://www.willus.com/k2pdfopt/">K2pdfopt</a>。</p>
 
