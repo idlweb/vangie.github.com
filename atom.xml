@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-05-09T10:24:41+08:00</updated>
+  <updated>2013-06-20T22:09:54+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,268 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kindle Paperwhite越狱和安装KOReader]]></title>
+    <link href="http://vangie.github.com/blog/2013/06/20/jailbreak-kindle-paperwhite-and-install-koreader/"/>
+    <updated>2013-06-20T00:42:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/06/20/jailbreak-kindle-paperwhite-and-install-koreader</id>
+    <content type="html"><![CDATA[<blockquote><p>亚马逊中国的kindle paperwhite开卖了，与之前坊间谣传的500块的价格相比，849元真的很不给你。正好碰上有个朋友去日本，托人捎了台过来，￥7980，是日元，折合人民币550左右，相当给力。kindle paperwhite的屏幕已经比较细腻了，翻页是屏幕依然闪烁，电子墨水的通病。但是这个版本的kindle已经有内置光源了，一个非常人性化的功能，这么多年以后才加有，不知道亚马逊怎么想的。亚马逊的用户体验那个差呀，不知道是不是老外的思维和我们不一样，反正个人觉得京东和淘宝的页面看上去要顺眼得多。</p></blockquote>
+
+<p>Kindle支持阅读PDF文档，但是效果不怎么好，特别是扫描版本的。Kindle PaperWhite可以安装一个第三方的阅读器KOReader，这个阅读器支持多种电子书格式，包括DJVU，FB2，EPUB，TXT，CBZ，HTML。在PDF显示方面KOreader得益于开源项目<a href="http://www.willus.com/k2pdfopt/">K2pdfopt</a>。</p>
+
+<p>K2pdfopt也是为了解决PDF文档在小屏幕Kindle上阅读的排版问题而开发的。与其它PDF预处理软件相比，它有很多独一无二的特性，比如自动化程度很高，能够自动识别多栏排版的文档进行分栏，自动去除页面白边，自动对扫描文档进行水平校正，以及最重要的基于图像分割的重排版算法。</p>
+
+<p>K2pdfopt使用完全基于图像处理的方法对文字重新排版，软件处理时会把原始PDF/DJVU页面放大再分割成以词为单位的像素区域，把这些像素区域重新排列到目标宽度的页面中，所以理论上只要能够读取文档的页面像素就可以对其中的文字进行重新排版。这个算法的前提是页面中的文字之间需要有一定的空隙，以提供分割像素区域的位点。</p>
+
+<p>K2pdfopt被移植到Koreader/Kindlepdfviewer以后就可以在阅读时让PDF重新排版。实时重排可以省去电脑上处理PDF的步骤，并且可以在kindle上交互式地微调排版参数，尽可能地生成满意的排版。使用Koreader的重排模式阅读时，软件会自动把当前页和下一页重排版成适应屏幕的尺寸。</p>
+
+<p>安装KOrader需要先越狱，然后安装KPVBooklet。具体步骤如下</p>
+
+<!-- more -->
+
+
+<h3>Kindle越狱</h3>
+
+<p>Kindle Paperwhite Jailbreak (5.2.0 - 5.3.1,5.3.4,5.3.5)（paperwhite越狱工具不支持5.3.3和5.3.6版本，这些版本的固件需要先进行降级，然后越狱）</p>
+
+<p><strong>如何参看Kindle系统的版本</strong> <br/>
+从主页-> 按“菜单”键 -> 然后再按“设置” -> 在设置界面再按“菜单”键 -> 按“设备信息”
+<img src="http://vangie.github.com/images/post/2013-06-20/device-info.jpg" alt="设备信息" /></p>
+
+<p>越狱步骤如下：</p>
+
+<ol>
+<li><p>用数据线将Kindle连接到电脑上</p></li>
+<li><p>下载<a href="http://www.mobileread.com/forums/attachment.php?attachmentid=103175&amp;d=1363715068">kpw_jb.zip</a>文件。（需要翻墙）
+讨论原帖地址：http://www.mobileread.com/forums/showthread.php?t=198446</p></li>
+<li><p>解压下载好的kpw_jb.zip文件，然后把jailbreak.sh和MOBI8_DEBUG文件拷贝到Kindle根目录，将jailbreak.mobi拷贝到documents目录</p></li>
+<li><p>从电脑上安全移除Kindle设备，然后断开数据线</p></li>
+<li><p>你将看到一个名为“PaperWhite Jailbreak”的文档在Kindle的主页里。点击打开文档。</p></li>
+<li><p>按照提示按住kindle屏幕的左上角不动，直到画面退出桌面。</p></li>
+<li><p>回到桌面代表成功了，那本“Paperwhite Jailbreak”的书也不见了，越狱完成。（连接电脑后可以删除documents文件夹中越狱完成后留下个LOG文件，无影响）</p></li>
+</ol>
+
+
+<p>我们进行下一步骤</p>
+
+<h3>安装KPVBooklet</h3>
+
+<p>KPVBooklet使原生系统支持KPV的工具。</p>
+
+<ol>
+<li><p>前往 https://code.google.com/p/kpvbooklet-package/downloads/list 下载最新版本的kindle-kpvbooklet-0.4.8.zip</p></li>
+<li><p>解压后通过数据线将update_kpvbooklet_0.4.8_install.bin拷贝到kindle根目录，记得安全移除kindle设备和端口数据线.(另一个文件update_kpvbooklet_0.4.8_uninstall.bin用于卸载kpvbooklet此处用不到)</p></li>
+<li><p>paperwhite上点击右上角菜单>设置>再点击右上角菜单> 更新您的kindle，一阵读条等待后完成</p></li>
+</ol>
+
+
+<p>终于可以安装KOReader了</p>
+
+<h3>安装KOReader</h3>
+
+<p>KOReader是kindlepdfviewer（KPV）的延续版本，安装方法非常简单，前往https://code.google.com/p/koreader-package/downloads/list下载最新版本koreader-v2013.03-246-gaaeb347.zip。</p>
+
+<p>解压后将“extensions”，“koreader”，“launchpad”三个目录拷贝到kindle根目录即可。</p>
+
+<p>KOReader至此已经安装完成，通过数据线将PDF拷贝到documents目录，然后在kindle的里打开该文件就可以了。pdf的默认阅读器已经是KOReader了。如果希望使用kindle的原生阅读器看pdf文件，可以长按pdf文件，在弹出菜单里选择“前往…”。</p>
+
+<h3>关于升级固件</h3>
+
+<p>目前最新版本的kindle paperwhite固件版本为3.3.6，下载地址：http://www.amazon.com/gp/help/customer/display.html/ref=hp_left_sib?ie=UTF8&amp;nodeId=201064850</p>
+
+<p>将update_kindle_5.3.6.bin放置到根目录然后在设备里点击升级即可。</p>
+
+<p>升级完成以后，需要重新安装<a href="http://www.mobileread.com/forums/showthread.php?t=152294">Kindlet developer certificates</a>和<a href="http://www.mobileread.com/forums/showthread.php?p=2290044">Rescue Pack</a>以恢复越狱效果。</p>
+
+<p>升级后KOReader会失效，重装一遍KPVBooklet即可。</p>
+
+<h3>参考资料</h3>
+
+<p>[1]. <a href="http://www.douban.com/group/topic/36613341/">【越狱，KPV】kindle paperwhite越狱安装KPV教程</a> <br/>
+[2]. <a href="http://vislab.bjmu.edu.cn/blog/hwangxin/2012/10/read-scanned-pdfs-with-kindlepdfviewer/">让Kindle支持扫描版PDF重排</a> <br/>
+[3]. <a href="http://blog.the-ebook-reader.com/2012/10/28/kindle-paperwhite-tips-and-shortcuts-guide/">Kindle Paperwhite Tips and Shortcuts Guide</a> <br/>
+[4]. <a href="http://www.douban.com/group/topic/33931176/">Kindle PaperWhite 45个小技巧</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Needham-Schroeder协议]]></title>
+    <link href="http://vangie.github.com/blog/2013/06/13/needham-schroeder-protocol/"/>
+    <updated>2013-06-13T22:23:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/06/13/needham-schroeder-protocol</id>
+    <content type="html"><![CDATA[<blockquote><p>最近学习了一些账户登录和验证相关的知识，了解了OpenId机制的一些技术细节，发现OpenId的验证机制和某些基于Web的SSO验证机制非常类似，但不知道这些验证机制的原型和出处，于是开始转向学习Kerberos - Unix平台上一个老牌的单点登录验证系统。在《Kerberos权威指南》里找到了“Needham-Schroeder协议”,虽然不知道这个协议与其后出现的Web SSO和OpenId有没有渊源，但是学习这个协议对于理解SSO非常有帮助。</p></blockquote>
+
+<h3>借助受信任的第三方相互验证</h3>
+
+<p>《在大型计算机网络中使用加密身份验证》是Roger Needham和Michael Schroeder 1978年在施乐帕罗奥多研究中心（当年乔布斯偷师的地方）工作时发表的一篇论文。该论文讨论了在非安全网络环境下，通讯双方如果借助一个共同信任的第三方相互验证的方法。</p>
+
+<p>协议假设有三方参与，一个客户机，一个应用服务器和一个验证服务器。客户机可以是某台请求验证的机器，通常是个人电脑。服务器提供客户机希望访问的服务，比如邮件服务。而验证服务器是一台专门的服务器，用于存储网络上用户和服务器的密钥（受信任的第三方）。</p>
+
+<!-- more -->
+
+
+<h3>协议的两个版本</h3>
+
+<ul>
+<li><strong>基于对称密钥算法的Needham-Schroeder协议</strong>。Kerberos单点认证系统基于此协议扩展，该协议旨在双方之间在网络上建立会话密钥，以保护之后的通讯。</li>
+<li><strong>基于非对称密钥算法的Needham-Schroeder协议</strong>。该协议的目的是提供在网络上通信的双方之间的相互认证，但其建议的形式是不安全的。</li>
+</ul>
+
+
+<p>下面采用安全协议标记法(security protocal notation) 来表示两种不同版本的Needham-Schroeder协议</p>
+
+<h3>对称密钥版本</h3>
+
+<p>假设，Alice（简称A）发起向Bob（简称B）的通信。Server（简称S）一个被双方信任的服务器。</p>
+
+<p>在通信中：</p>
+
+<ul>
+<li>A和B分别是Alice和Bob的身份标识</li>
+<li>K<sub>AS</sub>是A和S的对称密钥</li>
+<li>K<sub>BS</sub>是B和S的对称密钥</li>
+<li>N<sub>A</sub>和N<sub>B</sub>分别是A和B生成的随机数nonces</li>
+<li>K<sub>AB</sub>是一个生成的对称密钥，将用于A和B之间的会话的会话密钥。</li>
+</ul>
+
+
+<p>步骤如下：    <br/>
+1. Alice向服务器发送一条包含她本人和Bob标识的消息，告诉服务器她想和Bob通信。 <br/>
+ <img src="http://upload.wikimedia.org/math/1/b/5/1b53543c28f72a2151812f45874f7deb.png" alt="" /> <br/>
+2. 该服务器产生K<sub>AB</sub>,并发送回Alice一个副本和一个被K<sub>BS</sub>加密的副本由Alice转交给Bob。由于Alice可能同时发出多份通信验证请求，所有nonce保证响应消息是新的和并与某一请求对应。在响应中加入了Bob的标识以告诉Alice她将与谁共享该密钥。</p>
+
+<p> <img src="http://upload.wikimedia.org/math/6/5/a/65a61e0dc01947d23a57e0ce931977cf.png" alt="" /> <br/>
+3. Alice将K<sub>AB</sub>密钥转交给Bob，他能通过K<sub>BS</sub>密钥（他于服务器的共享密钥）解密出该密钥，以验证数据的可靠性。</p>
+
+<p> <img src="http://upload.wikimedia.org/math/2/f/1/2f163c6bc7957588abe99f9fa115740e.png" alt="" /> <br/>
+4. 然后Bob想Alice发送一个通过密钥K<sub>AB</sub>随机数nonce，表示他以获得密钥</p>
+
+<p> <img src="http://upload.wikimedia.org/math/3/b/d/3bdb6789891493725b8ebe8e6894f0fd.png" alt="" /> <br/>
+5. Alice对接收到的随机数nonce进行简单的操作，重新进行加密，并把它发送回确认她也持有密钥并且仍处于活跃状态。</p>
+
+<p> <img src="http://upload.wikimedia.org/math/e/2/7/e27ecba9e6a2499a8350be598e9ce40b.png" alt="" /></p>
+
+<h4>攻击该协议</h4>
+
+<p>该协议可被回放攻击。如果攻击者使用一个陈旧的被窃取的K<sub>AB</sub>，他可以回放{K<sub>AB</sub>, A}<sub>K<sub>BS</sub></sub>给Blob，Blob不但不知道这个密钥是已过期，反而欣然接收请求。</p>
+
+<h4>改进版本</h4>
+
+<p>Kerberos协议通过加入时间戳改进了这一缺陷。也可以引入随机数nonce。</p>
+
+<ol>
+<li><p>Alice向Bob发起请求</p>
+
+<p> <img src="http://upload.wikimedia.org/math/d/e/6/de6d2884e31e5dd8a56cdbecd0379bb9.png" alt="" /></p></li>
+<li><p>Bob响应她一个随机数nonce，该随机数被bob和认证服务器的对称密钥加密</p>
+
+<p><img src="http://upload.wikimedia.org/math/e/3/e/e3ecf601c90b6ef52cbd3f3571320c97.png" alt="" /></p></li>
+<li><p>Alice发送一个消息给服务器包含自己和鲍勃的标识，告知她想要与Bob通信服务器。</p>
+
+<p><img src="http://upload.wikimedia.org/math/8/b/4/8b497cd33ae923645067291a7891cb2a.png" alt="" /></p></li>
+<li><p>注意包含的随机数</p>
+
+<p> <img src="http://upload.wikimedia.org/math/0/6/c/06c9c78b9f91526228116cc30ac66bfc.png" alt="" /></p></li>
+</ol>
+
+
+<p>接下来的3步与上面协议描述的类似。注意N&#8217;<sub>B</sub>不同于N<sub>B</sub>。新包含的随机数可以防止回放被窃取的{K<sub>AB</sub>, A}<sub>K<sub>BS</sub></sub>,由于新的消息格式为{K<sub>AB</sub>, A, N&#8217;<sub>B</sub>}<sub>K<sub>BS</sub></sub>,攻击者无法伪造，因为他得不到K<sub>BS</sub>密钥。</p>
+
+<h3>非对称密钥版本</h3>
+
+<p>该版本使用了公钥加密算法
+假设，Alice（简称A）和Bob（简称B）都使用信任的服务器（简称S）发布的公钥用于请求。
+这些密钥是：</p>
+
+<ul>
+<li>K<sub>PA</sub>和K<sub>SA</sub>，分别表示A的公钥和私钥对。其中（S表示“Secret Key”）</li>
+<li>K<sub>PB</sub>和K<sub>SB</sub>，是B的密钥对。</li>
+<li>K<sub>PS</sub>和K<sub>SS</sub>，是S的密钥对。</li>
+</ul>
+
+
+<p>协议的步骤是：</p>
+
+<ol>
+<li><p>A向S请求B的公钥</p>
+
+<p> <img src="http://upload.wikimedia.org/math/5/7/2/57211ef0e2f43a95e8346290887e8da3.png" alt="" /></p></li>
+<li><p>S响应B的标识和公钥，并使用自己的私钥加密数据，以便A验证自己。</p>
+
+<p> <img src="http://upload.wikimedia.org/math/5/5/5/5556de3bf2768c8b3dd97e99cde6fe4c.png" alt="" /></p>
+
+<ol>
+<li>A引入随机数N<sub>A</sub>,然后发送给B</li>
+</ol>
+
+
+<p> <img src="http://upload.wikimedia.org/math/c/6/0/c60110a492a0096f31fa91b8ece8d4a6.png" alt="" /></p></li>
+<li><p>B向S请求A的公钥</p>
+
+<p> <img src="http://upload.wikimedia.org/math/e/6/b/e6bd04eb3d4a5f2462b9642954955443.png" alt="" /></p></li>
+<li><p>S的响应</p>
+
+<p> <img src="http://upload.wikimedia.org/math/b/3/1/b31c9fc795a424d490ca573f2aedd7ec.png" alt="" /></p></li>
+<li><p>B引入随机数N<sub>B</sub>和N<sub>A</sub>使用K<sub>PA</sub>加密后发送给A，以证明他的能力。</p>
+
+<p> <img src="http://upload.wikimedia.org/math/3/3/5/33583fcf1b33ad5e83c914ef6c529530.png" alt="" /></p></li>
+<li><p>A发回确认请求包含N<sub>B</sub>，以证明他能使用K<sub>SA</sub>解密</p>
+
+<p> <img src="http://upload.wikimedia.org/math/3/1/e/31e07ae0859dd58e24473fc5c720531b.png" alt="" /></p></li>
+</ol>
+
+
+<p>最后，A和B双方相互确认，也都知道随机数N<sub>A</sub>和N<sub>B</sub>。这些随机数不为窃听者所知。</p>
+
+<h4>攻击该协议</h4>
+
+<p>遗憾的是，该协议可被中间人攻击。如果一个骗子能说服A向他发起会话，然后他将消息传输给B，让B误以为在与A进行通信。</p>
+
+<p>下面攻击的过程忽略了与S的通信，因为没有差异：</p>
+
+<ol>
+<li><p>A向I发送N<sub>A</sub>，使用I的公钥K<sub>SI</sub></p>
+
+<p> <img src="http://upload.wikimedia.org/math/a/d/b/adbe524547c2d654be815394f719404f.png" alt="" /></p></li>
+<li><p>I将消息转发给B，假装A在于他进行通信</p>
+
+<p> <img src="http://upload.wikimedia.org/math/e/b/1/eb11f142798ea5b44a5bd5a93165ac98.png" alt="" /></p></li>
+<li><p>B发回B<sub>N</sub></p>
+
+<p> <img src="http://upload.wikimedia.org/math/c/d/3/cd3499b767d1e4a062fb2615e8b0d48d.png" alt="" /></p></li>
+<li><p>I转发给A</p>
+
+<p> <img src="http://upload.wikimedia.org/math/f/7/a/f7a0bee8365d9378cac7774608f2d0d8.png" alt="" /></p></li>
+<li><p>加密的B<sub>N</sub>被发回，向I确认。</p>
+
+<p> <img src="http://upload.wikimedia.org/math/3/c/e/3ce745fbe7e751c6d3f8442fecfa915b.png" alt="" /></p></li>
+<li><p>I重新加密B<sub>N</sub>，向B假装他成功解密了。</p>
+
+<p> <img src="http://upload.wikimedia.org/math/8/f/d/8fd48867959a9886843676ab3364be90.png" alt="" /></p></li>
+</ol>
+
+
+<p>最后，B错误的以为A在与他进行通信，随机数N<sub>A</sub>和N<sub>B</sub>仅仅被A和B知道。</p>
+
+<h4>防止中间人攻击</h4>
+
+<p>这个攻击方法是1995年Gavin Lowe在他的一篇论文中首次提出。文中还提供了该协议的一个修复版本，被称作Needham–Schroeder–Lowe协议。修复版本修改了第六步的消息。</p>
+
+<p><img src="http://upload.wikimedia.org/math/3/3/5/33583fcf1b33ad5e83c914ef6c529530.png" alt="" /></p>
+
+<p>改为：</p>
+
+<p><img src="http://upload.wikimedia.org/math/c/5/8/c58c49f7dc501dc733a4053f88ce245f.png" alt="" /></p>
+
+<h3>参考资料</h3>
+
+<p>[1]. 《<a href="http://shop.oreilly.com/product/9780596004033.do">Kerberos:The Definitive Guide</a>》by Jason Garman August 2003  <br/>
+[2]. 《<a href="http://jmiller.uaa.alaska.edu/cse465-fall2012/papers/needham1978.pdf">Using Encryption for Authentication in Large Networks of Computers</a>》Roger M.Needham and Michael D. Schroeder 1978 <br/>
+[3]. <a href="http://en.wikipedia.org/wiki/Needham%E2%80%93Schroeder_protocol">Needham–Schroeder protocol</a> from Wikipedia <br/>
+[4]. <a href="http://en.wikipedia.org/wiki/Security_protocol_notation">Security protocol notation</a> from Wikipeida</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用NodeJs开发微信公众平台账号]]></title>
@@ -2062,207 +2324,6 @@ $ sudo ./gateone.py
 
 <pre><code>smbutil status [ip]
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Jackson多态类型数据绑定]]></title>
-    <link href="http://vangie.github.com/blog/2012/11/03/jackson-polymorphic-deserialization/"/>
-    <updated>2012-11-03T14:28:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2012/11/03/jackson-polymorphic-deserialization</id>
-    <content type="html"><![CDATA[<blockquote><p>Jackson数据绑定可以很方便的将java的对象类型和json数据格式之间进行转换。对于有多个子类型的多态集成结构的对象，Jackson在序列化的时候加入一些类型信息，可以在反序列化的时候准确的还原某个类型的子类。</p></blockquote>
-
-<p>想要把JSON数据准确的反序列化为正确的子类型，简单的方法就是在数据中存储数据的类型。但是Jackson序列化时默认不会将对象的类型信息保存到Json数据中。有两种方式开始使Jackson序列化类型信息</p>
-
-<!-- more -->
-
-
-<h3>方式一：全局Default Typing机制</h3>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="n">objectMapper</span><span class="o">.</span><span class="na">enableDefaultTyping</span><span class="o">();</span> <span class="c1">// default to using DefaultTyping.OBJECT_AND_NON_CONCRETE</span>
-</span><span class='line'><span class="n">objectMapper</span><span class="o">.</span><span class="na">enableDefaultTyping</span><span class="o">(</span><span class="n">ObjectMapper</span><span class="o">.</span><span class="na">DefaultTyping</span><span class="o">.</span><span class="na">NON_FINAL</span><span class="o">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>DefaultTyping有四个选项</p>
-
-<ul>
-<li><strong>JAVA_LANG_OBJECT</strong>: 当对象属性类型为Object时生效</li>
-<li><strong>OBJECT_AND_NON_CONCRETE</strong>: 当对象属性类型为Object或者非具体类型（抽象类和接口）时生效</li>
-<li><strong>NON_CONCRETE_AND+_ARRAYS</strong>: 同上, 另外所有的数组元素的类型都是非具体类型或者对象类型</li>
-<li><strong>NON_FINAL</strong>: 对所有非final类型或者非final类型元素的数组</li>
-</ul>
-
-
-<p>开启DefaultTyping，并且让所有的非final类型对象持久化时都存储类型信息显然能准确的反序列多态类型的数据。</p>
-
-<h3>方式二： 为Class添加@JsonTypeInfo</h3>
-
-<p>先来看看<code>objectMapper.enableDefaultTyping()</code>的源码。</p>
-
-<pre><code>/**
- * Convenience method that is equivalent to calling
- *&lt;pre&gt;
- *  enableObjectTyping(DefaultTyping.OBJECT_AND_NON_CONCRETE);
- *&lt;/pre&gt;
- */
-public ObjectMapper enableDefaultTyping() {
-    return enableDefaultTyping(DefaultTyping.OBJECT_AND_NON_CONCRETE);
-}
-
-/**
- * Convenience method that is equivalent to calling
- *&lt;pre&gt;
- *  enableObjectTyping(dti, JsonTypeInfo.As.WRAPPER_ARRAY);
- *&lt;/pre&gt;
- */
-public ObjectMapper enableDefaultTyping(DefaultTyping dti) {
-    return enableDefaultTyping(dti, JsonTypeInfo.As.WRAPPER_ARRAY);
-}
-</code></pre>
-
-<p>该方法内部调用涉及到了<code>JsonTypeInfo.As.WRAPPER_ARRAY</code>。下面我们来看看如何使用@JsonTypeInfo这个注释来更精细的定制序列化的JSON文件格式。</p>
-
-<pre><code>@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include=JsonTypeInfo.As.PROPERTY, property="@class")
-class Animal { } 
-</code></pre>
-
-<p>在超类Animal上加上一段@JsonTypeInfo，所有Animal的子类反序列化都可以准确的对于子类型。
-我们来解释一下这段注释的意思：</p>
-
-<ul>
-<li><code>use=JsonTypeInfo.Id.CLASS</code>:使用类的完全限定名作为唯一识别</li>
-<li><code>include=JsonTypeInfo.As.PROPERTY</code>:将这个唯一识别的字段保存为属性值</li>
-<li><code>property="@class"</code>该属性值的名称为@class</li>
-<li><code>@JsonTypeResolver</code>和<code>@JsonTypeIdResolver</code>取默认值时可以省略</li>
-<li>加上了该注释的类型和子类型都会生效</li>
-</ul>
-
-
-<p>use的几个可选值</p>
-
-<ul>
-<li>CLASS 完全限定名</li>
-<li>MINIMAL_CLASS 类名，若基类和子类在同一包类，会省略包名</li>
-<li>NAME 逻辑名，需要单独定义名称与类的对应关系</li>
-<li>CUSTOM 由@JsonTypeIdResolver对应</li>
-</ul>
-
-
-<p>include的几个选值</p>
-
-<ul>
-<li>PROPERTY 将属性包含在对象成员属性里</li>
-<li>WRAPPER_OBJECT 属性作为键，序列化的对象作为值</li>
-<li>WRAPPER_ARRAY 第一个元素是类型ID，第二原始是序列化的对象</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'>  <span class="c1">// Type name as a property, same as above</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>    <span class="s">&quot;@type&quot;</span> <span class="o">:</span> <span class="s">&quot;Employee&quot;</span><span class="o">,</span>
-</span><span class='line'>     <span class="o">...</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Wrapping class name as pseudo-property (similar to JAXB)</span>
-</span><span class='line'>  <span class="o">{</span>
-</span><span class='line'>    <span class="s">&quot;com.fasterxml.beans.EmployeeImpl&quot;</span> <span class="o">:</span> <span class="o">{</span>
-</span><span class='line'>       <span class="o">...</span> <span class="c1">// actual instance data without any metadata properties</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Wrapping class name as first element of wrapper array:</span>
-</span><span class='line'>  <span class="o">[</span>
-</span><span class='line'>    <span class="s">&quot;com.fasterxml.beans.EmployeeImpl&quot;</span><span class="o">,</span>
-</span><span class='line'>    <span class="o">{</span>
-</span><span class='line'>       <span class="o">...</span> <span class="c1">// actual instance data without any metadata properties</span>
-</span><span class='line'>    <span class="o">}</span>
-</span><span class='line'>  <span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>参考文献</h3>
-
-<ol>
-<li><a href="http://wiki.fasterxml.com/JacksonPolymorphicDeserialization">JacksonPolymorphicDeserialization</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[登录Shell和交互Shell的区别]]></title>
-    <link href="http://vangie.github.com/blog/2012/10/11/different-between-login-shell-and-interactive-shell/"/>
-    <updated>2012-10-11T14:47:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2012/10/11/different-between-login-shell-and-interactive-shell</id>
-    <content type="html"><![CDATA[<blockquote><p>遇到两个shell的概念：<code>交互式登录shell</code>和<code>交互式非登录shell</code>。要理解上面两个术语，先要理清两个概念<code>登录shell</code>和<code>交互shell</code></p></blockquote>
-
-<!-- more -->
-
-
-<h3>登录shell（Login shell）</h3>
-
-<p>从tty下登录（login）进去的shell称为<code>登录shell</code>,在已经登录的shell执行bash或者su命令启动的shell称为<code>非登录shell</code>（non-login shell）注意：通过命令<code>su -l [username]</code>可以进入<code>登录shell</code>，另外在图形界面（如Gnome）打开的命令行窗口（terminal）属于<code>非登录shell</code>。</p>
-
-<h5>配置文件</h5>
-
-<p>登录shell和非登录shell启动的时候会装载不同的配置文件。</p>
-
-<p>登录shell</p>
-
-<ul>
-<li><code>/etc/profile</code></li>
-<li><code>~/.bash_profile</code></li>
-<li><code>~/.profile</code></li>
-</ul>
-
-
-<p>非登录shell</p>
-
-<ul>
-<li><code>/etc/bashrc</code>或者<code>/etc/bash.bashrc</code></li>
-<li><code>~/.bash_rc</code></li>
-</ul>
-
-
-<h3>交互shell（Interactive Shell）</h3>
-
-<p>交互就是<code>REPL</code>（Read-Eval-Print-Loop）。通俗的说，就是你输入点什么，它执行，然后你查看输出结果，周而复始。我们通常使用的shell都是<code>交互shell</code>。而<code>非交互shell</code>常见的场景是执行bash脚本的时候<code>bash script.sh</code>。shell以一种静默的方式逐行连续执行脚本。</p>
-
-<p><code>登录shell</code>和<code>交互shell</code>是两个不同纬度的概念，所以组合就有所谓的<code>交互式登录shell</code>和<code>交互式非登录shell</code>。</p>
-
-<h5>如何退出交互shell</h5>
-
-<p>对于<code>非登录shell</code>执行<code>exit</code>命令，对于<code>登录shell</code>执行<code>logout</code>命令.</p>
-
-<h3>参考文献</h3>
-
-<ol>
-<li><a href="http://www.51testing.com/?uid-225738-action-viewspace-itemid-216858">交互式shell和非交互式shell、登录shell和非登录shell的区别</a></li>
-</ol>
-
 ]]></content>
   </entry>
   

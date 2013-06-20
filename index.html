@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="微信越来越火，信息、语音短信、视频电话等非常实用OTT业务加上QQ好友和通讯录的导入一时间吸引了大量的用户。前段时间各大运营商开始吵着要收微信的费用。所谓“发现即晚期”，当运营商发现苗条不对的时候，已经来不及了。微信除了提供了好用的通讯替代功能，还是一个可扩展的平台，比如：微信公众平台， &hellip;">
+	<meta name="description" content="亚马逊中国的kindle paperwhite开卖了，与之前坊间谣传的500块的价格相比，849元真的很不给你。正好碰上有个朋友去日本，托人捎了台过来，￥7980，是日元，折合人民币550左右，相当给力。kindle paperwhite的屏幕已经比较细腻了，翻页是屏幕依然闪烁，电子墨水的通病。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,100 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/06/20/jailbreak-kindle-paperwhite-and-install-koreader/">
+		
+			Kindle Paperwhite越狱和安装KOReader</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>亚马逊中国的kindle paperwhite开卖了，与之前坊间谣传的500块的价格相比，849元真的很不给你。正好碰上有个朋友去日本，托人捎了台过来，￥7980，是日元，折合人民币550左右，相当给力。kindle paperwhite的屏幕已经比较细腻了，翻页是屏幕依然闪烁，电子墨水的通病。但是这个版本的kindle已经有内置光源了，一个非常人性化的功能，这么多年以后才加有，不知道亚马逊怎么想的。亚马逊的用户体验那个差呀，不知道是不是老外的思维和我们不一样，反正个人觉得京东和淘宝的页面看上去要顺眼得多。</p></blockquote>
+
+<p>Kindle支持阅读PDF文档，但是效果不怎么好，特别是扫描版本的。Kindle PaperWhite可以安装一个第三方的阅读器KOReader，这个阅读器支持多种电子书格式，包括DJVU，FB2，EPUB，TXT，CBZ，HTML。在PDF显示方面KOreader得益于开源项目<a href="http://www.willus.com/k2pdfopt/">K2pdfopt</a>。</p>
+
+<p>K2pdfopt也是为了解决PDF文档在小屏幕Kindle上阅读的排版问题而开发的。与其它PDF预处理软件相比，它有很多独一无二的特性，比如自动化程度很高，能够自动识别多栏排版的文档进行分栏，自动去除页面白边，自动对扫描文档进行水平校正，以及最重要的基于图像分割的重排版算法。</p>
+
+<p>K2pdfopt使用完全基于图像处理的方法对文字重新排版，软件处理时会把原始PDF/DJVU页面放大再分割成以词为单位的像素区域，把这些像素区域重新排列到目标宽度的页面中，所以理论上只要能够读取文档的页面像素就可以对其中的文字进行重新排版。这个算法的前提是页面中的文字之间需要有一定的空隙，以提供分割像素区域的位点。</p>
+
+<p>K2pdfopt被移植到Koreader/Kindlepdfviewer以后就可以在阅读时让PDF重新排版。实时重排可以省去电脑上处理PDF的步骤，并且可以在kindle上交互式地微调排版参数，尽可能地生成满意的排版。使用Koreader的重排模式阅读时，软件会自动把当前页和下一页重排版成适应屏幕的尺寸。</p>
+
+<p>安装KOrader需要先越狱，然后安装KPVBooklet。具体步骤如下</p>
+
+
+		
+		<a href="/blog/2013/06/20/jailbreak-kindle-paperwhite-and-install-koreader/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-20T00:42:00+08:00" pubdate data-updated="true">Jun 20<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/06/20/jailbreak-kindle-paperwhite-and-install-koreader//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/06/13/needham-schroeder-protocol/">
+		
+			Needham-Schroeder协议</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>最近学习了一些账户登录和验证相关的知识，了解了OpenId机制的一些技术细节，发现OpenId的验证机制和某些基于Web的SSO验证机制非常类似，但不知道这些验证机制的原型和出处，于是开始转向学习Kerberos - Unix平台上一个老牌的单点登录验证系统。在《Kerberos权威指南》里找到了“Needham-Schroeder协议”,虽然不知道这个协议与其后出现的Web SSO和OpenId有没有渊源，但是学习这个协议对于理解SSO非常有帮助。</p></blockquote>
+
+<h3>借助受信任的第三方相互验证</h3>
+
+<p>《在大型计算机网络中使用加密身份验证》是Roger Needham和Michael Schroeder 1978年在施乐帕罗奥多研究中心（当年乔布斯偷师的地方）工作时发表的一篇论文。该论文讨论了在非安全网络环境下，通讯双方如果借助一个共同信任的第三方相互验证的方法。</p>
+
+<p>协议假设有三方参与，一个客户机，一个应用服务器和一个验证服务器。客户机可以是某台请求验证的机器，通常是个人电脑。服务器提供客户机希望访问的服务，比如邮件服务。而验证服务器是一台专门的服务器，用于存储网络上用户和服务器的密钥（受信任的第三方）。</p>
+
+
+		
+		<a href="/blog/2013/06/13/needham-schroeder-protocol/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-13T22:23:00+08:00" pubdate data-updated="true">Jun 13<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/06/13/needham-schroeder-protocol//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -437,114 +531,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2013/02/07/install-kuaidial-on-ios6//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/02/05/ipad-play-video-from-macbook-over-upnp/">
-		
-			iPad通过uPnp协议播放MacBook里的视频文件</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>mac air里下载的电影通过开启upnp服务，然后iPad安装一个支持upnp服务的播放器可以直接播放电影，免去拷贝的过程。</p></blockquote>
-
-<h1>Mac OS端安装Mediatomb</h1>
-
-<p>mediatomb是一个跨平台免费的upnp服务器，以web ui的方式管理，仅仅是一个命令行工具。</p>
-
-<pre><code>brew install mediatomb
-</code></pre>
-
-<p>安装完成以后执行命令<code>mediatomb</code>,如果遇到端口被占用的错误，需要重启一下机器。我重启两次就好了。</p>
-
-<h1>iOS端安装aceplayer</h1>
-
-<p><a href="https://itunes.apple.com/us/app/aceplayer-powerful-media-player/id540326056?mt=8">aceplayer</a>是一个近乎全能的播放器，支持upnp，可以直接播放或者下载upnp服务器里的视频文件。但是播放时色彩还原效果相对差一点。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-05T00:58:00+08:00" pubdate data-updated="true">Feb 5<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/02/05/ipad-play-video-from-macbook-over-upnp//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/01/28/using-font-awesome-in-keynote/">
-		
-			在Keynote里输入Font Awesome字符</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p><a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a>提供了200多个矢量图标的字体文件。矢量字体可以支持无线的放缩，而且体积更好，如果能放到keynote里作为幻灯片的图标素材非常不错。想法是好的，但是由于这些字体对应了一些保留的unicode编码，使用通常的输入法无法输入。</p></blockquote>
-
-<h3>安装Font Awesome字体</h3>
-
-<p>下载 <a href="https://github.com/FortAwesome/Font-Awesome/zipball/master">FontAwesome-Font-Awesome.zip</a>，解压缩后，找到font/FontAwesome.otf文件，双击安装即可。</p>
-
-<h3>找到icon对应的Unicode编码</h3>
-
-<p>找到css/font-awesome.css文件，使用编辑器打开。可以找到许多形如</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.icon-key</span><span class="nd">:before</span>                  <span class="p">{</span> <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;\f084&quot;</span><span class="p">;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中<code>f084</code>就是icon-key图标对应的unicode编码。</p>
-
-<h3>开启Mac OS的unicode16进制输入法</h3>
-
-<p>打开“系统偏好设置\语言与文本\输入源”,在左侧&#8221;请选择要使用的输入源&#8221;列表中勾上”Unicode 十六进制输入“。然后将系统输入法切换为”Unicode输入法“。按住Control健输入4位unicode字符即可输入.若当前字体不存在对应的unicode编码的字形会出现框框，所有输入前需要在keynote里把当前字体改为FontAwesome。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-28T23:23:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/01/28/using-font-awesome-in-keynote//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
