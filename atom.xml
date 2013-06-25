@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-06-25T23:05:41+08:00</updated>
+  <updated>2013-06-25T23:07:22+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -29,7 +29,8 @@
 
 <h3>创建配置</h3>
 
-<pre><code># pptpsetup --create codelife --server vpn.codelife.me --username codelife --password me --encrypt
+<pre><code># pptpsetup --create codelife --server vpn.codelife.me \
+--username codelife --password me --encrypt
 </code></pre>
 
 <!-- more -->
