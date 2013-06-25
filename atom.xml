@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-06-25T23:07:22+08:00</updated>
+  <updated>2013-06-25T23:10:22+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -279,7 +279,7 @@ traceroute to www.163.com (183.60.136.70), 30 hops max, 40 byte packets
 
 <h3>关于升级固件</h3>
 
-<p>目前最新版本的kindle paperwhite固件版本为3.3.6，下载地址：http://www.amazon.com/gp/help/customer/display.html/ref=hp_left_sib?ie=UTF8&amp;nodeId=201064850</p>
+<p>目前最新版本的<a href="http://www.amazon.com/gp/help/customer/display.html/ref=hp_left_sib?ie=UTF8&amp;nodeId=201064850">kindle paperwhite固件</a>版本为5.3.6。</p>
 
 <p>将update_kindle_5.3.6.bin放置到根目录然后在设备里点击升级即可。</p>
 
