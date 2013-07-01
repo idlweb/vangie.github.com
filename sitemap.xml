@@ -199,11 +199,17 @@
         <lastmod>2013-06-25T23:59:34+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://vangie.github.com/blog/2013/07/01/making-eclipse-most-recently-used-tab-visible/
+        </loc>
+        <lastmod>2013-07-01T15:09:02+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://vangie.github.com/blog/archives/</loc>
-        <lastmod>2013-06-25T23:59:34+08:00</lastmod>
+        <lastmod>2013-07-01T15:09:02+08:00</lastmod>
     </url>
     <url>
         <loc>http://vangie.github.com/</loc>
-        <lastmod>2013-06-25T23:59:34+08:00</lastmod>
+        <lastmod>2013-07-01T15:09:02+08:00</lastmod>
     </url>
 </urlset>
