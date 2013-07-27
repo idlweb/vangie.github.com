@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content=" windows系统的搜狗输入法v模式可以很贴心地把人民币由小写转换为大写模式，Mac平台的输入法迄今还没有发现类似的功能。OSChina上看到一个哥们写了个java的版本的，于是依葫芦画瓢倒腾了个coffee的版本只用 继续阅读 &rarr; Mar 9th, 2013 Comments ">
+	<meta name="description" content="寻找一个可扩展的markdown parser的java或者javascript实现，wikipedia上有一个列表非常全。比较之后决定弃用pagedown改用markdown4j，明显后者功能更加全面，而且同样可扩展。在这个长长的列表里意外的发现了qlmarkdown。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,47 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/">
+		
+			支持Markdown的Finder快速预览插件</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>寻找一个可扩展的markdown parser的java或者javascript实现，wikipedia上有一个<a href="http://en.wikipedia.org/wiki/List_of_Markdown_implementations">列表</a>非常全。比较之后决定弃用<a href="http://code.google.com/p/pagedown/">pagedown</a>改用<a href="http://code.google.com/p/markdown4j">markdown4j</a>，明显后者功能更加全面，而且同样可扩展。在这个长长的列表里意外的发现了<a href="(https://github.com/toland/qlmarkdown/)">qlmarkdown</a>。</p></blockquote>
+
+<p><a href="(https://github.com/toland/qlmarkdown/)">qlmarkdown</a>是一个QuickLook的扩展（在Finder里选中文件敲空格键弹出的那个窗口就是Quicklook功能）。安装了这个扩展以后就可以快速的预览markdown文件了。</p>
+
+
+		
+		<a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-16T12:33:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown//blog/page/2/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -493,95 +534,6 @@ $ sudo update-locale LANGUAGE=en_US.en
 </div>
 	
 		<span class="comments"><a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10//blog/page/2/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/11/20/how-to-flush-your-dns-cache/">
-		
-			如何清除DNS缓存</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清除，那需要一段漫长的等待</p></blockquote>
-
-<h3>Mac OS</h3>
-
-<p>OS X Lion (10.7) and OS X Mountain Lion (10.8)</p>
-
-<pre><code>$ sudo killall -HUP mDNSResponder
-</code></pre>
-
-<p>Mac OS X 10.5, Mac OS X 10.6</p>
-
-<pre><code>$ dscacheutil -flushcache
-</code></pre>
-
-<p>Mac OS X 10.4 Tiger</p>
-
-<pre><code>$ lookupd -flushcache
-</code></pre>
-
-<h3>Windows</h3>
-
-<p>Vista/Win7 以上系统</p>
-
-<p>查看DNS缓存</p>
-
-<pre><code>&gt; ipconfig /displaydns
-</code></pre>
-
-<p>清除DNS缓存</p>
-
-<pre><code>&gt; ipconfig /flushdns 
-</code></pre>
-
-<p>Winxp和之前的老系统</p>
-
-<pre><code>&gt; net stop dnscache
-&gt; net start dnscache
-</code></pre>
-
-<h3>Linux</h3>
-
-<pre><code>$ sudo /etc/init.d/nscd restart
-</code></pre>
-
-<h4>参考文献</h4>
-
-<ol>
-<li><a href="http://osxdaily.com/2008/03/21/how-to-flush-your-dns-cache-in-mac-os-x/">How to Flush DNS Cache in Mac OS X</a></li>
-<li><a href="http://www.cnblogs.com/yryz/archive/2012/02/13/2299756.html">Vista/Win7以上系统查看和清除本地DNS缓存新方法</a></li>
-<li><a href="http://www.techiecorner.com/35/how-to-flush-dns-cache-in-linux-windows-mac/">How to flush DNS cache in Linux / Windows / Mac</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:23:00+08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/11/20/how-to-flush-your-dns-cache//blog/page/2/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

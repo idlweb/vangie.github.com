@@ -205,11 +205,17 @@
         <lastmod>2013-07-01T15:09:02+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://vangie.github.com/blog/2013/07/26/using-mixins-in-backbonejs-by-coffeescript/
+        </loc>
+        <lastmod>2013-07-27T21:46:55+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://vangie.github.com/blog/archives/</loc>
-        <lastmod>2013-07-01T15:09:02+08:00</lastmod>
+        <lastmod>2013-07-27T21:46:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://vangie.github.com/</loc>
-        <lastmod>2013-07-01T15:09:02+08:00</lastmod>
+        <lastmod>2013-07-27T21:46:55+08:00</lastmod>
     </url>
 </urlset>

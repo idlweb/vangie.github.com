@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="当打开文件数量很多时，Eclipse编辑器的标签栏右边会出现一个菜单，把标签栏显示不下的标签页放到一个下拉菜单里，这是一个不错的设计，解决了标签页过多以后标签栏显示不下的问题。（Chrome 的标签页显示采用了另外一种方式，缩写标签页的宽度，以容纳更多的标签页，这种方式对于eclipse不可取， &hellip;">
+	<meta name="description" content="Mixin和Inheritance是两种主要的代码复用和封装的方式。Java流行的时候，大家都努力的把javascript写得像java，各大框架努力给javascript加上类继承的特性。当下是Ruby春暖花开的日子，coffeescript让开发者可以以更ruby的方式写js。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,86 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/07/26/using-mixins-in-backbonejs-by-coffeescript/">
+		
+			在backbonejs里使用coffeescript实现mixin</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>Mixin和Inheritance是两种主要的代码复用和封装的方式。Java流行的时候，大家都努力的把javascript写得像java，各大框架努力给javascript加上类继承的特性。当下是Ruby春暖花开的日子，coffeescript让开发者可以以更ruby的方式写js。javascript在不同的时期能适应潮流，足以见得原型链继承型语言的强大之处。</p></blockquote>
+
+<h3>用coffeescript实现Mixin</h3>
+
+<p>Coffescript原生并不支持Mixin，《CoffeeScript小书》第三章提到一种Mixin的实现方式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">moduleKeywords = </span><span class="p">[</span><span class="s">&#39;extended&#39;</span><span class="p">,</span> <span class="s">&#39;included&#39;</span><span class="p">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nx">Module</span>
+</span><span class='line'>  <span class="vi">@extend: </span><span class="nf">(obj) -&gt;</span>
+</span><span class='line'>    <span class="k">for</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="k">of</span> <span class="nx">obj</span> <span class="k">when</span> <span class="nx">key</span> <span class="o">not</span> <span class="k">in</span> <span class="nx">moduleKeywords</span>
+</span><span class='line'>      <span class="nx">@</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">obj</span><span class="p">.</span><span class="nx">extended</span><span class="o">?</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">@</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">this</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vi">@include: </span><span class="nf">(obj) -&gt;</span>
+</span><span class='line'>    <span class="k">for</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="k">of</span> <span class="nx">obj</span> <span class="k">when</span> <span class="nx">key</span> <span class="o">not</span> <span class="k">in</span> <span class="nx">moduleKeywords</span>
+</span><span class='line'>      <span class="c1"># Assign properties to the prototype</span>
+</span><span class='line'>      <span class="nx">@</span><span class="o">::</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">obj</span><span class="p">.</span><span class="nx">included</span><span class="o">?</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">@</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">this</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+		
+		<a href="/blog/2013/07/26/using-mixins-in-backbonejs-by-coffeescript/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-26T09:08:00+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/07/26/using-mixins-in-backbonejs-by-coffeescript//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -517,47 +597,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/">
-		
-			支持Markdown的Finder快速预览插件</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>寻找一个可扩展的markdown parser的java或者javascript实现，wikipedia上有一个<a href="http://en.wikipedia.org/wiki/List_of_Markdown_implementations">列表</a>非常全。比较之后决定弃用<a href="http://code.google.com/p/pagedown/">pagedown</a>改用<a href="http://code.google.com/p/markdown4j">markdown4j</a>，明显后者功能更加全面，而且同样可扩展。在这个长长的列表里意外的发现了<a href="(https://github.com/toland/qlmarkdown/)">qlmarkdown</a>。</p></blockquote>
-
-<p><a href="(https://github.com/toland/qlmarkdown/)">qlmarkdown</a>是一个QuickLook的扩展（在Finder里选中文件敲空格键弹出的那个窗口就是Quicklook功能）。安装了这个扩展以后就可以快速的预览markdown文件了。</p>
-
-
-		
-		<a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-16T12:33:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
