@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清除，那需要一段漫长的等待 Mac OS OS X Lion (10.7) and OS X Mountain Lion (10.8) $ sudo killall -HUP mDNSResponder Mac &hellip;">
+	<meta name="description" content="安装的时候把ubuntu server的默认语言设置成了中文，由于默认没有安装中文字体，控制台一片乱码。所有要么安装字体sudo apt-get install language-pack-zh,要么把语言环境设置成英文。 网上大部分文章都提到修改/etc/environment文件，但是打开/ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,53 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/">
+		
+			Ubuntu Server 12.10修改语言环境</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>安装的时候把ubuntu server的默认语言设置成了中文，由于默认没有安装中文字体，控制台一片乱码。所有要么安装字体<code>sudo apt-get install language-pack-zh</code>,要么把语言环境设置成英文。</p></blockquote>
+
+<p>网上大部分文章都提到修改<code>/etc/environment</code>文件，但是打开<code>/etc/environment</code>文件，默认是空的，说明这种方法虽然可以达到效果，但不是最完美的。更好的方式如下：</p>
+
+<pre><code>$ sudo update-locale LANG=en_US.UTF-8
+$ sudo update-locale LANGUAGE=en_US.en
+</code></pre>
+
+<p>然后重启系统即可。</p>
+
+
+		
+		<a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-04T16:59:00+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10//blog/page/3/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -514,47 +561,6 @@ $ brew install homebrew/dupes/grep
 </div>
 	
 		<span class="comments"><a href="/blog/2012/09/20/create-warkmarked-picture-using-node-js//blog/page/3/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/">
-		
-			NodeJs里将中文字符转换成拼音字母</a>
-	</h2>
-	<div class="entry-content">
-		<p>中文文件名在不同的平台下常常会出现乱码问题.除了理清编码关系,正确的编解码外,比较简单的办法就是把中文去掉或者不用中文.</p>
-
-<p>最近在做一个文件上传相关的功能,windows下的中文文件传到linux服务器上变成一串乱码文件名.于是想把文件名里的中文字符转换成拼音字母,这样相比直接使用UUID之类的做法,保留了部分语意.</p>
-
-
-		
-		<a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-18T01:12:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs//blog/page/3/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

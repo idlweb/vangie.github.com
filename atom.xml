@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-07-27T21:47:06+08:00</updated>
+  <updated>2013-09-02T22:36:15+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,108 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[扩展Backbone.Router以支持window.history.back]]></title>
+    <link href="http://vangie.github.com/blog/2013/09/02/extend-Backbone.Router-to-support-window.history.back/"/>
+    <updated>2013-09-02T21:37:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/09/02/extend-Backbone.Router-to-support-window.history.back</id>
+    <content type="html"><![CDATA[<blockquote><p>web应用程序重要的功能的URL通过需要达到可访问，可收藏和可分享的需求。Backbone.Router正是检测客户端url变化触发相应动作和事件的实现框架。对于没有实现HTML5 History API的浏览器，Router提供了优雅和透明的兼容实现，通过控制hash的变化。</p></blockquote>
+
+<h3>Route的例子</h3>
+
+<pre><code>var Workspace = Backbone.Router.extend({
+
+    routes: {
+        "help":                 "help",    // #help
+        "search/:query":        "search",  // #search/kiwis
+        "search/:query/p:page": "search"   // #search/kiwis/p7
+    },
+
+    help: function() {
+        ...
+    },
+
+    search: function(query, page) {
+        ...
+    }
+
+});
+</code></pre>
+
+<!-- more -->
+
+
+<h3>Router的问题</h3>
+
+<p>Router很好的解决了进入一个url能触发相应的方法的问题，但是如果在离开某个url想触发相应的方法，Router显得无能为力。通常如果想通过window.history.back()退回上一页面是，触发相应的方法，就需要Router支持leave方法。</p>
+
+<p>下面我们介绍如何通过扩展Backbone.Router已支持leave。</p>
+
+<h3>扩展Backbone.Router</h3>
+
+<pre><code>class BaseRouter extends Backbone.Router
+  route: (route, name, callback)-&gt;
+
+    fn = callback
+
+    route = this._routeToRegExp(route) unless _.isRegExp route
+
+    if _.isFunction name
+      callback = name
+      name = ''
+
+    fn = callback = this[name] unless callback
+
+    if typeof callback == 'object'
+      before = callback.before
+      fn = callback.route
+      after = callback.after
+
+    Backbone.history.route(route, (fragment)=&gt;
+      args = @_extractParameters(route, fragment)
+
+      if leave
+        if leave() is false
+          return
+        else
+          leave = false
+
+      return if before and before.apply(@, args) is false
+      fn.apply(@, args) if fn
+      return if after and after.apply(@, args) is false
+
+      if typeof callback == 'object'
+        leave = ((_this, args)-&gt;-&gt;callback.leave.apply(_this, args))(@, args)
+
+      @trigger.apply(@, ["route:#{name}"].concat(args))
+      @trigger('route', name, args)
+      Backbone.history.trigger('route', @, name, args)
+    )
+    @
+</code></pre>
+
+<h3>编写Route</h3>
+
+<pre><code>class extends Base.Router
+  routes:
+    "bsdn_editor_:uid/writer":    "fullscreen"
+    #catch every url for leave
+    ".*": -&gt;
+
+  fullscreen: {
+    route: (uid)-&gt;
+      $("#bsdn_editor_#{uid}").parent().editor('showFullscreen')
+    leave: (uid)-&gt;
+      $("#bsdn_editor_#{uid}").parent().editor('hideFullscreen')
+  }
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<p>[1] <a href="https://gist.github.com/corpix/1972890">Backbone router before,after,leave</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在backbonejs里使用coffeescript实现mixin]]></title>
@@ -2731,34 +2833,6 @@ BKCJJ-J6G9Y-4P7YF-8D4J7-7TCWD</p></blockquote>
 <li><a href="http://virtual.51cto.com/art/201206/341911.htm">在Ubuntu 12.04 LTS服务器上借助KVM实现虚拟化</a></li>
 <li><a href="https://www.nnbfn.net/2011/01/installing-win-server-2008-r2-as-a-kvm-guest-with-virtio/">Installing Win Server 2008 R2 as a KVM Guest with VirtIO</a></li>
 <li><a href="http://forums.mydigitallife.info/threads/33723-Crafting-an-SLIC-BIOS-for-Linux-KVM-Guests">Crafting an SLIC BIOS for Linux KVM Guests</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ubuntu Server 12.10修改语言环境]]></title>
-    <link href="http://vangie.github.com/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/"/>
-    <updated>2012-12-04T16:59:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10</id>
-    <content type="html"><![CDATA[<blockquote><p>安装的时候把ubuntu server的默认语言设置成了中文，由于默认没有安装中文字体，控制台一片乱码。所有要么安装字体<code>sudo apt-get install language-pack-zh</code>,要么把语言环境设置成英文。</p></blockquote>
-
-<p>网上大部分文章都提到修改<code>/etc/environment</code>文件，但是打开<code>/etc/environment</code>文件，默认是空的，说明这种方法虽然可以达到效果，但不是最完美的。更好的方式如下：</p>
-
-<pre><code>$ sudo update-locale LANG=en_US.UTF-8
-$ sudo update-locale LANGUAGE=en_US.en
-</code></pre>
-
-<p>然后重启系统即可。</p>
-
-<!-- more -->
-
-
-<h3>参考文献</h3>
-
-<ol>
-<li><a href="http://askubuntu.com/questions/89976/how-to-change-the-default-locale-in-ubuntu-10-10-server">How to change the default locale in ubuntu 10.10 server</a></li>
-<li><a href="http://www.slyar.com/blog/ubuntu-server-utf8-zhcn.html">Ubuntu Server下配置UTF-8中文/英文环境</a></li>
 </ol>
 
 ]]></content>

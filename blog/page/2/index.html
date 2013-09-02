@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="寻找一个可扩展的markdown parser的java或者javascript实现，wikipedia上有一个列表非常全。比较之后决定弃用pagedown改用markdown4j，明显后者功能更加全面，而且同样可扩展。在这个长长的列表里意外的发现了qlmarkdown。 &hellip;">
+	<meta name="description" content="本篇是MacOS X将GoAgent配置为后台服务的姊妹篇，主要分享一下将GoAgent配置成随机启动的LaunchAgent后如何升级，并提供一个方便的管理脚本。 升级 下载安装 假设GoAgent的安装目录为~/Library/ 下载最新的GoAgent，当前版本为v2.1.14。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,61 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/">
+		
+			MacOS X里升级GoAgent后台服务</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>本篇是<a href="http://codelife.me/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X将GoAgent配置为后台服务</a>的姊妹篇，主要分享一下将GoAgent配置成随机启动的LaunchAgent后如何升级，并提供一个方便的管理脚本。</p></blockquote>
+
+<h2>升级</h2>
+
+<h3>下载安装</h3>
+
+<p>假设GoAgent的安装目录为<code>~/Library/</code></p>
+
+<p>下载最新的GoAgent，当前版本为v2.1.14。解压后得到<code>goagent-goagent-beadcf8</code>目录,将其移动到<code>~/Library/</code>目录</p>
+
+<pre><code>mv goagent-goagent-beadcf8 ~/Library/
+</code></pre>
+
+<p>并在同目录下创建一个文件链接，</p>
+
+<pre><code>ln -sf goagent-goagent-beadcf8 goagent
+</code></pre>
+
+
+		
+		<a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-28T10:04:00+08:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x//blog/page/2/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -487,53 +542,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2012/12/07/qemu-kvm-add-slic-2-dot-1-to-bios-and-activate-windows-server-2008-r2-sucessfully//blog/page/2/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/">
-		
-			Ubuntu Server 12.10修改语言环境</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>安装的时候把ubuntu server的默认语言设置成了中文，由于默认没有安装中文字体，控制台一片乱码。所有要么安装字体<code>sudo apt-get install language-pack-zh</code>,要么把语言环境设置成英文。</p></blockquote>
-
-<p>网上大部分文章都提到修改<code>/etc/environment</code>文件，但是打开<code>/etc/environment</code>文件，默认是空的，说明这种方法虽然可以达到效果，但不是最完美的。更好的方式如下：</p>
-
-<pre><code>$ sudo update-locale LANG=en_US.UTF-8
-$ sudo update-locale LANGUAGE=en_US.en
-</code></pre>
-
-<p>然后重启系统即可。</p>
-
-
-		
-		<a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-04T16:59:00+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10//blog/page/2/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
