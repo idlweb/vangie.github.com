@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="web应用程序重要的功能的URL通过需要达到可访问，可收藏和可分享的需求。Backbone.Router正是检测客户端url变化触发相应动作和事件的实现框架。对于没有实现HTML5 History API的浏览器，Router提供了优雅和透明的兼容实现，通过控制hash的变化。 Route的例子 &hellip;">
+	<meta name="description" content="终于搞定了困扰已久的nginx反向代理子路径映射问题 多个web应用共享一个域名和端口时，可以考虑把不同的web应用映射成不同的子路径，这个子路径在Java EE里称作ContextPath。下面的配置片段解决nginx作为前端，反向代理多个tomcat主机，通过不同子路径共享一个域名的情况。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,70 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/09/12/reverse-proxy-for-a-subdirectory-in-nginx/">
+		
+			Nginx反向代理映射成子路径</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>终于搞定了困扰已久的nginx反向代理子路径映射问题</p></blockquote>
+
+<p>多个web应用共享一个域名和端口时，可以考虑把不同的web应用映射成不同的子路径，这个子路径在Java EE里称作ContextPath。下面的配置片段解决nginx作为前端，反向代理多个tomcat主机，通过不同子路径共享一个域名的情况。</p>
+
+<pre><code>server {
+    listen       80;
+    server_name  _;
+    index index.html index.htm index.php;
+    root /home/dashboard;
+
+    location /dashboard {
+        rewrite /dashboard/(.*) /$1 break;
+        rewrite ^/dashboard$ /dashboard/ permanent;
+        proxy_pass http://127.0.0.1:9082;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://wiki.apache.org/couchdb/Nginx_As_a_Reverse_Proxy">Nginx_As_a_Reverse_Proxy</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-12T17:41:00+08:00" pubdate data-updated="true">Sep 12<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/09/12/reverse-proxy-for-a-subdirectory-in-nginx//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -563,45 +627,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2013/04/06/convert-gfwlist-to-pac//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/">
-		
-			iOS6里GoAgent和SSH Forwarding共用</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>入了一台iPhone5联通合约机，可惜iOS 6.1.3无法越狱了，庆幸内置系统版本6.1.2，Alfred调出evasi0n.app,果断越狱了。本文介绍在iOS6里整合Goagent和SSH forwarding两种方式翻越长城。</p></blockquote>
-
-
-		
-		<a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-04T22:15:00+08:00" pubdate data-updated="true">Apr 4<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

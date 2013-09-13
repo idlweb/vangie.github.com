@@ -217,11 +217,17 @@
         <lastmod>2013-09-03T17:42:10+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://vangie.github.com/blog/2013/09/12/reverse-proxy-for-a-subdirectory-in-nginx/
+        </loc>
+        <lastmod>2013-09-14T00:17:15+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://vangie.github.com/blog/archives/</loc>
-        <lastmod>2013-09-03T17:42:10+08:00</lastmod>
+        <lastmod>2013-09-14T00:17:15+08:00</lastmod>
     </url>
     <url>
         <loc>http://vangie.github.com/</loc>
-        <lastmod>2013-09-03T17:42:10+08:00</lastmod>
+        <lastmod>2013-09-14T00:17:15+08:00</lastmod>
     </url>
 </urlset>
