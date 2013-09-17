@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-09-18T01:00:54+08:00</updated>
+  <updated>2013-09-18T01:03:55+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -116,6 +116,7 @@ $ tempfile -d
 
 <ol>
 <li><a href="http://wiki.apache.org/couchdb/Nginx_As_a_Reverse_Proxy">Nginx_As_a_Reverse_Proxy</a></li>
+<li><a href="http://superuser.com/questions/603373/how-do-i-reverse-proxy-etherpad-lite-with-nginx-to-a-subdirectory">How do I reverse proxy etherpad-lite with nginx to a subdirectory</a></li>
 </ol>
 
 ]]></content>
