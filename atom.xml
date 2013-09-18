@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-09-18T16:51:29+08:00</updated>
+  <updated>2013-09-18T16:55:11+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -34,7 +34,7 @@ $ export https_proxy=http://127.0.0.1:xxxxx/
 
 <h3>改用国内的镜像</h3>
 
-<pre><code>$ gem sources –remove http://rubygems.org/
+<pre><code>$ gem sources –r http://rubygems.org/
 $ gem sources -a http://ruby.taobao.org/
 $ gem sources -l
 *** CURRENT SOURCES ***
