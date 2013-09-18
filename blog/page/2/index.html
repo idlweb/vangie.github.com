@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="微信越来越火，信息、语音短信、视频电话等非常实用OTT业务加上QQ好友和通讯录的导入一时间吸引了大量的用户。前段时间各大运营商开始吵着要收微信的费用。所谓“发现即晚期”，当运营商发现苗条不对的时候，已经来不及了。微信除了提供了好用的通讯替代功能，还是一个可扩展的平台，比如：微信公众平台， &hellip;">
+	<meta name="description" content="最近学习了一些账户登录和验证相关的知识，了解了OpenId机制的一些技术细节，发现OpenId的验证机制和某些基于Web的SSO验证机制非常类似，但不知道这些验证机制的原型和出处，于是开始转向学习Kerberos - Unix平台上一个老牌的单点登录验证系统。在《Kerberos权威指南》 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,51 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/06/13/needham-schroeder-protocol/">
+		
+			Needham-Schroeder协议</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>最近学习了一些账户登录和验证相关的知识，了解了OpenId机制的一些技术细节，发现OpenId的验证机制和某些基于Web的SSO验证机制非常类似，但不知道这些验证机制的原型和出处，于是开始转向学习Kerberos - Unix平台上一个老牌的单点登录验证系统。在《Kerberos权威指南》里找到了“Needham-Schroeder协议”,虽然不知道这个协议与其后出现的Web SSO和OpenId有没有渊源，但是学习这个协议对于理解SSO非常有帮助。</p></blockquote>
+
+<h3>借助受信任的第三方相互验证</h3>
+
+<p>《在大型计算机网络中使用加密身份验证》是Roger Needham和Michael Schroeder 1978年在施乐帕罗奥多研究中心（当年乔布斯偷师的地方）工作时发表的一篇论文。该论文讨论了在非安全网络环境下，通讯双方如果借助一个共同信任的第三方相互验证的方法。</p>
+
+<p>协议假设有三方参与，一个客户机，一个应用服务器和一个验证服务器。客户机可以是某台请求验证的机器，通常是个人电脑。服务器提供客户机希望访问的服务，比如邮件服务。而验证服务器是一台专门的服务器，用于存储网络上用户和服务器的密钥（受信任的第三方）。</p>
+
+
+		
+		<a href="/blog/2013/06/13/needham-schroeder-protocol/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-13T22:23:00+08:00" pubdate data-updated="true">Jun 13<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/06/13/needham-schroeder-protocol//blog/page/2/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -488,63 +533,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2013/02/05/ipad-play-video-from-macbook-over-upnp//blog/page/2/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/01/28/using-font-awesome-in-keynote/">
-		
-			在Keynote里输入Font Awesome字符</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p><a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a>提供了200多个矢量图标的字体文件。矢量字体可以支持无线的放缩，而且体积更好，如果能放到keynote里作为幻灯片的图标素材非常不错。想法是好的，但是由于这些字体对应了一些保留的unicode编码，使用通常的输入法无法输入。</p></blockquote>
-
-<h3>安装Font Awesome字体</h3>
-
-<p>下载 <a href="https://github.com/FortAwesome/Font-Awesome/zipball/master">FontAwesome-Font-Awesome.zip</a>，解压缩后，找到font/FontAwesome.otf文件，双击安装即可。</p>
-
-<h3>找到icon对应的Unicode编码</h3>
-
-<p>找到css/font-awesome.css文件，使用编辑器打开。可以找到许多形如</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.icon-key</span><span class="nd">:before</span>                  <span class="p">{</span> <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;\f084&quot;</span><span class="p">;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中<code>f084</code>就是icon-key图标对应的unicode编码。</p>
-
-<h3>开启Mac OS的unicode16进制输入法</h3>
-
-<p>打开“系统偏好设置\语言与文本\输入源”,在左侧&#8221;请选择要使用的输入源&#8221;列表中勾上”Unicode 十六进制输入“。然后将系统输入法切换为”Unicode输入法“。按住Control健输入4位unicode字符即可输入.若当前字体不存在对应的unicode编码的字形会出现框框，所有输入前需要在keynote里把当前字体改为FontAwesome。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-28T23:23:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/01/28/using-font-awesome-in-keynote//blog/page/2/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

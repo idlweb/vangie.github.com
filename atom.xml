@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-09-18T16:55:11+08:00</updated>
+  <updated>2013-09-19T03:10:59+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[致青春]]></title>
+    <link href="http://vangie.github.com/blog/2013/09/19/for-youth/"/>
+    <updated>2013-09-19T03:04:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/09/19/for-youth</id>
+    <content type="html"><![CDATA[<blockquote><p>送给那些而立之年的伙伴们</p></blockquote>
+
+<p>年华易逝，岁月如歌，<br/>
+而立之年，青春渐远。</p>
+
+<p>《那些年，我們一起追的女孩 》和《致青春》触动了我们，80后开始集体怀旧。</p>
+
+<p>那些野蛮生长日子里，<br/>
+有过期许，<br/>
+有过慌张，<br/>
+也曾意气风发，<br/>
+也曾年少轻狂。</p>
+
+<p>其实每一代人都有怀旧情结，人们之所以怀念过去，往往不是因为追忆的年代比当下更美好，而是那时正值青春。</p>
+
+<p>青春是美好的，<br/>
+青春是奔放的，<br/>
+青春是热烈的，<br/>
+青春是短暂的，<br/>
+如花如雨，<br/>
+如烟如梦。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[解决国内rubygems速度慢的问题]]></title>
@@ -2402,34 +2431,6 @@ Parameters: /usr/local/bin/iterm2-recv-zmodem.sh
 <h1>iOS端安装aceplayer</h1>
 
 <p><a href="https://itunes.apple.com/us/app/aceplayer-powerful-media-player/id540326056?mt=8">aceplayer</a>是一个近乎全能的播放器，支持upnp，可以直接播放或者下载upnp服务器里的视频文件。但是播放时色彩还原效果相对差一点。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在Keynote里输入Font Awesome字符]]></title>
-    <link href="http://vangie.github.com/blog/2013/01/28/using-font-awesome-in-keynote/"/>
-    <updated>2013-01-28T23:23:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/01/28/using-font-awesome-in-keynote</id>
-    <content type="html"><![CDATA[<blockquote><p><a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a>提供了200多个矢量图标的字体文件。矢量字体可以支持无线的放缩，而且体积更好，如果能放到keynote里作为幻灯片的图标素材非常不错。想法是好的，但是由于这些字体对应了一些保留的unicode编码，使用通常的输入法无法输入。</p></blockquote>
-
-<h3>安装Font Awesome字体</h3>
-
-<p>下载 <a href="https://github.com/FortAwesome/Font-Awesome/zipball/master">FontAwesome-Font-Awesome.zip</a>，解压缩后，找到font/FontAwesome.otf文件，双击安装即可。</p>
-
-<h3>找到icon对应的Unicode编码</h3>
-
-<p>找到css/font-awesome.css文件，使用编辑器打开。可以找到许多形如</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.icon-key</span><span class="nd">:before</span>                  <span class="p">{</span> <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;\f084&quot;</span><span class="p">;</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其中<code>f084</code>就是icon-key图标对应的unicode编码。</p>
-
-<h3>开启Mac OS的unicode16进制输入法</h3>
-
-<p>打开“系统偏好设置\语言与文本\输入源”,在左侧&#8221;请选择要使用的输入源&#8221;列表中勾上”Unicode 十六进制输入“。然后将系统输入法切换为”Unicode输入法“。按住Control健输入4位unicode字符即可输入.若当前字体不存在对应的unicode编码的字形会出现框框，所有输入前需要在keynote里把当前字体改为FontAwesome。</p>
 ]]></content>
   </entry>
   
