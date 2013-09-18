@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="想通过ssh隧道连接远端机器的VNC服务，对ssh -L命令不太熟悉，man ssh后发现3组与隧道（turnnel）相关的参数:ssh -D，ssh -L，ssh -R，一下子就搞糊涂了，所有下决心仔细研究一番。 何谓SSH隧道 隧道是一种把一种网络协议封装进另外一种网络协议进行传输的技术。 &hellip;">
+	<meta name="description" content="使用virt-install安装了一个CentOS虚拟机，安装过程未指定网络参数，默认使用内置虚拟NAT的方式上网，现在希望给虚拟机另外安装一块虚拟的网卡，然后给其分配一个外网IP地址（与宿主机处于同一网段）。 安装CentOS $ sudo virt-install --connect &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,54 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/12/11/add-secondary-network-interface-to-vm-of-centos/">
+		
+			为CentOS虚拟机添加第二块网卡</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>使用virt-install安装了一个CentOS虚拟机，安装过程未指定网络参数，默认使用内置虚拟NAT的方式上网，现在希望给虚拟机另外安装一块虚拟的网卡，然后给其分配一个外网IP地址（与宿主机处于同一网段）。</p></blockquote>
+
+<h3>安装CentOS</h3>
+
+<pre><code>$ sudo virt-install --connect qemu:///system --noautoconsole \
+-n centos -r 4096 --vcpus=4 --arch=x86_64 --os-type=linux \
+--os-variant=rhel6 --accelerate -v -l http://mirrors.163.com/centos/6.3/os/x86_64/ \
+--disk path=/var/lib/libvirt/images/centos.img,size=200 \
+--graphics vnc,password=foobar,listen=0.0.0.0,port=5901 
+</code></pre>
+
+
+		
+		<a href="/blog/2012/12/11/add-secondary-network-interface-to-vm-of-centos/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-11T18:43:00+08:00" pubdate data-updated="true">Dec 11<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/12/11/add-secondary-network-interface-to-vm-of-centos//blog/page/3/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -525,57 +573,6 @@ $ brew install homebrew/dupes/grep
 </div>
 	
 		<span class="comments"><a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell//blog/page/3/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/">
-		
-			解决rinse安装CentOS 6报错找不到&#8217;/dev/urandom&#8217;的问题</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>Debian系统xen安装centos 6.3失败，报错找不到<code>/dev/urandom</code>。</p></blockquote>
-
-<h3>错误如下</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  File "/usr/lib64/python2.4/random.py", line 109, in seed
-</span><span class='line'>    a = long(_hexlify(_urandom(16)), 16)
-</span><span class='line'>OSError: [Errno 2] No such file or directory: '/dev/urandom'</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-
-		
-		<a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-09T15:53:00+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/10/09/yum-aborts-with-missing-uramdon-when-rinse-installing-centos-6//blog/page/3/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
