@@ -237,11 +237,35 @@
         <lastmod>2013-09-19T03:10:47+08:00</lastmod>
     </url>
     <url>
+        <loc>http://vangie.github.com/blog/2013/11/08/config-apache-php-mysql-on-mac-os/</loc>
+        <lastmod>2013-11-19T11:09:08+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://vangie.github.com/blog/2013/11/09/a-nice-launchctl-wrapper-for-macos-deamon-management/
+        </loc>
+        <lastmod>2013-11-19T11:37:29+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://vangie.github.com/blog/2013/11/13/noppoo-chic-mini84-osx-support/</loc>
+        <lastmod>2013-11-19T13:46:07+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://vangie.github.com/blog/2013/11/16/replace-razer-status-bar-icon-in-macos/
+        </loc>
+        <lastmod>2013-11-19T14:22:02+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://vangie.github.com/blog/2013/11/16/google-block-linode-traffic-over-ipv6/</loc>
+        <lastmod>2013-11-19T14:23:04+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://vangie.github.com/blog/archives/</loc>
-        <lastmod>2013-09-19T03:10:47+08:00</lastmod>
+        <lastmod>2013-11-19T14:23:04+08:00</lastmod>
     </url>
     <url>
         <loc>http://vangie.github.com/</loc>
-        <lastmod>2013-09-19T03:10:47+08:00</lastmod>
+        <lastmod>2013-11-19T14:23:04+08:00</lastmod>
     </url>
 </urlset>

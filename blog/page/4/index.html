@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content=" 遇到两个shell的概念：交互式登录shell和交互式非登录shell。要理解上面两个术语，先要理清两个概念登录shell和交互shell 继续阅读 &rarr; Oct 11th, 2012 Comments ">
+	<meta name="description" content="系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清除，那需要一段漫长的等待 Mac OS OS X Lion (10.7) and OS X Mountain Lion (10.8) $ sudo killall -HUP mDNSResponder Mac &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,277 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/11/20/how-to-flush-your-dns-cache/">
+		
+			如何清除DNS缓存</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清除，那需要一段漫长的等待</p></blockquote>
+
+<h3>Mac OS</h3>
+
+<p>OS X Lion (10.7) and OS X Mountain Lion (10.8)</p>
+
+<pre><code>$ sudo killall -HUP mDNSResponder
+</code></pre>
+
+<p>Mac OS X 10.5, Mac OS X 10.6</p>
+
+<pre><code>$ dscacheutil -flushcache
+</code></pre>
+
+<p>Mac OS X 10.4 Tiger</p>
+
+<pre><code>$ lookupd -flushcache
+</code></pre>
+
+<h3>Windows</h3>
+
+<p>Vista/Win7 以上系统</p>
+
+<p>查看DNS缓存</p>
+
+<pre><code>&gt; ipconfig /displaydns
+</code></pre>
+
+<p>清除DNS缓存</p>
+
+<pre><code>&gt; ipconfig /flushdns 
+</code></pre>
+
+<p>Winxp和之前的老系统</p>
+
+<pre><code>&gt; net stop dnscache
+&gt; net start dnscache
+</code></pre>
+
+<h3>Linux</h3>
+
+<pre><code>$ sudo /etc/init.d/nscd restart
+</code></pre>
+
+<h4>参考文献</h4>
+
+<ol>
+<li><a href="http://osxdaily.com/2008/03/21/how-to-flush-your-dns-cache-in-mac-os-x/">How to Flush DNS Cache in Mac OS X</a></li>
+<li><a href="http://www.cnblogs.com/yryz/archive/2012/02/13/2299756.html">Vista/Win7以上系统查看和清除本地DNS缓存新方法</a></li>
+<li><a href="http://www.techiecorner.com/35/how-to-flush-dns-cache-in-linux-windows-mac/">How to flush DNS cache in Linux / Windows / Mac</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-20T16:23:00+08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/11/20/how-to-flush-your-dns-cache//blog/page/4/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/">
+		
+			Mountain Lion系统安装GNU Grep</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p><a href="http://news.ycombinator.com/item?id=4588304">由于License的问题</a>，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&#8211;per-regex）选项，缺少了对Perl正则表达式的支持。</p></blockquote>
+
+<p>可以通过使用homebrew自己安装GNU Grep以兼容包含-P参数的bash脚本。</p>
+
+<pre><code>$ brew tap homebrew/dupes/
+$ brew install homebrew/dupes/grep
+</code></pre>
+
+<p>记得在PATH里确保/usr/local/bin在/usr/bin前面，并重启终端。</p>
+
+
+		
+		<a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-12T11:32:00+08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion//blog/page/4/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/11/07/install-gateone-on-mac-osx/">
+		
+			Mac下安装Gate One</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>HTML5终端模拟器/SSH客户端<a href="http://liftoffsoftware.com/Products/GateOne">Gate One</a>发布了<a href="https://github.com/liftoff/GateOne/downloads">v1.1版</a>。主要新特性包括：安全增强，性能改进，移动浏览器支持，改进终端模拟，系统日志信息的自动语法高亮，捕捉以及以图像形式展示PDF，Python 3支持，IE10支持，等等。官方DEMO演示显示你可以在浏览器上尝试vim，玩终端游戏，在lynx中冲浪，等等。</p></blockquote>
+
+<p>官方给出了RPM，DEB安装包唯独没有mac下的安装包，由于该项目太新，也就不指望homebrew安装了，只能选择从源码安装。</p>
+
+
+		
+		<a href="/blog/2012/11/07/install-gateone-on-mac-osx/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-07T22:07:00+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/11/07/install-gateone-on-mac-osx//blog/page/4/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/11/06/get-the-hostname-of-a-windows-machine-by-ip-address/">
+		
+			通过IP地址获得windows机制主机名</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>局域网内可以通过NetBIOS协议将IP地址转换为windows机器的主机名</p></blockquote>
+
+<h3>Windows</h3>
+
+<pre><code>nbtstat -a [ip]
+</code></pre>
+
+<h3>Linux</h3>
+
+<pre><code> nmblookup -A [ip]
+</code></pre>
+
+<h3>Mac OS</h3>
+
+<pre><code>smbutil status [ip]
+</code></pre>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-06T11:46:00+08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/11/06/get-the-hostname-of-a-windows-machine-by-ip-address//blog/page/4/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/11/03/jackson-polymorphic-deserialization/">
+		
+			Jackson多态类型数据绑定</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>Jackson数据绑定可以很方便的将java的对象类型和json数据格式之间进行转换。对于有多个子类型的多态集成结构的对象，Jackson在序列化的时候加入一些类型信息，可以在反序列化的时候准确的还原某个类型的子类。</p></blockquote>
+
+<p>想要把JSON数据准确的反序列化为正确的子类型，简单的方法就是在数据中存储数据的类型。但是Jackson序列化时默认不会将对象的类型信息保存到Json数据中。有两种方式开始使Jackson序列化类型信息</p>
+
+
+		
+		<a href="/blog/2012/11/03/jackson-polymorphic-deserialization/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-03T14:28:00+08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/11/03/jackson-polymorphic-deserialization//blog/page/4/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -284,225 +555,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2012/09/18/convert-chinese-character-to-pinyin-in-nodejs//blog/page/4/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">
-		
-			几个瀑布流风格布局的jQuery插件</a>
-	</h2>
-	<div class="entry-content">
-		<p>Pinterest的瀑布流布局,让人眼睛一亮,看图的过程变得很享受.巧妙的改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过多页面加载缓慢的问题.国内的<a href="http://huaban.com/">花瓣网</a>,借鉴了瀑布流的设计,做得挺不错的.</p>
-
-
-		
-		<a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-14T22:49:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/14/pinterest-like-layout-by-jquery//blog/page/4/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/13/calculate-max-difference-color/">
-		
-			求最大色差颜色</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>对于一个给定的前景色，如何找到一个与之色差较大的背景色，使之醒目？</p></blockquote>
-
-<h3>反色</h3>
-
-<p>对颜色值取反，比较简单的方法：<code>0xFFFFFF - $color</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="o">//</span> <span class="nx">coffeescript</span>
-</span><span class='line'><span class="nv">invert = </span><span class="nf">(color) -&gt;</span>
-</span><span class='line'>  <span class="s">&quot;</span><span class="err">#</span><span class="s">&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;000000&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="mh">0xFFFFFF</span> <span class="o">^</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">16</span><span class="p">)).</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)).</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>但是当<code>$color = 0x808080</code>时,<code>$color ≈ 0xFFFFFF - $color</code>前景色和背景色非常接近，显然取反的方法有瑕疵。</p>
-
-
-		
-		<a href="/blog/2012/09/13/calculate-max-difference-color/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-13T22:51:00+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/13/calculate-max-difference-color//blog/page/4/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/13/http-basic-auth-in-nodejs/">
-		
-			NodeJs里实现HTTP基本认证</a>
-	</h2>
-	<div class="entry-content">
-		<h2>何为HTTP基本认证(HTTP Basic Auth)</h2>
-
-<p>在HTTP中，基本认证是一种用来允许Web浏览器，或其他客户端程序在请求时提供以用户名和口令形式的凭证。
-通常我们通过浏览器去访问一个SVN代码库，浏览器会弹出一个窗口，要求输入用户名和密码。一般SVN的的Web服务端采用Apache服务器，因为Apache实现了WebDAV协议，支持HTTP协议管理SVN库。Apache里HTTP基本认证的功能是通过<a href="http://httpd.apache.org/docs/2.2/mod/mod_auth_basic.html" title="Apache Module mod_auth_basic">mod_auth_basic</a>模块实现的。</p>
-
-
-		
-		<a href="/blog/2012/09/13/http-basic-auth-in-nodejs/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-13T00:58:00+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/13/http-basic-auth-in-nodejs//blog/page/4/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/">
-		
-			浏览器自动补全不触发Input控件的onChange和onKeyup事件</a>
-	</h2>
-	<div class="entry-content">
-		<p>表单的输入校验通常会使用<code>onBlur</code>事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的<code>onBlur</code>事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是<code>onChange</code>事件了，但是<code>onChange</code>事件在<code>onBlur</code>事件之后触发，所有只能用<code>onKeyup</code>或者<code>onKeyPress</code>方法来感知输入框的变化。但是如果在输入时浏览器提供自动补全的功能，那<code>onKeyup</code>和<code>onKeyPress</code>事件不会被触发。</p>
-
-
-		
-		<a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-10T13:57:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event//blog/page/4/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">
-		
-			《HTTP权威指南》读书笔记</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>一直在做web开发，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。</p></blockquote>
-
-<h1>第一章 HTTP概述</h1>
-
-<h2>MIME</h2>
-
-<p>媒体类型<code>MIME</code>（Multipurpose Internet Mail Extension）最初设计是为了解决不同的电子邮件系统之间搬移报文时存在的问题。</p>
-
-
-		
-		<a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-08T12:45:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide//blog/page/4/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

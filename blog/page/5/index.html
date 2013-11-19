@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="linux下部署的jetty，隔大哥一周时间就会访问出错，或者出现web应用的目录列表。很长一段时间都被这个问题困扰着，由于是个演示系统，持续运行的要求不高，无奈配置了一个cron，定时重启。 最近发现原来linux下有一个叫做tmpwatch的命令，而且默认配置成了cron.daily。 &hellip;">
+	<meta name="description" content=" Pinterest的瀑布流布局,让人眼睛一亮,看图的过程变得很享受.巧妙的改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过多页面加载缓慢的问题.国内的花瓣网,借鉴了瀑布流的设计,做得挺不错的. 继续阅读 &rarr; Sep 14th, 2012 Comments ">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,225 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/">
+		
+			几个瀑布流风格布局的jQuery插件</a>
+	</h2>
+	<div class="entry-content">
+		<p>Pinterest的瀑布流布局,让人眼睛一亮,看图的过程变得很享受.巧妙的改善了分页让阅读中断的问题,页面懒装载的设计也很好的解决了一次性装载图片过多页面加载缓慢的问题.国内的<a href="http://huaban.com/">花瓣网</a>,借鉴了瀑布流的设计,做得挺不错的.</p>
+
+
+		
+		<a href="/blog/2012/09/14/pinterest-like-layout-by-jquery/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-14T22:49:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/09/14/pinterest-like-layout-by-jquery//blog/page/5/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/09/13/calculate-max-difference-color/">
+		
+			求最大色差颜色</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>对于一个给定的前景色，如何找到一个与之色差较大的背景色，使之醒目？</p></blockquote>
+
+<h3>反色</h3>
+
+<p>对颜色值取反，比较简单的方法：<code>0xFFFFFF - $color</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="o">//</span> <span class="nx">coffeescript</span>
+</span><span class='line'><span class="nv">invert = </span><span class="nf">(color) -&gt;</span>
+</span><span class='line'>  <span class="s">&quot;</span><span class="err">#</span><span class="s">&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s">&quot;000000&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="mh">0xFFFFFF</span> <span class="o">^</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span><span class="mi">16</span><span class="p">)).</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">)).</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但是当<code>$color = 0x808080</code>时,<code>$color ≈ 0xFFFFFF - $color</code>前景色和背景色非常接近，显然取反的方法有瑕疵。</p>
+
+
+		
+		<a href="/blog/2012/09/13/calculate-max-difference-color/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-13T22:51:00+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/09/13/calculate-max-difference-color//blog/page/5/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/09/13/http-basic-auth-in-nodejs/">
+		
+			NodeJs里实现HTTP基本认证</a>
+	</h2>
+	<div class="entry-content">
+		<h2>何为HTTP基本认证(HTTP Basic Auth)</h2>
+
+<p>在HTTP中，基本认证是一种用来允许Web浏览器，或其他客户端程序在请求时提供以用户名和口令形式的凭证。
+通常我们通过浏览器去访问一个SVN代码库，浏览器会弹出一个窗口，要求输入用户名和密码。一般SVN的的Web服务端采用Apache服务器，因为Apache实现了WebDAV协议，支持HTTP协议管理SVN库。Apache里HTTP基本认证的功能是通过<a href="http://httpd.apache.org/docs/2.2/mod/mod_auth_basic.html" title="Apache Module mod_auth_basic">mod_auth_basic</a>模块实现的。</p>
+
+
+		
+		<a href="/blog/2012/09/13/http-basic-auth-in-nodejs/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-13T00:58:00+08:00" pubdate data-updated="true">Sep 13<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/09/13/http-basic-auth-in-nodejs//blog/page/5/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/">
+		
+			浏览器自动补全不触发Input控件的onChange和onKeyup事件</a>
+	</h2>
+	<div class="entry-content">
+		<p>表单的输入校验通常会使用<code>onBlur</code>事件，这个事件有个问题，若填完最后一个输入框时，直接点击“提交”按钮，那最后一个输入框的<code>onBlur</code>事件不会触发，导致校验不会执行。这种场景下，语意最贴切的就是<code>onChange</code>事件了，但是<code>onChange</code>事件在<code>onBlur</code>事件之后触发，所有只能用<code>onKeyup</code>或者<code>onKeyPress</code>方法来感知输入框的变化。但是如果在输入时浏览器提供自动补全的功能，那<code>onKeyup</code>和<code>onKeyPress</code>事件不会被触发。</p>
+
+
+		
+		<a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-10T13:57:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/09/10/fix-browser-autocomplete-does-not-fire-change-or-keyup-event//blog/page/5/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/">
+		
+			《HTTP权威指南》读书笔记</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>一直在做web开发，对HTTP协议还算熟悉，但是这本手册类的砖头书还是很吸引我，看了两章觉得还不错，对于巩固基础很有帮助，最近感觉记性不如从前，烂笔头越来越重要了。</p></blockquote>
+
+<h1>第一章 HTTP概述</h1>
+
+<h2>MIME</h2>
+
+<p>媒体类型<code>MIME</code>（Multipurpose Internet Mail Extension）最初设计是为了解决不同的电子邮件系统之间搬移报文时存在的问题。</p>
+
+
+		
+		<a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-08T12:45:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/09/08/reading-notes-of-http-the-definitive-guide//blog/page/5/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -286,92 +505,12 @@
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">
-		
-			如何为MacOS X终端设置代理</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。</p></blockquote>
-
-<p>实在无法忍受<a href="http://www.linode.com/" title="linode">linode</a>日本机房的高延迟，动手配置了一个<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>服务。但是HTTP代理和VPN不同，没法全局代理（<em>至少不能简单配置</em>），在Terminal里下载最新版本的Ruby，奇慢无比，下面介绍如何让Terminal里执行的程序使用<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>代理。</p>
-
-
-		
-		<a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/02/how-to-set-proxy-for-terminal//blog/page/5/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/">
-		
-			MacOS X终端里SSH会话管理</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
-
-<p>虽然windows没有对SSH的原生支持，但是<a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a>和<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能。</p>
-
-
-		
-		<a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-01T23:31:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x//blog/page/5/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
 <nav id="pagenavi">
     
         <a href="/blog/page/4/" class="prev">Prev</a>
     
+    
+        <a href="/blog/page/6/" class="next">Next</a>
     
     <div class="center"><a href="/blog/archives">Blog Archives</a></div>
 </nav></div>
