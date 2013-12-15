@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-12-15T22:08:50+08:00</updated>
+  <updated>2013-12-15T22:49:22+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -146,9 +146,25 @@ network={
 }
 </code></pre>
 
+<p>上面的方法psk是明文，如果觉得敏感，可以使用下面的命令生成密文</p>
+
+<pre><code>wpa_passphrase ssid pass_phrase
+</code></pre>
+
+<p>输出如下</p>
+
+<pre><code>network={
+        ssid="myrouter"
+        #psk="thisisalongpassphrasenobodycanguess"
+        psk=fd50e5fb2b66493702338dd5175241d2e8dd7dd42fc292bbb7c56b01f9e9fdc0
+}
+</code></pre>
+
+<p>将输出结果添加到/etc/wpa_supplicant/wpa_supplicant.conf文件。</p>
+
 <p>重启网络服务<code>sudo service networking reload</code>后</p>
 
-<p>执行<code>ifconfig</code>如果wlan0获得IP就可以使用了</p>
+<p>执行<code>ifconfig</code>，如果wlan0获得IP就可以使用了</p>
 
 <pre><code>wlan0     Link encap:Ethernet  HWaddr 14:cf:92:b5:59:6d
           inet addr:192.168.199.109  Bcast:192.168.199.255  Mask:255.255.255.0
@@ -163,7 +179,9 @@ network={
 
 <ol>
 <li><a href="http://smhaziq.blogspot.co.at/2013/06/compiling-tp-link-wn725n-v2-driver-in.html">Compiling TP-LINK WN725N V2 driver in Raspbmc with 3.6.11 kernel</a></li>
+<li><a href="https://github.com/liwei/rpi-rtl8188eu">Linux driver for tplink-wn725n nano wireless adapter</a></li>
 <li><a href="http://blog.pi3g.com/2013/10/easy-tp-link-tl-wn725-driver-installation/">Easy TP-Link TL-WN725 driver installation</a></li>
+<li><a href="http://www.fars-robotics.net/">Fars Robotics Website</a></li>
 </ol>
 
 ]]></content>
