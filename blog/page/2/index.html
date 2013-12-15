@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="Mixin和Inheritance是两种主要的代码复用和封装的方式。Java流行的时候，大家都努力的把javascript写得像java，各大框架努力给javascript加上类继承的特性。当下是Ruby春暖花开的日子，coffeescript让开发者可以以更ruby的方式写js。 &hellip;">
+	<meta name="description" content="web应用程序重要的功能的URL通过需要达到可访问，可收藏和可分享的需求。Backbone.Router正是检测客户端url变化触发相应动作和事件的实现框架。对于没有实现HTML5 History API的浏览器，Router提供了优雅和透明的兼容实现，通过控制hash的变化。 Route的例子 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,66 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/09/02/extend-Backbone.Router-to-support-window.history.back/">
+		
+			扩展Backbone.Router以支持window.history.back</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>web应用程序重要的功能的URL通过需要达到可访问，可收藏和可分享的需求。Backbone.Router正是检测客户端url变化触发相应动作和事件的实现框架。对于没有实现HTML5 History API的浏览器，Router提供了优雅和透明的兼容实现，通过控制hash的变化。</p></blockquote>
+
+<h3>Route的例子</h3>
+
+<pre><code>var Workspace = Backbone.Router.extend({
+
+    routes: {
+        "help":                 "help",    // #help
+        "search/:query":        "search",  // #search/kiwis
+        "search/:query/p:page": "search"   // #search/kiwis/p7
+    },
+
+    help: function() {
+        ...
+    },
+
+    search: function(query, page) {
+        ...
+    }
+
+});
+</code></pre>
+
+
+		
+		<a href="/blog/2013/09/02/extend-Backbone.Router-to-support-window.history.back/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-02T21:37:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/09/02/extend-Backbone.Router-to-support-window.history.back//blog/page/2/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -542,61 +602,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6//blog/page/2/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/">
-		
-			MacOS X里升级GoAgent后台服务</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>本篇是<a href="http://codelife.me/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X将GoAgent配置为后台服务</a>的姊妹篇，主要分享一下将GoAgent配置成随机启动的LaunchAgent后如何升级，并提供一个方便的管理脚本。</p></blockquote>
-
-<h2>升级</h2>
-
-<h3>下载安装</h3>
-
-<p>假设GoAgent的安装目录为<code>~/Library/</code></p>
-
-<p>下载最新的GoAgent，当前版本为v2.1.14。解压后得到<code>goagent-goagent-beadcf8</code>目录,将其移动到<code>~/Library/</code>目录</p>
-
-<pre><code>mv goagent-goagent-beadcf8 ~/Library/
-</code></pre>
-
-<p>并在同目录下创建一个文件链接，</p>
-
-<pre><code>ln -sf goagent-goagent-beadcf8 goagent
-</code></pre>
-
-
-		
-		<a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-28T10:04:00+08:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x//blog/page/2/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
