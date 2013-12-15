@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-12-15T22:49:22+08:00</updated>
+  <updated>2013-12-16T00:57:50+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -63,7 +63,7 @@
 <h4>确定网卡的版本</h4>
 
 <p>TP-LINK TL-WN725N分<a href="http://wikidevi.com/wiki/TP-LINK_TL-WN725N_v1">V1</a>, <a href="http://wikidevi.com/wiki/TP-LINK_TL-WN725N_v2">V2</a>版本。 <br/>
-<img src="images/post/2013-12-14/tl-wn725n.jpg" alt="" /></p>
+<img src="http://vangie.github.com/images/post/2013-12-14/tl-wn725n.jpg" alt="" /></p>
 
 <p>将无线网卡插上树莓的USB接口，执行<code>lsusb</code>返回如下</p>
 
@@ -182,6 +182,7 @@ network={
 <li><a href="https://github.com/liwei/rpi-rtl8188eu">Linux driver for tplink-wn725n nano wireless adapter</a></li>
 <li><a href="http://blog.pi3g.com/2013/10/easy-tp-link-tl-wn725-driver-installation/">Easy TP-Link TL-WN725 driver installation</a></li>
 <li><a href="http://www.fars-robotics.net/">Fars Robotics Website</a></li>
+<li><a href="http://undiff.com/2008/08/wireless-with-wpa_supplicant-easier-then-you-think/">Wireless with wpasupplicant easier then you think</a></li>
 </ol>
 
 ]]></content>
