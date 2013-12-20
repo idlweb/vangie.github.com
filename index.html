@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content=" 淘宝双12搞活动，225入了一台英国产2代B型512M RaspBerry Pi，英国产的相对便宜，但是不带外壳，另外加12块，搞了个带固定螺丝的亚克力外壳。话说这个外壳裁剪的相对不错，花了老半天才装好。 继续阅读 &rarr; Dec 14th, 2013 Comments ">
+	<meta name="description" content="感谢刘博士送的这块pcDuino板。入Raspberry Pi前，优先考虑过pcDuino。在OSChina源创会上海站被刘博士打动过。买Raspberry Pi是为了DIY一个Mac的Time Capsule。随便Google了一下，找到了Raspberry实现Time &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,164 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/19/beginner-of-pcduino/">
+		
+			pcDuino上手记</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>感谢刘博士送的这块pcDuino板。入Raspberry Pi前，优先考虑过pcDuino。在OSChina源创会上海站被刘博士打动过。买Raspberry Pi是为了DIY一个Mac的Time Capsule。随便Google了一下，找到了Raspberry实现Time Capsule的相关资料，而pcDuino的相关资料没有找到，于是作罢。</p></blockquote>
+
+<p>由于Raspberry Pi的先入为主，上手pcDuino碰到写问题，下面一一列出</p>
+
+
+		
+		<a href="/blog/2013/12/19/beginner-of-pcduino/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-19T15:05:00+08:00" pubdate data-updated="true">Dec 19<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/12/19/beginner-of-pcduino//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/">
+		
+			Kindle PaperWhite作为树莓派的命令终端</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>网上有大牛把Kindle作为树莓派的显示屏，外带一个Mac蓝牙键盘，实用移动电源供给。一个台低功耗的可移动主机，酷极了。手上真好有一台Kindle PaperWhite，于是开始折腾。</p></blockquote>
+
+<p><img src="/images/post/2013-12-17/kindle-berry.png" alt="KindleBerry" /></p>
+
+<h3>准备工作</h3>
+
+<ol>
+<li>Raspberry Pi 一台</li>
+<li>Kindle PaperWhite 一台（已<a href="http://www.mobileread.com/forums/showthread.php?t=198446">越狱</a>）</li>
+<li>USB转microUSB数据线2根，一根给Raspberry Pi供电，一根作为Kindle和Raspberry Pi的连接线</li>
+</ol>
+
+
+
+		
+		<a href="/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-17T03:14:00+08:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/">
+		
+			如何找到树莓派通过DHCP获得的IP地址</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>小巧的树莓派配一个硕大的显示器，很不协调。本文介绍如何获得树莓派通过DHCP动态分配的IP地址。</p></blockquote>
+
+<h3>几种有趣的方法</h3>
+
+<p>mathworks论坛提到了几种有意思的方法</p>
+
+<ol>
+<li><p>通过Matlab命令行</p>
+
+<pre><code> h = raspberrypi(‘raspberrypi-ah')
+ h.openShell(‘ssh')
+</code></pre></li>
+<li>安装一个启动过程中能读出IP的软件，该软件也是MathWork出品的</li>
+<li>通过DDNS（Dynamic DNS）</li>
+<li>启动时发邮件通知</li>
+</ol>
+
+
+<p>就个人而言，上面的方法觉得都不够好。</p>
+
+<ol>
+<li>需要安装Matlab，一个好几G的工具软件就是为了找个IP用，有些蛋疼</li>
+<li>要插个耳机或者音响什么的</li>
+<li>需要互联网环境</li>
+<li>需要互联网环境</li>
+</ol>
+
+
+<p>下面我介绍一个简单实用的方法，通过arp协议获得IP</p>
+
+
+		
+		<a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-17T03:08:00+08:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp//index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -595,243 +753,6 @@ Server built:   Aug 24 2013 21:10:43</p></blockquote>
 </div>
 	
 		<span class="comments"><a href="/blog/2013/09/19/for-youth//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/18/installing-rubygems-faster/">
-		
-			解决国内rubygems速度慢的问题</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>国内访问rubygems那个慢呀，尤其是走https协议。</p></blockquote>
-
-<h3>借用bash的http代理</h3>
-
-<p>一般来说通过翻墙代理访问的速度要更快一点。ruby遵守unix环境变量约定，支持http_proxy和https_proxy。</p>
-
-<p>在执行<code>bundle install</code>之前先执行</p>
-
-<pre><code>$ export http_proxy=http://127.0.0.1:xxxxx/
-$ export https_proxy=http://127.0.0.1:xxxxx/
-</code></pre>
-
-<p>当然前提是，系统有一个本地可用的http或者https代理。关于bash里使用http代理的细节参见<a href="http://codelife.me/blog/2012/09/02/how-to-set-proxy-for-terminal/">《如何为MacOS X终端设置代理》</a></p>
-
-<h3>改用国内的镜像</h3>
-
-<pre><code>$ gem sources –r http://rubygems.org/
-$ gem sources -a http://ruby.taobao.org/
-$ gem sources -l
-*** CURRENT SOURCES ***
-
-http://ruby.taobao.org
-
-# 请确保只有 ruby.taobao.org
-</code></pre>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://ruby-china.org/topics/288">国内访问rubygems.org好慢啊，大家有没有提速的方法？</a></li>
-<li><a href="http://tec.liux.in/28">解决rubygems速度慢的Tips</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-18T14:50:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/09/18/installing-rubygems-faster//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/16/how-to-create-temporary-random-file-name-in-bash/">
-		
-			Bash如何创建随机文件名</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>本文介绍3种不同的方法创建随机缓存文件名。在编写需要创建唯一的缓存文件的脚本时非常有用。</p></blockquote>
-
-<h3>1.使用$RANDOM shell变量</h3>
-
-<p>在控制台执行如下命令</p>
-
-<pre><code>echo $RANDOM
-</code></pre>
-
-<p>每次都获得一个随机数，借用这个变量可用来生成一个随机的文件名</p>
-
-<pre><code>#!/bin/bash
-echo "List of temporary files : "
-for i  in 1 2 3 4 5
-do
-    FILE="/tmp/$(basename $0).$RANDOM.txt"
-    echo $FILE # show file name
-    &gt; $FILE # create files
-done 
-</code></pre>
-
-<h3>2.使用$$变量</h3>
-
-<p>这是一个经典的方法，$$变量返回当前进程的进程号，对于整个系统来说这是一个唯一数字。</p>
-
-<pre><code>#!/bin/bash
-TFILE="/tmp/$(basename $0).$$.tmp"
-ls &gt; $TFILE
-echo "See diretory listing in $TFILE"
-</code></pre>
-
-<h3>3.使用mktemp和tempfile命令</h3>
-
-<p>通过mktemp和tempfile命令是最佳的方式</p>
-
-<pre><code>$ mktemp
-</code></pre>
-
-<p>输出</p>
-
-<pre><code>/tmp/tmp.IAnO5O
-</code></pre>
-
-<p>或者</p>
-
-<pre><code>$ tempfile
-</code></pre>
-
-<p>输出</p>
-
-<pre><code>/tmp/IAnO5O
-</code></pre>
-
-<p>当然还能生成随机文件夹</p>
-
-<pre><code>$ mktemp -d
-$ tempfile -d
-</code></pre>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://www.cyberciti.biz/tips/shell-scripting-bash-how-to-create-temporary-random-file-name.html">Shell scripting (BASH) : How to create temporary random file name</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-16T23:50:00+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/09/16/how-to-create-temporary-random-file-name-in-bash//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/12/reverse-proxy-for-a-subdirectory-in-nginx/">
-		
-			Nginx反向代理映射成子路径</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>终于搞定了困扰已久的nginx反向代理子路径映射问题</p></blockquote>
-
-<p>多个web应用共享一个域名和端口时，可以考虑把不同的web应用映射成不同的子路径，这个子路径在Java EE里称作ContextPath。下面的配置片段解决nginx作为前端，反向代理多个tomcat主机，通过不同子路径共享一个域名的情况。</p>
-
-<pre><code>server {
-    listen       80;
-    server_name  _;
-    index index.html index.htm index.php;
-    root /home/dashboard;
-
-    location /dashboard {
-        rewrite /dashboard/(.*) /$1 break;
-        rewrite ^/dashboard$ /dashboard/ permanent;
-        proxy_pass http://127.0.0.1:9082;
-        proxy_redirect off;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-}
-</code></pre>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://wiki.apache.org/couchdb/Nginx_As_a_Reverse_Proxy">Nginx_As_a_Reverse_Proxy</a></li>
-<li><a href="http://superuser.com/questions/603373/how-do-i-reverse-proxy-etherpad-lite-with-nginx-to-a-subdirectory">How do I reverse proxy etherpad-lite with nginx to a subdirectory</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-12T17:41:00+08:00" pubdate data-updated="true">Sep 12<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/09/12/reverse-proxy-for-a-subdirectory-in-nginx//index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

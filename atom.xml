@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-12-16T00:57:50+08:00</updated>
+  <updated>2013-12-21T01:37:19+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,415 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[pcDuino上手记]]></title>
+    <link href="http://vangie.github.com/blog/2013/12/19/beginner-of-pcduino/"/>
+    <updated>2013-12-19T15:05:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/12/19/beginner-of-pcduino</id>
+    <content type="html"><![CDATA[<blockquote><p>感谢刘博士送的这块pcDuino板。入Raspberry Pi前，优先考虑过pcDuino。在OSChina源创会上海站被刘博士打动过。买Raspberry Pi是为了DIY一个Mac的Time Capsule。随便Google了一下，找到了Raspberry实现Time Capsule的相关资料，而pcDuino的相关资料没有找到，于是作罢。</p></blockquote>
+
+<p>由于Raspberry Pi的先入为主，上手pcDuino碰到写问题，下面一一列出</p>
+
+<!-- more -->
+
+
+<h3>选什么TF卡</h3>
+
+<p>关于如何选购Raspberry Pi的SD卡，我好生下了功夫，最后还是有不好收获的。没有话冤枉钱买极速的。</p>
+
+<p><strong>兼容列表</strong> <br/>
+pcDuino支持哪些TF卡，网上找不到兼容列表。可能是都支持吧，不需要。</p>
+
+<p><strong>读写速度</strong> <br/>
+最大支持到少读写速度也找不到资料。</p>
+
+<p>后来得知板载的2G闪存里内置了ubuntu系统，于是TF卡的问题就先悬着吧，等搞清楚再做决定。</p>
+
+<h3>启动pcDuino</h3>
+
+<p>插上网线，pcDuino的网线口比Raspberry Pi的要小巧，但是有些过紧，拔出网线时候要小心，别弄断了。
+插上电源线，指示灯亮了。</p>
+
+<p>没有显示器，IP地址默认应该是DHCP的，先要找到IP地址。</p>
+
+<p><strong>找到IP地址</strong></p>
+
+<pre><code>arp-scan --localnet
+</code></pre>
+
+<p>如果发现主机名ubuntu，那就是了。要是没有就找Unknow的逐个ssh测试，能连接上的就是。</p>
+
+<h3>初始化系统</h3>
+
+<p>ssh登录系统以后先执行系统初始化</p>
+
+<pre><code>sudo board-config.sh
+</code></pre>
+
+<h3>安装Vim</h3>
+
+<p>一直不习惯原生的vi，对方向键支持不好。</p>
+
+<pre><code>sudo apt-get install vim
+</code></pre>
+
+<p>安装不成功，返回如下</p>
+
+<pre><code>Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+
+....省去若干行
+
+Failed to fetch http://ports.ubuntu.com/ubuntu-ports/pool/main/p/python2.7/libpython2.7_2.7.3-0ubuntu3.2_armhf.deb  404  Not Found
+E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+</code></pre>
+
+<p>一大堆404，提示先<code>apt-get update</code>,好吧</p>
+
+<pre><code>sudo apt-get update
+</code></pre>
+
+<p>返回如下</p>
+
+<pre><code>....省去若干行
+
+Get:20 http://ports.ubuntu.com precise-updates/universe Translation-en [132 kB]
+Fetched 2681 kB in 21s (123 kB/s)
+Reading package lists... Done
+W: Conflicting distribution: http://www.wiimu.com pcduino Release (expected pcduino but got )
+</code></pre>
+
+<p>编辑器打开<code>/etc/apt/sources.list</code>,注释掉最后两行</p>
+
+<pre><code>#deb http://www.wiimu.com:8020/pcduino/ pcuino main
+#deb-src http://www.wimu.com:8020/pcduion/ pcduino main
+</code></pre>
+
+<p>然后在<code>sudo apt-get update</code>就正常了。</p>
+
+<h3>VNC远程桌面</h3>
+
+<h4>设置vnc密码</h4>
+
+<pre><code>sudo x11vnc -storepasswd
+sudo x11vnc -storepasswd in /etc/x11vnc.pass
+sudo cp .vnc/passwd /etc/x11vnc.pass
+</code></pre>
+
+<h4>启动桌面</h4>
+
+<pre><code>sudo start lightdm
+</code></pre>
+
+<h4>连接</h4>
+
+<p>在mac终端敲入</p>
+
+<pre><code>open vnc://&lt;ip_of_pcduino&gt;
+</code></pre>
+
+<h4>已知问题</h4>
+
+<p><code>sudo stop lightdm</code>再次<code>sudo start lightdm</code>启动后，客户端无法连接上VNC服务器。</p>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://www.cnblogs.com/iscode/p/3200503.html">pcDuino 刷系统-卡刷</a></li>
+<li><a href="http://www.cnblogs.com/iscode/p/3200558.html">pcDuino无显示器刷机与使用</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Kindle PaperWhite作为树莓派的命令终端]]></title>
+    <link href="http://vangie.github.com/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/"/>
+    <updated>2013-12-17T03:14:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi</id>
+    <content type="html"><![CDATA[<blockquote><p>网上有大牛把Kindle作为树莓派的显示屏，外带一个Mac蓝牙键盘，实用移动电源供给。一个台低功耗的可移动主机，酷极了。手上真好有一台Kindle PaperWhite，于是开始折腾。</p></blockquote>
+
+<p><img src="http://vangie.github.com/images/post/2013-12-17/kindle-berry.png" alt="KindleBerry" /></p>
+
+<h3>准备工作</h3>
+
+<ol>
+<li>Raspberry Pi 一台</li>
+<li>Kindle PaperWhite 一台（已<a href="http://www.mobileread.com/forums/showthread.php?t=198446">越狱</a>）</li>
+<li>USB转microUSB数据线2根，一根给Raspberry Pi供电，一根作为Kindle和Raspberry Pi的连接线</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h3>安装USBNetwork</h3>
+
+<p><a href="http://www.mobileread.com/forums/showthread.php?t=186645">USBNetwork</a>工具可以通过usb数据线连接kindle和另一台电脑，实现ssh登录。</p>
+
+<p>安装步骤如下</p>
+
+<ol>
+<li>下载<a href="http://www.mobileread.com/forums/attachment.php?attachmentid=116323&amp;d=1386361702">Kindle-usbnet-0.1.5N.zip</a>，解压以后仔细阅读<code>README_FIRST.txt</code>文件</li>
+<li>将update_usbnet_0.15.N_install_touch_pw.bin拷贝到Kindle根目录</li>
+<li><p>Kindle里工具栏菜单[设置]-> 工具栏菜单[更新您的Kindle]，安装完成后会重启</p>
+
+<p> <img src="http://vangie.github.com/images/post/2013-12-17/kindle_install_sw.png" alt="安装Kindle应用" /></p></li>
+<li>安装完成以后Kindle更目录会多出一个<code>usbnet</code>目录和<code>extensions\usbnet</code>目录</li>
+<li><p>编辑<code>usbnet\etc\config</code>文件，修改如下</p>
+
+<pre><code> USE_WIFI="true"
+ USE_OPENSSH="true"
+</code></pre></li>
+</ol>
+
+
+<p><strong>开关USBNetwork模式</strong></p>
+
+<blockquote><p>在Kindle的搜索框内，输入<code>;usbnetwork</code>或者<code>;un</code>。再输入一个可以切换。</p></blockquote>
+
+<p><strong>查看网络状态</strong></p>
+
+<blockquote><p>在Kindle的搜索框内，输入<code>;711</code>。可以查到当前无线网卡的IP地址</p></blockquote>
+
+<h4>Mac通过USB线登录Kindle</h4>
+
+<ol>
+<li>用USB线连接Mac和Kindle</li>
+<li>默认Kindle会被挂载成存储设备，先弹出该设备</li>
+<li>然后开启Kindle的USBNetwork模式</li>
+<li><p>Mac[系统偏好设置]->[网络] 新建一个RNDIS/Ethernet Gadget链接配置如下</p>
+
+<pre><code> ip:     192.168.15.201
+ mask:   255.255.255.0
+ router: 192.168.15.244
+</code></pre>
+
+<ul>
+<li>如果无法创建RNDIS连接，可能需要安装<a href="http://joshuawise.com/horndis">HoRNDIS</a></li>
+<li>router的地址要Kindle的<code>/usbnet/etc/config</code>文件里<code>KINDLE_IP</code>项一致</li>
+</ul>
+</li>
+<li><p>终端SSH连接</p>
+
+<pre><code> ssh root@192.168.15.244
+</code></pre></li>
+</ol>
+
+
+<h4>通过WiFi登录Kindle</h4>
+
+<ol>
+<li>在Kindle的搜索框内，输入<code>;711</code>查找Kindle无线网卡IP</li>
+<li>通过终端SSH连接即可</li>
+</ol>
+
+
+<p>到此Kindle的Network算配置完毕，下来我们来配置Kindle的Kterm</p>
+
+<h3>安装KUAL和Kterm</h3>
+
+<h4>KUAL</h4>
+
+<p><a href="http://www.mobileread.com/forums/showthread.php?t=203326">KUAL</a>是Kindle Unified Application Launcher的缩写，其作用是为越狱的Kindle启动第三方应用。简单的说通过一本特殊的书籍来统一实现启动触发器。</p>
+
+<ol>
+<li>下载<a href="prerequisites-all-supported-devices.zip">prerequisites-all-supported-devices</a></li>
+<li>解压后将update_kindlet-dev-20130710-k5-ALL_install.bin文件拷贝到Kindle根目录，Kindle安装.bin文件的方法都是一样的，Kindle里点击[更新您的Kindle],然后会显示安装进度，自动重启后完成。</li>
+<li>下载<a href="http://www.mobileread.com/forums/attachment.php?attachmentid=109526&amp;d=1376691043">KUAL.V.2.2.zip</a></li>
+<li>解压后将KindleLauncher-2.0.azw2文件拷贝到Kindle的<code>/documents</code>目录</li>
+<li>断开连接后Kindle里多了一本《Kindle Launcher》的书，点开有一排可以启动的应用列表。 <br/>
+ <img src="http://vangie.github.com/images/post/2013-12-17/kindle_launcher.png" alt="Kindle Launcher" /><img src="http://vangie.github.com/images/post/2013-12-17/kindle_launcher_opened.png" alt="Kindle Launcher打开以后的效果" /></li>
+</ol>
+
+
+<h4>Extend</h4>
+
+<p><code>Extend</code>是一组扩展的预编译好的linux命令行工具，让Kindle可以运行一些常用的linux命令，如：openssh，nano，screen，irssi，php，bash，rsync等。</p>
+
+<ol>
+<li>下载<a href="http://ge.tt/9Qoa9YD/v/0?c">optware_img_60m.zip</a>和<a href="http://ge.tt/9Qoa9YD/v/2?c">kindle_extend-1.1.zip</a></li>
+<li>解压kindle_extend-1.1.zip到kindle_extend-1.1目录</li>
+<li>解压optware_img_60m.zip将<code>optware.img</code>文件替换<code>kindle_extend-1.1/extend/optware.img</code>文件</li>
+<li>将<code>kindle_extend-1.1</code>目录下的<code>extend</code>和<code>extensions</code>子目录拷贝到Kindle更目录</li>
+<li><p>然后通过SSH登录Kindle执行如下命令</p>
+
+<pre><code> mntroot rw
+ mkdir /mnt/us/circles
+ cp /mnt/us/extend/mountd /mnt/us/circles
+ ln -s /mnt/us/circles/mountd /etc/rc5.d/S101mountd
+ mntroot ro
+ ./mnt/us/install.sh
+ ./mnt/us/mount.sh
+</code></pre></li>
+</ol>
+
+
+<h4>Kterm</h4>
+
+<p><a href="http://www.fabiszewski.net/kindle-terminal/">Kterm</a>是一个内置虚拟键盘的GTK+的Kindle终端模拟器</p>
+
+<p><img src="http://vangie.github.com/images/post/2013-12-17/kterm.gif" alt="Kterm效果图" /></p>
+
+<ol>
+<li>下载<a href="http://www.fabiszewski.net/kindle-terminal/kterm-0.7.zip">Kerm 0.7</a></li>
+<li>解压后将<a href="https://dl.dropbox.com/s/tagzqiz06fbdltz/kterm-landscape-enabled.zip?token_hash=AAH5k68xlwcYqi065-n5Bu5XaoiEXB12zCDjj50udrRg_w&amp;dl=1">此文件</a>替换<code>kterm/bin/kterm</code>文件。具体看<a href="https://github.com/bfabiszewski/kterm/issues/2#issuecomment-14204814">这里</a></li>
+<li>然后将<code>kterm</code>文件夹拷贝到Kindle的<code>extensions</code>目录下</li>
+<li>断开Kindle与电脑的链接，通过KUAL打开Kterm，随便Ping台机器试试。</li>
+</ol>
+
+
+<h3>配置Raspberry Pi的USB网络连接</h3>
+
+<p>安装了USBNetwork，Kindle已经可以通过数据线和Mac电脑连网，接下来配置Raspberry Pi的USB网络链接，使Kindle插入Raspberry Pi以后可以自动建立网络连接。</p>
+
+<pre><code>sudo vim /etc/network/interfaces
+</code></pre>
+
+<p>添加如下内容</p>
+
+<pre><code>#USB tethering
+allow-hotplug usb0
+iface usb0 inet static
+    address 192.168.15.1
+    netmask 255.255.255.0
+    broadcast 192.168.15.255
+    up iptables -I INPUT 1 -s 192.168.15.1 -j ACCEPT
+    up eject /dev/sda1
+</code></pre>
+
+<ul>
+<li><code>allow-hotplug usb0</code>表示插入USB后自动加载网络配置</li>
+<li><code>up eject /dev/sda1</code>表示弹出Kindle自动挂载的磁盘分区</li>
+</ul>
+
+
+<p>重启网络</p>
+
+<pre><code>sudo service networking reload
+</code></pre>
+
+<h3>见证奇迹的时刻</h3>
+
+<ol>
+<li>使用数据线连接Kindle和Raspberry Pi</li>
+<li>开启USBNetwork模式，Kindle的搜索框内，输入<code>;un</code>然后回车</li>
+<li><p>打开Kterm键入</p>
+
+<p> ssh pi@192.168.15.1</p></li>
+</ol>
+
+
+<p>若提示输入密码或者保存密钥指纹，说明大功告成。</p>
+
+<p><strong>Kindle作为跳板机</strong></p>
+
+<p>Kindle和Raspberry Pi顺利创建连接之后，Mac OS可以通过Kindle的Wifi连接SSH登录进Kindle，然后再次SSH登录进入Raspberry Pi。</p>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://www.ponnuki.net/2012/09/kindleberry-pi/">KindleBerry Pi</a></li>
+<li><a href="https://gist.github.com/rvagg/5095506">Kindleberry &#8220;Paperwhite&#8221; Pi</a></li>
+<li><a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#GUI_launcher">Kindle Touch Hacking</a></li>
+<li><a href="http://maxogden.com/kindleberry-wireless.html">Kindleberry Wireless: A Portable Outdoor Hackstation</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何找到树莓派通过DHCP获得的IP地址]]></title>
+    <link href="http://vangie.github.com/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/"/>
+    <updated>2013-12-17T03:08:00+08:00</updated>
+    <id>http://vangie.github.com/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp</id>
+    <content type="html"><![CDATA[<blockquote><p>小巧的树莓派配一个硕大的显示器，很不协调。本文介绍如何获得树莓派通过DHCP动态分配的IP地址。</p></blockquote>
+
+<h3>几种有趣的方法</h3>
+
+<p>mathworks论坛提到了几种有意思的方法</p>
+
+<ol>
+<li><p>通过Matlab命令行</p>
+
+<pre><code> h = raspberrypi(‘raspberrypi-ah')
+ h.openShell(‘ssh')
+</code></pre></li>
+<li>安装一个启动过程中能读出IP的软件，该软件也是MathWork出品的</li>
+<li>通过DDNS（Dynamic DNS）</li>
+<li>启动时发邮件通知</li>
+</ol>
+
+
+<p>就个人而言，上面的方法觉得都不够好。</p>
+
+<ol>
+<li>需要安装Matlab，一个好几G的工具软件就是为了找个IP用，有些蛋疼</li>
+<li>要插个耳机或者音响什么的</li>
+<li>需要互联网环境</li>
+<li>需要互联网环境</li>
+</ol>
+
+
+<p>下面我介绍一个简单实用的方法，通过arp协议获得IP</p>
+
+<!-- more -->
+
+
+<h3>通过arp-scan获得树莓派IP</h3>
+
+<p>arp协议是一个数据链路层协议，负责IP地址和Mac地址的转换。下面我们介绍一个arp-scan工具扫出局域网所有的IP地址</p>
+
+<h4>安装arp-scan</h4>
+
+<p>Mac OS</p>
+
+<pre><code>brew install arp-scan
+</code></pre>
+
+<p>Ubuntu</p>
+
+<pre><code>sudo apt-get arp-scan
+</code></pre>
+
+<h4>扫描以太网IP地址</h4>
+
+<pre><code>arp-scan --interface en0 --localnet  
+</code></pre>
+
+<p>此处en0是网卡的设备名称，可以通过ifconfig命令获得，有多种网卡时注意不要写错</p>
+
+<p>扫描结果如下</p>
+
+<pre><code>nterface: en0, datalink type: EN10MB (Ethernet)
+Starting arp-scan 1.8 with 256 hosts (http://www.nta-monitor.com/tools/arp-scan/)
+192.168.199.1   d4:ee:07:04:0d:e6   (Unknown)
+192.168.199.239 e8:8d:28:06:db:2f   (Unknown)
+192.168.199.107 b8:27:eb:96:c4:2f  (Unknown)
+
+513 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.8: 256 hosts scanned in 1.242 seconds (206.12 hosts/sec). 2 responded
+</code></pre>
+
+<p>由于arp-scan的版本比较低，所以主机名为Unknown,不过没有关系，由于树莓派的Mac地址都是<code>b8:27:3b</code>开头的。所以<code>192.168.199.107</code>就是树莓派的IP地址</p>
+
+<h4>One line Command</h4>
+
+<pre><code>arp-scan --interface en0 --localnet | grep grep b8:27:eb
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://blog.remibergsma.com/2013/05/03/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/">HOWTO discover the ip address of a Raspberry Pi</a></li>
+<li><a href="http://www.mathworks.cn/cn/help/simulink/ug/get-the-ip-address-of-the-raspberry_pi-hardware.html">Get IP Address of Raspberry Pi Hardware</a></li>
+<li><a href="http://www.raspberrypi.org/phpBB3/viewtopic.php?t=55804">FYI: via Raspi&#8217;s IP address with &#8216;arp-scan&#8217;</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Raspbian成功驱动TP-Link TL-WN725N V2版无线网卡]]></title>
@@ -1625,752 +2034,6 @@ traceroute to www.163.com (183.60.136.70), 30 hops max, 40 byte packets
 [2]. 《<a href="http://jmiller.uaa.alaska.edu/cse465-fall2012/papers/needham1978.pdf">Using Encryption for Authentication in Large Networks of Computers</a>》Roger M.Needham and Michael D. Schroeder 1978 <br/>
 [3]. <a href="http://en.wikipedia.org/wiki/Needham%E2%80%93Schroeder_protocol">Needham–Schroeder protocol</a> from Wikipedia <br/>
 [4]. <a href="http://en.wikipedia.org/wiki/Security_protocol_notation">Security protocol notation</a> from Wikipeida</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用NodeJs开发微信公众平台账号]]></title>
-    <link href="http://vangie.github.com/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/"/>
-    <updated>2013-04-23T16:25:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/04/23/developing-wechat-public-platform-with-nodejs</id>
-    <content type="html"><![CDATA[<blockquote><p>微信越来越火，信息、语音短信、视频电话等非常实用OTT业务加上QQ好友和通讯录的导入一时间吸引了大量的用户。前段时间各大运营商开始吵着要收微信的费用。所谓“发现即晚期”，当运营商发现苗条不对的时候，已经来不及了。微信除了提供了好用的通讯替代功能，还是一个可扩展的平台，比如：微信公众平台，一种账号层面的扩展，可以理解为一种微信的公众账号区别于个人账号，通常可作为一种的资讯发布渠道，也可被实现成机器人程序与用户互动。本文介绍如何基于微信公众平台的Open API使用NodeJs开发一个HelloWord程序。</p></blockquote>
-
-<!-- more -->
-
-
-<h3>开启开发模式</h3>
-
-<p>前往http://mp.weixin.qq.com 注册一个公众平台账号，注册过程与通常无异。激活并登录账号，前往【高级功能】开启【开发模式】（开启之前要确保头像已上传）。</p>
-
-<h4>接口配置信息</h4>
-
-<p>接口配置信息用于公众平台与应用程序之间相互验证。
-假设配置信息如下</p>
-
-<pre><code>URL:    http://mydomain.com/weixin
-Tokan:  balabala
-</code></pre>
-
-<p>在提交该信息之前需要先保证该URL已经可访问，</p>
-
-<h3>使用ExpressJs编写一个WebServer</h3>
-
-<h4>server.js</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//setup Dependencies</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">connect</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">,</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">,</span> <span class="nx">io</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;socket.io&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">,</span> <span class="nx">weixin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./lib/weixin&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">,</span> <span class="nx">xmlBodyParser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./lib/xmlBodyParser&#39;</span><span class="p">)</span>
-</span><span class='line'>    <span class="p">,</span> <span class="nx">port</span> <span class="o">=</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">80</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//Setup Express</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">express</span><span class="p">.</span><span class="nx">createServer</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">configure</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="nx">bodyParser</span><span class="p">());</span>
-</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">xmlBodyParser</span><span class="p">);</span>
-</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="nx">bodyParser</span><span class="p">());</span>
-</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">cookieParser</span><span class="p">());</span>
-</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">session</span><span class="p">({</span> <span class="nx">secret</span><span class="o">:</span> <span class="s2">&quot;shhhhhhhhh!&quot;</span><span class="p">}));</span>
-</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/static&#39;</span><span class="p">));</span>
-</span><span class='line'>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">server</span><span class="p">.</span><span class="nx">router</span><span class="p">);</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">,</span> <span class="s1">&#39;mydomain.com&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//Setup Socket.IO</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">io</span> <span class="o">=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">server</span><span class="p">);</span>
-</span><span class='line'><span class="nx">io</span><span class="p">.</span><span class="nx">sockets</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">socket</span><span class="p">){</span>
-</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Client Connected&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
-</span><span class='line'>    <span class="nx">socket</span><span class="p">.</span><span class="nx">broadcast</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;server_message&#39;</span><span class="p">,</span><span class="nx">data</span><span class="p">);</span>
-</span><span class='line'>    <span class="nx">socket</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;server_message&#39;</span><span class="p">,</span><span class="nx">data</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'>  <span class="nx">socket</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;disconnect&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Client Disconnected.&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">});</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/weixin&#39;</span><span class="p">,</span> <span class="nx">weixin</span><span class="p">.</span><span class="nx">doGet</span><span class="p">);</span>
-</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/weixin&#39;</span><span class="p">,</span> <span class="nx">weixin</span><span class="p">.</span><span class="nx">doPost</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Listening on http://mydomain.com:&#39;</span> <span class="o">+</span> <span class="nx">port</span> <span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>lib/xmlBodyParser.js</h4>
-
-<p>这是一个处理xml请求的工具包，expressJs默认值不解析MIME类型为text/xml类型的请求。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">xml2js</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;xml2js&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">mime</span><span class="p">(</span><span class="nx">req</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;content-type&#39;</span><span class="p">]</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">str</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">xmlBodyParser</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">_body</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">();</span>
-</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">body</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span> <span class="o">||</span> <span class="p">{};</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// ignore GET</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;GET&#39;</span> <span class="o">==</span> <span class="nx">req</span><span class="p">.</span><span class="nx">method</span> <span class="o">||</span> <span class="s1">&#39;HEAD&#39;</span> <span class="o">==</span> <span class="nx">req</span><span class="p">.</span><span class="nx">method</span><span class="p">)</span> <span class="k">return</span> <span class="nx">next</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// check Content-Type</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;text/xml&#39;</span> <span class="o">!=</span> <span class="nx">mime</span><span class="p">(</span><span class="nx">req</span><span class="p">))</span> <span class="k">return</span> <span class="nx">next</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// flag as parsed</span>
-</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">_body</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// parse</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">buf</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">setEncoding</span><span class="p">(</span><span class="s1">&#39;utf8&#39;</span><span class="p">);</span>
-</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">){</span> <span class="nx">buf</span> <span class="o">+=</span> <span class="nx">chunk</span> <span class="p">});</span>
-</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">parseString</span> <span class="o">=</span> <span class="nx">xml2js</span><span class="p">.</span><span class="nx">parseString</span><span class="p">;</span>
-</span><span class='line'>        <span class="nx">parseString</span><span class="p">(</span><span class="nx">buf</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">json</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>                <span class="nx">err</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span>
-</span><span class='line'>                <span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
-</span><span class='line'>            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span><span class='line'>                <span class="nx">req</span><span class="p">.</span><span class="nx">body</span> <span class="o">=</span> <span class="nx">json</span><span class="p">;</span>
-</span><span class='line'>                <span class="nx">next</span><span class="p">();</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">});</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>lib/weixin.js</h4>
-
-<p>处理来自微信公众平台的get和post请求。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">almanac</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./almanac&#39;</span><span class="p">),</span>
-</span><span class='line'>    <span class="nx">crypto</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;crypto&#39;</span><span class="p">),</span>
-</span><span class='line'>    <span class="nx">util</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;util&#39;</span><span class="p">),</span>
-</span><span class='line'>    <span class="nx">xmlbuilder</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;xmlbuilder&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">exports</span><span class="p">.</span><span class="nx">doGet</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">checkSource</span><span class="p">(</span><span class="nx">req</span><span class="p">)){</span>
-</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">);</span>
-</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">echostr</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">exports</span><span class="p">.</span><span class="nx">doPost</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">){</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">checkSource</span><span class="p">(</span><span class="nx">req</span><span class="p">)){</span>
-</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">);</span>
-</span><span class='line'>        <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">xml</span> <span class="o">=</span> <span class="nx">buildXml</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">FromUserName</span><span class="p">,</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">ToUserName</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">xml</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nx">xml</span><span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;Content&#39;</span><span class="p">)</span>
-</span><span class='line'>            <span class="p">.</span><span class="nx">dat</span><span class="p">(</span><span class="s1">&#39;hello world&#39;</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">xml</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">contentType</span><span class="p">(</span><span class="s1">&#39;text/xml&#39;</span><span class="p">);</span>
-</span><span class='line'>    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">xml</span><span class="p">,</span> <span class="mi">200</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">checkSource</span><span class="p">(</span><span class="nx">req</span><span class="p">){</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">signature</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">signature</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">timestamp</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">timestamp</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">nonce</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">nonce</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">shasum</span> <span class="o">=</span> <span class="nx">crypto</span><span class="p">.</span><span class="nx">createHash</span><span class="p">(</span><span class="s1">&#39;sha1&#39;</span><span class="p">),</span>
-</span><span class='line'>        <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;balabala&#39;</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">nonce</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">shasum</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">arr</span><span class="p">.</span><span class="nx">sort</span><span class="p">().</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">),</span><span class="s1">&#39;utf-8&#39;</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">shasum</span><span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="nx">signature</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">buildXml</span><span class="p">(</span><span class="nx">to</span><span class="p">,</span> <span class="nx">from</span><span class="p">,</span> <span class="nx">msgType</span><span class="p">,</span> <span class="nx">funFlag</span><span class="p">,</span> <span class="nx">callback</span><span class="p">){</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">xml</span> <span class="o">=</span> <span class="nx">xmlbuilder</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">&#39;xml&#39;</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;ToUserName&#39;</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">dat</span><span class="p">(</span><span class="nx">to</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">up</span><span class="p">()</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;FromUserName&#39;</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">dat</span><span class="p">(</span><span class="nx">from</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">up</span><span class="p">()</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;CreateTime&#39;</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">txt</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getMilliseconds</span><span class="p">())</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">up</span><span class="p">()</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;MsgType&#39;</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">dat</span><span class="p">(</span><span class="nx">msgType</span><span class="p">)</span>
-</span><span class='line'>        <span class="p">.</span><span class="nx">up</span><span class="p">();</span>
-</span><span class='line'>    <span class="nx">xml</span> <span class="o">=</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">xml</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">xml</span><span class="p">.</span><span class="nx">ele</span><span class="p">(</span><span class="s1">&#39;FuncFlag&#39;</span><span class="p">,{},</span><span class="nx">funFlag</span><span class="p">).</span><span class="nx">end</span><span class="p">({</span><span class="nx">pretty</span><span class="o">:</span><span class="kc">true</span><span class="p">});</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>参阅</h3>
-
-<ol>
-<li><a href="http://www.tfan.org/using-xml2js-for-express-body-parser/">如何让 Node-express 支持 XML 形式的 POST 请求？</a></li>
-<li><a href="https://gist.github.com/davidkrisch/2210498">Express-Node: Accepting POST with Content-Type: application/xml</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[gfwlist转换成PAC文件]]></title>
-    <link href="http://vangie.github.com/blog/2013/04/06/convert-gfwlist-to-pac/"/>
-    <updated>2013-04-06T12:12:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/04/06/convert-gfwlist-to-pac</id>
-    <content type="html"><![CDATA[<blockquote><p>iOS翻墙依赖于PAC文件，PAC文件里制定了一系列的规则用于智能判断某些流量是否需要走代理，这样就可以避免代理访问国内站点较慢的问题。</p></blockquote>
-
-<h2>如何获得PAC</h2>
-
-<ol>
-<li>SwitchSharp里导出</li>
-<li>从站点<a href="https://autoproxy2pac.appspot.com/">AutoProxy2PAC</a>定制下载或者直接引用</li>
-<li>使用工具将gfwlist转换成PAC，如<a href="https://github.com/JinnLynn/GenPAC">JinnLynn/GenPAC</a></li>
-</ol>
-
-
-<h2>支持多重代理的PAC</h2>
-
-<p>上面3中方法获得代理文件都只支持配置一种代理方法。不使用于本人上篇博文<a href="http://codelife.me/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/">iOS6里GoAgent和SSH Forwarding共用</a>里依赖的PAC文件。
-形如：</p>
-
-<pre><code>function FindProxyForURL(url, host) {
-    return "DIRECT; PROXY 192.168.1.1:3128; SOCKS5 lilinux.net:1080"; 
-}
-</code></pre>
-
-<h2>gfwlist2pac</h2>
-
-<p>在项目<a href="https://github.com/JinnLynn/GenPAC">JinnLynn/GenPAC</a>的基础上，本人编写了一个<a href="https://github.com/vangie/gfwlist2pac">gfwlist2pac</a>工具，支持如下功能：</p>
-
-<ul>
-<li>代理规则基于<a href="http://autoproxy-gfwlist.googlecode.com">gfwlist</a></li>
-<li>允许通过代理获得gfwlist</li>
-<li>支持用户自定义规则</li>
-<li>运行配置多重代理</li>
-</ul>
-
-
-<!--more-->
-
-
-<h3>修改配置</h3>
-
-<p>编辑<code>gfwlist2pac.cfg</code>文件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>; 配置
-</span><span class='line'>
-</span><span class='line'>[config]
-</span><span class='line'>; gfwlist地址
-</span><span class='line'>;gfwUrl = http://autoproxy-gfwlist.googlecode.com/svn/trunk/gfwlist.txt
-</span><span class='line'>
-</span><span class='line'>; 访问gfwlist使用的代理
-</span><span class='line'>; 格式 PROXY|SOCKS|SOCKS5 [username:password@]hostname:port
-</span><span class='line'>; 'PROXY' 表示使用HTTP代理
-</span><span class='line'>; 'SOCKS' 表示使用SOCKS4代理
-</span><span class='line'>; 'SOCKS5' 表示使用SOCKS5代理
-</span><span class='line'>;gfwProxy = SOCKS5 127.0.0.1:7070
-</span><span class='line'>
-</span><span class='line'>; 用于PAC规则的代理
-</span><span class='line'>; 格式 DIRECT|((PROXY|SOCKS|SOCKS5) hostname:port) [[; DIRECT|((PROXY|SOCKS|SOCKS5) hostname:port)] ...]
-</span><span class='line'>; 'DIRECT' 表示不使用代理
-</span><span class='line'>; 'PROXY' 表示使用HTTP代理
-</span><span class='line'>; 'SOCKS' 表示使用SOCKS4代理
-</span><span class='line'>; 'SOCKS5' 表示使用SOCKS5代理
-</span><span class='line'>; 多种连接方法使用';'隔开，系统会依次尝试，直到连通
-</span><span class='line'>; 注意：如果是在MAC下的SOCKS代理，必须设置成SOCKS5,在IOS下SOCKS4和SOCKS5代理都使用SOCKS
-</span><span class='line'>;pacProxy = DIRECT; SOCKS 127.0.0.1:7070; PROXY 127.0.0.1:8087
-</span><span class='line'>
-</span><span class='line'>; 生成的PAC文件名 默认 autoproxy.pac
-</span><span class='line'>;pacFilename = autoproxy.pac
-</span><span class='line'>
-</span><span class='line'>; 调试模式
-</span><span class='line'>debug = True</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>自定义规则</h3>
-
-<p>编辑<code>gfwlist2pac.rules</code>文件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>! 用户自定义的代理规则
-</span><span class='line'>! 
-</span><span class='line'>! 语法与gfwlist相同，即AdBlock Plus过滤规则
-</span><span class='line'>!
-</span><span class='line'>! 简单说明如下：
-</span><span class='line'>! 通配符支持，如 *.example.com/* 实际书写时可省略* 如.example.com/ 意即*.example.com/* 
-</span><span class='line'>! 正则表达式支持，以\开始和结束， 如 \[\w]+:\/\/example.com\
-</span><span class='line'>! 例外规则 @@，如 @@*.example.com/* 满足@@后规则的地址不使用代理
-</span><span class='line'>! 匹配地址开始和结尾 |，如 |http://example.com、example.com|分别表示以http://example.com开始和以example.com结束的地址
-</span><span class='line'>! || 标记，如 ||example.com 则http://example.com、https://example.com、ftp://example.com等地址均满足条件
-</span><span class='line'>! 注释 ! 如 ! Comment
-</span><span class='line'>!
-</span><span class='line'>! 更详细说明 请访问 http://adblockplus.org/en/filters
-</span><span class='line'>!
-</span><span class='line'>! 配置该文件时需谨慎，尽量避免与gfwlist产生冲突，
-</span><span class='line'>! 或将一些本不需要代理的网址添加到代理列表
-</span><span class='line'>! 可用test目录工具进行网址测试
-</span><span class='line'>! 
-</span><span class='line'>
-</span><span class='line'>! Tip: 在最终生成的PAC文件中，用户定义规则先于gfwlist规则被处理
-</span><span class='line'>!      因此可以在这里添加一些常用网址规则，或能减少在访问这些网址进行查询的时间
-</span><span class='line'>!      如:
-</span><span class='line'>@@sina.com
-</span><span class='line'>@@163.com
-</span><span class='line'>twitter.com
-</span><span class='line'>youtube.com</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>生成Pac文件</h3>
-
-<p>在命令行执行</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>python gfwlist2pac.py
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS6里GoAgent和SSH Forwarding共用]]></title>
-    <link href="http://vangie.github.com/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/"/>
-    <updated>2013-04-04T22:15:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6</id>
-    <content type="html"><![CDATA[<blockquote><p>入了一台iPhone5联通合约机，可惜iOS 6.1.3无法越狱了，庆幸内置系统版本6.1.2，Alfred调出evasi0n.app,果断越狱了。本文介绍在iOS6里整合Goagent和SSH forwarding两种方式翻越长城。</p></blockquote>
-
-<!-- more -->
-
-
-<h2>在安装GoAgent for iOS</h2>
-
-<p>根据<a href="https://code.google.com/p/goagent/wiki/GoAgent_IOS" title="GoAgent官方iOS客户端安装教程">GoAgent官方iOS客户端安装教程</a></p>
-
-<h3>前提条件</h3>
-
-<ul>
-<li>越狱</li>
-<li>已经部署GoAgent服务端</li>
-<li>将Cydia切换为<code>开发者</code>模式：Cydia->管理->设置->开发者</li>
-</ul>
-
-
-<h3>步骤</h3>
-
-<ol>
-<li>Cydia里添加源 http://repo.goagent.org/cydia</li>
-<li>在Cydia里安装goagent-ios和goagent-widget,iFile</li>
-<li>设置Proxy.ini里的appid
-
-<ul>
-<li>打开GoAgent for iOS.app，点击Edit File,如果有弹出菜单，先取消，找到<code>proxy.ini</code>文件，点击右边的箭头，在弹出的新页面里找到<code>打开方式…</code>，选<code>文本编辑器</code>,点击左边的<code>编辑</code>，然后将appid= goagent改成你server的appid</li>
-</ul>
-</li>
-<li>安装CA.crt
-
-<ul>
-<li>在浏览器里打开 https://goagent.googlecode.com/files/CA.crt 然后安装</li>
-</ul>
-</li>
-<li>开启通知中心GoAgent控件
-
-<ul>
-<li>设置 -> 通知 -> goagent-widget</li>
-</ul>
-</li>
-<li>设置PAC
-
-<ul>
-<li>设置 -> Wi-Fi -> CurrentWiFi -> HTTP Proxy -> Auto -> http://127.0.0.1:8086/8086.pac</li>
-<li>或者在GoAgent for iOS设置页里点击“Change System Proxy”</li>
-</ul>
-</li>
-<li>打开Facebook测试一下</li>
-</ol>
-
-
-<h2>配置SSH Forwarding</h2>
-
-<p>这部有许多shell操作，Cydia里mobile terminal提供了一个可用的Shell。但是使用起来很不方便，通过SSH远程登录到iPhone借助电脑的全键盘更加便利。</p>
-
-<h3>SSH登录到iPhone</h3>
-
-<ol>
-<li>Cydia里安装OpenSSH</li>
-<li>设置 -> Wi-Fi -> CurrentWiFi 参看IP地址(假设：192.168.2.107)</li>
-<li>Mac OS里打开Bash输入<code>ssh root@192.168.2.107</code>，密码：alpine</li>
-</ol>
-
-
-<h3>免密码SSH登录远程服务器</h3>
-
-<p>详细步骤和说明参看<a href="http://codelife.me/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/">MacOS X终端里SSH会话管理</a></p>
-
-<ol>
-<li>切换到mobie账户
-
-<ul>
-<li><code>su - mobile</code></li>
-</ul>
-</li>
-<li>创建密钥对
-
-<ul>
-<li><code>ssh-keygen -t rsa</code></li>
-</ul>
-</li>
-<li>拷贝公钥到远程服务器
-
-<ul>
-<li><p>若authorized_keys已存在</p>
-
-<p>  cat ~/.ssh/id_rsa.pub | ssh username@example.com &#8220;cat - >> ~/.ssh/authorized_keys&#8221;`</p></li>
-<li>若authorized_keys不存在
-  scp ~/.ssh/id_rsa.pub username@example.com:~/.ssh/authorized_keys</li>
-</ul>
-</li>
-<li><p>别名登录</p>
-
-<ul>
-<li><p>在<code>~/.ssh/config</code>里添加如下配置</p>
-
-<p>  Host example</p>
-
-<pre><code>  HostName example.com
-  User username
-  Port 22
-</code></pre></li>
-</ul>
-</li>
-<li><p>测试</p>
-
-<ul>
-<li><code>ssh example</code>能登录到远程主机即表示成功</li>
-</ul>
-</li>
-</ol>
-
-
-<h3>断线重连</h3>
-
-<ol>
-<li>编辑iOS下<code>/etc/ssh/ssh_config</code>
-
-<ul>
-<li>添加一行<code>ServerAliveInterval 10</code></li>
-</ul>
-</li>
-<li>Cydia安装automatic ssh
-
-<ul>
-<li>使用<code>autossh -M 0 -D 9090 -Nfq example</code>开启SOCKS5代理服务，该命令会立即返回并且后台执行。</li>
-</ul>
-</li>
-</ol>
-
-
-<h3>创建一个兼容GoAgent和SSH Forwarding的PAC文件</h3>
-
-<p>pac可以指定多个代理</p>
-
-<pre><code>function FindProxyForURL(url, host) {
-    return "DIRECT; PROXY 192.168.1.1:3128; SOCKS5 lilinux.net:1080"; 
-}
-</code></pre>
-
-<p>上面语句的意思是：</p>
-
-<ol>
-<li>对所有URL，都直接连接；</li>
-<li>如果不能直接连接，那么就使用192.168.1.1:3128这个http代理连接；</li>
-<li>如果还是不能连接，则使用lilinux.net:1080这个socks5代理连接。<br/>
-于是我们可以构造出<code>SOCKS 127.0.0.1:9090; PROXY 127.0.0.1:8087</code>让SSH Forwarding和GoAgent同时工作。(注意这里不能使用<code>SOCKS5</code>,iOS无法识别，只能用<code>SOCKS</code>)</li>
-</ol>
-
-
-<p>于是需要将GoAgent for iOS里的proxy.pac文件修改一下。</p>
-
-<ol>
-<li><p>将proxy.pac拷贝到本地</p>
-
-<p> scp root@192.168.2.107:/Applications/goagent-ios.app/goagent-local/proxy.pac autoproxy.pac</p></li>
-<li>编辑autoproxy.pac
-
-<ol>
-<li>在行首加入<code>var D='DIRECT',P='SOCKS 127.0.0.1:9090; PROXY 127.0.0.1:8087'</code></li>
-<li>将所有的<code>"DIRECT"</code>和<code>'DIRECT'</code>替换成<code>D</code></li>
-<li>将所有的<code>"PROXY 127.0.0.1:8087"</code>和<code>'PROXY 127.0.0.1:8087'</code>替换成<code>P</code></li>
-</ol>
-</li>
-<li><p>将修改过的autoproxy.pac拷贝到<code>/var/root</code>目录</p>
-
-<p> scp autoproxy.pac root@192.168.2.107:/var/root</p></li>
-<li><p>重新设定WiFi的Pac</p>
-
-<ul>
-<li>设置 -> Wi-Fi -> CurrentWiFi -> HTTP Proxy -> Auto -> file:///var/root/autoproxy.pac</li>
-</ul>
-</li>
-<li><p>让GPRS/EDGE/3G流量支持Pac
-使用iFile编辑<code>/private/var/preferences/systemconfiguration/preferences.plist</code></p>
-
-<pre><code>Interface = {
-    DeviceName = "ip1";
-    Hardware = "com.apple.CommCenter";
-    Type = "com.apple.CommCenter";
-    UserDefinedName = "com.apple.CommCenter (ip1)";
-};
-Proxies = {
-    ProxyAutoConfigEnable = 1;
-    ProxyAutoConfigURLString = "file:///var/root/pac";
-};
-UserDefinedName = "com.apple.CommCenter (ip1)";
-</code></pre>
-
-<p>加入Proxies块，（注意：从前版本preferences.plist是xml格式，新的文件采用了JSON格式）重启后生效。</p></li>
-</ol>
-
-
-<h2>启动</h2>
-
-<ol>
-<li>启动GoAgent有两种方法
-
-<ol>
-<li>在通知菜单启动 最方便</li>
-<li>通过GoAgent for iOS.app启动</li>
-</ol>
-</li>
-<li>启动SSH Forwarding，启动命令为<code>autossh -M 0 -D 9090 -Nfq example</code>其中example为host的别名
-
-<ul>
-<li>Mac OS远程登录启动（这个？没有电脑不就没戏了）</li>
-<li>mobile terminal启动
-
-<ol>
-<li>Cydia里安装mobile terminal</li>
-<li>在mobile terminal里设定shortcut Menu可以快捷输入</li>
-</ol>
-</li>
-</ul>
-</li>
-</ol>
-
-
-<h2>参考文献</h2>
-
-<ol>
-<li><a href="https://code.google.com/p/goagent/wiki/GoAgent_IOS" title="GoAgent官方iOS客户端安装教程">GoAgent官方iOS客户端安装教程</a></li>
-<li><a href="http://catty-house.blogspot.jp/2012/10/ios-wifiedge3gssh.html">iPhne/iPad 通过SSH终极翻墙解决方案</a></li>
-<li><a href="http://catty-house.blogspot.jp/2012/11/iphonevpspythonpac.html">越狱iPhone下 VPS+Shadowsocks+PAC翻墙</a></li>
-<li><a href="http://www.cpplive.com/html/1301.html">SSH登陆iPhone后台</a></li>
-<li><a href="http://www.truevue.org/javascript/pac-format">PAC自动代理文件格式，教你如何写PAC文件</a></li>
-</ol>
-
 ]]></content>
   </entry>
   

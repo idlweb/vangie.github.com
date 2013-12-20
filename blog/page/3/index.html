@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="本篇是MacOS X将GoAgent配置为后台服务的姊妹篇，主要分享一下将GoAgent配置成随机启动的LaunchAgent后如何升级，并提供一个方便的管理脚本。 升级 下载安装 假设GoAgent的安装目录为~/Library/ 下载最新的GoAgent，当前版本为v2.1.14。 &hellip;">
+	<meta name="description" content="微信越来越火，信息、语音短信、视频电话等非常实用OTT业务加上QQ好友和通讯录的导入一时间吸引了大量的用户。前段时间各大运营商开始吵着要收微信的费用。所谓“发现即晚期”，当运营商发现苗条不对的时候，已经来不及了。微信除了提供了好用的通讯替代功能，还是一个可扩展的平台，比如：微信公众平台， &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,154 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/">
+		
+			使用NodeJs开发微信公众平台账号</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>微信越来越火，信息、语音短信、视频电话等非常实用OTT业务加上QQ好友和通讯录的导入一时间吸引了大量的用户。前段时间各大运营商开始吵着要收微信的费用。所谓“发现即晚期”，当运营商发现苗条不对的时候，已经来不及了。微信除了提供了好用的通讯替代功能，还是一个可扩展的平台，比如：微信公众平台，一种账号层面的扩展，可以理解为一种微信的公众账号区别于个人账号，通常可作为一种的资讯发布渠道，也可被实现成机器人程序与用户互动。本文介绍如何基于微信公众平台的Open API使用NodeJs开发一个HelloWord程序。</p></blockquote>
+
+
+		
+		<a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-23T16:25:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs//blog/page/3/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/04/06/convert-gfwlist-to-pac/">
+		
+			gfwlist转换成PAC文件</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>iOS翻墙依赖于PAC文件，PAC文件里制定了一系列的规则用于智能判断某些流量是否需要走代理，这样就可以避免代理访问国内站点较慢的问题。</p></blockquote>
+
+<h2>如何获得PAC</h2>
+
+<ol>
+<li>SwitchSharp里导出</li>
+<li>从站点<a href="https://autoproxy2pac.appspot.com/">AutoProxy2PAC</a>定制下载或者直接引用</li>
+<li>使用工具将gfwlist转换成PAC，如<a href="https://github.com/JinnLynn/GenPAC">JinnLynn/GenPAC</a></li>
+</ol>
+
+
+<h2>支持多重代理的PAC</h2>
+
+<p>上面3中方法获得代理文件都只支持配置一种代理方法。不使用于本人上篇博文<a href="http://codelife.me/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/">iOS6里GoAgent和SSH Forwarding共用</a>里依赖的PAC文件。
+形如：</p>
+
+<pre><code>function FindProxyForURL(url, host) {
+    return "DIRECT; PROXY 192.168.1.1:3128; SOCKS5 lilinux.net:1080"; 
+}
+</code></pre>
+
+<h2>gfwlist2pac</h2>
+
+<p>在项目<a href="https://github.com/JinnLynn/GenPAC">JinnLynn/GenPAC</a>的基础上，本人编写了一个<a href="https://github.com/vangie/gfwlist2pac">gfwlist2pac</a>工具，支持如下功能：</p>
+
+<ul>
+<li>代理规则基于<a href="http://autoproxy-gfwlist.googlecode.com">gfwlist</a></li>
+<li>允许通过代理获得gfwlist</li>
+<li>支持用户自定义规则</li>
+<li>运行配置多重代理</li>
+</ul>
+
+
+
+		
+		<a href="/blog/2013/04/06/convert-gfwlist-to-pac/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-06T12:12:00+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/04/06/convert-gfwlist-to-pac//blog/page/3/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/">
+		
+			iOS6里GoAgent和SSH Forwarding共用</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>入了一台iPhone5联通合约机，可惜iOS 6.1.3无法越狱了，庆幸内置系统版本6.1.2，Alfred调出evasi0n.app,果断越狱了。本文介绍在iOS6里整合Goagent和SSH forwarding两种方式翻越长城。</p></blockquote>
+
+
+		
+		<a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-04T22:15:00+08:00" pubdate data-updated="true">Apr 4<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6//blog/page/3/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -397,151 +545,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2013/01/28/using-font-awesome-in-keynote//blog/page/3/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/12/11/add-secondary-network-interface-to-vm-of-centos/">
-		
-			为CentOS虚拟机添加第二块网卡</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>使用virt-install安装了一个CentOS虚拟机，安装过程未指定网络参数，默认使用内置虚拟NAT的方式上网，现在希望给虚拟机另外安装一块虚拟的网卡，然后给其分配一个外网IP地址（与宿主机处于同一网段）。</p></blockquote>
-
-<h3>安装CentOS</h3>
-
-<pre><code>$ sudo virt-install --connect qemu:///system --noautoconsole \
--n centos -r 4096 --vcpus=4 --arch=x86_64 --os-type=linux \
---os-variant=rhel6 --accelerate -v -l http://mirrors.163.com/centos/6.3/os/x86_64/ \
---disk path=/var/lib/libvirt/images/centos.img,size=200 \
---graphics vnc,password=foobar,listen=0.0.0.0,port=5901 
-</code></pre>
-
-
-		
-		<a href="/blog/2012/12/11/add-secondary-network-interface-to-vm-of-centos/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-11T18:43:00+08:00" pubdate data-updated="true">Dec 11<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/12/11/add-secondary-network-interface-to-vm-of-centos//blog/page/3/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/12/09/three-types-of-ssh-turneling/">
-		
-			三种不同类型的ssh隧道</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>想通过ssh隧道连接远端机器的VNC服务，对<code>ssh -L</code>命令不太熟悉，<code>man ssh</code>后发现3组与隧道（turnnel）相关的参数:<code>ssh -D</code>，<code>ssh -L</code>，<code>ssh -R</code>，一下子就搞糊涂了，所有下决心仔细研究一番。</p></blockquote>
-
-<h3>何谓SSH隧道</h3>
-
-<p>隧道是一种把一种网络协议封装进另外一种网络协议进行传输的技术。这里我们研究ssh隧道，所以所有的网络通讯都是加密的。又被称作端口转发，因为ssh隧道通常会绑定一个本地端口，所有发向这个端口端口的数据包，都会被加密并透明地传输到远端系统。</p>
-
-<h3>SSH隧道的类型</h3>
-
-<p>ssh隧道有3种类型：</p>
-
-<ol>
-<li>动态端口转发（Socks 代理）</li>
-<li>本地端口转发</li>
-<li>远端端口转发</li>
-</ol>
-
-
-
-		
-		<a href="/blog/2012/12/09/three-types-of-ssh-turneling/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-09T13:20:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/12/09/three-types-of-ssh-turneling//blog/page/3/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/12/07/qemu-kvm-add-slic-2-dot-1-to-bios-and-activate-windows-server-2008-r2-sucessfully/">
-		
-			qemu-kvm将SLIc 2.1刷入BIOS并成功激活Windows Server 2008 R2</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>在一台DELL R310的宿主机上安装了Ubuntu Server 12.10默认集成KVM虚拟机，用户态虚拟机软件qemu-kvm使用seabios的作为bios实现(位于 <code>/usr/share/qemu-kvm/bios.bin</code>,来自于qemu-common 1.2.0+noroms-0ubuntu2)，该bios.bin仅包含部分来自宿主机的SLIC信息，但不完整，无法通过Window OEM验证。</p></blockquote>
-
-<p>本文将介绍安装KVM虚拟机，借助virt-install安装Windows客户机，去除bios.bin里内置的SLIC，然后使用-acpitable参数载入正确的SLIc 2.1信息，导入OEM证书和OEM key激活Windows。</p>
-
-<p>由于Ubuntu Server没有安装图形环境，DELL R310服务器也是不带显示器的，所有windows的安装过程是通过本来的Macbook Air的VNC客户端操作的。</p>
-
-
-		
-		<a href="/blog/2012/12/07/qemu-kvm-add-slic-2-dot-1-to-bios-and-activate-windows-server-2008-r2-sucessfully/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-07T13:20:00+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/12/07/qemu-kvm-add-slic-2-dot-1-to-bios-and-activate-windows-server-2008-r2-sucessfully//blog/page/3/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

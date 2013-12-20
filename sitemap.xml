@@ -265,11 +265,27 @@
         <lastmod>2013-12-16T00:57:43+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://vangie.github.com/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/
+        </loc>
+        <lastmod>2013-12-21T01:22:04+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://vangie.github.com/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/
+        </loc>
+        <lastmod>2013-12-21T01:28:50+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://vangie.github.com/blog/2013/12/19/beginner-of-pcduino/</loc>
+        <lastmod>2013-12-21T01:22:17+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://vangie.github.com/blog/archives/</loc>
-        <lastmod>2013-12-16T00:57:43+08:00</lastmod>
+        <lastmod>2013-12-21T01:28:50+08:00</lastmod>
     </url>
     <url>
         <loc>http://vangie.github.com/</loc>
-        <lastmod>2013-12-16T00:57:43+08:00</lastmod>
+        <lastmod>2013-12-21T01:28:50+08:00</lastmod>
     </url>
 </urlset>

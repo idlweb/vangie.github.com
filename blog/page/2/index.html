@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="web应用程序重要的功能的URL通过需要达到可访问，可收藏和可分享的需求。Backbone.Router正是检测客户端url变化触发相应动作和事件的实现框架。对于没有实现HTML5 History API的浏览器，Router提供了优雅和透明的兼容实现，通过控制hash的变化。 Route的例子 &hellip;">
+	<meta name="description" content="国内访问rubygems那个慢呀，尤其是走https协议。 借用bash的http代理 一般来说通过翻墙代理访问的速度要更快一点。ruby遵守unix环境变量约定，支持http_proxy和https_proxy。 在执行bundle install之前先执行 $ export &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,243 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/09/18/installing-rubygems-faster/">
+		
+			解决国内rubygems速度慢的问题</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>国内访问rubygems那个慢呀，尤其是走https协议。</p></blockquote>
+
+<h3>借用bash的http代理</h3>
+
+<p>一般来说通过翻墙代理访问的速度要更快一点。ruby遵守unix环境变量约定，支持http_proxy和https_proxy。</p>
+
+<p>在执行<code>bundle install</code>之前先执行</p>
+
+<pre><code>$ export http_proxy=http://127.0.0.1:xxxxx/
+$ export https_proxy=http://127.0.0.1:xxxxx/
+</code></pre>
+
+<p>当然前提是，系统有一个本地可用的http或者https代理。关于bash里使用http代理的细节参见<a href="http://codelife.me/blog/2012/09/02/how-to-set-proxy-for-terminal/">《如何为MacOS X终端设置代理》</a></p>
+
+<h3>改用国内的镜像</h3>
+
+<pre><code>$ gem sources –r http://rubygems.org/
+$ gem sources -a http://ruby.taobao.org/
+$ gem sources -l
+*** CURRENT SOURCES ***
+
+http://ruby.taobao.org
+
+# 请确保只有 ruby.taobao.org
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://ruby-china.org/topics/288">国内访问rubygems.org好慢啊，大家有没有提速的方法？</a></li>
+<li><a href="http://tec.liux.in/28">解决rubygems速度慢的Tips</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-18T14:50:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/09/18/installing-rubygems-faster//blog/page/2/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/09/16/how-to-create-temporary-random-file-name-in-bash/">
+		
+			Bash如何创建随机文件名</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>本文介绍3种不同的方法创建随机缓存文件名。在编写需要创建唯一的缓存文件的脚本时非常有用。</p></blockquote>
+
+<h3>1.使用$RANDOM shell变量</h3>
+
+<p>在控制台执行如下命令</p>
+
+<pre><code>echo $RANDOM
+</code></pre>
+
+<p>每次都获得一个随机数，借用这个变量可用来生成一个随机的文件名</p>
+
+<pre><code>#!/bin/bash
+echo "List of temporary files : "
+for i  in 1 2 3 4 5
+do
+    FILE="/tmp/$(basename $0).$RANDOM.txt"
+    echo $FILE # show file name
+    &gt; $FILE # create files
+done 
+</code></pre>
+
+<h3>2.使用$$变量</h3>
+
+<p>这是一个经典的方法，$$变量返回当前进程的进程号，对于整个系统来说这是一个唯一数字。</p>
+
+<pre><code>#!/bin/bash
+TFILE="/tmp/$(basename $0).$$.tmp"
+ls &gt; $TFILE
+echo "See diretory listing in $TFILE"
+</code></pre>
+
+<h3>3.使用mktemp和tempfile命令</h3>
+
+<p>通过mktemp和tempfile命令是最佳的方式</p>
+
+<pre><code>$ mktemp
+</code></pre>
+
+<p>输出</p>
+
+<pre><code>/tmp/tmp.IAnO5O
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>$ tempfile
+</code></pre>
+
+<p>输出</p>
+
+<pre><code>/tmp/IAnO5O
+</code></pre>
+
+<p>当然还能生成随机文件夹</p>
+
+<pre><code>$ mktemp -d
+$ tempfile -d
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://www.cyberciti.biz/tips/shell-scripting-bash-how-to-create-temporary-random-file-name.html">Shell scripting (BASH) : How to create temporary random file name</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-16T23:50:00+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/09/16/how-to-create-temporary-random-file-name-in-bash//blog/page/2/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/09/12/reverse-proxy-for-a-subdirectory-in-nginx/">
+		
+			Nginx反向代理映射成子路径</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>终于搞定了困扰已久的nginx反向代理子路径映射问题</p></blockquote>
+
+<p>多个web应用共享一个域名和端口时，可以考虑把不同的web应用映射成不同的子路径，这个子路径在Java EE里称作ContextPath。下面的配置片段解决nginx作为前端，反向代理多个tomcat主机，通过不同子路径共享一个域名的情况。</p>
+
+<pre><code>server {
+    listen       80;
+    server_name  _;
+    index index.html index.htm index.php;
+    root /home/dashboard;
+
+    location /dashboard {
+        rewrite /dashboard/(.*) /$1 break;
+        rewrite ^/dashboard$ /dashboard/ permanent;
+        proxy_pass http://127.0.0.1:9082;
+        proxy_redirect off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://wiki.apache.org/couchdb/Nginx_As_a_Reverse_Proxy">Nginx_As_a_Reverse_Proxy</a></li>
+<li><a href="http://superuser.com/questions/603373/how-do-i-reverse-proxy-etherpad-lite-with-nginx-to-a-subdirectory">How do I reverse proxy etherpad-lite with nginx to a subdirectory</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-12T17:41:00+08:00" pubdate data-updated="true">Sep 12<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/09/12/reverse-proxy-for-a-subdirectory-in-nginx//blog/page/2/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -454,154 +691,6 @@
 </div>
 	
 		<span class="comments"><a href="/blog/2013/06/13/needham-schroeder-protocol//blog/page/2/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/">
-		
-			使用NodeJs开发微信公众平台账号</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>微信越来越火，信息、语音短信、视频电话等非常实用OTT业务加上QQ好友和通讯录的导入一时间吸引了大量的用户。前段时间各大运营商开始吵着要收微信的费用。所谓“发现即晚期”，当运营商发现苗条不对的时候，已经来不及了。微信除了提供了好用的通讯替代功能，还是一个可扩展的平台，比如：微信公众平台，一种账号层面的扩展，可以理解为一种微信的公众账号区别于个人账号，通常可作为一种的资讯发布渠道，也可被实现成机器人程序与用户互动。本文介绍如何基于微信公众平台的Open API使用NodeJs开发一个HelloWord程序。</p></blockquote>
-
-
-		
-		<a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-23T16:25:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs//blog/page/2/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/04/06/convert-gfwlist-to-pac/">
-		
-			gfwlist转换成PAC文件</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>iOS翻墙依赖于PAC文件，PAC文件里制定了一系列的规则用于智能判断某些流量是否需要走代理，这样就可以避免代理访问国内站点较慢的问题。</p></blockquote>
-
-<h2>如何获得PAC</h2>
-
-<ol>
-<li>SwitchSharp里导出</li>
-<li>从站点<a href="https://autoproxy2pac.appspot.com/">AutoProxy2PAC</a>定制下载或者直接引用</li>
-<li>使用工具将gfwlist转换成PAC，如<a href="https://github.com/JinnLynn/GenPAC">JinnLynn/GenPAC</a></li>
-</ol>
-
-
-<h2>支持多重代理的PAC</h2>
-
-<p>上面3中方法获得代理文件都只支持配置一种代理方法。不使用于本人上篇博文<a href="http://codelife.me/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/">iOS6里GoAgent和SSH Forwarding共用</a>里依赖的PAC文件。
-形如：</p>
-
-<pre><code>function FindProxyForURL(url, host) {
-    return "DIRECT; PROXY 192.168.1.1:3128; SOCKS5 lilinux.net:1080"; 
-}
-</code></pre>
-
-<h2>gfwlist2pac</h2>
-
-<p>在项目<a href="https://github.com/JinnLynn/GenPAC">JinnLynn/GenPAC</a>的基础上，本人编写了一个<a href="https://github.com/vangie/gfwlist2pac">gfwlist2pac</a>工具，支持如下功能：</p>
-
-<ul>
-<li>代理规则基于<a href="http://autoproxy-gfwlist.googlecode.com">gfwlist</a></li>
-<li>允许通过代理获得gfwlist</li>
-<li>支持用户自定义规则</li>
-<li>运行配置多重代理</li>
-</ul>
-
-
-
-		
-		<a href="/blog/2013/04/06/convert-gfwlist-to-pac/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-06T12:12:00+08:00" pubdate data-updated="true">Apr 6<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/04/06/convert-gfwlist-to-pac//blog/page/2/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/">
-		
-			iOS6里GoAgent和SSH Forwarding共用</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>入了一台iPhone5联通合约机，可惜iOS 6.1.3无法越狱了，庆幸内置系统版本6.1.2，Alfred调出evasi0n.app,果断越狱了。本文介绍在iOS6里整合Goagent和SSH forwarding两种方式翻越长城。</p></blockquote>
-
-
-		
-		<a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-04T22:15:00+08:00" pubdate data-updated="true">Apr 4<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6//blog/page/2/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 

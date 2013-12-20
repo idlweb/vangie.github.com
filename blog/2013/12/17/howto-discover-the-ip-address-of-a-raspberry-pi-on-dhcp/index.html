@@ -1,0 +1,252 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>如何找到树莓派通过DHCP获得的IP地址 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="小巧的树莓派配一个硕大的显示器，很不协调。本文介绍如何获得树莓派通过DHCP动态分配的IP地址。 几种有趣的方法 mathworks论坛提到了几种有意思的方法 通过Matlab命令行 h = raspberrypi(‘raspberrypi-ah') h.openShell(‘ssh') &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vangie.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vangie.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">如何找到树莓派通过DHCP获得的IP地址</h2>
+	<div class="entry-content"><blockquote><p>小巧的树莓派配一个硕大的显示器，很不协调。本文介绍如何获得树莓派通过DHCP动态分配的IP地址。</p></blockquote>
+
+<h3>几种有趣的方法</h3>
+
+<p>mathworks论坛提到了几种有意思的方法</p>
+
+<ol>
+<li><p>通过Matlab命令行</p>
+
+<pre><code> h = raspberrypi(‘raspberrypi-ah')
+ h.openShell(‘ssh')
+</code></pre></li>
+<li>安装一个启动过程中能读出IP的软件，该软件也是MathWork出品的</li>
+<li>通过DDNS（Dynamic DNS）</li>
+<li>启动时发邮件通知</li>
+</ol>
+
+
+<p>就个人而言，上面的方法觉得都不够好。</p>
+
+<ol>
+<li>需要安装Matlab，一个好几G的工具软件就是为了找个IP用，有些蛋疼</li>
+<li>要插个耳机或者音响什么的</li>
+<li>需要互联网环境</li>
+<li>需要互联网环境</li>
+</ol>
+
+
+<p>下面我介绍一个简单实用的方法，通过arp协议获得IP</p>
+
+<!-- more -->
+
+
+<h3>通过arp-scan获得树莓派IP</h3>
+
+<p>arp协议是一个数据链路层协议，负责IP地址和Mac地址的转换。下面我们介绍一个arp-scan工具扫出局域网所有的IP地址</p>
+
+<h4>安装arp-scan</h4>
+
+<p>Mac OS</p>
+
+<pre><code>brew install arp-scan
+</code></pre>
+
+<p>Ubuntu</p>
+
+<pre><code>sudo apt-get arp-scan
+</code></pre>
+
+<h4>扫描以太网IP地址</h4>
+
+<pre><code>arp-scan --interface en0 --localnet  
+</code></pre>
+
+<p>此处en0是网卡的设备名称，可以通过ifconfig命令获得，有多种网卡时注意不要写错</p>
+
+<p>扫描结果如下</p>
+
+<pre><code>nterface: en0, datalink type: EN10MB (Ethernet)
+Starting arp-scan 1.8 with 256 hosts (http://www.nta-monitor.com/tools/arp-scan/)
+192.168.199.1   d4:ee:07:04:0d:e6   (Unknown)
+192.168.199.239 e8:8d:28:06:db:2f   (Unknown)
+192.168.199.107 b8:27:eb:96:c4:2f  (Unknown)
+
+513 packets received by filter, 0 packets dropped by kernel
+Ending arp-scan 1.8: 256 hosts scanned in 1.242 seconds (206.12 hosts/sec). 2 responded
+</code></pre>
+
+<p>由于arp-scan的版本比较低，所以主机名为Unknown,不过没有关系，由于树莓派的Mac地址都是<code>b8:27:3b</code>开头的。所以<code>192.168.199.107</code>就是树莓派的IP地址</p>
+
+<h4>One line Command</h4>
+
+<pre><code>arp-scan --interface en0 --localnet | grep grep b8:27:eb
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://blog.remibergsma.com/2013/05/03/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/">HOWTO discover the ip address of a Raspberry Pi</a></li>
+<li><a href="http://www.mathworks.cn/cn/help/simulink/ug/get-the-ip-address-of-the-raspberry_pi-hardware.html">Get IP Address of Raspberry Pi Hardware</a></li>
+<li><a href="http://www.raspberrypi.org/phpBB3/viewtopic.php?t=55804">FYI: via Raspi&#8217;s IP address with &#8216;arp-scan&#8217;</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-17T03:08:00+08:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/';
+        var disqus_url = 'http://vangie.github.com/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

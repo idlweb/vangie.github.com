@@ -1,0 +1,283 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>pcDuino上手记 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="感谢刘博士送的这块pcDuino板。入Raspberry Pi前，优先考虑过pcDuino。在OSChina源创会上海站被刘博士打动过。买Raspberry Pi是为了DIY一个Mac的Time Capsule。随便Google了一下，找到了Raspberry实现Time Capsule的相关资料 &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vangie.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vangie.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">pcDuino上手记</h2>
+	<div class="entry-content"><blockquote><p>感谢刘博士送的这块pcDuino板。入Raspberry Pi前，优先考虑过pcDuino。在OSChina源创会上海站被刘博士打动过。买Raspberry Pi是为了DIY一个Mac的Time Capsule。随便Google了一下，找到了Raspberry实现Time Capsule的相关资料，而pcDuino的相关资料没有找到，于是作罢。</p></blockquote>
+
+<p>由于Raspberry Pi的先入为主，上手pcDuino碰到写问题，下面一一列出</p>
+
+<!-- more -->
+
+
+<h3>选什么TF卡</h3>
+
+<p>关于如何选购Raspberry Pi的SD卡，我好生下了功夫，最后还是有不好收获的。没有话冤枉钱买极速的。</p>
+
+<p><strong>兼容列表</strong> <br/>
+pcDuino支持哪些TF卡，网上找不到兼容列表。可能是都支持吧，不需要。</p>
+
+<p><strong>读写速度</strong> <br/>
+最大支持到少读写速度也找不到资料。</p>
+
+<p>后来得知板载的2G闪存里内置了ubuntu系统，于是TF卡的问题就先悬着吧，等搞清楚再做决定。</p>
+
+<h3>启动pcDuino</h3>
+
+<p>插上网线，pcDuino的网线口比Raspberry Pi的要小巧，但是有些过紧，拔出网线时候要小心，别弄断了。
+插上电源线，指示灯亮了。</p>
+
+<p>没有显示器，IP地址默认应该是DHCP的，先要找到IP地址。</p>
+
+<p><strong>找到IP地址</strong></p>
+
+<pre><code>arp-scan --localnet
+</code></pre>
+
+<p>如果发现主机名ubuntu，那就是了。要是没有就找Unknow的逐个ssh测试，能连接上的就是。</p>
+
+<h3>初始化系统</h3>
+
+<p>ssh登录系统以后先执行系统初始化</p>
+
+<pre><code>sudo board-config.sh
+</code></pre>
+
+<h3>安装Vim</h3>
+
+<p>一直不习惯原生的vi，对方向键支持不好。</p>
+
+<pre><code>sudo apt-get install vim
+</code></pre>
+
+<p>安装不成功，返回如下</p>
+
+<pre><code>Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+
+....省去若干行
+
+Failed to fetch http://ports.ubuntu.com/ubuntu-ports/pool/main/p/python2.7/libpython2.7_2.7.3-0ubuntu3.2_armhf.deb  404  Not Found
+E: Unable to fetch some archives, maybe run apt-get update or try with --fix-missing?
+</code></pre>
+
+<p>一大堆404，提示先<code>apt-get update</code>,好吧</p>
+
+<pre><code>sudo apt-get update
+</code></pre>
+
+<p>返回如下</p>
+
+<pre><code>....省去若干行
+
+Get:20 http://ports.ubuntu.com precise-updates/universe Translation-en [132 kB]
+Fetched 2681 kB in 21s (123 kB/s)
+Reading package lists... Done
+W: Conflicting distribution: http://www.wiimu.com pcduino Release (expected pcduino but got )
+</code></pre>
+
+<p>编辑器打开<code>/etc/apt/sources.list</code>,注释掉最后两行</p>
+
+<pre><code>#deb http://www.wiimu.com:8020/pcduino/ pcuino main
+#deb-src http://www.wimu.com:8020/pcduion/ pcduino main
+</code></pre>
+
+<p>然后在<code>sudo apt-get update</code>就正常了。</p>
+
+<h3>VNC远程桌面</h3>
+
+<h4>设置vnc密码</h4>
+
+<pre><code>sudo x11vnc -storepasswd
+sudo x11vnc -storepasswd in /etc/x11vnc.pass
+sudo cp .vnc/passwd /etc/x11vnc.pass
+</code></pre>
+
+<h4>启动桌面</h4>
+
+<pre><code>sudo start lightdm
+</code></pre>
+
+<h4>连接</h4>
+
+<p>在mac终端敲入</p>
+
+<pre><code>open vnc://&lt;ip_of_pcduino&gt;
+</code></pre>
+
+<h4>已知问题</h4>
+
+<p><code>sudo stop lightdm</code>再次<code>sudo start lightdm</code>启动后，客户端无法连接上VNC服务器。</p>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://www.cnblogs.com/iscode/p/3200503.html">pcDuino 刷系统-卡刷</a></li>
+<li><a href="http://www.cnblogs.com/iscode/p/3200558.html">pcDuino无显示器刷机与使用</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-19T15:05:00+08:00" pubdate data-updated="true">Dec 19<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/12/19/beginner-of-pcduino/#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2013
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2013/12/19/beginner-of-pcduino/';
+        var disqus_url = 'http://vangie.github.com/blog/2013/12/19/beginner-of-pcduino/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
