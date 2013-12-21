@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-12-22T07:11:08+08:00</updated>
+  <updated>2013-12-22T07:20:10+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -38,6 +38,8 @@
     <updated>2013-12-19T15:05:00+08:00</updated>
     <id>http://vangie.github.com/blog/2013/12/19/beginner-of-pcduino</id>
     <content type="html"><![CDATA[<blockquote><p>感谢刘博士送的这块pcDuino板。入Raspberry Pi前，优先考虑过pcDuino。在OSChina源创会上海站被刘博士打动过。买Raspberry Pi是为了DIY一个Mac的Time Capsule。随便Google了一下，找到了Raspberry实现Time Capsule的相关资料，而pcDuino的相关资料没有找到，于是作罢。</p></blockquote>
+
+<p><img src="http://vangie.github.com/images/post/2013-12-19/pcduinov2.jpg" alt="pcDuino V2" /></p>
 
 <p>由于Raspberry Pi的先入为主，上手pcDuino碰到写问题，下面一一列出</p>
 
