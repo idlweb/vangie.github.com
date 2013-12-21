@@ -484,66 +484,13 @@ Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/R
 	<div class="entry-content">
 		<blockquote><p>半年前入了一把Noppoo的84键茶轴机械键盘，这把键盘的手感真心不错，也非常的小巧，很短，放在桌上也一点都不占位置。唯一的缺点就是不支持Mac系统。官方未提供mac版本的驱动程序，在mac系统下有部分键不好用。网上倒是提供了两种解决方案：一种是usb转ps2，再ps2转usb两次转换以后就好用了（依靠转换器里的芯片）；另一个种是安装Github上的<a href="https://github.com/thefloweringash/iousbhiddriver-descriptor-override">第三方驱动</a>。</p></blockquote>
 
+<p><img src="/images/post/2013-12-13/noppoo-chic-mini84.jpg" alt="Noppoo Chic Mini84" /></p>
+
 <p>两种方法都有试过，两次转换可以免去装驱动的麻烦，但是由于接了两个转换器，有时候会接触不好。最后选用了加装驱动的方案。</p>
 
-<h3>加装驱动</h3>
-
-<ul>
-<li><p>pkg安装包 https://thefloweringash.com/iousbhiddriver-descriptor-override/downloads/IOUSBHIDDriverDescriptorOverride-2013-04-21-b545d15.pkg</p></li>
-<li><p>编译安装</p>
-
-<ol>
-<li>下载源码 https://github.com/thefloweringash/iousbhiddriver-descriptor-override/archive/master.zip</li>
-<li>编译</li>
-</ol>
-</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># dependencies
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install --without scan
-</span><span class='line'>
-</span><span class='line'># build
-</span><span class='line'>xcodebuild
-</span><span class='line'>sudo cp -r build/Release/IOUSBHIDDriverDescriptorOverride.kext \
-</span><span class='line'>    /System/Library/Extensions
-</span><span class='line'>sudo kextutil \
-</span><span class='line'>    /System/Library/Extensions/IOUSBHIDDriverDescriptorOverride.kext</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>3. 启动时加载，把com.apple.IOUSBHIDDriverDescriptorOverride.plist复制到/Library/LaunchDaemons/下面
-</code></pre>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>launchctl load -w /Library/LaunchDaemons/com.apple.IOUSBHIDDriverDescriptorOverride.plist
-</span><span class='line'>launchctl list | grep om.apple.IOUSBHIDDriverDescriptorOverride</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>安装KeyRemap4MacBook</h3>
-
-<p>下载地址 https://pqrs.org/macosx/keyremap4macbook/</p>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://likidu.com/noppoo-chic-mini84-osx-support/">Noppoo Chic Mini 84支持Mac OS X</a></li>
-</ol>
-
 
 		
-		
+		<a href="/blog/2013/11/13/noppoo-chic-mini84-osx-support/" class="more-link">继续阅读 &rarr;</a>
 	</div>
 
 

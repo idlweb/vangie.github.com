@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-12-22T07:20:10+08:00</updated>
+  <updated>2013-12-22T07:37:11+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -710,7 +710,12 @@ Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/R
     <id>http://vangie.github.com/blog/2013/11/13/noppoo-chic-mini84-osx-support</id>
     <content type="html"><![CDATA[<blockquote><p>半年前入了一把Noppoo的84键茶轴机械键盘，这把键盘的手感真心不错，也非常的小巧，很短，放在桌上也一点都不占位置。唯一的缺点就是不支持Mac系统。官方未提供mac版本的驱动程序，在mac系统下有部分键不好用。网上倒是提供了两种解决方案：一种是usb转ps2，再ps2转usb两次转换以后就好用了（依靠转换器里的芯片）；另一个种是安装Github上的<a href="https://github.com/thefloweringash/iousbhiddriver-descriptor-override">第三方驱动</a>。</p></blockquote>
 
+<p><img src="http://vangie.github.com/images/post/2013-12-13/noppoo-chic-mini84.jpg" alt="Noppoo Chic Mini84" /></p>
+
 <p>两种方法都有试过，两次转换可以免去装驱动的麻烦，但是由于接了两个转换器，有时候会接触不好。最后选用了加装驱动的方案。</p>
+
+<!-- more -->
+
 
 <h3>加装驱动</h3>
 
