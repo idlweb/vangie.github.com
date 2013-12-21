@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="使用virt-install安装了一个CentOS虚拟机，安装过程未指定网络参数，默认使用内置虚拟NAT的方式上网，现在希望给虚拟机另外安装一块虚拟的网卡，然后给其分配一个外网IP地址（与宿主机处于同一网段）。 安装CentOS $ sudo virt-install --connect &hellip;">
+	<meta name="description" content="Font Awesome提供了200多个矢量图标的字体文件。矢量字体可以支持无线的放缩，而且体积更好，如果能放到keynote里作为幻灯片的图标素材非常不错。想法是好的，但是由于这些字体对应了一些保留的unicode编码，使用通常的输入法无法输入。 安装Font Awesome字体 下载 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -73,6 +73,63 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/01/28/using-font-awesome-in-keynote/">
+		
+			在Keynote里输入Font Awesome字符</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p><a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a>提供了200多个矢量图标的字体文件。矢量字体可以支持无线的放缩，而且体积更好，如果能放到keynote里作为幻灯片的图标素材非常不错。想法是好的，但是由于这些字体对应了一些保留的unicode编码，使用通常的输入法无法输入。</p></blockquote>
+
+<h3>安装Font Awesome字体</h3>
+
+<p>下载 <a href="https://github.com/FortAwesome/Font-Awesome/zipball/master">FontAwesome-Font-Awesome.zip</a>，解压缩后，找到font/FontAwesome.otf文件，双击安装即可。</p>
+
+<h3>找到icon对应的Unicode编码</h3>
+
+<p>找到css/font-awesome.css文件，使用编辑器打开。可以找到许多形如</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.icon-key</span><span class="nd">:before</span>                  <span class="p">{</span> <span class="k">content</span><span class="o">:</span> <span class="s2">&quot;\f084&quot;</span><span class="p">;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中<code>f084</code>就是icon-key图标对应的unicode编码。</p>
+
+<h3>开启Mac OS的unicode16进制输入法</h3>
+
+<p>打开“系统偏好设置\语言与文本\输入源”,在左侧&#8221;请选择要使用的输入源&#8221;列表中勾上”Unicode 十六进制输入“。然后将系统输入法切换为”Unicode输入法“。按住Control健输入4位unicode字符即可输入.若当前字体不存在对应的unicode编码的字形会出现框框，所有输入前需要在keynote里把当前字体改为FontAwesome。</p>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-28T23:23:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+		<span class="comments"><a href="/blog/2013/01/28/using-font-awesome-in-keynote//blog/page/4/index.html#disqus_thread">Comments</a></span>
+	
+</div></article>
 
 
     <article class="post">
@@ -534,45 +591,6 @@ $ brew install homebrew/dupes/grep
 </div>
 	
 		<span class="comments"><a href="/blog/2012/11/03/jackson-polymorphic-deserialization//blog/page/4/index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/">
-		
-			登录Shell和交互Shell的区别</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>遇到两个shell的概念：<code>交互式登录shell</code>和<code>交互式非登录shell</code>。要理解上面两个术语，先要理清两个概念<code>登录shell</code>和<code>交互shell</code></p></blockquote>
-
-
-		
-		<a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-11T14:47:00+08:00" pubdate data-updated="true">Oct 11<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/10/11/different-between-login-shell-and-interactive-shell//blog/page/4/index.html#disqus_thread">Comments</a></span>
 	
 </div></article>
 
