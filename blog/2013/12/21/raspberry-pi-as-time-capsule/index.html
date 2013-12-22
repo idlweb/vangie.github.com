@@ -7,10 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="参考阅读 Raspberry Pi als TimeCapsule
-Use rPi as a Time Capsule - another method
-Time Capsule for $25
-Raspberry Pi, Raspbian, HFS+, AFP and Time Machine &hellip;">
+	<meta name="description" content="MacBookAir的SSD坏了两次以后，发现TimeMachine真的很有必要。外插个尿袋子真的不方便。AirPort Time Capsule 2T版本价格买到了$299，觉得有些不值。$25的树莓派+一块移动硬盘DIY一个Time Capsule即经济又有趣。 安装HFS+文件系统工具 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -77,7 +74,103 @@ Raspberry Pi, Raspbian, HFS+, AFP and Time Machine &hellip;">
 	
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">将树莓派配置成时间胶囊</h2>
-	<div class="entry-content"><p><img src="/images/post/2013-12-21/raspberry-pi-as-time-capsule.png" alt="Raspberry Pi as TimeCapsule" /></p>
+	<div class="entry-content"><blockquote><p>MacBookAir的SSD坏了两次以后，发现TimeMachine真的很有必要。外插个尿袋子真的不方便。AirPort Time Capsule 2T版本价格买到了$299，觉得有些不值。$25的树莓派+一块移动硬盘DIY一个Time Capsule即经济又有趣。</p></blockquote>
+
+<p><img src="/images/post/2013-12-21/raspberry-pi-as-time-capsule.png" alt="Raspberry Pi as TimeCapsule" /></p>
+
+<!-- more -->
+
+
+<h3>安装HFS+文件系统工具</h3>
+
+<pre><code>sudo apt-get install hfsplus hfsutils hfsprogs
+</code></pre>
+
+<h3>准备HFS+设备</h3>
+
+<p>列出所有块设备</p>
+
+<pre><code>sudo blkid
+</code></pre>
+
+<p>返回如下</p>
+
+<pre><code>/dev/mmcblk0p1: LABEL="RECOVERY" UUID="F69B-A989" TYPE="vfat"
+/dev/mmcblk0p3: LABEL="SETTINGS" UUID="7f8a9faf-84a1-4062-ab9c-b2e6115035ce" TYPE="ext4"
+/dev/mmcblk0p5: LABEL="BOOT" UUID="03D6-2985" TYPE="vfat"
+/dev/mmcblk0p6: LABEL="root" UUID="e2a46600-20ca-42f4-8ec8-aa52d258aad2" TYPE="ext4"
+/dev/sda1: UUID="943f46c5-2de2-3ef9-8494-46c3cf8bd915" LABEL="Time Capsule" TYPE="hfsplus"
+</code></pre>
+
+<p>包含TYPE=“hfsplus”的即是。</p>
+
+<p>如果希望把一个新的分区格式化为HFS+，使用如下命令</p>
+
+<pre><code>sudo mkfs.hfsplus -v "Time Capsule" /dev/sda1
+</code></pre>
+
+<p><strong>建议使用全新的hfs+分区</strong>
+把一块已经做过TimeMachine的hfs+分区，可能导致原有的备份数据丢失</p>
+
+<h3>挂载</h3>
+
+<pre><code>sudo mkidr /media/TimeCapsule
+sudo mount -t hfsplus -o force /dev/sda1 /media/TimeCapsule
+sudo chown -R pi:pi /media/TimeCapsule
+</code></pre>
+
+<h3>安装配置netatalk服务</h3>
+
+<pre><code>sudo apt-get install netatalk
+sudo echo "/media/TimeCapsule \"Time Capsule\" options:tm" &gt;&gt; /etc/netatalk/AppleVolumes.default
+sudo service netatalk restart
+</code></pre>
+
+<p>接下来就可以从Mac的Time Machine里找到这块磁盘 <br/>
+<img src="/images/post/2013-12-21/avaliable-disk.png" alt="选择Time Machine磁盘" /></p>
+
+<h3>配置Avahi</h3>
+
+<p>安装<code>avahi-daemon</code>和<code>libnss-mdns</code></p>
+
+<pre><code>sudo apt-get install avahi-daemon libnss-mdns
+</code></pre>
+
+<p>配置nsswitch.conf</p>
+
+<p>在<code>hosts:</code>后添加“mdns”</p>
+
+<pre><code>hosts:      files mdns4_minimal [NOTFOUND=return] dns mdns4 mdns
+</code></pre>
+
+<p>接下来让Avahi在局域网广播AFP共享</p>
+
+<p>添加如下文件<code>/etc/avahi/services/afpd.service</code>内容如下：</p>
+
+<pre><code>&lt;?xml version="1.0" standalone='no'?&gt;&lt;!--*-nxml-*--&gt;
+&lt;!DOCTYPE service-group SYSTEM "avahi-service.dtd"&gt;
+&lt;service-group&gt;
+    &lt;name replace-wildcards="yes"&gt;%h&lt;/name&gt;
+    &lt;service&gt;
+        &lt;type&gt;_afpovertcp._tcp&lt;/type&gt;
+        &lt;port&gt;548&lt;/port&gt;
+    &lt;/service&gt;
+    &lt;service&gt;
+        &lt;type&gt;_device-info._tcp&lt;/type&gt;
+       &lt;port&gt;0&lt;/port&gt;
+        &lt;txt-record&gt;model=Xserve&lt;/txt-record&gt;
+    &lt;/service&gt;
+&lt;/service-group&gt;
+</code></pre>
+
+<p>重启服务</p>
+
+<pre><code>sudo /etc/init.d/avahi-daemon restart
+</code></pre>
+
+<p>在findler的左侧可以看到共享的文件系统</p>
+
+<p><img src="/images/post/2013-12-21/share.png" alt="共享" /></p>
 
 <h3>参考阅读</h3>
 
@@ -86,6 +179,7 @@ Raspberry Pi, Raspbian, HFS+, AFP and Time Machine &hellip;">
 <li><a href="http://www.raspberrypi.org/phpBB3/viewtopic.php?f=36&amp;t=47029">Use rPi as a Time Capsule - another method</a></li>
 <li><a href="http://garmoncheg.blogspot.jp/2012/11/time-capsule-for-25.html">Time Capsule for $25</a></li>
 <li><a href="http://andadapt.com/raspberry-pi-raspbian-hfs-afp-and-time-machine/">Raspberry Pi, Raspbian, HFS+, AFP and Time Machine</a></li>
+<li><a href="http://kremalicious.com/ubuntu-as-mac-file-server-and-time-machine-volume/?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+kremalicious+(kremalicious">HowTo: Make Ubuntu a Perfect Mac File Server and Time Machine Volume</a>)</li>
 </ol>
 
 </div>
