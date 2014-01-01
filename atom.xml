@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2013-12-22T21:45:13+08:00</updated>
+  <updated>2014-01-01T14:36:25+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -23,6 +23,30 @@
 <p><img src="http://vangie.github.com/images/post/2013-12-21/raspberry-pi-as-time-capsule.png" alt="Raspberry Pi as TimeCapsule" /></p>
 
 <!-- more -->
+
+
+<h3>组件清单</h3>
+
+<p><img src="http://vangie.github.com/images/post/2013-12-21/component-of-time-capsule.png" alt="Component of TimeCapsule" /></p>
+
+<ul>
+<li>树莓派
+
+<ul>
+<li>TF卡 + 卡套</li>
+<li>USB WiFi 网卡</li>
+<li>5V电源 + MicroUSB 电源线</li>
+</ul>
+</li>
+<li>移动硬盘
+
+<ul>
+<li>2.5寸 500G SATA 硬盘</li>
+<li>USB3.0 硬盘电路板</li>
+<li>USB3.0 数据线</li>
+</ul>
+</li>
+</ul>
 
 
 <h3>安装HFS+文件系统工具</h3>
