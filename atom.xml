@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2014-01-01T14:37:30+08:00</updated>
+  <updated>2014-01-08T21:40:43+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -148,6 +148,7 @@ sudo service netatalk restart
 <li><a href="http://garmoncheg.blogspot.jp/2012/11/time-capsule-for-25.html">Time Capsule for $25</a></li>
 <li><a href="http://andadapt.com/raspberry-pi-raspbian-hfs-afp-and-time-machine/">Raspberry Pi, Raspbian, HFS+, AFP and Time Machine</a></li>
 <li><a href="http://kremalicious.com/ubuntu-as-mac-file-server-and-time-machine-volume/?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+kremalicious+(kremalicious">HowTo: Make Ubuntu a Perfect Mac File Server and Time Machine Volume</a>)</li>
+<li><a href="http://www.andyibanez.com/260-linux-file-server-os-x-mavericks">Making A Linux File Server That Interacts With OS X Mavericks</a></li>
 </ol>
 
 ]]></content>
@@ -369,7 +370,7 @@ sudo cp .vnc/passwd /etc/x11vnc.pass
 <p><a href="http://www.mobileread.com/forums/showthread.php?t=203326">KUAL</a>是Kindle Unified Application Launcher的缩写，其作用是为越狱的Kindle启动第三方应用。简单的说通过一本特殊的书籍来统一实现启动触发器。</p>
 
 <ol>
-<li>下载<a href="prerequisites-all-supported-devices.zip">prerequisites-all-supported-devices</a></li>
+<li>下载<a href="http://www.mobileread.com/forums/attachment.php?attachmentid=115571&amp;d=1385111909">prerequisites-all-supported-devices</a></li>
 <li>解压后将update_kindlet-dev-20130710-k5-ALL_install.bin文件拷贝到Kindle根目录，Kindle安装.bin文件的方法都是一样的，Kindle里点击[更新您的Kindle],然后会显示安装进度，自动重启后完成。</li>
 <li>下载<a href="http://www.mobileread.com/forums/attachment.php?attachmentid=109526&amp;d=1376691043">KUAL.V.2.2.zip</a></li>
 <li>解压后将KindleLauncher-2.0.azw2文件拷贝到Kindle的<code>/documents</code>目录</li>
