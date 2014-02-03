@@ -20,9 +20,10 @@ invert = (color) -&gt; &quot;#&quot; + (&quot;000000&quot &hellip;">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	
 </head>
+
 
 <body>
 	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
@@ -58,6 +59,7 @@ invert = (color) -&gt; &quot;#&quot; + (&quot;000000&quot &hellip;">
 		
 		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
 		
+    
 		
 		
 		
@@ -65,6 +67,7 @@ invert = (color) -&gt; &quot;#&quot; + (&quot;000000&quot &hellip;">
 		
 		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
+    
 	</div>
 	<form class="search" action="http://google.com/search" method="get">
 		<input class="alignright" type="text" name="q" results="0">
@@ -127,14 +130,14 @@ b2 = b1&lt;0?127:-128
 
 <p>但是计算机和常见程序设计语言的采用RGB模型表示颜色。所以需要先将RGB颜色转换成LAB颜色，计算出最大色差颜色的LAB表示法，然后再转换成RGB颜色。</p>
 
-<p><strong>RGB -> LAB</strong></p>
+<p><strong>RGB &ndash;> LAB</strong></p>
 
 <pre><code>L = (13933 * R + 46871 * G + 4732 * B) / 2^16
 a = 377 * (14503 * R - 22218 * G + 7714 * B) / 2^24 + 128
 b = 160 * (12773 * R + 39695 * G - 52468 * B) / 2^24 + 128
 </code></pre>
 
-<p><strong>LAB -> RGB</strong></p>
+<p><strong>LAB &ndash;> RGB</strong></p>
 
 <pre><code>R = L1 + (a1 * 100922 + b1 * 17790) / 2^23
 G = L1 - (a1 * 30176 + b1 * 1481) / 2^23
@@ -175,7 +178,7 @@ B' = B&lt;128 ? 255 : 0
 
 <ol>
 <li><a href="http://maestric.com/doc/color_brightness_difference_calculator">Online calculator of color difference and color brightness difference</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Color_difference">Wikipedia - Color difference</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Color_difference">Wikipedia &ndash; Color difference</a></li>
 <li><a href="http://hao.qinz.net/comments.php?y=08&amp;m=07&amp;entry=entry080727-033517">从RGB到Lab色彩空间的转换</a></li>
 </ol>
 
@@ -200,20 +203,21 @@ B' = B&lt;128 ? 255 : 0
 
 </div>
 	
-		<span class="comments"><a href="/blog/2012/09/13/calculate-max-difference-color/#disqus_thread">Comments</a></span>
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
 	
-</div></article>
+</div>
+</article>
 
 	<div class="share">
 	<div class="addthis_toolbox addthis_default_style ">
-	
-	
-	<a class="addthis_button_tweet"></a>
-	
-	
-	<a class="addthis_counter addthis_pill_style"></a>
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
 	</div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+	
 </div>
 
 
@@ -249,7 +253,7 @@ B' = B&lt;128 ? 255 : 0
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//go.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>

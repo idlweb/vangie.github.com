@@ -3,11 +3,11 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Mac下安装Gate One - Code Life</title>
+	<title>modify-source-of-the-gemfile-template - Code Life</title>
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="HTML5终端模拟器/SSH客户端Gate One发布了v1.1版。主要新特性包括：安全增强，性能改进，移动浏览器支持，改进终端模拟，系统日志信息的自动语法高亮，捕捉以及以图像形式展示PDF，Python 3支持，IE10支持，等等。官方DEMO演示显示你可以在浏览器上尝试vim，玩终端游戏， &hellip;">
+	<meta name="description" content="由于国内网络原因（你懂的），导致rubygems.org存放在Amazon S3上面的资源文件间歇性连接失败。所有你会遇到gem install rack或bundle install的时候半天没有响应。将默认源改成国内的淘宝源(http://ruby.taobao.org)可以解决该问题。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,71 +76,50 @@
 		
 	
 	<div id="content" class="inner"><article class="post">
-	<h2 class="title">Mac下安装Gate One</h2>
-	<div class="entry-content"><blockquote><p>HTML5终端模拟器/SSH客户端<a href="http://liftoffsoftware.com/Products/GateOne">Gate One</a>发布了<a href="https://github.com/liftoff/GateOne/downloads">v1.1版</a>。主要新特性包括：安全增强，性能改进，移动浏览器支持，改进终端模拟，系统日志信息的自动语法高亮，捕捉以及以图像形式展示PDF，Python 3支持，IE10支持，等等。官方DEMO演示显示你可以在浏览器上尝试vim，玩终端游戏，在lynx中冲浪，等等。</p></blockquote>
+	<h2 class="title">Modify-source-of-the-gemfile-template</h2>
+	<div class="entry-content"><blockquote><p>由于国内网络原因（你懂的），导致rubygems.org存放在Amazon S3上面的资源文件间歇性连接失败。所有你会遇到<code>gem install rack</code>或<code>bundle install</code>的时候半天没有响应。将默认源改成国内的淘宝源(<a href="http://ruby.taobao.org">http://ruby.taobao.org</a>)可以解决该问题。</p></blockquote>
 
-<p>官方给出了RPM，DEB安装包唯独没有mac下的安装包，由于该项目太新，也就不指望homebrew安装了，只能选择从源码安装。</p>
+<p>对于Rails项目通常需要将Gemfile的第一行改为</p>
+
+<pre><code>    source 'http://ruby.taobao.org/'
+</code></pre>
+
+<p>但是通过<code>rails new my_project</code>创建项目时，由于Gemfile生成以后立即执行<code>bundle install</code>，此时source尚未修改，所以项目创建的过程仍然很慢。</p>
+
+<p>解决rails new 卡住的问题，有如下两种方法</p>
 
 <!-- more -->
 
 
-<h3>准备</h3>
+<h3>使用<code>--skip-bundle</code>参数</h3>
 
-<p>根据<a href="http://liftoff.github.com/GateOne/About/index.html#installation">官方的安装指南</a>,安装前置需求软件：</p>
-
-<table>
-<thead>
-<tr>
-<th align="left">软件               </th>
-<th align="right"> 版本</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">Python               </td>
-<td align="right"> 2.6+ 或者 3.2+</td>
-</tr>
-<tr>
-<td align="left">Tornado Framework    </td>
-<td align="right"> 2.2+  </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>终端执行如下命令验证</p>
-
-<pre><code>user@modern-host:~ $ python -V 
-Python 2.7.2+ 
-user@modern-host:~ $ python -c "import tornado;print(tornado.version)" 
-2.4 
+<pre><code>rails new app1 --skip-bundle
 </code></pre>
 
-<p>若tornado没有安装，执行如下命令安装</p>
+<p>通过设置<code>--skip-bundle</code>参数，<code>rails new</code> 命令创建完成项目骨架以后，不会执行<code>bundle install</code>。于是可以修改Gemfile行首的source，然后再执行<code>bundle install</code>。</p>
 
-<pre><code>user@modern-host:~ $ sudo pip install tornado kerberos
+<h3>修改Gemfile模板</h3>
+
+<p>使用如下命令，修改Gemfile模板文件，一劳永逸</p>
+
+<h4>For Mac</h4>
+
+<pre><code>/usr/bin/sed -i .bak 's!https://rubygems.org!http://ruby.taobao.org!' `rvm info homes | grep gem: | awk '{print $2}' | tr -d '"'`/gems/railties-`gem list | grep railties | awk '{print $2}'| tr -d '()'`/lib/rails/generators/rails/app/templates/Gemfile
 </code></pre>
 
-<h3>安装</h3>
+<h4>For Linux</h4>
 
-<p>执行如下命令即可完成安装，安装目录位于/opt/gateone</p>
-
-<pre><code>user@whatever:~ $ tar zxvf gateone*.tar.gz; cd GateOne*; sudo python setup.py install
+<pre><code>sed -i 's!https://rubygems.org!http://ruby.taobao.org!' `rvm info homes | grep gem: | awk '{print $2}' | tr -d '"'`/gems/railties-`gem list | grep railties | awk '{print $2}'| tr -d '()'`/lib/rails/generators/rails/app/templates/Gemfile
 </code></pre>
 
-<p>由于gateone依赖dtach和PIL，如果没有安装这两个东西，启动的时候会提示某些功能会失效</p>
+<h3>参考阅读</h3>
 
-<pre><code>$ brew install dtach
-$ sudo pip install PIL
-</code></pre>
+<ol>
+<li><a href="http://ruby.taobao.org/">RubyGems 镜像 &ndash; 淘宝网</a></li>
+<li><a href="http://snails.github.io/2012/06/04/Modify-the-Gemfile-Template/">修改Rails默认生成的Gemfile的source</a></li>
+<li><a href="http://ruby-china.org/topics/914">run bundle install 卡住很久</a></li>
+</ol>
 
-<h3>启动</h3>
-
-<pre><code>$ cd /opt/gateone
-$ sudo ./gateone.py
-</code></pre>
-
-<p>在chrome浏览器打开<a href="https://127.0.0.1%E5%8D%B3%E5%8F%AF%E3%80%82">https://127.0.0.1%E5%8D%B3%E5%8F%AF%E3%80%82</a></p>
 </div>
 
 
@@ -157,7 +136,7 @@ $ sudo ./gateone.py
   
 
 
-<time datetime="2012-11-07T22:07:00+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2012</time></div>
+<time datetime="2014-02-03T21:54:20+08:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2014</time></div>
 	<div class="tags">
 
 </div>
@@ -206,8 +185,8 @@ $ sudo ./gateone.py
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://vangie.github.com/blog/2012/11/07/install-gateone-on-mac-osx/';
-        var disqus_url = 'http://vangie.github.com/blog/2012/11/07/install-gateone-on-mac-osx/';
+        var disqus_identifier = 'http://vangie.github.com/blog/2014/02/03/modify-source-of-the-gemfile-template/';
+        var disqus_url = 'http://vangie.github.com/blog/2014/02/03/modify-source-of-the-gemfile-template/';
         var disqus_script = 'embed.js';
       
     (function () {

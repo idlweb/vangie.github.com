@@ -16,9 +16,10 @@
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	
 </head>
+
 
 <body>
 	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
@@ -54,6 +55,7 @@
 		
 		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
 		
+    
 		
 		
 		
@@ -61,6 +63,7 @@
 		
 		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
+    
 	</div>
 	<form class="search" action="http://google.com/search" method="get">
 		<input class="alignright" type="text" name="q" results="0">
@@ -95,20 +98,20 @@
 <ul>
 <li><p>实时生效</p>
 
-<p>  echo &#8216;1&#8217; > /proc/sys/net/ipv6/conf/lo/disable_ipv6<br/>
-  echo &#8216;1&#8217; > /proc/sys/net/ipv6/conf/lo/disable_ipv6<br/>
-  echo &#8216;1&#8217; > /proc/sys/net/ipv6/conf/all/disable_ipv6<br/>
-  echo &#8216;1&#8217; > /proc/sys/net/ipv6/conf/default/disable_ipv6</p></li>
+<p>  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/lo/disable_ipv6<br/>
+  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/lo/disable_ipv6<br/>
+  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/all/disable_ipv6<br/>
+  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/default/disable_ipv6</p></li>
 </ul>
 
 
-<p>再试试通过SSH隧道搜索Google，是不是已经好了，<sup>_<sup>。</sup></sup></p>
+<p>再试试通过SSH隧道搜索Google，是不是已经好了，^_^。</p>
 
 <h3>参考阅读</h3>
 
 <ol>
-<li><a href="https://forum.linode.com/viewtopic.php?f=20&amp;t=10436">Intermittent &#8220;We&#8217;re sorry&#8221; error accessing Google via IPv6</a></li>
-<li><a href="http://en.kioskea.net/faq/759-ubuntu-disabling-ipv6-support">Ubuntu - Disabling IPv6 support</a></li>
+<li><a href="https://forum.linode.com/viewtopic.php?f=20&amp;t=10436">Intermittent &ldquo;We&rsquo;re sorry&rdquo; error accessing Google via IPv6</a></li>
+<li><a href="http://en.kioskea.net/faq/759-ubuntu-disabling-ipv6-support">Ubuntu &ndash; Disabling IPv6 support</a></li>
 </ol>
 
 </div>
@@ -132,20 +135,21 @@
 
 </div>
 	
-		<span class="comments"><a href="/blog/2013/11/16/google-block-linode-traffic-over-ipv6/#disqus_thread">Comments</a></span>
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
 	
-</div></article>
+</div>
+</article>
 
 	<div class="share">
 	<div class="addthis_toolbox addthis_default_style ">
-	
-	
-	<a class="addthis_button_tweet"></a>
-	
-	
-	<a class="addthis_counter addthis_pill_style"></a>
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
 	</div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+	
 </div>
 
 
@@ -181,7 +185,7 @@
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//go.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>

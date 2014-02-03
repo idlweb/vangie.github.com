@@ -16,9 +16,10 @@
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	
 </head>
+
 
 <body>
 	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
@@ -54,6 +55,7 @@
 		
 		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
 		
+    
 		
 		
 		
@@ -61,6 +63,7 @@
 		
 		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
+    
 	</div>
 	<form class="search" action="http://google.com/search" method="get">
 		<input class="alignright" type="text" name="q" results="0">
@@ -156,9 +159,9 @@ cloud03@cloud03:~$
 <li>-r 4096 分配4G内存</li>
 <li>-vcpus=2 两个cpu</li>
 <li>-c /home/cloud03/cn_windows…617396.iso 指向ISO安装镜像位置</li>
-<li>&#8211;disk path=/home/cloud03/virtio-win-0.1-30.iso,device=cdrom,perms=ro 加载virtio驱动</li>
-<li>&#8211;disk path=/var/lib/libvirt/images/win2k8.img,size=50 创建虚拟磁盘，并分配50G的空间</li>
-<li>&#8211;graphics vnc,password=foobar,listen=0.0.0.0 开启VNC，password选项是为了兼容mac内置Screen Sharing VNC终端无法连接不加密的VNC Server，listen选项是为了让VNC终端在所有IP地址上都开启监听，默认在127.0.0.1上监听，仅适用于本机VNC终端访问。</li>
+<li>&mdash;disk path=/home/cloud03/virtio-win-0.1-30.iso,device=cdrom,perms=ro 加载virtio驱动</li>
+<li>&mdash;disk path=/var/lib/libvirt/images/win2k8.img,size=50 创建虚拟磁盘，并分配50G的空间</li>
+<li>&mdash;graphics vnc,password=foobar,listen=0.0.0.0 开启VNC，password选项是为了兼容mac内置Screen Sharing VNC终端无法连接不加密的VNC Server，listen选项是为了让VNC终端在所有IP地址上都开启监听，默认在127.0.0.1上监听，仅适用于本机VNC终端访问。</li>
 </ul>
 
 
@@ -301,20 +304,21 @@ BKCJJ-J6G9Y-4P7YF-8D4J7-7TCWD</p></blockquote>
 
 </div>
 	
-		<span class="comments"><a href="/blog/2012/12/07/qemu-kvm-add-slic-2-dot-1-to-bios-and-activate-windows-server-2008-r2-sucessfully/#disqus_thread">Comments</a></span>
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
 	
-</div></article>
+</div>
+</article>
 
 	<div class="share">
 	<div class="addthis_toolbox addthis_default_style ">
-	
-	
-	<a class="addthis_button_tweet"></a>
-	
-	
-	<a class="addthis_counter addthis_pill_style"></a>
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
 	</div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+	
 </div>
 
 
@@ -350,7 +354,7 @@ BKCJJ-J6G9Y-4P7YF-8D4J7-7TCWD</p></blockquote>
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//go.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>

@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="由于License的问题，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&#8211;per-regex）选项，缺少了对Perl正则表达式的支持。 可以通过使用homebrew自己安装GNU Grep以兼容包含- &hellip;">
+	<meta name="description" content="由于License的问题，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&mdash;per-regex）选项，缺少了对Perl正则表达式的支持。 可以通过使用homebrew自己安装GNU Grep以兼容包含- &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -16,9 +16,10 @@
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	
 </head>
+
 
 <body>
 	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
@@ -54,6 +55,7 @@
 		
 		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
 		
+    
 		
 		
 		
@@ -61,6 +63,7 @@
 		
 		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
+    
 	</div>
 	<form class="search" action="http://google.com/search" method="get">
 		<input class="alignright" type="text" name="q" results="0">
@@ -74,7 +77,7 @@
 	
 	<div id="content" class="inner"><article class="post">
 	<h2 class="title">Mountain Lion系统安装GNU Grep</h2>
-	<div class="entry-content"><blockquote><p><a href="http://news.ycombinator.com/item?id=4588304">由于License的问题</a>，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&#8211;per-regex）选项，缺少了对Perl正则表达式的支持。</p></blockquote>
+	<div class="entry-content"><blockquote><p><a href="http://news.ycombinator.com/item?id=4588304">由于License的问题</a>，OS X将GNU Grep替换成了FreeBSD Grep，这两个版本的grep大部分都兼容，FreeBSD Grep唯独少了-P（&mdash;per-regex）选项，缺少了对Perl正则表达式的支持。</p></blockquote>
 
 <p>可以通过使用homebrew自己安装GNU Grep以兼容包含-P参数的bash脚本。</p>
 
@@ -90,7 +93,7 @@ $ brew install homebrew/dupes/grep
 <h4>参考文献</h4>
 
 <ol>
-<li><a href="http://superuser.com/questions/419467/grep-in-mac-os-xs-terminal-only-displaying-one-color">Grep in Mac OS X&#8217;s terminal — only displaying one color</a></li>
+<li><a href="http://superuser.com/questions/419467/grep-in-mac-os-xs-terminal-only-displaying-one-color">Grep in Mac OS X&rsquo;s terminal — only displaying one color</a></li>
 <li><a href="http://www.dirtdon.com/?p=1452">Perl Regex Removed From Grep in Mountain Lion</a></li>
 </ol>
 
@@ -115,20 +118,21 @@ $ brew install homebrew/dupes/grep
 
 </div>
 	
-		<span class="comments"><a href="/blog/2012/11/12/install-gnu-grep-in-mountain-lion/#disqus_thread">Comments</a></span>
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
 	
-</div></article>
+</div>
+</article>
 
 	<div class="share">
 	<div class="addthis_toolbox addthis_default_style ">
-	
-	
-	<a class="addthis_button_tweet"></a>
-	
-	
-	<a class="addthis_counter addthis_pill_style"></a>
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
 	</div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+	
 </div>
 
 
@@ -164,7 +168,7 @@ $ brew install homebrew/dupes/grep
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//go.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>

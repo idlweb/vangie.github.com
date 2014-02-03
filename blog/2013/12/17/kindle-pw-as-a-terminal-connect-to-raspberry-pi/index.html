@@ -17,9 +17,10 @@ Kindle PaperWhite 一台（已越狱） &hellip;">
 	<link href="/favicon.png" rel="shortcut icon">
 	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
 	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	
 </head>
+
 
 <body>
 	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
@@ -55,6 +56,7 @@ Kindle PaperWhite 一台（已越狱） &hellip;">
 		
 		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
 		
+    
 		
 		
 		
@@ -62,6 +64,7 @@ Kindle PaperWhite 一台（已越狱） &hellip;">
 		
 		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
 		
+    
 	</div>
 	<form class="search" action="http://google.com/search" method="get">
 		<input class="alignright" type="text" name="q" results="0">
@@ -100,7 +103,7 @@ Kindle PaperWhite 一台（已越狱） &hellip;">
 <ol>
 <li>下载<a href="http://www.mobileread.com/forums/attachment.php?attachmentid=116323&amp;d=1386361702">Kindle-usbnet-0.1.5N.zip</a>，解压以后仔细阅读<code>README_FIRST.txt</code>文件</li>
 <li>将update_usbnet_0.15.N_install_touch_pw.bin拷贝到Kindle根目录</li>
-<li><p>Kindle里工具栏菜单[设置]-> 工具栏菜单[更新您的Kindle]，安装完成后会重启</p>
+<li><p>Kindle里工具栏菜单[设置]&ndash;> 工具栏菜单[更新您的Kindle]，安装完成后会重启</p>
 
 <p> <img src="/images/post/2013-12-17/kindle_install_sw.png" alt="安装Kindle应用" /></p></li>
 <li>安装完成以后Kindle更目录会多出一个<code>usbnet</code>目录和<code>extensions\usbnet</code>目录</li>
@@ -126,7 +129,7 @@ Kindle PaperWhite 一台（已越狱） &hellip;">
 <li>用USB线连接Mac和Kindle</li>
 <li>默认Kindle会被挂载成存储设备，先弹出该设备</li>
 <li>然后开启Kindle的USBNetwork模式</li>
-<li><p>Mac[系统偏好设置]->[网络] 新建一个RNDIS/Ethernet Gadget链接配置如下</p>
+<li><p>Mac[系统偏好设置]&ndash;>[网络] 新建一个RNDIS/Ethernet Gadget链接配置如下</p>
 
 <pre><code> ip:     192.168.15.201
  mask:   255.255.255.0
@@ -187,8 +190,8 @@ Kindle PaperWhite 一台（已越狱） &hellip;">
  cp /mnt/us/extend/mountd /mnt/us/circles
  ln -s /mnt/us/circles/mountd /etc/rc5.d/S101mountd
  mntroot ro
- ./mnt/us/install.sh
- ./mnt/us/mount.sh
+ /mnt/us/install.sh
+ /mnt/us/mount.sh
 </code></pre></li>
 </ol>
 
@@ -244,7 +247,7 @@ iface usb0 inet static
 <li>开启USBNetwork模式，Kindle的搜索框内，输入<code>;un</code>然后回车</li>
 <li><p>打开Kterm键入</p>
 
-<p> ssh pi@192.168.15.1</p></li>
+<p> ssh <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#112;&#x69;&#64;&#49;&#57;&#x32;&#x2e;&#x31;&#54;&#56;&#x2e;&#x31;&#x35;&#46;&#x31;">&#x70;&#105;&#x40;&#49;&#57;&#50;&#46;&#x31;&#54;&#x38;&#46;&#x31;&#x35;&#46;&#x31;</a></p></li>
 </ol>
 
 
@@ -258,7 +261,7 @@ iface usb0 inet static
 
 <ol>
 <li><a href="http://www.ponnuki.net/2012/09/kindleberry-pi/">KindleBerry Pi</a></li>
-<li><a href="https://gist.github.com/rvagg/5095506">Kindleberry &#8220;Paperwhite&#8221; Pi</a></li>
+<li><a href="https://gist.github.com/rvagg/5095506">Kindleberry &ldquo;Paperwhite&rdquo; Pi</a></li>
 <li><a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#GUI_launcher">Kindle Touch Hacking</a></li>
 <li><a href="http://maxogden.com/kindleberry-wireless.html">Kindleberry Wireless: A Portable Outdoor Hackstation</a></li>
 </ol>
@@ -284,20 +287,21 @@ iface usb0 inet static
 
 </div>
 	
-		<span class="comments"><a href="/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/#disqus_thread">Comments</a></span>
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
 	
-</div></article>
+</div>
+</article>
 
 	<div class="share">
 	<div class="addthis_toolbox addthis_default_style ">
-	
-	
-	<a class="addthis_button_tweet"></a>
-	
-	
-	<a class="addthis_counter addthis_pill_style"></a>
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
 	</div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+	
 </div>
 
 
@@ -333,7 +337,7 @@ iface usb0 inet static
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//go.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
