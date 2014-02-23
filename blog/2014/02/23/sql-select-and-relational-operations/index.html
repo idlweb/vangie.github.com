@@ -1,0 +1,197 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>SQL Select和关系操作 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="没有系统的学习过关系数据库，所以对SQL Select的理解有些浅薄，特别是group by和having语句。《SQLite 权威指南（第二版）》的第三章SQLite中的SQL，让我对Select，乃至SQL语言和关系数据库有了全新的认识。一时间激起了对关系数据库和理论的兴趣， &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vangie.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vangie.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">SQL Select和关系操作</h2>
+	<div class="entry-content"><blockquote><p>没有系统的学习过关系数据库，所以对SQL Select的理解有些浅薄，特别是group by和having语句。<a href="http://book.douban.com/subject/7061934/">《SQLite 权威指南（第二版）》</a>的第三章SQLite中的SQL，让我对Select，乃至SQL语言和关系数据库有了全新的认识。一时间激起了对关系数据库和理论的兴趣，到豆瓣上淘了一本绝版的<a href="http://book.douban.com/subject/2122940/">《深度探索关系数据库》</a>，可惜基础太差，读了一半实在读不下去了，作罢。</p></blockquote>
+
+<p>最大的收获和发现莫过于下面这幅图了，</p>
+
+<p><img src="/images/post/2014-02-23/select.png" alt="select处理过程" /></p>
+
+<!-- more -->
+
+
+<p>说明：</p>
+
+<ul>
+<li>多张表通过笛卡尔积（Cartesian Production）或者连接（Join）产生R1</li>
+<li>R1到R2的过程称作限制（Restriction），即过滤掉不符合条件的行（元组）</li>
+<li>R4到R5的过程称作投影（Projection），即选择出需要的列（属性）</li>
+</ul>
+
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://book.douban.com/subject/7061934/">《SQLite 权威指南（第二版）》</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-23T19:55:31+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2014/02/23/sql-select-and-relational-operations/';
+        var disqus_url = 'http://vangie.github.com/blog/2014/02/23/sql-select-and-relational-operations/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
