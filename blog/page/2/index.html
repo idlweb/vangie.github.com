@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="launchctl是mac os平台的服务管理程序，相当于linux平台的service。但是launchctl真心难用，比如不支持重启服务，关闭服务需要指定配置文件plist的全路径。lunchy是一个launchctl的包装程序，大大简化了agent的管理。 安装 &hellip;">
+	<meta name="description" content="半年前入了一把Noppoo的84键茶轴机械键盘，这把键盘的手感真心不错，也非常的小巧，很短，放在桌上也一点都不占位置。唯一的缺点就是不支持Mac系统。官方未提供mac版本的驱动程序，在mac系统下有部分键不好用。网上倒是提供了两种解决方案：一种是usb转ps2， &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,50 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/11/13/noppoo-chic-mini84-osx-support/">
+		
+			让Mac正确的识别Noppoo Chic Mini84</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>半年前入了一把Noppoo的84键茶轴机械键盘，这把键盘的手感真心不错，也非常的小巧，很短，放在桌上也一点都不占位置。唯一的缺点就是不支持Mac系统。官方未提供mac版本的驱动程序，在mac系统下有部分键不好用。网上倒是提供了两种解决方案：一种是usb转ps2，再ps2转usb两次转换以后就好用了（依靠转换器里的芯片）；另一个种是安装Github上的<a href="https://github.com/thefloweringash/iousbhiddriver-descriptor-override">第三方驱动</a>。</p></blockquote>
+
+<p><img src="/images/post/2013-11-13/noppoo-chic-mini84.jpg" alt="Noppoo Chic Mini84" /></p>
+
+<p>两种方法都有试过，两次转换可以免去装驱动的麻烦，但是由于接了两个转换器，有时候会接触不好。最后选用了加装驱动的方案。</p>
+
+
+		
+		<a href="/blog/2013/11/13/noppoo-chic-mini84-osx-support/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-13T14:44:00+08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/11/13/noppoo-chic-mini84-osx-support/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -742,61 +786,6 @@ $ tempfile -d
 </div>
 	
 	<div class="comments"><a href="/blog/2013/07/01/making-eclipse-most-recently-used-tab-visible/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/06/25/upgrade-git-on-centos-6-4/">
-		
-			CentOS 6.4升级Git</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>GitHub和许多Git服务依赖的Git版本不低于1.7.10，而CentOS 6.4通过epel安装的git版本为1.7.1。rpmforge源里的二进制包比epel更新，本文介绍如果通过epel源升级git到1.7.11版本。</p></blockquote>
-
-<h3>安装rpmforge源</h3>
-
-<pre><code># rpm -i http://pkgs.repoforge.org/rpmforge-release/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
-</code></pre>
-
-<p>安装证书</p>
-
-<pre><code># rpm --import http://apt.sw.be/RPM-GPG-KEY.dag.txt
-</code></pre>
-
-<p>更新rpmforge-extra源</p>
-
-<pre><code># yum --enablerepo=rpmforge-extras update
-</code></pre>
-
-
-		
-		<a href="/blog/2013/06/25/upgrade-git-on-centos-6-4/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-06-25T23:42:00+08:00" pubdate data-updated="true">Jun 25<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/06/25/upgrade-git-on-centos-6-4/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

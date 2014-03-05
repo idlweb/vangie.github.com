@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="没有系统的学习过关系数据库，所以对SQL Select的理解有些浅薄，特别是group by和having语句。《SQLite 权威指南（第二版）》的第三章SQLite中的SQL，让我对Select，乃至SQL语言和关系数据库有了全新的认识。一时间激起了对关系数据库和理论的兴趣， &hellip;">
+	<meta name="description" content="泛型典型的使用场景是集合。考虑到大多数情况下集合是同质的（同一类型），通过声明参数类型，可免去类型转换的麻烦。本文将讨论本人阅读Spring Security源码时遇到的一个关于泛型递归模式的问题。 声明方法返回子类型 在Spring &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,74 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics/">
+		
+			Java泛型让声明方法返回子类型</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>泛型典型的使用场景是集合。考虑到大多数情况下集合是同质的（同一类型），通过声明参数类型，可免去类型转换的麻烦。本文将讨论本人阅读Spring Security源码时遇到的一个关于<strong><em>泛型递归模式</em></strong>的问题。</p></blockquote>
+
+<h3>声明方法返回子类型</h3>
+
+<p>在Spring Security的源码里有一个<code>ProviderManagerBuilder</code>接口，声明如下</p>
+
+<pre><code>public interface ProviderManagerBuilder&lt;B extends ProviderManagerBuilder&lt;B&gt;&gt; extends SecurityBuilder&lt;AuthenticationManager&gt; {
+    B authenticationProvider(AuthenticationProvider authenticationProvider);
+}
+</code></pre>
+
+<p>其实现类<code>AuthenticationManagerBuilder</code></p>
+
+<pre><code>public class AuthenticationManagerBuilder extends AbstractConfiguredSecurityBuilder&lt;AuthenticationManager, AuthenticationManagerBuilder&gt; implements ProviderManagerBuilder&lt;AuthenticationManagerBuilder&gt; {
+
+    //...
+
+    public AuthenticationManagerBuilder authenticationProvider(
+        AuthenticationProvider authenticationProvider) {
+        this.authenticationProviders.add(authenticationProvider);
+        return this;
+    }
+
+    //...
+
+}
+</code></pre>
+
+<p>上面有很多干扰项，我们来简化一下</p>
+
+
+		
+		<a href="/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-05T11:11:45+08:00" pubdate data-updated="true">Mar 5<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -562,50 +630,6 @@ Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/R
 </div>
 	
 	<div class="comments"><a href="/blog/2013/11/16/replace-razer-status-bar-icon-in-macos/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/11/13/noppoo-chic-mini84-osx-support/">
-		
-			让Mac正确的识别Noppoo Chic Mini84</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>半年前入了一把Noppoo的84键茶轴机械键盘，这把键盘的手感真心不错，也非常的小巧，很短，放在桌上也一点都不占位置。唯一的缺点就是不支持Mac系统。官方未提供mac版本的驱动程序，在mac系统下有部分键不好用。网上倒是提供了两种解决方案：一种是usb转ps2，再ps2转usb两次转换以后就好用了（依靠转换器里的芯片）；另一个种是安装Github上的<a href="https://github.com/thefloweringash/iousbhiddriver-descriptor-override">第三方驱动</a>。</p></blockquote>
-
-<p><img src="/images/post/2013-11-13/noppoo-chic-mini84.jpg" alt="Noppoo Chic Mini84" /></p>
-
-<p>两种方法都有试过，两次转换可以免去装驱动的麻烦，但是由于接了两个转换器，有时候会接触不好。最后选用了加装驱动的方案。</p>
-
-
-		
-		<a href="/blog/2013/11/13/noppoo-chic-mini84-osx-support/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-13T14:44:00+08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/11/13/noppoo-chic-mini84-osx-support/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>
