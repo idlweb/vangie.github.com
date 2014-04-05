@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://vangie.github.com/atom.xml" rel="self"/>
   <link href="http://vangie.github.com/"/>
-  <updated>2014-03-05T14:48:18+08:00</updated>
+  <updated>2014-04-05T00:00:06+08:00</updated>
   <id>http://vangie.github.com/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,98 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[基于Token的认证和基于声明的标识]]></title>
+    <link href="http://vangie.github.com/blog/2014/03/26/token-based-authentication-and-claims-based-identity/"/>
+    <updated>2014-03-26T14:12:05+08:00</updated>
+    <id>http://vangie.github.com/blog/2014/03/26/token-based-authentication-and-claims-based-identity</id>
+    <content type="html"><![CDATA[<blockquote><p>OpenID解决跨站点的认证问题，OAuth解决跨站点的授权问题。认证和授权是密不可分的。而OpenID和OAuth这两套协议出自两个不同的组织，协议上有相似和重合的之处，所以想将二者整合有些难度。好在OpenID Connect作为OpenID的下一版本，在OAuth 2.0的协议基础上进行扩展，很好的解决了认证和授权的统一，给开发者带来的便利。在学习和研究OpenID Connect协议时，遇上两个概念基于Token的认证（token based authentication）和基于声明的标识（claims based identity）。本文就这两个概念展开讨论，为了更好的理解OpenID Connect协议的原理。</p></blockquote>
+
+<h3>基于Cookie的认证和基于Token的认证</h3>
+
+<p>有两种不同的方法实现服务端的认证</p>
+
+<ul>
+<li>常见方式是<strong>基于Cookie的认证</strong>,每个请求中携带Cookie信息以便于服务端识别</li>
+<li>另一种新方法，<strong>基于Token的认证</strong>，在每个请求中携带被签名过Token信息传送到服务端</li>
+</ul>
+
+
+<p><a href="https://docs.google.com/drawings/d/1IPgSFz2loaOIrnIKinGyrSoRm54slHFi8d_oRJ7BGPc/edit?usp=sharing"><img src="http://vangie.github.com/images/post/2014-03-26/cookie-based-auth-vs-token-based-auth.png" alt="Cookie-based Auth vs Token-based Auth" /></a></p>
+
+<!-- more -->
+
+
+<p>相比Cookie，基于Token的认证有如下好处：</p>
+
+<ul>
+<li><strong>跨域</strong>: cookies在跨域场景表现并不好。基于Token的方法允许你向任何不同域名的服务器发送Ajax请求，因为你可以通过HTTP头传递用户信息。</li>
+<li><strong>无状态</strong>（或者 服务端可扩展）：无须再存储Session，由于Token已经自包含了所有的用户信息。</li>
+<li><strong>内容分发</strong>：你可以将所有的静态资源（例如：脚本，HTML，图片等）分发到CDN服务上，你的服务器仅仅提供API。<a href="http://www.internap.com/cdn-services-content-delivery-network/cdn-user-authentication/">某些CDN服务商</a>提供了基于Token验证的安全服务。</li>
+<li><strong>解耦</strong>：无须被绑定在一个特定的验证方案。</li>
+<li><strong>移动支持</strong>：在移动设备的原生平台，使用cookie作为安全认证并不是好主意。采用基于Token的方法会简单得多。</li>
+<li><strong>跨站点脚本攻击</strong>：由于没有基于cookie技术，你不再需要考虑跨站点请求的安全性问题。</li>
+<li><strong>性能</strong>：虽然没有做严格的性能测试，但是还原session所做的数据库查询往返的性能损耗要大于<code>HMACSH256</code>算法验证和解析Token。</li>
+<li><strong>基于标准</strong>：JWT(<a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token">JSON Web Token</a>)作为Token的标准已经被广泛的接受。主流语言（.NET, Ruby, Java, Python, PHP）都有相应支持JWT标准的工具包。</li>
+</ul>
+
+
+<h3>JWT格式</h3>
+
+<p><abbr title="JSON Web Token">JWT</abbr>是一种紧凑的URL安全表示格式，适用于空格受限制的场景，比如HTTP授权头部和请求参数。JWT使用JSON格式表示一组声明，该JSON被编码成<abbr title="JSON Web Signature">JWS</abbr>或<abbr title="JSON Web Encryption">JWE</abbr>结构。</p>
+
+<div><script src='https://gist.github.com/9976896.js?file=headers.json'></script>
+<noscript><pre><code>{
+  &quot;typ&quot;: &quot;JWT&quot;,
+  &quot;alg&quot;: &quot;HS256&quot;
+}</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/9976896.js?file=header_encoded'></script>
+<noscript><pre><code>eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9</code></pre></noscript></div>
+
+
+<h3>基于声明的标识</h3>
+
+<p>Cookie在请求和响应之间反复传递，对于无状态的HTTP协议，在Cookie里加入一个会话ID，以标识一组请求和响应属于同一会话。通常会话与用户是多对一关系，也就是说一个会话只会属于一个用户。所以通过Cookie技术就可以标识出用户。通常Cookie里也会携带一些额外的信息，但是考虑Cookie容易被截获和篡改，所以Cookie里并不适合放置用户的基本信息。</p>
+
+<p>Token其实和Cookie类似是一段序列化字符串，作为HTTP请求头的一部分，发送到服务端。但是Token加入了签名机制，可以防篡改。所以Token可以包含用户信息发送给不同域的应用服务作为身份标识，只要相应的应用服务能识别其有效性。</p>
+
+<p>Token仅仅是某种信息的承载形式，基于Token的认证有一个更宽泛的概念：基于声明的标识</p>
+
+<p><a href="https://docs.google.com/drawings/d/1bSBW-rNfOUA4jsWVABXyuJklNY-hXI8QRMRtarh5Ek4/edit?usp=sharing"><img src="http://vangie.github.com/images/post/2014-03-26/claims-based-identity.png" alt="Claims based Identity" /></a></p>
+
+<p>基于声明的标识其实无处不在，举个我们很熟悉的例子。</p>
+
+<p>每次机场登机前过安检时，你不能简单地走到门口，并出示身份证。相反，必须先办理登机手续柜台。如果出国，还需要出示护照。安检人员先验证证件头像与你本人是否一致，然后核实您的信息，并确认您已经购买了机票。假设一切顺利，您将获得登机牌。</p>
+
+<p>登机牌上包括知道您的姓名，航班号和座位号等常规信息。安检人员可以从登机牌上获得足够的信息以配合他们的工作。</p>
+
+<p>登机牌上还有一些特殊信息，包含在条形码和背面的磁条里，以证明该登机牌是由航空公司签发的，而不是伪造的。</p>
+
+<p>从本质上说，登机牌是一个由航空公司签发的关于你的一组信息。它表明你被允许某时登上某飞机坐在某个座位。当然，安检人员不必深入地理解这些。他们只需验证您的登机牌，读取其中的信息，然后让你登机。</p>
+
+<p>同样值得注意的是，可能有不止一种方法获得您的登机牌。可能去机场售票柜台领取，或者在家里从航空公司网站下载并打印。安检人员不在乎的登机牌是如何获得的 。他们只关心登机牌是否真实的。</p>
+
+<p>登机牌就是一张包含了一组声明信息的卡片，是Token的一种实体形式。</p>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li>《A Guide to Claims-Based Identity and Access Control》</li>
+<li><a href="http://dotnetcodr.com/2014/01/20/introduction-to-oauth2-json-web-tokens/">http://dotnetcodr.com/2014/01/20/introduction-to-oauth2-json-web-tokens/</a></li>
+<li><a href="http://www.layer7tech.com/blogs/index.php/give-me-a-jwt-ill-give-you-an-access-token/">http://www.layer7tech.com/blogs/index.php/give-me-a-jwt-ill-give-you-an-access-token/</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Claims-based_identity">http://en.wikipedia.org/wiki/Claims-based_identity</a></li>
+<li><a href="http://blog.auth0.com/2014/01/07/angularjs-authentication-with-cookies-vs-token/">http://blog.auth0.com/2014/01/07/angularjs-authentication-with-cookies-vs-token/</a></li>
+<li><a href="http://jpadilla.com/post/73791304724/auth-with-json-web-tokens">http://jpadilla.com/post/73791304724/auth-with-json-web-tokens</a></li>
+<li><a href="http://openid.net/specs/draft-jones-json-web-token-07.html">http://openid.net/specs/draft-jones-json-web-token-07.html</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Java泛型让声明方法返回子类型]]></title>
@@ -652,7 +744,7 @@ iface usb0 inet static
 <li>开启USBNetwork模式，Kindle的搜索框内，输入<code>;un</code>然后回车</li>
 <li><p>打开Kterm键入</p>
 
-<p> ssh <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#112;&#x69;&#64;&#x31;&#x39;&#x32;&#x2e;&#49;&#x36;&#56;&#46;&#x31;&#x35;&#x2e;&#x31;">&#x70;&#x69;&#64;&#49;&#x39;&#x32;&#46;&#x31;&#54;&#x38;&#46;&#49;&#53;&#x2e;&#49;</a></p></li>
+<p> ssh <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#112;&#105;&#64;&#x31;&#57;&#x32;&#x2e;&#x31;&#54;&#x38;&#46;&#49;&#x35;&#x2e;&#49;">&#x70;&#x69;&#64;&#49;&#x39;&#50;&#46;&#49;&#54;&#x38;&#x2e;&#49;&#53;&#x2e;&#49;</a></p></li>
 </ol>
 
 
@@ -1834,44 +1926,6 @@ $ tempfile -d
 <li><a href="http://stackoverflow.com/questions/12839183/using-mixins-in-coffeescript">Using mixins in Coffeescript</a></li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[让Eclipse最近使用的标签页显示在标签栏]]></title>
-    <link href="http://vangie.github.com/blog/2013/07/01/making-eclipse-most-recently-used-tab-visible/"/>
-    <updated>2013-07-01T14:00:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/07/01/making-eclipse-most-recently-used-tab-visible</id>
-    <content type="html"><![CDATA[<blockquote><p>当打开文件数量很多时，Eclipse编辑器的标签栏右边会出现一个菜单，把标签栏显示不下的标签页放到一个下拉菜单里，这是一个不错的设计，解决了标签页过多以后标签栏显示不下的问题。（Chrome 的标签页显示采用了另外一种方式，缩写标签页的宽度，以容纳更多的标签页，这种方式对于eclipse不可取，因为网页标签可以借助favicon来区分，而文件标签依赖文件名区分，文件名往往比图标长得多。） Indigo之前版本的eclipse显示标签页采用MRU（Most recently Used）算法来决定标签页的顺序，效果是最近使用过的标签页相对排在前面，显示在标签栏上，很久没有使用过的标签页显示在菜单里。从Eclipse Juno开始标签页的排序算法变了，找到最近打开的标签页变得不方便。</p></blockquote>
-
-<p>Eclipse Juno的界面样式引入了CSS样式表，SWT的界面元素也可以像网页元素一样，方便的通过CSS进行调整。SWT在CSS规范的基础上进行了一下扩展，引入了一些“swt-”为前缀的属性，用于精细化调整界面里控件元素的显示样式。</p>
-
-<p>其中，<code>swt-mru-visible</code>就是一个可以开启MRU算法排序的样式。</p>
-
-<!-- more -->
-
-
-<h3>安装Eclipse主题CSS编辑器插件</h3>
-
-<p>打开E4安装站点并且安装E4 CSS Editor(Incubation)插件。</p>
-
-<p>E4 update Site: <a href="http://download.eclipse.org/e4/updates/0.12">http://download.eclipse.org/e4/updates/0.12</a></p>
-
-<p><img src="http://vangie.github.com/images/post/2013-07-01/install-plugin.png" alt="安装E4 CSS Editor(Incubation)插件" /></p>
-
-<h3>修改主题</h3>
-
-<p>安装完插件重启后，打开首选项->General->Appearence选项页，Appearence选项页里有一个嵌入的CSS编辑器，就是刚才安装的CSS编辑器的效果。</p>
-
-<p><img src="http://vangie.github.com/images/post/2013-07-01/edit-css.png" alt="编辑CSS" /></p>
-
-<p>保存即可。</p>
-
-<h3>参考阅读</h3>
-
-<p>[1]. <a href="http://stackoverflow.com/questions/12578197/eclipse-juno-tabs-repositionning">Eclipse Juno tabs repositionning</a> <br/>
-[2]. <a href="http://wiki.eclipse.org/Eclipse4/CSS">Eclipse4/CSS</a> <br/>
-[3]. <a href="http://stackoverflow.com/questions/11255389/retain-previous-open-file-tab-under-visible-tabs">Retain previous open file tab under visible tabs</a></p>
 ]]></content>
   </entry>
   

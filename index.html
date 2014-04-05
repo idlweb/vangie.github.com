@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="泛型典型的使用场景是集合。考虑到大多数情况下集合是同质的（同一类型），通过声明参数类型，可免去类型转换的麻烦。本文将讨论本人阅读Spring Security源码时遇到的一个关于泛型递归模式的问题。 声明方法返回子类型 在Spring &hellip;">
+	<meta name="description" content="OpenID解决跨站点的认证问题，OAuth解决跨站点的授权问题。认证和授权是密不可分的。而OpenID和OAuth这两套协议出自两个不同的组织，协议上有相似和重合的之处，所以想将二者整合有些难度。好在OpenID Connect作为OpenID的下一版本，在OAuth 2. &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,58 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/03/26/token-based-authentication-and-claims-based-identity/">
+		
+			基于Token的认证和基于声明的标识</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>OpenID解决跨站点的认证问题，OAuth解决跨站点的授权问题。认证和授权是密不可分的。而OpenID和OAuth这两套协议出自两个不同的组织，协议上有相似和重合的之处，所以想将二者整合有些难度。好在OpenID Connect作为OpenID的下一版本，在OAuth 2.0的协议基础上进行扩展，很好的解决了认证和授权的统一，给开发者带来的便利。在学习和研究OpenID Connect协议时，遇上两个概念基于Token的认证（token based authentication）和基于声明的标识（claims based identity）。本文就这两个概念展开讨论，为了更好的理解OpenID Connect协议的原理。</p></blockquote>
+
+<h3>基于Cookie的认证和基于Token的认证</h3>
+
+<p>有两种不同的方法实现服务端的认证</p>
+
+<ul>
+<li>常见方式是<strong>基于Cookie的认证</strong>,每个请求中携带Cookie信息以便于服务端识别</li>
+<li>另一种新方法，<strong>基于Token的认证</strong>，在每个请求中携带被签名过Token信息传送到服务端</li>
+</ul>
+
+
+<p><a href="https://docs.google.com/drawings/d/1IPgSFz2loaOIrnIKinGyrSoRm54slHFi8d_oRJ7BGPc/edit?usp=sharing"><img src="/images/post/2014-03-26/cookie-based-auth-vs-token-based-auth.png" alt="Cookie-based Auth vs Token-based Auth" /></a></p>
+
+
+		
+		<a href="/blog/2014/03/26/token-based-authentication-and-claims-based-identity/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-26T14:12:05+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/03/26/token-based-authentication-and-claims-based-identity/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -560,76 +612,6 @@
 </div>
 	
 	<div class="comments"><a href="/blog/2013/11/16/google-block-linode-traffic-over-ipv6/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/11/16/replace-razer-status-bar-icon-in-macos/">
-		
-			Mac OS X替换Razer的状态栏图标</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>心爱的QeathAdder炼狱蝰蛇变形金刚款，用了300多天左键坏了，联系易迅给换了个QeathAdder炼狱蝰蛇2013款。虽然黑色的外观不如变形金刚款银色的配MacBook，但是6400dpi的分辨率，着实给力。CS:GO的甩狙命中率显著提升，开始以为年纪大了水平下降了，换鼠标后，发现还是鼠标的问题。话说Razer鼠标的管理界面支持登录以后保存鼠标配置的功能很好，就是状态栏的蓝色图标和Mac OS统一的暗灰色图标比起来太不协调了。</p></blockquote>
-
-<p>默认效果</p>
-
-<p><img src="/images/post/2013-11-16/replace_before.png" alt="" /></p>
-
-<p>替换后的效果</p>
-
-<p><img src="/images/post/2013-11-16/replace_after.png" alt="" /></p>
-
-<p>替换图标</p>
-
-<p><img src="/images/post/2013-11-16/Status.png" alt="" /></p>
-
-<h3>替换图标</h3>
-
-<ol>
-<li>在Finder里找到<code>/Library/Application Support/Razer/RzUpdater.app</code>
-Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/Razer</code></li>
-<li>右键RzUpdater.app显示包内容</li>
-<li>然后再进入<code>Contents/Resources</code>目录</li>
-<li>用上面的图标替换Status.png文件即可。</li>
-<li>重启系统或者杀掉RzUpdater进程</li>
-</ol>
-
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://forums.macrumors.com/showthread.php?t=1432198">Razer DeathAdder Icon in Menubar (Synapse 2.0)</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-16T01:37:00+08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/11/16/replace-razer-status-bar-icon-in-macos/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

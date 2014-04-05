@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="半年前入了一把Noppoo的84键茶轴机械键盘，这把键盘的手感真心不错，也非常的小巧，很短，放在桌上也一点都不占位置。唯一的缺点就是不支持Mac系统。官方未提供mac版本的驱动程序，在mac系统下有部分键不好用。网上倒是提供了两种解决方案：一种是usb转ps2， &hellip;">
+	<meta name="description" content="心爱的QeathAdder炼狱蝰蛇变形金刚款，用了300多天左键坏了，联系易迅给换了个QeathAdder炼狱蝰蛇2013款。虽然黑色的外观不如变形金刚款银色的配MacBook，但是6400dpi的分辨率，着实给力。CS:GO的甩狙命中率显著提升，开始以为年纪大了水平下降了，换鼠标后， &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,76 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/11/16/replace-razer-status-bar-icon-in-macos/">
+		
+			Mac OS X替换Razer的状态栏图标</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>心爱的QeathAdder炼狱蝰蛇变形金刚款，用了300多天左键坏了，联系易迅给换了个QeathAdder炼狱蝰蛇2013款。虽然黑色的外观不如变形金刚款银色的配MacBook，但是6400dpi的分辨率，着实给力。CS:GO的甩狙命中率显著提升，开始以为年纪大了水平下降了，换鼠标后，发现还是鼠标的问题。话说Razer鼠标的管理界面支持登录以后保存鼠标配置的功能很好，就是状态栏的蓝色图标和Mac OS统一的暗灰色图标比起来太不协调了。</p></blockquote>
+
+<p>默认效果</p>
+
+<p><img src="/images/post/2013-11-16/replace_before.png" alt="" /></p>
+
+<p>替换后的效果</p>
+
+<p><img src="/images/post/2013-11-16/replace_after.png" alt="" /></p>
+
+<p>替换图标</p>
+
+<p><img src="/images/post/2013-11-16/Status.png" alt="" /></p>
+
+<h3>替换图标</h3>
+
+<ol>
+<li>在Finder里找到<code>/Library/Application Support/Razer/RzUpdater.app</code>
+Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/Razer</code></li>
+<li>右键RzUpdater.app显示包内容</li>
+<li>然后再进入<code>Contents/Resources</code>目录</li>
+<li>用上面的图标替换Status.png文件即可。</li>
+<li>重启系统或者杀掉RzUpdater进程</li>
+</ol>
+
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://forums.macrumors.com/showthread.php?t=1432198">Razer DeathAdder Icon in Menubar (Synapse 2.0)</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-16T01:37:00+08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/11/16/replace-razer-status-bar-icon-in-macos/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -742,50 +812,6 @@ $ tempfile -d
 </div>
 	
 	<div class="comments"><a href="/blog/2013/07/26/using-mixins-in-backbonejs-by-coffeescript/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/07/01/making-eclipse-most-recently-used-tab-visible/">
-		
-			让Eclipse最近使用的标签页显示在标签栏</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>当打开文件数量很多时，Eclipse编辑器的标签栏右边会出现一个菜单，把标签栏显示不下的标签页放到一个下拉菜单里，这是一个不错的设计，解决了标签页过多以后标签栏显示不下的问题。（Chrome 的标签页显示采用了另外一种方式，缩写标签页的宽度，以容纳更多的标签页，这种方式对于eclipse不可取，因为网页标签可以借助favicon来区分，而文件标签依赖文件名区分，文件名往往比图标长得多。） Indigo之前版本的eclipse显示标签页采用MRU（Most recently Used）算法来决定标签页的顺序，效果是最近使用过的标签页相对排在前面，显示在标签栏上，很久没有使用过的标签页显示在菜单里。从Eclipse Juno开始标签页的排序算法变了，找到最近打开的标签页变得不方便。</p></blockquote>
-
-<p>Eclipse Juno的界面样式引入了CSS样式表，SWT的界面元素也可以像网页元素一样，方便的通过CSS进行调整。SWT在CSS规范的基础上进行了一下扩展，引入了一些“swt-”为前缀的属性，用于精细化调整界面里控件元素的显示样式。</p>
-
-<p>其中，<code>swt-mru-visible</code>就是一个可以开启MRU算法排序的样式。</p>
-
-
-		
-		<a href="/blog/2013/07/01/making-eclipse-most-recently-used-tab-visible/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-01T14:00:00+08:00" pubdate data-updated="true">Jul 1<span>st</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/07/01/making-eclipse-most-recently-used-tab-visible/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

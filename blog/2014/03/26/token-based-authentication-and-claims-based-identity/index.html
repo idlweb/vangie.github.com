@@ -1,0 +1,257 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>基于Token的认证和基于声明的标识 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="OpenID解决跨站点的认证问题，OAuth解决跨站点的授权问题。认证和授权是密不可分的。而OpenID和OAuth这两套协议出自两个不同的组织，协议上有相似和重合的之处，所以想将二者整合有些难度。好在OpenID Connect作为OpenID的下一版本，在OAuth 2.0的协议基础上进行扩展 &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vangie.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vangie.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">基于Token的认证和基于声明的标识</h2>
+	<div class="entry-content"><blockquote><p>OpenID解决跨站点的认证问题，OAuth解决跨站点的授权问题。认证和授权是密不可分的。而OpenID和OAuth这两套协议出自两个不同的组织，协议上有相似和重合的之处，所以想将二者整合有些难度。好在OpenID Connect作为OpenID的下一版本，在OAuth 2.0的协议基础上进行扩展，很好的解决了认证和授权的统一，给开发者带来的便利。在学习和研究OpenID Connect协议时，遇上两个概念基于Token的认证（token based authentication）和基于声明的标识（claims based identity）。本文就这两个概念展开讨论，为了更好的理解OpenID Connect协议的原理。</p></blockquote>
+
+<h3>基于Cookie的认证和基于Token的认证</h3>
+
+<p>有两种不同的方法实现服务端的认证</p>
+
+<ul>
+<li>常见方式是<strong>基于Cookie的认证</strong>,每个请求中携带Cookie信息以便于服务端识别</li>
+<li>另一种新方法，<strong>基于Token的认证</strong>，在每个请求中携带被签名过Token信息传送到服务端</li>
+</ul>
+
+
+<p><a href="https://docs.google.com/drawings/d/1IPgSFz2loaOIrnIKinGyrSoRm54slHFi8d_oRJ7BGPc/edit?usp=sharing"><img src="/images/post/2014-03-26/cookie-based-auth-vs-token-based-auth.png" alt="Cookie-based Auth vs Token-based Auth" /></a></p>
+
+<!-- more -->
+
+
+<p>相比Cookie，基于Token的认证有如下好处：</p>
+
+<ul>
+<li><strong>跨域</strong>: cookies在跨域场景表现并不好。基于Token的方法允许你向任何不同域名的服务器发送Ajax请求，因为你可以通过HTTP头传递用户信息。</li>
+<li><strong>无状态</strong>（或者 服务端可扩展）：无须再存储Session，由于Token已经自包含了所有的用户信息。</li>
+<li><strong>内容分发</strong>：你可以将所有的静态资源（例如：脚本，HTML，图片等）分发到CDN服务上，你的服务器仅仅提供API。<a href="http://www.internap.com/cdn-services-content-delivery-network/cdn-user-authentication/">某些CDN服务商</a>提供了基于Token验证的安全服务。</li>
+<li><strong>解耦</strong>：无须被绑定在一个特定的验证方案。</li>
+<li><strong>移动支持</strong>：在移动设备的原生平台，使用cookie作为安全认证并不是好主意。采用基于Token的方法会简单得多。</li>
+<li><strong>跨站点脚本攻击</strong>：由于没有基于cookie技术，你不再需要考虑跨站点请求的安全性问题。</li>
+<li><strong>性能</strong>：虽然没有做严格的性能测试，但是还原session所做的数据库查询往返的性能损耗要大于<code>HMACSH256</code>算法验证和解析Token。</li>
+<li><strong>基于标准</strong>：JWT(<a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token">JSON Web Token</a>)作为Token的标准已经被广泛的接受。主流语言（.NET, Ruby, Java, Python, PHP）都有相应支持JWT标准的工具包。</li>
+</ul>
+
+
+<h3>JWT格式</h3>
+
+<p><abbr title="JSON Web Token">JWT</abbr>是一种紧凑的URL安全表示格式，适用于空格受限制的场景，比如HTTP授权头部和请求参数。JWT使用JSON格式表示一组声明，该JSON被编码成<abbr title="JSON Web Signature">JWS</abbr>或<abbr title="JSON Web Encryption">JWE</abbr>结构。</p>
+
+<div><script src='https://gist.github.com/9976896.js?file=headers.json'></script>
+<noscript><pre><code>{
+  &quot;typ&quot;: &quot;JWT&quot;,
+  &quot;alg&quot;: &quot;HS256&quot;
+}</code></pre></noscript></div>
+
+
+
+
+<div><script src='https://gist.github.com/9976896.js?file=header_encoded'></script>
+<noscript><pre><code>eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9</code></pre></noscript></div>
+
+
+<h3>基于声明的标识</h3>
+
+<p>Cookie在请求和响应之间反复传递，对于无状态的HTTP协议，在Cookie里加入一个会话ID，以标识一组请求和响应属于同一会话。通常会话与用户是多对一关系，也就是说一个会话只会属于一个用户。所以通过Cookie技术就可以标识出用户。通常Cookie里也会携带一些额外的信息，但是考虑Cookie容易被截获和篡改，所以Cookie里并不适合放置用户的基本信息。</p>
+
+<p>Token其实和Cookie类似是一段序列化字符串，作为HTTP请求头的一部分，发送到服务端。但是Token加入了签名机制，可以防篡改。所以Token可以包含用户信息发送给不同域的应用服务作为身份标识，只要相应的应用服务能识别其有效性。</p>
+
+<p>Token仅仅是某种信息的承载形式，基于Token的认证有一个更宽泛的概念：基于声明的标识</p>
+
+<p><a href="https://docs.google.com/drawings/d/1bSBW-rNfOUA4jsWVABXyuJklNY-hXI8QRMRtarh5Ek4/edit?usp=sharing"><img src="/images/post/2014-03-26/claims-based-identity.png" alt="Claims based Identity" /></a></p>
+
+<p>基于声明的标识其实无处不在，举个我们很熟悉的例子。</p>
+
+<p>每次机场登机前过安检时，你不能简单地走到门口，并出示身份证。相反，必须先办理登机手续柜台。如果出国，还需要出示护照。安检人员先验证证件头像与你本人是否一致，然后核实您的信息，并确认您已经购买了机票。假设一切顺利，您将获得登机牌。</p>
+
+<p>登机牌上包括知道您的姓名，航班号和座位号等常规信息。安检人员可以从登机牌上获得足够的信息以配合他们的工作。</p>
+
+<p>登机牌上还有一些特殊信息，包含在条形码和背面的磁条里，以证明该登机牌是由航空公司签发的，而不是伪造的。</p>
+
+<p>从本质上说，登机牌是一个由航空公司签发的关于你的一组信息。它表明你被允许某时登上某飞机坐在某个座位。当然，安检人员不必深入地理解这些。他们只需验证您的登机牌，读取其中的信息，然后让你登机。</p>
+
+<p>同样值得注意的是，可能有不止一种方法获得您的登机牌。可能去机场售票柜台领取，或者在家里从航空公司网站下载并打印。安检人员不在乎的登机牌是如何获得的 。他们只关心登机牌是否真实的。</p>
+
+<p>登机牌就是一张包含了一组声明信息的卡片，是Token的一种实体形式。</p>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li>《A Guide to Claims-Based Identity and Access Control》</li>
+<li><a href="http://dotnetcodr.com/2014/01/20/introduction-to-oauth2-json-web-tokens/">http://dotnetcodr.com/2014/01/20/introduction-to-oauth2-json-web-tokens/</a></li>
+<li><a href="http://www.layer7tech.com/blogs/index.php/give-me-a-jwt-ill-give-you-an-access-token/">http://www.layer7tech.com/blogs/index.php/give-me-a-jwt-ill-give-you-an-access-token/</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Claims-based_identity">http://en.wikipedia.org/wiki/Claims-based_identity</a></li>
+<li><a href="http://blog.auth0.com/2014/01/07/angularjs-authentication-with-cookies-vs-token/">http://blog.auth0.com/2014/01/07/angularjs-authentication-with-cookies-vs-token/</a></li>
+<li><a href="http://jpadilla.com/post/73791304724/auth-with-json-web-tokens">http://jpadilla.com/post/73791304724/auth-with-json-web-tokens</a></li>
+<li><a href="http://openid.net/specs/draft-jones-json-web-token-07.html">http://openid.net/specs/draft-jones-json-web-token-07.html</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-26T14:12:05+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2014/03/26/token-based-authentication-and-claims-based-identity/';
+        var disqus_url = 'http://vangie.github.com/blog/2014/03/26/token-based-authentication-and-claims-based-identity/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
