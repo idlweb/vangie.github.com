@@ -112,18 +112,50 @@
 
 <p><abbr title="JSON Web Token">JWT</abbr>是一种紧凑的URL安全表示格式，适用于空格受限制的场景，比如HTTP授权头部和请求参数。JWT使用JSON格式表示一组声明，该JSON被编码成<abbr title="JSON Web Signature">JWS</abbr>或<abbr title="JSON Web Encryption">JWE</abbr>结构。</p>
 
-<div><script src='https://gist.github.com/9976896.js?file=headers.json'></script>
+<p>JWT是一段被base64url编码过的字符序列（去除了尾部的“=”），并用点号分隔。</p>
+
+<p>下面是一个JWT头部的</p>
+
+<div><script src='https://gist.github.com/9976068.js?file=headers.json'></script>
 <noscript><pre><code>{
   &quot;typ&quot;: &quot;JWT&quot;,
   &quot;alg&quot;: &quot;HS256&quot;
 }</code></pre></noscript></div>
 
 
+<p>使用base64url编码以后</p>
 
-
-<div><script src='https://gist.github.com/9976896.js?file=header_encoded'></script>
+<div><script src='https://gist.github.com/9976068.js?file=header_encoded'></script>
 <noscript><pre><code>eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9</code></pre></noscript></div>
 
+
+<p>下面是一个JWT的消息体其中包含声明集合</p>
+
+<div><script src='https://gist.github.com/9976068.js?file=payload.json'></script>
+<noscript><pre><code>{
+  &quot;user_id&quot;: 1
+}</code></pre></noscript></div>
+
+
+<p>使用base64url编码以后</p>
+
+<div><script src='https://gist.github.com/9976068.js?file=payload_encoded'></script>
+<noscript><pre><code>eyJ1c2VyX2lkIjogMX0</code></pre></noscript></div>
+
+
+<p>将上面编码过的JWS头部和JWS消息体使用HMAC SHA-256算法，并结合私钥计算得到的MAC，再经过base64url编码获得的字符序列成为JWS签名</p>
+
+<div><script src='https://gist.github.com/9976068.js?file=signature'></script>
+<noscript><pre><code>BSf1w1blYKcbxVlyOtUogUsozH2clY34xxYPd8lQIlQ</code></pre></noscript></div>
+
+
+<p>将编码过的头部，消息体和JWS签名通过&#8217;.&lsquo;号连接起来，就获得JWT</p>
+
+<div><script src='https://gist.github.com/9976068.js?file=jwt'></script>
+<noscript><pre><code>eyJhbGciOiAiSFMyNTYiLCAidHlwIjogIkpXVCJ9.eyJ1c2VyX2lkIjogMX0.BSf1w1blYKcbxVlyOtUogUsozH2clY34xxYPd8lQIlQ</code></pre></noscript></div>
+
+
+<p>关于JWT的更多技术细节，请阅读<a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token">JWT规范</a>.</p>
 
 <h3>基于声明的标识</h3>
 
@@ -152,13 +184,13 @@
 <h3>参考阅读</h3>
 
 <ol>
-<li>《A Guide to Claims-Based Identity and Access Control》</li>
-<li><a href="http://dotnetcodr.com/2014/01/20/introduction-to-oauth2-json-web-tokens/">http://dotnetcodr.com/2014/01/20/introduction-to-oauth2-json-web-tokens/</a></li>
-<li><a href="http://www.layer7tech.com/blogs/index.php/give-me-a-jwt-ill-give-you-an-access-token/">http://www.layer7tech.com/blogs/index.php/give-me-a-jwt-ill-give-you-an-access-token/</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Claims-based_identity">http://en.wikipedia.org/wiki/Claims-based_identity</a></li>
-<li><a href="http://blog.auth0.com/2014/01/07/angularjs-authentication-with-cookies-vs-token/">http://blog.auth0.com/2014/01/07/angularjs-authentication-with-cookies-vs-token/</a></li>
-<li><a href="http://jpadilla.com/post/73791304724/auth-with-json-web-tokens">http://jpadilla.com/post/73791304724/auth-with-json-web-tokens</a></li>
-<li><a href="http://openid.net/specs/draft-jones-json-web-token-07.html">http://openid.net/specs/draft-jones-json-web-token-07.html</a></li>
+<li><a href="http://book.douban.com/subject/5303216/">《A Guide to Claims-Based Identity and Access Control》</a></li>
+<li><a href="http://dotnetcodr.com/2014/01/20/introduction-to-oauth2-json-web-tokens/">Introduction to OAuth2: Json Web Tokens</a></li>
+<li><a href="http://www.layer7tech.com/blogs/index.php/give-me-a-jwt-ill-give-you-an-access-token/">Give Me a JWT, I’ll Give You an Access Token</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Claims-based_identity">Claims-based identity</a></li>
+<li><a href="http://blog.auth0.com/2014/01/07/angularjs-authentication-with-cookies-vs-token/">Cookies vs Tokens. Getting auth right with Angular.JS</a></li>
+<li><a href="http://jpadilla.com/post/73791304724/auth-with-json-web-tokens">Auth with JSON Web Tokens</a></li>
+<li><a href="http://openid.net/specs/draft-jones-json-web-token-07.html">JSON Web Token (JWT) draft-jones-json-web-token-07</a></li>
 </ol>
 
 </div>
