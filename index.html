@@ -140,7 +140,7 @@ after :updated, :migrate_all
 		
 		<a href="/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent/">
 		
-			使用JWT验证Master-Agent模式的Rails应用</a>
+			Master-Agent模式的Rails应用借助JWT Token验证</a>
 	</h2>
 	<div class="entry-content">
 		<blockquote><p>一对Master-Agent模式Rails应用，Agent需要验证Master。通常考虑采用HTTP基础认证或者HTTP摘要认证。这里Agent不需要多用户支持，所以只要一个加密口令即可，无需用户名。本文介绍采用JWT实现基于Token验证，结合Rails 4.1的新特性，装载secrets.yml文件里的密钥，作为JWT Token的计算密钥，应用于Rails应用。</p></blockquote>
