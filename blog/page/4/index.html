@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content=" windows系统的搜狗输入法v模式可以很贴心地把人民币由小写转换为大写模式，Mac平台的输入法迄今还没有发现类似的功能。OSChina上看到一个哥们写了个java的版本的，于是依葫芦画瓢捣腾了个coffee的版本 继续阅读 &rarr; Mar 9th, 2013 Comments ">
+	<meta name="description" content="入了一台iPhone5联通合约机，可惜iOS 6.1.3无法越狱了，庆幸内置系统版本6.1.2，Alfred调出evasi0n.app,果断越狱了。本文介绍在iOS6里整合Goagent和SSH forwarding两种方式翻越长城。 继续阅读 &rarr; Apr 4th, 2013 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,145 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/">
+		
+			iOS6里GoAgent和SSH Forwarding共用</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>入了一台iPhone5联通合约机，可惜iOS 6.1.3无法越狱了，庆幸内置系统版本6.1.2，Alfred调出evasi0n.app,果断越狱了。本文介绍在iOS6里整合Goagent和SSH forwarding两种方式翻越长城。</p></blockquote>
+
+
+		
+		<a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-04T22:15:00+08:00" pubdate data-updated="true">Apr 4<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/04/04/mixing-goagent-and-ssh-forwarding-on-iso-6/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/">
+		
+			MacOS X里升级GoAgent后台服务</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>本篇是<a href="http://codelife.me/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">MacOS X将GoAgent配置为后台服务</a>的姊妹篇，主要分享一下将GoAgent配置成随机启动的LaunchAgent后如何升级，并提供一个方便的管理脚本。</p></blockquote>
+
+<h2>升级</h2>
+
+<h3>下载安装</h3>
+
+<p>假设GoAgent的安装目录为<code>~/Library/</code></p>
+
+<p>下载最新的GoAgent，当前版本为v2.1.14。解压后得到<code>goagent-goagent-beadcf8</code>目录,将其移动到<code>~/Library/</code>目录</p>
+
+<pre><code>mv goagent-goagent-beadcf8 ~/Library/
+</code></pre>
+
+<p>并在同目录下创建一个文件链接，</p>
+
+<pre><code>cd ~/Library/;rm goagent
+ln -sf goagent-goagent-beadcf8 goagent
+</code></pre>
+
+
+		
+		<a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-28T10:04:00+08:00" pubdate data-updated="true">Mar 28<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/03/28/upgrade-goagent-daemon-in-macos-x/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/">
+		
+			支持Markdown的Finder快速预览插件</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>寻找一个可扩展的markdown parser的java或者javascript实现，wikipedia上有一个<a href="http://en.wikipedia.org/wiki/List_of_Markdown_implementations">列表</a>非常全。比较之后决定弃用<a href="http://code.google.com/p/pagedown/">pagedown</a>改用<a href="http://code.google.com/p/markdown4j">markdown4j</a>，明显后者功能更加全面，而且同样可扩展。在这个长长的列表里意外的发现了<a href="(https://github.com/toland/qlmarkdown/)">qlmarkdown</a>。</p></blockquote>
+
+<p><a href="(https://github.com/toland/qlmarkdown/)">qlmarkdown</a>是一个QuickLook的扩展（在Finder里选中文件敲空格键弹出的那个窗口就是Quicklook功能）。安装了这个扩展以后就可以快速的预览markdown文件了。</p>
+
+
+		
+		<a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-16T12:33:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/03/16/a-mac-os-x-quicklook-extension-for-markdown/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -412,188 +551,6 @@
 </div>
 	
 	<div class="comments"><a href="/blog/2012/12/09/three-types-of-ssh-turneling/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/12/07/qemu-kvm-add-slic-2-dot-1-to-bios-and-activate-windows-server-2008-r2-sucessfully/">
-		
-			qemu-kvm将SLIc 2.1刷入BIOS并成功激活Windows Server 2008 R2</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>在一台DELL R310的宿主机上安装了Ubuntu Server 12.10默认集成KVM虚拟机，用户态虚拟机软件qemu-kvm使用seabios的作为bios实现(位于 <code>/usr/share/qemu-kvm/bios.bin</code>,来自于qemu-common 1.2.0+noroms-0ubuntu2)，该bios.bin仅包含部分来自宿主机的SLIC信息，但不完整，无法通过Window OEM验证。</p></blockquote>
-
-<p>本文将介绍安装KVM虚拟机，借助virt-install安装Windows客户机，去除bios.bin里内置的SLIC，然后使用-acpitable参数载入正确的SLIc 2.1信息，导入OEM证书和OEM key激活Windows。</p>
-
-<p>由于Ubuntu Server没有安装图形环境，DELL R310服务器也是不带显示器的，所有windows的安装过程是通过本来的Macbook Air的VNC客户端操作的。</p>
-
-
-		
-		<a href="/blog/2012/12/07/qemu-kvm-add-slic-2-dot-1-to-bios-and-activate-windows-server-2008-r2-sucessfully/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-07T13:20:00+08:00" pubdate data-updated="true">Dec 7<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2012/12/07/qemu-kvm-add-slic-2-dot-1-to-bios-and-activate-windows-server-2008-r2-sucessfully/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/">
-		
-			Ubuntu Server 12.10修改语言环境</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>安装的时候把ubuntu server的默认语言设置成了中文，由于默认没有安装中文字体，控制台一片乱码。所有要么安装字体<code>sudo apt-get install language-pack-zh</code>,要么把语言环境设置成英文。</p></blockquote>
-
-<p>网上大部分文章都提到修改<code>/etc/environment</code>文件，但是打开<code>/etc/environment</code>文件，默认是空的，说明这种方法虽然可以达到效果，但不是最完美的。更好的方式如下：</p>
-
-<pre><code>$ sudo update-locale LANG=en_US.UTF-8
-$ sudo update-locale LANGUAGE=en_US.en
-</code></pre>
-
-<p>然后重启系统即可。</p>
-
-
-		
-		<a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-04T16:59:00+08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2012/12/04/change-default-locale-in-ubuntu-server-12-dot-10/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2012/11/20/how-to-flush-your-dns-cache/">
-		
-			如何清除DNS缓存</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>系统管理员或者web开发者，偶尔需要刷新一下DNS，由于DNS存在本地缓存，如果不主动清除，那需要一段漫长的等待</p></blockquote>
-
-<h3>Mac OS</h3>
-
-<p>OS X Lion (10.7) and OS X Mountain Lion (10.8)</p>
-
-<pre><code>$ sudo killall -HUP mDNSResponder
-</code></pre>
-
-<p>Mac OS X 10.5, Mac OS X 10.6</p>
-
-<pre><code>$ dscacheutil -flushcache
-</code></pre>
-
-<p>Mac OS X 10.4 Tiger</p>
-
-<pre><code>$ lookupd -flushcache
-</code></pre>
-
-<h3>Windows</h3>
-
-<p>Vista/Win7 以上系统</p>
-
-<p>查看DNS缓存</p>
-
-<pre><code>&gt; ipconfig /displaydns
-</code></pre>
-
-<p>清除DNS缓存</p>
-
-<pre><code>&gt; ipconfig /flushdns 
-</code></pre>
-
-<p>Winxp和之前的老系统</p>
-
-<pre><code>&gt; net stop dnscache
-&gt; net start dnscache
-</code></pre>
-
-<h3>Linux</h3>
-
-<pre><code>$ sudo /etc/init.d/nscd restart
-</code></pre>
-
-<h4>参考文献</h4>
-
-<ol>
-<li><a href="http://osxdaily.com/2008/03/21/how-to-flush-your-dns-cache-in-mac-os-x/">How to Flush DNS Cache in Mac OS X</a></li>
-<li><a href="http://www.cnblogs.com/yryz/archive/2012/02/13/2299756.html">Vista/Win7以上系统查看和清除本地DNS缓存新方法</a></li>
-<li><a href="http://www.techiecorner.com/35/how-to-flush-dns-cache-in-linux-windows-mac/">How to flush DNS cache in Linux / Windows / Mac</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-20T16:23:00+08:00" pubdate data-updated="true">Nov 20<span>th</span>, 2012</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2012/11/20/how-to-flush-your-dns-cache/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

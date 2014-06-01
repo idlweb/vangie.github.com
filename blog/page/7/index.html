@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。 虽然windows没有对SSH的原生支持，但是XShell和Putty都挺好用的。 &hellip;">
+	<meta name="description" content="GoAgent官方推荐使用GoAgent Mac GUI或者GoAgentX作为Mac下的客户端，GoAgent Mac GUI不支持随机启动，图标太难看。GoAgentX图标和功能都不错，但是内置的goagent版本不是最新的。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,137 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/">
+		
+			MacOS X将GoAgent配置为后台服务</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p><a href="http://code.google.com/p/goagent/" title="GoAgent">GoAgent</a>官方推荐使用<a href="https://goagent.googlecode.com/files/GoAgentMac.dmg" title="GoAgent Mac GUI">GoAgent Mac GUI</a>或者<a href="https://github.com/ohdarling/GoAgentX" title="GoAgentX">GoAgentX</a>作为Mac下的客户端，<a href="https://goagent.googlecode.com/files/GoAgentMac.dmg" title="GoAgent Mac GUI">GoAgent Mac GUI</a>不支持随机启动，图标太难看。<a href="https://github.com/ohdarling/GoAgentX" title="GoAgentX">GoAgentX</a>图标和功能都不错，但是内置的goagent版本不是最新的。所有自己折腾了一下使用Mac下的LaunchAgent机制将goagent配置成自启动的后台服务。</p></blockquote>
+
+<h2>新建plist文件</h2>
+
+<p>在<code>~/Library/LaunchAgents/</code>目录里新建<code>com.googlecode.goagent.plist</code>文件。</p>
+
+
+		
+		<a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-03T22:22:00+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2012/09/03/goagent-run-as-deamon-in-macos-x/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/09/02/custom-domain-for-octopress/">
+		
+			为Octopress博客设置个性化域名</a>
+	</h2>
+	<div class="entry-content">
+		<p>其实挺简单的，官方文档也写的很清晰，不过还是碰到了让人受挫的404错误。</p>
+
+<h2>添加CNAME文件</h2>
+
+<pre><code>echo 'your-domain.com' &gt;&gt; source/CNAME
+</code></pre>
+
+
+		
+		<a href="/blog/2012/09/02/custom-domain-for-octopress/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-02T20:31:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2012/09/02/custom-domain-for-octopress/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/">
+		
+			如何为MacOS X终端设置代理</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>本文介绍如何在MacOS X终端里使用代理访问网络,虽然只在Mountain Lion下测试，但同样适用于装有Bash的系统。</p></blockquote>
+
+<p>实在无法忍受<a href="http://www.linode.com/" title="linode">linode</a>日本机房的高延迟，动手配置了一个<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>服务。但是HTTP代理和VPN不同，没法全局代理（<em>至少不能简单配置</em>），在Terminal里下载最新版本的Ruby，奇慢无比，下面介绍如何让Terminal里执行的程序使用<a href="http://code.google.com/p/goagent/" title="goagent">goagent</a>代理。</p>
+
+
+		
+		<a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-02T04:06:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2012/09/02/how-to-set-proxy-for-terminal/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">

@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="心爱的QeathAdder炼狱蝰蛇变形金刚款，用了300多天左键坏了，联系易迅给换了个QeathAdder炼狱蝰蛇2013款。虽然黑色的外观不如变形金刚款银色的配MacBook，但是6400dpi的分辨率，着实给力。CS:GO的甩狙命中率显著提升，开始以为年纪大了水平下降了，换鼠标后， &hellip;">
+	<meta name="description" content="小巧的树莓派配一个硕大的显示器，很不协调。本文介绍如何获得树莓派通过DHCP动态分配的IP地址。 几种有趣的方法 mathworks论坛提到了几种有意思的方法 通过Matlab命令行 h = raspberrypi(‘raspberrypi-ah') h.openShell(‘ssh') &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,195 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/">
+		
+			如何找到树莓派通过DHCP获得的IP地址</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>小巧的树莓派配一个硕大的显示器，很不协调。本文介绍如何获得树莓派通过DHCP动态分配的IP地址。</p></blockquote>
+
+<h3>几种有趣的方法</h3>
+
+<p>mathworks论坛提到了几种有意思的方法</p>
+
+<ol>
+<li><p>通过Matlab命令行</p>
+
+<pre><code> h = raspberrypi(‘raspberrypi-ah')
+ h.openShell(‘ssh')
+</code></pre></li>
+<li>安装一个启动过程中能读出IP的软件，该软件也是MathWork出品的</li>
+<li>通过DDNS（Dynamic DNS）</li>
+<li>启动时发邮件通知</li>
+</ol>
+
+
+<p>就个人而言，上面的方法觉得都不够好。</p>
+
+<ol>
+<li>需要安装Matlab，一个好几G的工具软件就是为了找个IP用，有些蛋疼</li>
+<li>要插个耳机或者音响什么的</li>
+<li>需要互联网环境</li>
+<li>需要互联网环境</li>
+</ol>
+
+
+<p>下面我介绍一个简单实用的方法，通过arp协议获得IP</p>
+
+
+		
+		<a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-17T03:08:00+08:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian/">
+		
+			Raspbian成功驱动TP-Link TL-WN725N V2版无线网卡</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>淘宝双12搞活动，225入了一台英国产2代B型512M RaspBerry Pi，英国产的相对便宜，但是不带外壳，另外加12块，搞了个带固定螺丝的亚克力外壳。话说这个外壳裁剪的相对不错，花了老半天才装好。</p></blockquote>
+
+<p><img src="/images/post/2013-12-14/4-items.jpg" alt="配件合集" /></p>
+
+<p><img src="/images/post/2013-12-14/raspberry.jpg" alt="组装成品" /></p>
+
+<p><img src="/images/post/2013-12-14/pi-with-tl-wn725n.jpg" alt="TP-Link TL-WN725N V2" /></p>
+
+
+		
+		<a href="/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-14T00:03:00+08:00" pubdate data-updated="true">Dec 14<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/11/16/google-block-linode-traffic-over-ipv6/">
+		
+			Google屏蔽Linode的IPv6导致SSH隧道不可用</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>最近几个月通过linode的SSH隧道访问Google都会报出类似“We‘re sorry”或者“unusual traffic”的错误，有时需要输入验证码，但大多数时候直接不可用。一段时间使用GoAgent比较多，可惜GoAgent有时不太稳定。</p></blockquote>
+
+<p>Google了一番，才知道是因为Google屏蔽了Linode服务器的IPv6协议导致SSH隧道出问题的。
+下面我们就来关闭Ubuntu的IPv6</p>
+
+<h3>关闭Ubuntu的IPv6</h3>
+
+<ul>
+<li><p>编辑 <code>/etc/sysctl.conf</code>,添加如下内容</p>
+
+<p>  net.ipv6.conf.all.disable_ipv6=1<br/>
+  net.ipv6.conf.default.disable_ipv6=1<br/>
+  net.ipv6.conf.lo.disable_ipv6=1</p></li>
+</ul>
+
+
+<p>如上修改虽然是永久性的需要重启网卡才能生效<code>/etc/init.d/networking restart</code></p>
+
+<ul>
+<li><p>实时生效</p>
+
+<p>  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/lo/disable_ipv6<br/>
+  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/lo/disable_ipv6<br/>
+  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/all/disable_ipv6<br/>
+  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/default/disable_ipv6</p></li>
+</ul>
+
+
+<p>再试试通过SSH隧道搜索Google，是不是已经好了，^_^。</p>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="https://forum.linode.com/viewtopic.php?f=20&amp;t=10436">Intermittent &ldquo;We&rsquo;re sorry&rdquo; error accessing Google via IPv6</a></li>
+<li><a href="http://en.kioskea.net/faq/759-ubuntu-disabling-ipv6-support">Ubuntu &ndash; Disabling IPv6 support</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-16T01:48:00+08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/11/16/google-block-linode-traffic-over-ipv6/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -604,214 +793,6 @@ $ tempfile -d
 </div>
 	
 	<div class="comments"><a href="/blog/2013/09/16/how-to-create-temporary-random-file-name-in-bash/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/12/reverse-proxy-for-a-subdirectory-in-nginx/">
-		
-			Nginx反向代理映射成子路径</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>终于搞定了困扰已久的nginx反向代理子路径映射问题</p></blockquote>
-
-<p>多个web应用共享一个域名和端口时，可以考虑把不同的web应用映射成不同的子路径，这个子路径在Java EE里称作ContextPath。下面的配置片段解决nginx作为前端，反向代理多个tomcat主机，通过不同子路径共享一个域名的情况。</p>
-
-<pre><code>server {
-    listen       80;
-    server_name  _;
-    index index.html index.htm index.php;
-    root /home/dashboard;
-
-    location /dashboard {
-        rewrite /dashboard/(.*) /$1 break;
-        rewrite ^/dashboard$ /dashboard/ permanent;
-        proxy_pass http://127.0.0.1:9082;
-        proxy_redirect off;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-}
-</code></pre>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://wiki.apache.org/couchdb/Nginx_As_a_Reverse_Proxy">Nginx_As_a_Reverse_Proxy</a></li>
-<li><a href="http://superuser.com/questions/603373/how-do-i-reverse-proxy-etherpad-lite-with-nginx-to-a-subdirectory">How do I reverse proxy etherpad-lite with nginx to a subdirectory</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-12T17:41:00+08:00" pubdate data-updated="true">Sep 12<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/09/12/reverse-proxy-for-a-subdirectory-in-nginx/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/02/extend-Backbone.Router-to-support-window.history.back/">
-		
-			扩展Backbone.Router以支持window.history.back</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>web应用程序重要的功能的URL通过需要达到可访问，可收藏和可分享的需求。Backbone.Router正是检测客户端url变化触发相应动作和事件的实现框架。对于没有实现HTML5 History API的浏览器，Router提供了优雅和透明的兼容实现，通过控制hash的变化。</p></blockquote>
-
-<h3>Route的例子</h3>
-
-<pre><code>var Workspace = Backbone.Router.extend({
-
-    routes: {
-        "help":                 "help",    // #help
-        "search/:query":        "search",  // #search/kiwis
-        "search/:query/p:page": "search"   // #search/kiwis/p7
-    },
-
-    help: function() {
-        ...
-    },
-
-    search: function(query, page) {
-        ...
-    }
-
-});
-</code></pre>
-
-
-		
-		<a href="/blog/2013/09/02/extend-Backbone.Router-to-support-window.history.back/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-02T21:37:00+08:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/09/02/extend-Backbone.Router-to-support-window.history.back/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/07/26/using-mixins-in-backbonejs-by-coffeescript/">
-		
-			在backbonejs里使用coffeescript实现mixin</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>Mixin和Inheritance是两种主要的代码复用和封装的方式。Java流行的时候，大家都努力的把javascript写得像java，各大框架努力给javascript加上类继承的特性。当下是Ruby春暖花开的日子，coffeescript让开发者可以以更ruby的方式写js。javascript在不同的时期能适应潮流，足以见得原型链继承型语言的强大之处。</p></blockquote>
-
-<h3>用coffeescript实现Mixin</h3>
-
-<p>Coffescript原生并不支持Mixin，《CoffeeScript小书》第三章提到一种Mixin的实现方式</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">moduleKeywords = </span><span class="p">[</span><span class="s">&#39;extended&#39;</span><span class="p">,</span> <span class="s">&#39;included&#39;</span><span class="p">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nx">Module</span>
-</span><span class='line'>  <span class="vi">@extend: </span><span class="nf">(obj) -&gt;</span>
-</span><span class='line'>    <span class="k">for</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="k">of</span> <span class="nx">obj</span> <span class="k">when</span> <span class="nx">key</span> <span class="o">not</span> <span class="k">in</span> <span class="nx">moduleKeywords</span>
-</span><span class='line'>      <span class="nx">@</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">obj</span><span class="p">.</span><span class="nx">extended</span><span class="o">?</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">@</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">this</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="vi">@include: </span><span class="nf">(obj) -&gt;</span>
-</span><span class='line'>    <span class="k">for</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span> <span class="k">of</span> <span class="nx">obj</span> <span class="k">when</span> <span class="nx">key</span> <span class="o">not</span> <span class="k">in</span> <span class="nx">moduleKeywords</span>
-</span><span class='line'>      <span class="c1"># Assign properties to the prototype</span>
-</span><span class='line'>      <span class="nx">@</span><span class="o">::</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">obj</span><span class="p">.</span><span class="nx">included</span><span class="o">?</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">@</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">this</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-		
-		<a href="/blog/2013/07/26/using-mixins-in-backbonejs-by-coffeescript/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-07-26T09:08:00+08:00" pubdate data-updated="true">Jul 26<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/07/26/using-mixins-in-backbonejs-by-coffeescript/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

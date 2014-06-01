@@ -1,0 +1,309 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>使用JWT验证Master-Agent模式的Rails应用 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="一对Master-Agent模式Rails应用，Agent需要验证Master。通常考虑采用HTTP基础认证或者HTTP摘要认证。这里Agent不需要多用户支持，所以只要一个加密口令即可，无需用户名。本文介绍采用JWT实现基于Token验证，结合Rails 4.1的新特性，装载secrets. &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vangie.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vangie.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">使用JWT验证Master-Agent模式的Rails应用</h2>
+	<div class="entry-content"><blockquote><p>一对Master-Agent模式Rails应用，Agent需要验证Master。通常考虑采用HTTP基础认证或者HTTP摘要认证。这里Agent不需要多用户支持，所以只要一个加密口令即可，无需用户名。本文介绍采用JWT实现基于Token验证，结合Rails 4.1的新特性，装载secrets.yml文件里的密钥，作为JWT Token的计算密钥，应用于Rails应用。</p></blockquote>
+
+<h3>Agent端配置</h3>
+
+<h4>安装jwt Gem</h4>
+
+<p>Gemfile添加如下行</p>
+
+<pre><code>gem 'jwt'
+</code></pre>
+
+<p>然后执行<code>bundle install</code></p>
+
+<!-- more -->
+
+
+<h4>让所有Controller验证JWT Token</h4>
+
+<p>编辑<code>app/controllers/application_controller.rb</code>文件，</p>
+
+<pre><code>require 'jwt'
+class ApplicationController &lt; ActionController::Base
+    ...
+before_action :validate_token
+
+# Validate JWT token
+def validate_token
+    begin
+    authz_header = request.headers['Authorization']
+    if authz_header.nil?
+        raise SecurityError.new("Authorization Header is missing")
+    end
+    token = authz_header.split(' ').last
+    JWT.decode(token, Rails.application.secrets.jwt_secret_key)
+    rescue JWT::DecodeError, SecurityError
+    render nothing: true, status: :unauthorized
+    end
+end
+    ...
+end
+</code></pre>
+
+<p>其中密钥<code>Rails.application.secrets.jwt_secret_key</code>需要配置<code>config/secrets.yml</code>。</p>
+
+<h4>配置config/secrets.yml</h4>
+
+<pre><code>development:
+    secret_key_base: c5e867eee171336e0b00d648a3d73cd176379ad9bc556ccc34102a046893c451add2b2fccb6d3ea914834cd9737e6ca432ecdf6cef8c81b61b79c8cad412ac88
+    jwt_secret_key: c5e867eee171336e0b00d648a3d73cd176379ad9bc556ccc34102a046893c451add2b2fccb6d3ea914834cd9737e6ca432ecdf6cef8c81b61b79c8cad412ac88
+
+test:
+    secret_key_base: eaddadc7e11e7228c78670537d53a5b62d5b3908a84dcad6340c4a8104052b9043271bb03ae1ce11b03efe72ce4547aec61a9b71891451568a1084c80ba388d2
+    jwt_secret_key: c5e867eee171336e0b00d648a3d73cd176379ad9bc556ccc34102a046893c451add2b2fccb6d3ea914834cd9737e6ca432ecdf6cef8c81b61b79c8cad412ac88
+
+# Do not keep production secrets in the repository,
+# instead read values from the environment.
+production:
+    secret_key_base: &lt;%= ENV["SECRET_KEY_BASE"] %&gt;
+    jwt_secret_key: &lt;%= ENV["JWT_SECRET_KEY"] %&gt;
+</code></pre>
+
+<p>开发和测试环境取静态值，部署环境取环境变量的值。</p>
+
+<h4>配置.env文件存放环境变量</h4>
+
+<p>安装 dotenv gem，修改Gemfile，添加如下行</p>
+
+<pre><code>gem 'dotenv-rails'
+</code></pre>
+
+<p><strong>请将&#8217;dotenv-rails&#8217;放在其他依赖环境变量的gem的前面</strong>，保存后执行<code>bundle install</code></p>
+
+<p>Rails.Root目录新建<code>.env</code>文件</p>
+
+<pre><code>JWT_SECRET_KEY: 4efe25e7fb153c392baf0787ee78c153a4fba5e6d7c8715b4a03849cd8a13b064ad2a636845e6753481613111dffb3c48c9a5a84fc38d50b757b3a2f46b8a493
+SECRET_KEY_BASE: 2d78298e02650fefd0381ae0be261064466ac028567a8c5d113b46f0e4696d3153b8bac9ab62828b2befc08c48b009678d4b5de0f47b72f7e5fce51800ce5fee
+</code></pre>
+
+<p>然后将<code>.env</code>添加到<code>.gitignore</code>里去，防止其被提交到版本库</p>
+
+<h4>与Capistrano集成</h4>
+
+<p>修改config/deploy.rb文件，添加如下Task</p>
+
+<pre><code>namespace :deploy do
+    desc 'Generate Secret key to .env file'
+task :generate_sceret_key do
+    on roles(:app), in: :parallel do
+    within release_path do
+        if test("! grep -q JWT_SECRET_KEY #{release_path.join('.env')}")
+            execute :rake, 'env:generate_secret[JWT_SECRET_KEY]'
+        end
+        if test("! grep -q SECRET_KEY_BASE #{release_path.join('.env')}")
+            execute :rake, 'env:generate_secret[SECRET_KEY_BASE]'
+        end     
+        end
+    end
+    end
+    after :updated, :generate_sceret_key
+end
+</code></pre>
+
+<h3>Master端配置</h3>
+
+<p>采用RestClient与Agent端进行通信，需要在请求的头部加入JWT Token以通过Agent端验证。</p>
+
+<pre><code>#sync with agent
+def sync
+    res = site['sync.json'].get
+    json =  JSON::parse(res.body)
+    puts json
+end
+
+#generate jwt token
+def generate_token
+    unless self.secret_key.nil?
+        self.token = JWT.encode("something_to_secret", self.secret_key)
+    end
+end
+
+private
+    def site
+        @_site ||= RestClient::Resource.new(self.endpoint, :headers =&gt; {"Authorization" =&gt; "Bearer #{self.token}"})
+    end
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://blog.yanted.com/2014/02/13/jwt-based-authentication-with-ember-js-and-rails/">JWT based authentication with Ember.js and Rails</a></li>
+<li><a href="https://github.com/bkeepers/dotenv">Loads environment variables from &lsquo;.env&rsquo;</a></li>
+<li><a href="http://www.jamesbadger.ca/2012/12/18/generate-new-secret-token/">Generate a New Secret Token for Rails Apps</a></li>
+<li><a href="http://daniel.fone.net.nz/blog/2013/05/20/a-better-way-to-manage-the-rails-secret-token/">A better way to manage the Rails secret token</a></li>
+<li><a href="http://edgeguides.rubyonrails.org/4_1_release_notes.html#config/secrets.yml">Rails 4.1 generates a new secrets.yml file in the config folder</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-17T17:35:50+08:00" pubdate data-updated="true">May 17<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent/';
+        var disqus_url = 'http://vangie.github.com/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

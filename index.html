@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="OpenID解决跨站点的认证问题，OAuth解决跨站点的授权问题。认证和授权是密不可分的。而OpenID和OAuth这两套协议出自两个不同的组织，协议上有相似和重合的之处，所以想将二者整合有些难度。好在OpenID Connect作为OpenID的下一版本，在OAuth 2. &hellip;">
+	<meta name="description" content="Capistrano发布Rails app到远端服务器时，只在primary db服务器上执行db:migrate。对于每个app都使用独立的本地Sqlite数据库的场景不适用。 通过添加如下task，在每台app服务器上执行db:migrate #lib/capistrano/task/ &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,167 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/05/20/db-migrate-all-app-by-capistrano/">
+		
+			Capistrano在每台应用服务器上都执行数据库迁移</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>Capistrano发布Rails app到远端服务器时，只在primary db服务器上执行db:migrate。对于每个app都使用独立的本地Sqlite数据库的场景不适用。</p></blockquote>
+
+<p>通过添加如下task，在每台app服务器上执行db:migrate</p>
+
+<pre><code>#lib/capistrano/task/migrate_all.rake
+
+desc 'Runs rake db:migrate on all app server'
+task :migrate_all =&gt; [:set_rails_env] do
+    on roles(:app), in: :parallel do
+        within release_path do
+            with rails_env: fetch(:rails_env) do
+                execute :rake, "db:migrate"
+            end
+        end
+    end
+end
+
+after :updated, :migrate_all
+</code></pre>
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-20T23:47:44+08:00" pubdate data-updated="true">May 20<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/05/20/db-migrate-all-app-by-capistrano/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent/">
+		
+			使用JWT验证Master-Agent模式的Rails应用</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>一对Master-Agent模式Rails应用，Agent需要验证Master。通常考虑采用HTTP基础认证或者HTTP摘要认证。这里Agent不需要多用户支持，所以只要一个加密口令即可，无需用户名。本文介绍采用JWT实现基于Token验证，结合Rails 4.1的新特性，装载secrets.yml文件里的密钥，作为JWT Token的计算密钥，应用于Rails应用。</p></blockquote>
+
+<h3>Agent端配置</h3>
+
+<h4>安装jwt Gem</h4>
+
+<p>Gemfile添加如下行</p>
+
+<pre><code>gem 'jwt'
+</code></pre>
+
+<p>然后执行<code>bundle install</code></p>
+
+
+		
+		<a href="/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-17T17:35:50+08:00" pubdate data-updated="true">May 17<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app/">
+		
+			将Git提交版本号作为Rails应用版本号</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>应用的版本管理和代码的版本管理通常是分开的，作为两套独立的版本系统来维护。对于小型应用来说有些浪费精力。最早在<a href="https://www.gitlab.com/">GitLab</a>这款开源软件上看到其使用Git的提交版本号作为版本号，本文将借鉴这种做法。</p></blockquote>
+
+<h3>获得Git版本号</h3>
+
+<ol>
+<li>开发环境，当前的工作目录里包含了<code>.git</code>目录，直接执行下面的命令<code>git describe --always</code>。该命令通常返回形如<code>1f36a3b</code>的SHA-1短序列，但是如果该提交版本有对应的Tag的话，将返回该Tag名称。真实应用发布场景显得非常有用，毕竟随机序列不如自定义的有意义的名称便于记忆、沟通和传播。</li>
+<li>对于<a href="http://capistranorb.com/">Capistrano</a>工具发布的生产环境，应用根目录不包含<code>.git</code>目录，所以如果通过<code>git</code>命令直接获得代码版本号，好在Capistrano发布时会自动生成<code>REVISION</code>文件，其内容为代码版本号。</li>
+</ol>
+
+
+<p>综合两种情况的代码如下</p>
+
+<pre><code>if File.exist? 'REVISION' then `cat REVISION`.chomp else `git describe --always` end
+</code></pre>
+
+
+		
+		<a href="/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-17T14:02:04+08:00" pubdate data-updated="true">May 17<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -423,195 +584,6 @@
 </div>
 	
 	<div class="comments"><a href="/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/">
-		
-			如何找到树莓派通过DHCP获得的IP地址</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>小巧的树莓派配一个硕大的显示器，很不协调。本文介绍如何获得树莓派通过DHCP动态分配的IP地址。</p></blockquote>
-
-<h3>几种有趣的方法</h3>
-
-<p>mathworks论坛提到了几种有意思的方法</p>
-
-<ol>
-<li><p>通过Matlab命令行</p>
-
-<pre><code> h = raspberrypi(‘raspberrypi-ah')
- h.openShell(‘ssh')
-</code></pre></li>
-<li>安装一个启动过程中能读出IP的软件，该软件也是MathWork出品的</li>
-<li>通过DDNS（Dynamic DNS）</li>
-<li>启动时发邮件通知</li>
-</ol>
-
-
-<p>就个人而言，上面的方法觉得都不够好。</p>
-
-<ol>
-<li>需要安装Matlab，一个好几G的工具软件就是为了找个IP用，有些蛋疼</li>
-<li>要插个耳机或者音响什么的</li>
-<li>需要互联网环境</li>
-<li>需要互联网环境</li>
-</ol>
-
-
-<p>下面我介绍一个简单实用的方法，通过arp协议获得IP</p>
-
-
-		
-		<a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-17T03:08:00+08:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian/">
-		
-			Raspbian成功驱动TP-Link TL-WN725N V2版无线网卡</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>淘宝双12搞活动，225入了一台英国产2代B型512M RaspBerry Pi，英国产的相对便宜，但是不带外壳，另外加12块，搞了个带固定螺丝的亚克力外壳。话说这个外壳裁剪的相对不错，花了老半天才装好。</p></blockquote>
-
-<p><img src="/images/post/2013-12-14/4-items.jpg" alt="配件合集" /></p>
-
-<p><img src="/images/post/2013-12-14/raspberry.jpg" alt="组装成品" /></p>
-
-<p><img src="/images/post/2013-12-14/pi-with-tl-wn725n.jpg" alt="TP-Link TL-WN725N V2" /></p>
-
-
-		
-		<a href="/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-14T00:03:00+08:00" pubdate data-updated="true">Dec 14<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/11/16/google-block-linode-traffic-over-ipv6/">
-		
-			Google屏蔽Linode的IPv6导致SSH隧道不可用</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>最近几个月通过linode的SSH隧道访问Google都会报出类似“We‘re sorry”或者“unusual traffic”的错误，有时需要输入验证码，但大多数时候直接不可用。一段时间使用GoAgent比较多，可惜GoAgent有时不太稳定。</p></blockquote>
-
-<p>Google了一番，才知道是因为Google屏蔽了Linode服务器的IPv6协议导致SSH隧道出问题的。
-下面我们就来关闭Ubuntu的IPv6</p>
-
-<h3>关闭Ubuntu的IPv6</h3>
-
-<ul>
-<li><p>编辑 <code>/etc/sysctl.conf</code>,添加如下内容</p>
-
-<p>  net.ipv6.conf.all.disable_ipv6=1<br/>
-  net.ipv6.conf.default.disable_ipv6=1<br/>
-  net.ipv6.conf.lo.disable_ipv6=1</p></li>
-</ul>
-
-
-<p>如上修改虽然是永久性的需要重启网卡才能生效<code>/etc/init.d/networking restart</code></p>
-
-<ul>
-<li><p>实时生效</p>
-
-<p>  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/lo/disable_ipv6<br/>
-  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/lo/disable_ipv6<br/>
-  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/all/disable_ipv6<br/>
-  echo &lsquo;1&rsquo; > /proc/sys/net/ipv6/conf/default/disable_ipv6</p></li>
-</ul>
-
-
-<p>再试试通过SSH隧道搜索Google，是不是已经好了，^_^。</p>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="https://forum.linode.com/viewtopic.php?f=20&amp;t=10436">Intermittent &ldquo;We&rsquo;re sorry&rdquo; error accessing Google via IPv6</a></li>
-<li><a href="http://en.kioskea.net/faq/759-ubuntu-disabling-ipv6-support">Ubuntu &ndash; Disabling IPv6 support</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-16T01:48:00+08:00" pubdate data-updated="true">Nov 16<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/11/16/google-block-linode-traffic-over-ipv6/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

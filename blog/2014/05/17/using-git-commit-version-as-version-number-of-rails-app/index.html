@@ -1,0 +1,247 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>将Git提交版本号作为Rails应用版本号 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="应用的版本管理和代码的版本管理通常是分开的，作为两套独立的版本系统来维护。对于小型应用来说有些浪费精力。最早在GitLab这款开源软件上看到其使用Git的提交版本号作为版本号，本文将借鉴这种做法。 获得Git版本号 开发环境，当前的工作目录里包含了.git目录，直接执行下面的命令git &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:vangie.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:vangie.github.com">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">将Git提交版本号作为Rails应用版本号</h2>
+	<div class="entry-content"><blockquote><p>应用的版本管理和代码的版本管理通常是分开的，作为两套独立的版本系统来维护。对于小型应用来说有些浪费精力。最早在<a href="https://www.gitlab.com/">GitLab</a>这款开源软件上看到其使用Git的提交版本号作为版本号，本文将借鉴这种做法。</p></blockquote>
+
+<h3>获得Git版本号</h3>
+
+<ol>
+<li>开发环境，当前的工作目录里包含了<code>.git</code>目录，直接执行下面的命令<code>git describe --always</code>。该命令通常返回形如<code>1f36a3b</code>的SHA-1短序列，但是如果该提交版本有对应的Tag的话，将返回该Tag名称。真实应用发布场景显得非常有用，毕竟随机序列不如自定义的有意义的名称便于记忆、沟通和传播。</li>
+<li>对于<a href="http://capistranorb.com/">Capistrano</a>工具发布的生产环境，应用根目录不包含<code>.git</code>目录，所以如果通过<code>git</code>命令直接获得代码版本号，好在Capistrano发布时会自动生成<code>REVISION</code>文件，其内容为代码版本号。</li>
+</ol>
+
+
+<p>综合两种情况的代码如下</p>
+
+<pre><code>if File.exist? 'REVISION' then `cat REVISION`.chomp else `git describe --always` end
+</code></pre>
+
+<!-- more -->
+
+
+<h3>版本号作为静态变量</h3>
+
+<p>上面我们讨论了在rails应用里通过代码获得版本号，但是版本号在应用系统相当于静态变量，在启动时候初始化，通过更有意义的名称（app_version）来引用会方便一些。</p>
+
+<p>下面我们介绍如何结合<a href="https://github.com/binarylogic/settingslogic">settingslogic</a>，将版本号变成应用级的全局变量（通过<code>Settings.app_version</code>引用）。</p>
+
+<p>在<code>Gemfile</code>里添加下面一行</p>
+
+<pre><code>gem 'settingslogic'
+</code></pre>
+
+<p>然后执行<code>bundle install</code>.</p>
+
+<p>向<code>config/application.yml</code>文件添加如下内容：</p>
+
+<pre><code>#config/application.yml
+defaults: &amp;defaults
+    app_version: &lt;%= `git describe --always`%&gt;
+
+development:
+    &lt;&lt;: *defaults
+
+test:
+    &lt;&lt;: *defaults
+
+production:
+    &lt;&lt;: *defaults
+</code></pre>
+
+<p>修改<code>config/application.rb</code>文件
+在<code>module AppName</code>（AppName 随应用名称而变）行之后添加</p>
+
+<pre><code>class Settings &lt; Settingslogic
+    source File.expand_path("../application.yml", __FILE__)
+    namespace Rails.env
+end
+</code></pre>
+
+<h3>HTTP响应包含版本号</h3>
+
+<p>用Rails实现一个纯API应用，仅接受和响应JSON格式数据，将版本号添加到响应头部是一种不错的方法。</p>
+
+<p>编辑<code>config/application.rb</code>在<code>class Application &lt; Rails::Application</code>里面加入</p>
+
+<pre><code>config.action_dispatch.default_headers.merge!({ 
+    'X-App-Version' =&gt; Settings.app_version 
+})
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://blog.danielpietzsch.com/post/1209091430/show-the-version-number-of-your-rails-app-using-git">Show the version number of your Rails app using Git</a></li>
+<li><a href="http://chriszetter.com/blog/2013/10/04/setting-headers-in-rails-4/">Setting headers in Rails 4</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-17T14:02:04+08:00" pubdate data-updated="true">May 17<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://vangie.github.com/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app/';
+        var disqus_url = 'http://vangie.github.com/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>
