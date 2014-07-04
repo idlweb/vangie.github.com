@@ -7,7 +7,8 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="小巧的树莓派配一个硕大的显示器，很不协调。本文介绍如何获得树莓派通过DHCP动态分配的IP地址。 几种有趣的方法 mathworks论坛提到了几种有意思的方法 通过Matlab命令行 h = raspberrypi(‘raspberrypi-ah') h.openShell(‘ssh') &hellip;">
+	<meta name="description" content="网上有大牛把Kindle作为树莓派的显示屏，外带一个Mac蓝牙键盘，实用移动电源供给。一个台低功耗的可移动主机，酷极了。手上真好有一台Kindle PaperWhite，于是开始折腾。 准备工作 Raspberry Pi 一台
+Kindle PaperWhite 一台（已越狱） &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -42,7 +43,7 @@
 		<div class="container">
 			<form action="http://google.com/search" method="get">
 				<input type="text" name="q" results="0">
-				<input type="hidden" name="q" value="site:vangie.github.com">
+				<input type="hidden" name="q" value="site:codelife.me">
 			</form>
 		</div>
 	</div>
@@ -67,7 +68,7 @@
 	</div>
 	<form class="search" action="http://google.com/search" method="get">
 		<input class="alignright" type="text" name="q" results="0">
-		<input type="hidden" name="q" value="site:vangie.github.com">
+		<input type="hidden" name="q" value="site:codelife.me">
 	</form>
 </nav>
 
@@ -76,6 +77,57 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/">
+		
+			Kindle PaperWhite作为树莓派的命令终端</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>网上有大牛把Kindle作为树莓派的显示屏，外带一个Mac蓝牙键盘，实用移动电源供给。一个台低功耗的可移动主机，酷极了。手上真好有一台Kindle PaperWhite，于是开始折腾。</p></blockquote>
+
+<p><img src="/images/post/2013-12-17/kindle-berry.png" alt="KindleBerry" /></p>
+
+<h3>准备工作</h3>
+
+<ol>
+<li>Raspberry Pi 一台</li>
+<li>Kindle PaperWhite 一台（已<a href="http://www.mobileread.com/forums/showthread.php?t=198446">越狱</a>）</li>
+<li>USB转microUSB数据线2根，一根给Raspberry Pi供电，一根作为Kindle和Raspberry Pi的连接线</li>
+</ol>
+
+
+
+		
+		<a href="/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-17T03:14:00+08:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -690,109 +742,6 @@ http://ruby.taobao.org
 </div>
 	
 	<div class="comments"><a href="/blog/2013/09/18/installing-rubygems-faster/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/16/how-to-create-temporary-random-file-name-in-bash/">
-		
-			Bash如何创建随机文件名</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>本文介绍3种不同的方法创建随机缓存文件名。在编写需要创建唯一的缓存文件的脚本时非常有用。</p></blockquote>
-
-<h3>1.使用$RANDOM shell变量</h3>
-
-<p>在控制台执行如下命令</p>
-
-<pre><code>echo $RANDOM
-</code></pre>
-
-<p>每次都获得一个随机数，借用这个变量可用来生成一个随机的文件名</p>
-
-<pre><code>#!/bin/bash
-echo "List of temporary files : "
-for i  in 1 2 3 4 5
-do
-    FILE="/tmp/$(basename $0).$RANDOM.txt"
-    echo $FILE # show file name
-    &gt; $FILE # create files
-done 
-</code></pre>
-
-<h3>2.使用$$变量</h3>
-
-<p>这是一个经典的方法，$$变量返回当前进程的进程号，对于整个系统来说这是一个唯一数字。</p>
-
-<pre><code>#!/bin/bash
-TFILE="/tmp/$(basename $0).$$.tmp"
-ls &gt; $TFILE
-echo "See diretory listing in $TFILE"
-</code></pre>
-
-<h3>3.使用mktemp和tempfile命令</h3>
-
-<p>通过mktemp和tempfile命令是最佳的方式</p>
-
-<pre><code>$ mktemp
-</code></pre>
-
-<p>输出</p>
-
-<pre><code>/tmp/tmp.IAnO5O
-</code></pre>
-
-<p>或者</p>
-
-<pre><code>$ tempfile
-</code></pre>
-
-<p>输出</p>
-
-<pre><code>/tmp/IAnO5O
-</code></pre>
-
-<p>当然还能生成随机文件夹</p>
-
-<pre><code>$ mktemp -d
-$ tempfile -d
-</code></pre>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://www.cyberciti.biz/tips/shell-scripting-bash-how-to-create-temporary-random-file-name.html">Shell scripting (BASH) : How to create temporary random file name</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-16T23:50:00+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/09/16/how-to-create-temporary-random-file-name-in-bash/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

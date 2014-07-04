@@ -1,0 +1,251 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>使用Struts里html:link标签 的name,paramId,paramName和paramProperty四个属性实现多级查询间相互跳转 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="看了一些使用html:link的文章，大多只是说了paramId结合paramName和paramProperty的使用。下面将会用到name，paramId，paramName和paramProperty一起使用的效果。 在&lt;a/&gt;的url后面加上一个键值对key=value &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script async="true" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:codelife.me">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:codelife.me">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">使用Struts里html:link标签 的name,paramId,paramName和paramProperty四个属性实现多级查询间相互跳转</h2>
+	<div class="entry-content"><blockquote><p>看了一些使用html:link的文章，大多只是说了paramId结合paramName和paramProperty的使用。下面将会用到name，paramId，paramName和paramProperty一起使用的效果。</p></blockquote>
+
+<!-- more -->
+
+
+<h3>在<code>&lt;a/&gt;</code>的url后面加上一个键值对key=value</h3>
+
+<p>首先是先解释简单的应用paramId,paramName和paramProperty</p>
+
+<pre><code>&lt;html:link action="/actionName" 
+    paramId="paramValue" 
+    paramName="beanName" 
+    paramProperty="beanProperty"&gt;
+    点击链接
+&lt;/html:link&gt;
+</code></pre>
+
+<p>假设在scope范围中，有一个bean叫beanName，beanName的一个属性beanProperty的值为value，那么当你点击链接之后会有下面的链接效果：</p>
+
+<pre><code>http://localhost:8080/actionName?paramValue=value
+</code></pre>
+
+<ul>
+<li>paramId属性是让你告诉jsp编译引擎你要传送的参数名称。</li>
+<li>paramName属性是使用的bean名称</li>
+<li>paramProperty属性是所使用bean的属性名称，两者的结合就是让你告诉jsp编译引擎你要利用参数传送bean中属性的值.</li>
+</ul>
+
+
+<h3>在<code>&lt;a/&gt;</code>的url后面加上一组键值对key1=value1&amp;key2=value2…</h3>
+
+<p>上面只可以传送一个参数，但在应用中往往不够的，name属性就是专门用来传递多个参数的。
+name属性必须是map类型的变量。
+假设如果你定义下面的一个map：</p>
+
+<pre><code>Map mapName=new HashMap();
+mapName.put("paramValue1","value1");
+mapName.put("paramValue2","value2");
+request.setAttribute("mapName",mapName);
+</code></pre>
+
+<p>在jsp页面有下面的一个链接：</p>
+
+<pre><code>&lt;html:link action="/actionName"  name="mapName"&gt;
+    点击链接
+&lt;/html:link&gt;
+</code></pre>
+
+<p>点击链接后的效果：</p>
+
+<pre><code>http://localhost:8080/actionName?paramValue1=value1&amp;paramValue2=value2
+</code></pre>
+
+<h3>二者结合</h3>
+
+<p> 当我在一次实践中，联想了一下，当解析tag时应该会解析全部所用到的属性，所以就做了下面的一个测试，
+下面是一个四个属性一起使用的例子：</p>
+
+<pre><code>&lt;html:link action="/actionName" 
+    name="mapName" 
+    paramId="paramValue" 
+    paramName="beanName" 
+    paramProperty="beanProperty" &gt;
+    点击链接
+&lt;/html:link&gt;
+</code></pre>
+
+<p>得到的效果是：</p>
+
+<pre><code>http://localhost:8080/atcionName?paramValue1=value1&amp;paramValue2=value2&amp;paramValue=value
+</code></pre>
+
+<p>所有属性的值都解析出来了。
+这样的效果可以用在你想一级一级的推论下去达到的链接效果。
+也就是说，当你提交之后，你可以把paramValue的值put进name属性对应的Map中，再返回用在name属性上。
+当你想返回上面一级的时候可以remove掉。
+或者当你的参数存放的是数据库中多个表格的级联主健，
+当你想向后查询上级表格时你就可以直接拿到主健进行查询，不用一级一级向数据库往回查询推出主健。</p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-01-12T23:54:39+08:00" pubdate data-updated="true">Jan 12<span>th</span>, 2007</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://codelife.me/blog/2007/01/12/using-struts-html-link-as-cascading-query/';
+        var disqus_url = 'http://codelife.me/blog/2007/01/12/using-struts-html-link-as-cascading-query/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

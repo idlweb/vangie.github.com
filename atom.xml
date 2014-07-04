@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Code Life]]></title>
-  <link href="http://vangie.github.com/atom.xml" rel="self"/>
-  <link href="http://vangie.github.com/"/>
-  <updated>2014-06-01T17:28:45+08:00</updated>
-  <id>http://vangie.github.com/</id>
+  <link href="http://codelife.me/atom.xml" rel="self"/>
+  <link href="http://codelife.me/"/>
+  <updated>2014-07-04T23:03:19+08:00</updated>
+  <id>http://codelife.me/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
     
@@ -14,10 +14,98 @@
 
   
   <entry>
+    <title type="html"><![CDATA[当元素滚动出可视区域后固定漂浮在底部]]></title>
+    <link href="http://codelife.me/blog/2014/06/22/fixed-floating-bottom-when-element-scroll-out-of-client-area/"/>
+    <updated>2014-06-22T00:28:05+08:00</updated>
+    <id>http://codelife.me/blog/2014/06/22/fixed-floating-bottom-when-element-scroll-out-of-client-area</id>
+    <content type="html"><![CDATA[<blockquote><p>页面底部放置了几个功能按钮，当页面长度超过窗口高度时需要滚动到底部才能操作。点击按钮前多了一步滚动操作，多少有些不方便。如果元素位于可视区域之外时，可以固定漂浮于窗口底部就可以解决这种不便。</p></blockquote>
+
+<p><img src="http://codelife.me/images/post/2014-06-22/fixed-floating.png" alt="不在可视区域内时固定漂浮于底部" /></p>
+
+<!-- more -->
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="c1">#声明全局top变量，记录元素里页面顶部高度值</span>
+</span><span class='line'><span class="nv">top = </span><span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 计算top值</span>
+</span><span class='line'><span class="nv">calcTop = </span><span class="nf">-&gt;</span>
+</span><span class='line'>  <span class="nv">$ff_container = </span><span class="nx">$</span><span class="p">(</span><span class="s">&#39;form:visible .panel-footer&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">top = </span><span class="nx">$ff_container</span><span class="p">.</span><span class="nx">offset</span><span class="p">().</span><span class="nx">top</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">unless</span> <span class="nx">jQuery</span><span class="p">.</span><span class="nx">browser</span><span class="p">.</span><span class="nx">mobile</span>
+</span><span class='line'>    <span class="nx">top</span> <span class="o">+=</span> <span class="nx">$ff_container</span><span class="p">.</span><span class="nx">outerHeight</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 判断是否需要固定漂浮</span>
+</span><span class='line'><span class="nv">floating = </span><span class="nf">-&gt;</span>
+</span><span class='line'>  <span class="nv">y = </span><span class="nx">$win</span><span class="p">.</span><span class="nx">scrollTop</span><span class="p">()</span> <span class="o">+</span> <span class="nx">$win</span><span class="p">.</span><span class="nx">height</span><span class="p">()</span>
+</span><span class='line'>  <span class="nv">$ff_container = </span><span class="nx">$</span><span class="p">(</span><span class="s">&#39;form:visible .panel-footer&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="nx">y</span> <span class="o">&gt;=</span> <span class="nx">top</span>
+</span><span class='line'>    <span class="nx">$ff_container</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s">&#39;fixed&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nx">$ff_container</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s">&#39;fixed&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 窗口滚动时计算是否需要漂浮</span>
+</span><span class='line'><span class="nx">$win</span><span class="p">.</span><span class="nx">scroll</span><span class="p">(</span><span class="nx">floating</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># 调整窗口大小时计算是否需要漂浮</span>
+</span><span class='line'><span class="nx">$win</span><span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="nx">floating</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># 在手机屏幕滚动时计算是否需要漂浮</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s">&#39;body&#39;</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s">&#39;touchmove&#39;</span><span class="p">,</span> <span class="nx">floating</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">calcTop</span><span class="p">()</span>
+</span><span class='line'><span class="nx">floating</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://jqueryfordesigners.com/fixed-floating-elements/">Fixed Floating Elements</a></li>
+<li><a href="http://stackoverflow.com/questions/8644248/jquery-fix-div-when-browser-scrolls-to-it">jQuery: Fix div when browser scrolls to it</a></li>
+<li><a href="http://stackoverflow.com/questions/18753367/jquery-live-scroll-event-on-mobile-work-around">jQuery: Fix div when browser scrolls to it</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Capistrano在每台应用服务器上都执行数据库迁移]]></title>
-    <link href="http://vangie.github.com/blog/2014/05/20/db-migrate-all-app-by-capistrano/"/>
+    <link href="http://codelife.me/blog/2014/05/20/db-migrate-all-app-by-capistrano/"/>
     <updated>2014-05-20T23:47:44+08:00</updated>
-    <id>http://vangie.github.com/blog/2014/05/20/db-migrate-all-app-by-capistrano</id>
+    <id>http://codelife.me/blog/2014/05/20/db-migrate-all-app-by-capistrano</id>
     <content type="html"><![CDATA[<blockquote><p>Capistrano发布Rails app到远端服务器时，只在primary db服务器上执行db:migrate。对于每个app都使用独立的本地Sqlite数据库的场景不适用。</p></blockquote>
 
 <p>通过添加如下task，在每台app服务器上执行db:migrate</p>
@@ -42,9 +130,9 @@ after :updated, :migrate_all
   
   <entry>
     <title type="html"><![CDATA[Master-Agent模式的Rails应用借助JWT Token验证]]></title>
-    <link href="http://vangie.github.com/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent/"/>
+    <link href="http://codelife.me/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent/"/>
     <updated>2014-05-17T17:35:50+08:00</updated>
-    <id>http://vangie.github.com/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent</id>
+    <id>http://codelife.me/blog/2014/05/17/rails-app-authenticate-by-jwt-between-master-and-agent</id>
     <content type="html"><![CDATA[<blockquote><p>一对Master-Agent模式Rails应用，Agent需要验证Master。通常考虑采用HTTP基础认证或者HTTP摘要认证。这里Agent不需要多用户支持，所以只要一个加密口令即可，无需用户名。本文介绍采用JWT实现基于Token验证，结合Rails 4.1的新特性，装载secrets.yml文件里的密钥，作为JWT Token的计算密钥，应用于Rails应用。</p></blockquote>
 
 <h3>Agent端配置</h3>
@@ -186,9 +274,9 @@ private
   
   <entry>
     <title type="html"><![CDATA[将Git提交版本号作为Rails应用版本号]]></title>
-    <link href="http://vangie.github.com/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app/"/>
+    <link href="http://codelife.me/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app/"/>
     <updated>2014-05-17T14:02:04+08:00</updated>
-    <id>http://vangie.github.com/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app</id>
+    <id>http://codelife.me/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app</id>
     <content type="html"><![CDATA[<blockquote><p>应用的版本管理和代码的版本管理通常是分开的，作为两套独立的版本系统来维护。对于小型应用来说有些浪费精力。最早在<a href="https://www.gitlab.com/">GitLab</a>这款开源软件上看到其使用Git的提交版本号作为版本号，本文将借鉴这种做法。</p></blockquote>
 
 <h3>获得Git版本号</h3>
@@ -268,9 +356,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[基于Token的认证和基于声明的标识]]></title>
-    <link href="http://vangie.github.com/blog/2014/03/26/token-based-authentication-and-claims-based-identity/"/>
+    <link href="http://codelife.me/blog/2014/03/26/token-based-authentication-and-claims-based-identity/"/>
     <updated>2014-03-26T14:12:05+08:00</updated>
-    <id>http://vangie.github.com/blog/2014/03/26/token-based-authentication-and-claims-based-identity</id>
+    <id>http://codelife.me/blog/2014/03/26/token-based-authentication-and-claims-based-identity</id>
     <content type="html"><![CDATA[<blockquote><p>OpenID解决跨站点的认证问题，OAuth解决跨站点的授权问题。认证和授权是密不可分的。而OpenID和OAuth这两套协议出自两个不同的组织，协议上有相似和重合的之处，所以想将二者整合有些难度。好在OpenID Connect作为OpenID的下一版本，在OAuth 2.0的协议基础上进行扩展，很好的解决了认证和授权的统一，给开发者带来的便利。在学习和研究OpenID Connect协议时，遇上两个概念基于Token的认证（token based authentication）和基于声明的标识（claims based identity）。本文就这两个概念展开讨论，为了更好的理解OpenID Connect协议的原理。</p></blockquote>
 
 <h3>基于Cookie的认证和基于Token的认证</h3>
@@ -283,7 +371,7 @@ end
 </ul>
 
 
-<p><a href="https://docs.google.com/drawings/d/1IPgSFz2loaOIrnIKinGyrSoRm54slHFi8d_oRJ7BGPc/edit?usp=sharing"><img src="http://vangie.github.com/images/post/2014-03-26/cookie-based-auth-vs-token-based-auth.png" alt="Cookie-based Auth vs Token-based Auth" /></a></p>
+<p><a href="https://docs.google.com/drawings/d/1IPgSFz2loaOIrnIKinGyrSoRm54slHFi8d_oRJ7BGPc/edit?usp=sharing"><img src="http://codelife.me/images/post/2014-03-26/cookie-based-auth-vs-token-based-auth.png" alt="Cookie-based Auth vs Token-based Auth" /></a></p>
 
 <!-- more -->
 
@@ -359,7 +447,7 @@ end
 
 <p>Token仅仅是某种信息的承载形式，基于Token的认证有一个更宽泛的概念：基于声明的标识</p>
 
-<p><a href="https://docs.google.com/drawings/d/1bSBW-rNfOUA4jsWVABXyuJklNY-hXI8QRMRtarh5Ek4/edit?usp=sharing"><img src="http://vangie.github.com/images/post/2014-03-26/claims-based-identity.png" alt="Claims based Identity" /></a></p>
+<p><a href="https://docs.google.com/drawings/d/1bSBW-rNfOUA4jsWVABXyuJklNY-hXI8QRMRtarh5Ek4/edit?usp=sharing"><img src="http://codelife.me/images/post/2014-03-26/claims-based-identity.png" alt="Claims based Identity" /></a></p>
 
 <p>基于声明的标识其实无处不在，举个我们很熟悉的例子。</p>
 
@@ -392,9 +480,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Java泛型让声明方法返回子类型]]></title>
-    <link href="http://vangie.github.com/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics/"/>
+    <link href="http://codelife.me/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics/"/>
     <updated>2014-03-05T11:11:45+08:00</updated>
-    <id>http://vangie.github.com/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics</id>
+    <id>http://codelife.me/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics</id>
     <content type="html"><![CDATA[<blockquote><p>泛型典型的使用场景是集合。考虑到大多数情况下集合是同质的（同一类型），通过声明参数类型，可免去类型转换的麻烦。本文将讨论本人阅读Spring Security源码时遇到的一个关于<strong><em>泛型递归模式</em></strong>的问题。</p></blockquote>
 
 <h3>声明方法返回子类型</h3>
@@ -506,14 +594,14 @@ end
   
   <entry>
     <title type="html"><![CDATA[SQL Select和关系操作]]></title>
-    <link href="http://vangie.github.com/blog/2014/02/23/sql-select-and-relational-operations/"/>
+    <link href="http://codelife.me/blog/2014/02/23/sql-select-and-relational-operations/"/>
     <updated>2014-02-23T19:55:31+08:00</updated>
-    <id>http://vangie.github.com/blog/2014/02/23/sql-select-and-relational-operations</id>
+    <id>http://codelife.me/blog/2014/02/23/sql-select-and-relational-operations</id>
     <content type="html"><![CDATA[<blockquote><p>没有系统的学习过关系数据库，所以对SQL Select的理解有些浅薄，特别是group by和having语句。<a href="http://book.douban.com/subject/7061934/">《SQLite 权威指南（第二版）》</a>的第三章SQLite中的SQL，让我对Select，乃至SQL语言和关系数据库有了全新的认识。一时间激起了对关系数据库和理论的兴趣，到豆瓣上淘了一本绝版的<a href="http://book.douban.com/subject/2122940/">《深度探索关系数据库》</a>，可惜基础太差，读了一半实在读不下去了，作罢。</p></blockquote>
 
 <p>最大的收获和发现莫过于下面这幅图了，</p>
 
-<p><img src="http://vangie.github.com/images/post/2014-02-23/select.png" alt="select处理过程" /></p>
+<p><img src="http://codelife.me/images/post/2014-02-23/select.png" alt="select处理过程" /></p>
 
 <!-- more -->
 
@@ -538,9 +626,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[将Gemfile模板文件的source改成淘宝源]]></title>
-    <link href="http://vangie.github.com/blog/2014/02/03/modify-source-of-the-gemfile-template/"/>
+    <link href="http://codelife.me/blog/2014/02/03/modify-source-of-the-gemfile-template/"/>
     <updated>2014-02-03T21:54:20+08:00</updated>
-    <id>http://vangie.github.com/blog/2014/02/03/modify-source-of-the-gemfile-template</id>
+    <id>http://codelife.me/blog/2014/02/03/modify-source-of-the-gemfile-template</id>
     <content type="html"><![CDATA[<blockquote><p>由于国内网络原因（你懂的），导致rubygems.org存放在Amazon S3上面的资源文件间歇性连接失败。所有你会遇到<code>gem install rack</code>或<code>bundle install</code>的时候半天没有响应。将默认源改成国内的淘宝源(<a href="http://ruby.taobao.org">http://ruby.taobao.org</a>)可以解决该问题。</p></blockquote>
 
 <p>对于Rails项目通常需要将Gemfile的第一行改为</p>
@@ -589,19 +677,19 @@ end
   
   <entry>
     <title type="html"><![CDATA[将树莓派配置成时间胶囊]]></title>
-    <link href="http://vangie.github.com/blog/2013/12/21/raspberry-pi-as-time-capsule/"/>
+    <link href="http://codelife.me/blog/2013/12/21/raspberry-pi-as-time-capsule/"/>
     <updated>2013-12-21T21:00:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/12/21/raspberry-pi-as-time-capsule</id>
+    <id>http://codelife.me/blog/2013/12/21/raspberry-pi-as-time-capsule</id>
     <content type="html"><![CDATA[<blockquote><p>MacBookAir的SSD坏了两次以后，发现TimeMachine真的很有必要。外插个尿袋子真的不方便。AirPort Time Capsule 2T版本价格买到了$299，觉得有些不值。$25的树莓派+一块移动硬盘DIY一个Time Capsule即经济又有趣。</p></blockquote>
 
-<p><img src="http://vangie.github.com/images/post/2013-12-21/raspberry-pi-as-time-capsule.png" alt="Raspberry Pi as TimeCapsule" /></p>
+<p><img src="http://codelife.me/images/post/2013-12-21/raspberry-pi-as-time-capsule.png" alt="Raspberry Pi as TimeCapsule" /></p>
 
 <!-- more -->
 
 
 <h3>组件清单</h3>
 
-<p><img src="http://vangie.github.com/images/post/2013-12-21/component-of-time-capsule.png" alt="Component of TimeCapsule" /></p>
+<p><img src="http://codelife.me/images/post/2013-12-21/component-of-time-capsule.png" alt="Component of TimeCapsule" /></p>
 
 <ul>
 <li>树莓派
@@ -669,7 +757,7 @@ sudo service netatalk restart
 </code></pre>
 
 <p>接下来就可以从Mac的Time Machine里找到这块磁盘 <br/>
-<img src="http://vangie.github.com/images/post/2013-12-21/avaliable-disk.png" alt="选择Time Machine磁盘" /></p>
+<img src="http://codelife.me/images/post/2013-12-21/avaliable-disk.png" alt="选择Time Machine磁盘" /></p>
 
 <h3>配置Avahi</h3>
 
@@ -712,7 +800,7 @@ sudo service netatalk restart
 
 <p>在findler的左侧可以看到共享的文件系统</p>
 
-<p><img src="http://vangie.github.com/images/post/2013-12-21/share.png" alt="共享" /></p>
+<p><img src="http://codelife.me/images/post/2013-12-21/share.png" alt="共享" /></p>
 
 <h3>参考阅读</h3>
 
@@ -733,12 +821,12 @@ sudo service netatalk restart
   
   <entry>
     <title type="html"><![CDATA[pcDuino上手记]]></title>
-    <link href="http://vangie.github.com/blog/2013/12/19/beginner-of-pcduino/"/>
+    <link href="http://codelife.me/blog/2013/12/19/beginner-of-pcduino/"/>
     <updated>2013-12-19T15:05:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/12/19/beginner-of-pcduino</id>
+    <id>http://codelife.me/blog/2013/12/19/beginner-of-pcduino</id>
     <content type="html"><![CDATA[<blockquote><p>感谢刘博士送的这块pcDuino板。入Raspberry Pi前，优先考虑过pcDuino。在OSChina源创会上海站被刘博士打动过。买Raspberry Pi是为了DIY一个Mac的Time Capsule。随便Google了一下，找到了Raspberry实现Time Capsule的相关资料，而pcDuino的相关资料没有找到，于是作罢。</p></blockquote>
 
-<p><img src="http://vangie.github.com/images/post/2013-12-19/pcduinov2.jpg" alt="pcDuino V2" /></p>
+<p><img src="http://codelife.me/images/post/2013-12-19/pcduinov2.jpg" alt="pcDuino V2" /></p>
 
 <p>由于Raspberry Pi的先入为主，上手pcDuino碰到写问题，下面一一列出</p>
 
@@ -857,12 +945,12 @@ sudo cp .vnc/passwd /etc/x11vnc.pass
   
   <entry>
     <title type="html"><![CDATA[Kindle PaperWhite作为树莓派的命令终端]]></title>
-    <link href="http://vangie.github.com/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/"/>
+    <link href="http://codelife.me/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi/"/>
     <updated>2013-12-17T03:14:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi</id>
+    <id>http://codelife.me/blog/2013/12/17/kindle-pw-as-a-terminal-connect-to-raspberry-pi</id>
     <content type="html"><![CDATA[<blockquote><p>网上有大牛把Kindle作为树莓派的显示屏，外带一个Mac蓝牙键盘，实用移动电源供给。一个台低功耗的可移动主机，酷极了。手上真好有一台Kindle PaperWhite，于是开始折腾。</p></blockquote>
 
-<p><img src="http://vangie.github.com/images/post/2013-12-17/kindle-berry.png" alt="KindleBerry" /></p>
+<p><img src="http://codelife.me/images/post/2013-12-17/kindle-berry.png" alt="KindleBerry" /></p>
 
 <h3>准备工作</h3>
 
@@ -887,7 +975,7 @@ sudo cp .vnc/passwd /etc/x11vnc.pass
 <li>将update_usbnet_0.15.N_install_touch_pw.bin拷贝到Kindle根目录</li>
 <li><p>Kindle里工具栏菜单[设置]&ndash;> 工具栏菜单[更新您的Kindle]，安装完成后会重启</p>
 
-<p> <img src="http://vangie.github.com/images/post/2013-12-17/kindle_install_sw.png" alt="安装Kindle应用" /></p></li>
+<p> <img src="http://codelife.me/images/post/2013-12-17/kindle_install_sw.png" alt="安装Kindle应用" /></p></li>
 <li>安装完成以后Kindle更目录会多出一个<code>usbnet</code>目录和<code>extensions\usbnet</code>目录</li>
 <li><p>编辑<code>usbnet\etc\config</code>文件，修改如下</p>
 
@@ -952,7 +1040,7 @@ sudo cp .vnc/passwd /etc/x11vnc.pass
 <li>下载<a href="http://www.mobileread.com/forums/attachment.php?attachmentid=109526&amp;d=1376691043">KUAL.V.2.2.zip</a></li>
 <li>解压后将KindleLauncher-2.0.azw2文件拷贝到Kindle的<code>/documents</code>目录</li>
 <li>断开连接后Kindle里多了一本《Kindle Launcher》的书，点开有一排可以启动的应用列表。 <br/>
- <img src="http://vangie.github.com/images/post/2013-12-17/kindle_launcher.png" alt="Kindle Launcher" /><img src="http://vangie.github.com/images/post/2013-12-17/kindle_launcher_opened.png" alt="Kindle Launcher打开以后的效果" /></li>
+ <img src="http://codelife.me/images/post/2013-12-17/kindle_launcher.png" alt="Kindle Launcher" /><img src="http://codelife.me/images/post/2013-12-17/kindle_launcher_opened.png" alt="Kindle Launcher打开以后的效果" /></li>
 </ol>
 
 
@@ -982,7 +1070,7 @@ sudo cp .vnc/passwd /etc/x11vnc.pass
 
 <p><a href="http://www.fabiszewski.net/kindle-terminal/">Kterm</a>是一个内置虚拟键盘的GTK+的Kindle终端模拟器</p>
 
-<p><img src="http://vangie.github.com/images/post/2013-12-17/kterm.gif" alt="Kterm效果图" /></p>
+<p><img src="http://codelife.me/images/post/2013-12-17/kterm.gif" alt="Kterm效果图" /></p>
 
 <ol>
 <li>下载<a href="http://www.fabiszewski.net/kindle-terminal/kterm-0.7.zip">Kerm 0.7</a></li>
@@ -1029,7 +1117,7 @@ iface usb0 inet static
 <li>开启USBNetwork模式，Kindle的搜索框内，输入<code>;un</code>然后回车</li>
 <li><p>打开Kterm键入</p>
 
-<p> ssh <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#x70;&#105;&#64;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#56;&#46;&#x31;&#x35;&#46;&#49;">&#112;&#x69;&#64;&#x31;&#x39;&#50;&#46;&#x31;&#x36;&#x38;&#x2e;&#49;&#x35;&#x2e;&#49;</a></p></li>
+<p> ssh <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#112;&#105;&#64;&#49;&#57;&#50;&#46;&#49;&#x36;&#56;&#46;&#49;&#x35;&#x2e;&#49;">&#x70;&#x69;&#x40;&#49;&#57;&#50;&#46;&#x31;&#x36;&#x38;&#x2e;&#x31;&#53;&#x2e;&#x31;</a></p></li>
 </ol>
 
 
@@ -1053,9 +1141,9 @@ iface usb0 inet static
   
   <entry>
     <title type="html"><![CDATA[如何找到树莓派通过DHCP获得的IP地址]]></title>
-    <link href="http://vangie.github.com/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/"/>
+    <link href="http://codelife.me/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp/"/>
     <updated>2013-12-17T03:08:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp</id>
+    <id>http://codelife.me/blog/2013/12/17/howto-discover-the-ip-address-of-a-raspberry-pi-on-dhcp</id>
     <content type="html"><![CDATA[<blockquote><p>小巧的树莓派配一个硕大的显示器，很不协调。本文介绍如何获得树莓派通过DHCP动态分配的IP地址。</p></blockquote>
 
 <h3>几种有趣的方法</h3>
@@ -1144,16 +1232,16 @@ Ending arp-scan 1.8: 256 hosts scanned in 1.242 seconds (206.12 hosts/sec). 2 re
   
   <entry>
     <title type="html"><![CDATA[Raspbian成功驱动TP-Link TL-WN725N V2版无线网卡]]></title>
-    <link href="http://vangie.github.com/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian/"/>
+    <link href="http://codelife.me/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian/"/>
     <updated>2013-12-14T00:03:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian</id>
+    <id>http://codelife.me/blog/2013/12/14/tp-link-wn725n-v2-works-on-raspbian</id>
     <content type="html"><![CDATA[<blockquote><p>淘宝双12搞活动，225入了一台英国产2代B型512M RaspBerry Pi，英国产的相对便宜，但是不带外壳，另外加12块，搞了个带固定螺丝的亚克力外壳。话说这个外壳裁剪的相对不错，花了老半天才装好。</p></blockquote>
 
-<p><img src="http://vangie.github.com/images/post/2013-12-14/4-items.jpg" alt="配件合集" /></p>
+<p><img src="http://codelife.me/images/post/2013-12-14/4-items.jpg" alt="配件合集" /></p>
 
-<p><img src="http://vangie.github.com/images/post/2013-12-14/raspberry.jpg" alt="组装成品" /></p>
+<p><img src="http://codelife.me/images/post/2013-12-14/raspberry.jpg" alt="组装成品" /></p>
 
-<p><img src="http://vangie.github.com/images/post/2013-12-14/pi-with-tl-wn725n.jpg" alt="TP-Link TL-WN725N V2" /></p>
+<p><img src="http://codelife.me/images/post/2013-12-14/pi-with-tl-wn725n.jpg" alt="TP-Link TL-WN725N V2" /></p>
 
 <!-- more -->
 
@@ -1192,7 +1280,7 @@ Ending arp-scan 1.8: 256 hosts scanned in 1.242 seconds (206.12 hosts/sec). 2 re
 <h4>确定网卡的版本</h4>
 
 <p>TP-LINK TL-WN725N分<a href="http://wikidevi.com/wiki/TP-LINK_TL-WN725N_v1">V1</a>, <a href="http://wikidevi.com/wiki/TP-LINK_TL-WN725N_v2">V2</a>版本。 <br/>
-<img src="http://vangie.github.com/images/post/2013-12-14/tl-wn725n.jpg" alt="" /></p>
+<img src="http://codelife.me/images/post/2013-12-14/tl-wn725n.jpg" alt="" /></p>
 
 <p>将无线网卡插上树莓的USB接口，执行<code>lsusb</code>返回如下</p>
 
@@ -1319,9 +1407,9 @@ network={
   
   <entry>
     <title type="html"><![CDATA[Google屏蔽Linode的IPv6导致SSH隧道不可用]]></title>
-    <link href="http://vangie.github.com/blog/2013/11/16/google-block-linode-traffic-over-ipv6/"/>
+    <link href="http://codelife.me/blog/2013/11/16/google-block-linode-traffic-over-ipv6/"/>
     <updated>2013-11-16T01:48:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/11/16/google-block-linode-traffic-over-ipv6</id>
+    <id>http://codelife.me/blog/2013/11/16/google-block-linode-traffic-over-ipv6</id>
     <content type="html"><![CDATA[<blockquote><p>最近几个月通过linode的SSH隧道访问Google都会报出类似“We‘re sorry”或者“unusual traffic”的错误，有时需要输入验证码，但大多数时候直接不可用。一段时间使用GoAgent比较多，可惜GoAgent有时不太稳定。</p></blockquote>
 
 <p>Google了一番，才知道是因为Google屏蔽了Linode服务器的IPv6协议导致SSH隧道出问题的。
@@ -1364,22 +1452,22 @@ network={
   
   <entry>
     <title type="html"><![CDATA[Mac OS X替换Razer的状态栏图标]]></title>
-    <link href="http://vangie.github.com/blog/2013/11/16/replace-razer-status-bar-icon-in-macos/"/>
+    <link href="http://codelife.me/blog/2013/11/16/replace-razer-status-bar-icon-in-macos/"/>
     <updated>2013-11-16T01:37:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/11/16/replace-razer-status-bar-icon-in-macos</id>
+    <id>http://codelife.me/blog/2013/11/16/replace-razer-status-bar-icon-in-macos</id>
     <content type="html"><![CDATA[<blockquote><p>心爱的QeathAdder炼狱蝰蛇变形金刚款，用了300多天左键坏了，联系易迅给换了个QeathAdder炼狱蝰蛇2013款。虽然黑色的外观不如变形金刚款银色的配MacBook，但是6400dpi的分辨率，着实给力。CS:GO的甩狙命中率显著提升，开始以为年纪大了水平下降了，换鼠标后，发现还是鼠标的问题。话说Razer鼠标的管理界面支持登录以后保存鼠标配置的功能很好，就是状态栏的蓝色图标和Mac OS统一的暗灰色图标比起来太不协调了。</p></blockquote>
 
 <p>默认效果</p>
 
-<p><img src="http://vangie.github.com/images/post/2013-11-16/replace_before.png" alt="" /></p>
+<p><img src="http://codelife.me/images/post/2013-11-16/replace_before.png" alt="" /></p>
 
 <p>替换后的效果</p>
 
-<p><img src="http://vangie.github.com/images/post/2013-11-16/replace_after.png" alt="" /></p>
+<p><img src="http://codelife.me/images/post/2013-11-16/replace_after.png" alt="" /></p>
 
 <p>替换图标</p>
 
-<p><img src="http://vangie.github.com/images/post/2013-11-16/Status.png" alt="" /></p>
+<p><img src="http://codelife.me/images/post/2013-11-16/Status.png" alt="" /></p>
 
 <h3>替换图标</h3>
 
@@ -1404,12 +1492,12 @@ Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/R
   
   <entry>
     <title type="html"><![CDATA[让Mac正确的识别Noppoo Chic Mini84]]></title>
-    <link href="http://vangie.github.com/blog/2013/11/13/noppoo-chic-mini84-osx-support/"/>
+    <link href="http://codelife.me/blog/2013/11/13/noppoo-chic-mini84-osx-support/"/>
     <updated>2013-11-13T14:44:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/11/13/noppoo-chic-mini84-osx-support</id>
+    <id>http://codelife.me/blog/2013/11/13/noppoo-chic-mini84-osx-support</id>
     <content type="html"><![CDATA[<blockquote><p>半年前入了一把Noppoo的84键茶轴机械键盘，这把键盘的手感真心不错，也非常的小巧，很短，放在桌上也一点都不占位置。唯一的缺点就是不支持Mac系统。官方未提供mac版本的驱动程序，在mac系统下有部分键不好用。网上倒是提供了两种解决方案：一种是usb转ps2，再ps2转usb两次转换以后就好用了（依靠转换器里的芯片）；另一个种是安装Github上的<a href="https://github.com/thefloweringash/iousbhiddriver-descriptor-override">第三方驱动</a>。</p></blockquote>
 
-<p><img src="http://vangie.github.com/images/post/2013-11-13/noppoo-chic-mini84.jpg" alt="Noppoo Chic Mini84" /></p>
+<p><img src="http://codelife.me/images/post/2013-11-13/noppoo-chic-mini84.jpg" alt="Noppoo Chic Mini84" /></p>
 
 <p>两种方法都有试过，两次转换可以免去装驱动的麻烦，但是由于接了两个转换器，有时候会接触不好。最后选用了加装驱动的方案。</p>
 
@@ -1476,9 +1564,9 @@ Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/R
   
   <entry>
     <title type="html"><![CDATA[一个优雅的Mac OS服务管理程序launchctl的包装工具]]></title>
-    <link href="http://vangie.github.com/blog/2013/11/09/a-nice-launchctl-wrapper-for-macos-deamon-management/"/>
+    <link href="http://codelife.me/blog/2013/11/09/a-nice-launchctl-wrapper-for-macos-deamon-management/"/>
     <updated>2013-11-09T17:32:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/11/09/a-nice-launchctl-wrapper-for-macos-deamon-management</id>
+    <id>http://codelife.me/blog/2013/11/09/a-nice-launchctl-wrapper-for-macos-deamon-management</id>
     <content type="html"><![CDATA[<blockquote><p>launchctl是mac os平台的服务管理程序，相当于linux平台的service。但是launchctl真心难用，比如不支持重启服务，关闭服务需要指定配置文件plist的全路径。<a href="https://github.com/mperham/lunchy">lunchy</a>是一个launchctl的包装程序，大大简化了agent的管理。</p></blockquote>
 
 <h3>安装</h3>
@@ -1525,9 +1613,9 @@ Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/R
   
   <entry>
     <title type="html"><![CDATA[在Mac OS里配置Apache+PHP+Mysql环境]]></title>
-    <link href="http://vangie.github.com/blog/2013/11/08/config-apache-php-mysql-on-mac-os/"/>
+    <link href="http://codelife.me/blog/2013/11/08/config-apache-php-mysql-on-mac-os/"/>
     <updated>2013-11-08T21:54:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/11/08/config-apache-php-mysql-on-mac-os</id>
+    <id>http://codelife.me/blog/2013/11/08/config-apache-php-mysql-on-mac-os</id>
     <content type="html"><![CDATA[<blockquote><p>Apache+PHP+Mysql是PHP开发的标配，Windows系统可以安装<a href="www.easyphp.org">EasyPHP</a>集成包。Mac系统也有相应的集成包<a href="http://www.mamp.info/en/index.html">MAMP</a>。但是考虑到Mac OS已经自带了Apache和PHP环境，重复安装Apache和PHP有些冗余，所有本文介绍如何使用homebrew安装Mysql并且集成原有的Apache和PHP环境。</p></blockquote>
 
 <h3>启动Apache</h3>
@@ -1600,9 +1688,9 @@ Server built:   Aug 24 2013 21:10:43</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[致青春]]></title>
-    <link href="http://vangie.github.com/blog/2013/09/19/for-youth/"/>
+    <link href="http://codelife.me/blog/2013/09/19/for-youth/"/>
     <updated>2013-09-19T03:04:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/09/19/for-youth</id>
+    <id>http://codelife.me/blog/2013/09/19/for-youth</id>
     <content type="html"><![CDATA[<blockquote><p>送给那些而立之年的伙伴们</p></blockquote>
 
 <p>年华易逝，岁月如歌，<br/>
@@ -1629,9 +1717,9 @@ Server built:   Aug 24 2013 21:10:43</p></blockquote>
   
   <entry>
     <title type="html"><![CDATA[解决国内rubygems速度慢的问题]]></title>
-    <link href="http://vangie.github.com/blog/2013/09/18/installing-rubygems-faster/"/>
+    <link href="http://codelife.me/blog/2013/09/18/installing-rubygems-faster/"/>
     <updated>2013-09-18T14:50:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/09/18/installing-rubygems-faster</id>
+    <id>http://codelife.me/blog/2013/09/18/installing-rubygems-faster</id>
     <content type="html"><![CDATA[<blockquote><p>国内访问rubygems那个慢呀，尤其是走https协议。</p></blockquote>
 
 <h3>借用bash的http代理</h3>
@@ -1663,79 +1751,6 @@ http://ruby.taobao.org
 <ol>
 <li><a href="http://ruby-china.org/topics/288">国内访问rubygems.org好慢啊，大家有没有提速的方法？</a></li>
 <li><a href="http://tec.liux.in/28">解决rubygems速度慢的Tips</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Bash如何创建随机文件名]]></title>
-    <link href="http://vangie.github.com/blog/2013/09/16/how-to-create-temporary-random-file-name-in-bash/"/>
-    <updated>2013-09-16T23:50:00+08:00</updated>
-    <id>http://vangie.github.com/blog/2013/09/16/how-to-create-temporary-random-file-name-in-bash</id>
-    <content type="html"><![CDATA[<blockquote><p>本文介绍3种不同的方法创建随机缓存文件名。在编写需要创建唯一的缓存文件的脚本时非常有用。</p></blockquote>
-
-<h3>1.使用$RANDOM shell变量</h3>
-
-<p>在控制台执行如下命令</p>
-
-<pre><code>echo $RANDOM
-</code></pre>
-
-<p>每次都获得一个随机数，借用这个变量可用来生成一个随机的文件名</p>
-
-<pre><code>#!/bin/bash
-echo "List of temporary files : "
-for i  in 1 2 3 4 5
-do
-    FILE="/tmp/$(basename $0).$RANDOM.txt"
-    echo $FILE # show file name
-    &gt; $FILE # create files
-done 
-</code></pre>
-
-<h3>2.使用$$变量</h3>
-
-<p>这是一个经典的方法，$$变量返回当前进程的进程号，对于整个系统来说这是一个唯一数字。</p>
-
-<pre><code>#!/bin/bash
-TFILE="/tmp/$(basename $0).$$.tmp"
-ls &gt; $TFILE
-echo "See diretory listing in $TFILE"
-</code></pre>
-
-<h3>3.使用mktemp和tempfile命令</h3>
-
-<p>通过mktemp和tempfile命令是最佳的方式</p>
-
-<pre><code>$ mktemp
-</code></pre>
-
-<p>输出</p>
-
-<pre><code>/tmp/tmp.IAnO5O
-</code></pre>
-
-<p>或者</p>
-
-<pre><code>$ tempfile
-</code></pre>
-
-<p>输出</p>
-
-<pre><code>/tmp/IAnO5O
-</code></pre>
-
-<p>当然还能生成随机文件夹</p>
-
-<pre><code>$ mktemp -d
-$ tempfile -d
-</code></pre>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://www.cyberciti.biz/tips/shell-scripting-bash-how-to-create-temporary-random-file-name.html">Shell scripting (BASH) : How to create temporary random file name</a></li>
 </ol>
 
 ]]></content>
