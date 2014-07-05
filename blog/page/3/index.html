@@ -7,8 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="本文介绍3种不同的方法创建随机缓存文件名。在编写需要创建唯一的缓存文件的脚本时非常有用。 1.使用$RANDOM shell变量 在控制台执行如下命令 echo $RANDOM 每次都获得一个随机数，借用这个变量可用来生成一个随机的文件名 #!/bin/bash
-echo "List of &hellip;">
+	<meta name="description" content="国内访问rubygems那个慢呀，尤其是走https协议。 借用bash的http代理 一般来说通过翻墙代理访问的速度要更快一点。ruby遵守unix环境变量约定，支持http_proxy和https_proxy。 在执行bundle install之前先执行 $ export &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -77,6 +76,77 @@ echo "List of &hellip;">
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/09/18/installing-rubygems-faster/">
+		
+			解决国内rubygems速度慢的问题</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>国内访问rubygems那个慢呀，尤其是走https协议。</p></blockquote>
+
+<h3>借用bash的http代理</h3>
+
+<p>一般来说通过翻墙代理访问的速度要更快一点。ruby遵守unix环境变量约定，支持http_proxy和https_proxy。</p>
+
+<p>在执行<code>bundle install</code>之前先执行</p>
+
+<pre><code>$ export http_proxy=http://127.0.0.1:xxxxx/
+$ export https_proxy=http://127.0.0.1:xxxxx/
+</code></pre>
+
+<p>当然前提是，系统有一个本地可用的http或者https代理。关于bash里使用http代理的细节参见<a href="http://codelife.me/blog/2012/09/02/how-to-set-proxy-for-terminal/">《如何为MacOS X终端设置代理》</a></p>
+
+<h3>改用国内的镜像</h3>
+
+<pre><code>$ gem sources –r http://rubygems.org/
+$ gem sources -a http://ruby.taobao.org/
+$ gem sources -l
+*** CURRENT SOURCES ***
+
+http://ruby.taobao.org
+
+# 请确保只有 ruby.taobao.org
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://ruby-china.org/topics/288">国内访问rubygems.org好慢啊，大家有没有提速的方法？</a></li>
+<li><a href="http://tec.liux.in/28">解决rubygems速度慢的Tips</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-18T14:50:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/09/18/installing-rubygems-faster/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -633,48 +703,6 @@ $ tempfile -d
 </div>
 	
 	<div class="comments"><a href="/blog/2013/06/13/needham-schroeder-protocol/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/">
-		
-			使用NodeJs开发微信公众平台账号</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>微信越来越火，信息、语音短信、视频电话等非常实用OTT业务加上QQ好友和通讯录的导入一时间吸引了大量的用户。前段时间各大运营商开始吵着要收微信的费用。所谓“发现即晚期”，当运营商发现苗条不对的时候，已经来不及了。微信除了提供了好用的通讯替代功能，还是一个可扩展的平台，比如：微信公众平台，一种账号层面的扩展，可以理解为一种微信的公众账号区别于个人账号，通常可作为一种的资讯发布渠道，也可被实现成机器人程序与用户互动。本文介绍如何基于微信公众平台的Open API使用NodeJs开发一个HelloWord程序。</p></blockquote>
-
-<p><img src="/images/post/2013-04-23/nodejs_weichat.png" alt="Nodejs + WeiChat" /></p>
-
-
-		
-		<a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-23T16:25:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/04/23/developing-wechat-public-platform-with-nodejs/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

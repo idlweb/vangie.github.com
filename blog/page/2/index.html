@@ -7,8 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="网上有大牛把Kindle作为树莓派的显示屏，外带一个Mac蓝牙键盘，实用移动电源供给。一个台低功耗的可移动主机，酷极了。手上真好有一台Kindle PaperWhite，于是开始折腾。 准备工作 Raspberry Pi 一台
-Kindle PaperWhite 一台（已越狱） &hellip;">
+	<meta name="description" content="感谢刘博士送的这块pcDuino板。入Raspberry Pi前，优先考虑过pcDuino。在OSChina源创会上海站被刘博士打动过。买Raspberry Pi是为了DIY一个Mac的Time Capsule。随便Google了一下，找到了Raspberry实现Time &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -77,6 +76,50 @@ Kindle PaperWhite 一台（已越狱） &hellip;">
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/12/19/beginner-of-pcduino/">
+		
+			pcDuino上手记</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>感谢刘博士送的这块pcDuino板。入Raspberry Pi前，优先考虑过pcDuino。在OSChina源创会上海站被刘博士打动过。买Raspberry Pi是为了DIY一个Mac的Time Capsule。随便Google了一下，找到了Raspberry实现Time Capsule的相关资料，而pcDuino的相关资料没有找到，于是作罢。</p></blockquote>
+
+<p><img src="/images/post/2013-12-19/pcduinov2.jpg" alt="pcDuino V2" /></p>
+
+<p>由于Raspberry Pi的先入为主，上手pcDuino碰到写问题，下面一一列出</p>
+
+
+		
+		<a href="/blog/2013/12/19/beginner-of-pcduino/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-19T15:05:00+08:00" pubdate data-updated="true">Dec 19<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/12/19/beginner-of-pcduino/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -671,77 +714,6 @@ Server built:   Aug 24 2013 21:10:43</p></blockquote>
 </div>
 	
 	<div class="comments"><a href="/blog/2013/09/19/for-youth/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/09/18/installing-rubygems-faster/">
-		
-			解决国内rubygems速度慢的问题</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>国内访问rubygems那个慢呀，尤其是走https协议。</p></blockquote>
-
-<h3>借用bash的http代理</h3>
-
-<p>一般来说通过翻墙代理访问的速度要更快一点。ruby遵守unix环境变量约定，支持http_proxy和https_proxy。</p>
-
-<p>在执行<code>bundle install</code>之前先执行</p>
-
-<pre><code>$ export http_proxy=http://127.0.0.1:xxxxx/
-$ export https_proxy=http://127.0.0.1:xxxxx/
-</code></pre>
-
-<p>当然前提是，系统有一个本地可用的http或者https代理。关于bash里使用http代理的细节参见<a href="http://codelife.me/blog/2012/09/02/how-to-set-proxy-for-terminal/">《如何为MacOS X终端设置代理》</a></p>
-
-<h3>改用国内的镜像</h3>
-
-<pre><code>$ gem sources –r http://rubygems.org/
-$ gem sources -a http://ruby.taobao.org/
-$ gem sources -l
-*** CURRENT SOURCES ***
-
-http://ruby.taobao.org
-
-# 请确保只有 ruby.taobao.org
-</code></pre>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://ruby-china.org/topics/288">国内访问rubygems.org好慢啊，大家有没有提速的方法？</a></li>
-<li><a href="http://tec.liux.in/28">解决rubygems速度慢的Tips</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-18T14:50:00+08:00" pubdate data-updated="true">Sep 18<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/09/18/installing-rubygems-faster/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

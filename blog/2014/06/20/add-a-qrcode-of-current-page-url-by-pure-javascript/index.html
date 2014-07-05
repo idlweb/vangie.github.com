@@ -1,0 +1,272 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>纯Javascirpt实现页面二维码 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="页面采用响应式布局可以在移动设备上有较好的展现效果，但移动设备输入长长的URL地址有些麻烦。URL二维码结合微信扫一扫可以较好的解决输入不便的问题。通常二维码是一张黑白相间的图片，网上可以找到很多二维码的生成工具和生成服务。所以二维码通常采用预生成或者临时请求第三方服务生成的方式引入到页面中， &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:codelife.me">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:codelife.me">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">纯Javascirpt实现页面二维码</h2>
+	<div class="entry-content"><blockquote><p>页面采用响应式布局可以在移动设备上有较好的展现效果，但移动设备输入长长的URL地址有些麻烦。URL<strong>二维码</strong>结合<strong>微信扫一扫</strong>可以较好的解决输入不便的问题。通常二维码是一张黑白相间的图片，网上可以找到很多二维码的生成工具和生成服务。所以二维码通常采用预生成或者临时请求第三方服务生成的方式引入到页面中，本文介绍一种通过js动态生成二维码的实现方法，并附带交互上的特效。动态生成可以方便的适应URL的变化。js动态生成可以去除对第三方服务的依赖，在隔绝内网下也可以使用。</p></blockquote>
+
+<p><img src="/images/post/2014-06-20/qrcode.png" alt="页面二维码效果图" /></p>
+
+<!-- more -->
+
+
+<p>Jade</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='jade'><span class='line'><span class="nt">a</span><span class="nc">.p-qrcode-link</span>(<span class="na">href=</span><span class="s">&#39;#&#39;</span>)
+</span><span class='line'>  <span class="nt">span</span><span class="nc">.icon-qrcode</span>
+</span><span class='line'>    <span class="nc">.p-qrcode</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Stylus</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nc">.p-qrcode-link</span>
+</span><span class='line'>  <span class="nt">position</span> <span class="nt">relative</span>
+</span><span class='line'>  <span class="nt">padding-top</span> <span class="nt">11px</span> <span class="o">!</span><span class="nt">important</span>
+</span><span class='line'>  <span class="nt">padding-bottom</span> <span class="nt">10px</span> <span class="o">!</span><span class="nt">important</span>
+</span><span class='line'>  <span class="nt">padding-right</span> <span class="nt">2px</span> <span class="o">!</span><span class="nt">important</span>
+</span><span class='line'>  <span class="nt">font-size</span> <span class="nt">2em</span>
+</span><span class='line'>  <span class="nc">.icon-qrcode</span><span class="nd">:before</span>
+</span><span class='line'>    <span class="nt">margin-right</span> <span class="nt">-15px</span> <span class="o">!</span><span class="nt">important</span>
+</span><span class='line'><span class="nc">.p-qrcode</span>
+</span><span class='line'>  <span class="nt">position</span> <span class="nt">absolute</span>
+</span><span class='line'>  <span class="nt">top</span> <span class="nt">10px</span>
+</span><span class='line'>  <span class="nt">right</span> <span class="nt">-13px</span>
+</span><span class='line'>  <span class="nt">z-index</span> <span class="nt">5</span>
+</span><span class='line'>  <span class="nt">display</span> <span class="nt">none</span>
+</span><span class='line'>  <span class="nt">cursor</span><span class="o">:</span> <span class="nt">url</span><span class="o">(</span><span class="s1">&#39;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My41LjbQg61aAAAADUlEQVQYV2P4//8/IwAI/QL/+TZZdwAAAABJRU5ErkJggg==&#39;</span><span class="o">),</span><span class="nt">url</span><span class="o">(../</span><span class="nt">img</span><span class="o">/</span><span class="nt">blank</span><span class="nc">.cur</span><span class="o">),</span><span class="nt">none</span> <span class="o">!</span><span class="nt">important</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Coffeescript</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">base_url = </span><span class="nf">-&gt;</span>
+</span><span class='line'>  <span class="nv">arr = </span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="s">&quot;</span><span class="si">#{</span><span class="nx">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s">//</span><span class="si">#{</span><span class="nx">arr</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s">&quot;</span>
+</span><span class='line'><span class="c1">#qrcode</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s">&#39;.p-qrcode&#39;</span><span class="p">).</span><span class="nx">qrcode</span><span class="p">({</span>
+</span><span class='line'>  <span class="nv">rendeer : </span><span class="s">&#39;table&#39;</span>
+</span><span class='line'>  <span class="nv">width   : </span><span class="mi">128</span>
+</span><span class='line'>  <span class="nv">height  : </span><span class="mi">128</span>
+</span><span class='line'>  <span class="nv">foreground: </span><span class="s">&quot;</span><span class="err">#</span><span class="s">777777&quot;</span>
+</span><span class='line'>  <span class="nv">text    : </span><span class="nx">base_url</span><span class="p">()</span>
+</span><span class='line'><span class="p">})</span>
+</span><span class='line'><span class="c1">#toggle</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s">&#39;.p-qrcode-link&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s">&#39;mouseenter&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s">&#39;.p-qrcode&#39;</span><span class="p">).</span><span class="nx">show</span><span class="p">()</span>
+</span><span class='line'><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s">&#39;mouseleave&#39;</span><span class="p">,</span> <span class="nf">-&gt;</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s">&#39;.p-qrcode&#39;</span><span class="p">).</span><span class="nx">hide</span><span class="p">()</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="https://github.com/jeromeetienne/jquery-qrcode">jquery.qrcode.js</a></li>
+<li><a href="http://stackoverflow.com/questions/2636068/hide-cursor-in-chrome-and-ie">Hide cursor in Chrome (and IE)</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-20T11:39:03+08:00" pubdate data-updated="true">Jun 20<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://codelife.me/blog/2014/06/20/add-a-qrcode-of-current-page-url-by-pure-javascript/';
+        var disqus_url = 'http://codelife.me/blog/2014/06/20/add-a-qrcode-of-current-page-url-by-pure-javascript/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

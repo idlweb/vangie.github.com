@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="&ldquo;我们每一个都是由自己一再重复和行为所铸造的，因而优秀不是一种行为，而是一种习惯&rdquo; –亚里士多德 Men acquire a particular quality by constantly acting a particular way. We become just &hellip;">
+	<meta name="description" content="载入functions taglib &lt;%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%&gt; 计算collection的size ${fn:length(your_collction)} &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,81 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2007/01/12/caculate-collection-size-in-jsp-el/">
+		
+			在JSP中使用EL计算Colloction的大小</a>
+	</h2>
+	<div class="entry-content">
+		<p>载入functions taglib</p>
+
+<pre><code>&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%&gt;
+</code></pre>
+
+<p>计算collection的size</p>
+
+<pre><code>${fn:length(your_collction)}
+</code></pre>
+
+<p>length函数的描述如下</p>
+
+<figure class='code'><figcaption><span>fn.tld </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'> <span class="nt">&lt;function&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;description&gt;</span>
+</span><span class='line'>      Returns the number of items in a collection, or the number of characters in a string.
+</span><span class='line'>    <span class="nt">&lt;/description&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;name&gt;</span>length<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;function-class&gt;</span>org.apache.taglibs.standard.functions.Functions<span class="nt">&lt;/function-class&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;function-signature&gt;</span>int length(java.lang.Object)<span class="nt">&lt;/function-signature&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;example&gt;</span>
+</span><span class='line'>      You have ${fn:length(shoppingCart.products)} in your shopping cart.
+</span><span class='line'>    <span class="nt">&lt;/example&gt;</span>
+</span><span class='line'> <span class="nt">&lt;/function&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-01-12T23:27:33+08:00" pubdate data-updated="true">Jan 12<span>th</span>, 2007</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2007/01/12/caculate-collection-size-in-jsp-el/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">

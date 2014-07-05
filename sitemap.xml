@@ -356,17 +356,23 @@
     </url>
     <url>
         <loc>
+            http://codelife.me/blog/2014/06/20/add-a-qrcode-of-current-page-url-by-pure-javascript/
+        </loc>
+        <lastmod>2014-07-05T15:44:27+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
             http://codelife.me/blog/2014/06/22/fixed-floating-bottom-when-element-scroll-out-of-client-area/
         </loc>
         <lastmod>2014-07-04T23:02:28+08:00</lastmod>
     </url>
     <url>
         <loc>http://codelife.me/blog/archives/</loc>
-        <lastmod>2014-07-04T23:02:28+08:00</lastmod>
+        <lastmod>2014-07-05T15:44:27+08:00</lastmod>
     </url>
     <url>
         <loc>http://codelife.me/</loc>
-        <lastmod>2014-07-04T23:02:28+08:00</lastmod>
+        <lastmod>2014-07-05T15:44:27+08:00</lastmod>
     </url>
     <url>
         <loc>http://codelife.me/robots.txt</loc>
