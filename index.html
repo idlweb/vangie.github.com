@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content=" 页面底部放置了几个功能按钮，当页面长度超过窗口高度时需要滚动到底部才能操作。点击按钮前多了一步滚动操作，多少有些不方便。如果元素位于可视区域之外时，可以固定漂浮于窗口底部就可以解决这种不便。 继续阅读 &rarr; Jun 22nd, 2014 Comments ">
+	<meta name="description" content="最近帮外甥女写一段C程序作业。代码量不多，所有采用Sublime Text + gcc的方式。遇到了奇怪的segmentation fault,没有显示具体错误行号，所有需要借助gdb(The GNU Project Debugger 是*nix环境下著名的调试程序)返回更多有效信息和断点调试 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,60 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/07/14/install-gdb-on-osx-mavericks/">
+		
+			在OS X Mavericks上安装gdb</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>最近帮外甥女写一段C程序作业。代码量不多，所有采用Sublime Text + gcc的方式。遇到了奇怪的<code>segmentation fault</code>,没有显示具体错误行号，所有需要借助gdb(The GNU Project Debugger 是*nix环境下著名的调试程序)返回更多有效信息和断点调试。</p></blockquote>
+
+<h3>安装</h3>
+
+<pre><code>brew install gdb
+</code></pre>
+
+<h3>开启调试编译选项</h3>
+
+<p>希望gdb调试时输出行号与堆栈等详细信息需要<code>gcc</code>编译的时候使用<code>-g</code>选项</p>
+
+<pre><code>gcc -o course_test -g -rdynamic course_test.c
+</code></pre>
+
+<p>注意 homebrew安装的gnu版本的<code>gcc</code>在macox上不支持<code>-rdynamic</code>选项，此处使用的是xcode提供的<code>gcc</code>。</p>
+
+
+		
+		<a href="/blog/2014/07/14/install-gdb-on-osx-mavericks/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-14T00:19:21+08:00" pubdate data-updated="true">Jul 14<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/07/14/install-gdb-on-osx-mavericks/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -531,48 +585,6 @@ after :updated, :migrate_all
 </div>
 	
 	<div class="comments"><a href="/blog/2014/02/03/modify-source-of-the-gemfile-template/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/12/21/raspberry-pi-as-time-capsule/">
-		
-			将树莓派配置成时间胶囊</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>MacBookAir的SSD坏了两次以后，发现TimeMachine真的很有必要。外插个尿袋子真的不方便。AirPort Time Capsule 2T版本价格买到了$299，觉得有些不值。$25的树莓派+一块移动硬盘DIY一个Time Capsule即经济又有趣。</p></blockquote>
-
-<p><img src="/images/post/2013-12-21/raspberry-pi-as-time-capsule.png" alt="Raspberry Pi as TimeCapsule" /></p>
-
-
-		
-		<a href="/blog/2013/12/21/raspberry-pi-as-time-capsule/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-21T21:00:00+08:00" pubdate data-updated="true">Dec 21<span>st</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/12/21/raspberry-pi-as-time-capsule/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

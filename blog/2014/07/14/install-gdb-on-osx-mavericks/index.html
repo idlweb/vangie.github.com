@@ -1,0 +1,254 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>在OS X Mavericks上安装gdb - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="最近帮外甥女写一段C程序作业。代码量不多，所有采用Sublime Text + gcc的方式。遇到了奇怪的segmentation fault,没有显示具体错误行号，所有需要借助gdb(The GNU Project Debugger 是*nix环境下著名的调试程序)返回更多有效信息和断点调试。 &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:codelife.me">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:codelife.me">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">在OS X Mavericks上安装gdb</h2>
+	<div class="entry-content"><blockquote><p>最近帮外甥女写一段C程序作业。代码量不多，所有采用Sublime Text + gcc的方式。遇到了奇怪的<code>segmentation fault</code>,没有显示具体错误行号，所有需要借助gdb(The GNU Project Debugger 是*nix环境下著名的调试程序)返回更多有效信息和断点调试。</p></blockquote>
+
+<h3>安装</h3>
+
+<pre><code>brew install gdb
+</code></pre>
+
+<h3>开启调试编译选项</h3>
+
+<p>希望gdb调试时输出行号与堆栈等详细信息需要<code>gcc</code>编译的时候使用<code>-g</code>选项</p>
+
+<pre><code>gcc -o course_test -g -rdynamic course_test.c
+</code></pre>
+
+<p>注意 homebrew安装的gnu版本的<code>gcc</code>在macox上不支持<code>-rdynamic</code>选项，此处使用的是xcode提供的<code>gcc</code>。</p>
+
+<!-- more -->
+
+
+<h3>调试</h3>
+
+<pre><code>bash$ gdb course_test
+gdb&gt;run
+....
+The GDB command:
+„-exec-run“ returned the error:
+„,msg=„Unable to find Mach task port for process-id 62593:
+(os/kern) failure (0x5). (please check gdb is codesigned - see taskgated(8))““
+</code></pre>
+
+<p>不出意外将会遇到上述错误。这是由于macos的安全策略，homebrew安装的gdb没有签名导致。</p>
+
+<h3>签名gdb</h3>
+
+<ol>
+<li>打开 “钥匙串访问”，位于<code>/Applications/Utilities/Keychain Access.app</code></li>
+<li>打开菜单 /钥匙串访问/证书助理/创建证书&hellip;</li>
+<li>在&#8221;创建您的证书&#8221;窗口设置如下
+
+<ul>
+<li>名称: gdbc</li>
+<li>身份类型: 自签名根证书</li>
+<li>证书类型: 代码签名</li>
+<li>勾选&#8221;让我覆盖这些默认值&#8221;</li>
+</ul>
+</li>
+<li>点击&#8221;继续&#8221;，将&#8221;有效期（天数）&#8221;设置为: 3650</li>
+<li>点击若干次&#8221;继续&#8221;，指导出现&#8221;指定用于该证书的位置&#8221;&#8221;
+
+<ul>
+<li>钥匙串: 系统</li>
+</ul>
+</li>
+<li>点击&#8221;创建&#8221;，会弹出用户名密码输入框，输入密码，点击&#8221;修改钥匙串&#8221;</li>
+<li>在“系统”钥匙串找到刚才创建的&#8221;gdbc&#8221;证书，右键&#8221;显示简介&#8221;，在“信任”分类下找到“代码签名”，指定为“总是信任”。</li>
+<li>退出“钥匙串访问”</li>
+</ol>
+
+
+<p>要让刚刚添加的证书生效需要重启<code>taskgated</code>服务或者重启系统</p>
+
+<pre><code>sudo killall taskgated
+</code></pre>
+
+<p>证书准备好了，接下来给gdb签名</p>
+
+<pre><code>codesign -fs gdbc /usr/local/bin/gdb
+</code></pre>
+
+<h3>lldb</h3>
+
+<p>即使给签名gdb以后，在执行gdb调试仍然无法显示行号（行号显示为 ??），新版本的macox已经和gdb不兼容了，lldb是gdb的替代者。使用lldb调试可以显示错误发生位置的行号。</p>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://blog.panks.me/posts/2013/11/install-gdb-on-os-x-mavericks-from-source/">Install GDB on OS X Mavericks from source</a></li>
+<li><a href="http://wiki.lazarus.freepascal.org/GDB_on_OS_X_Mavericks_and_Xcode_5">GDB on OS X Mavericks and Xcode 5</a></li>
+<li><a href="http://stackoverflow.com/questions/13913818/how-to-get-a-codesigned-gdb-on-osx">How to get a “codesigned” gdb on OSX?</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-14T00:19:21+08:00" pubdate data-updated="true">Jul 14<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://codelife.me/blog/2014/07/14/install-gdb-on-osx-mavericks/';
+        var disqus_url = 'http://codelife.me/blog/2014/07/14/install-gdb-on-osx-mavericks/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

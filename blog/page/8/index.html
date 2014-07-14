@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="载入functions taglib &lt;%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%&gt; 计算collection的size ${fn:length(your_collction)} &hellip;">
+	<meta name="description" content="winxp sp2 的早期版本5.1.2600.2055 (xpsp_sp2_beta1.031215-1745)可以配置成远程界面多用户访问。本文介绍通过替换系统文件termsrv.dll的方式让正式版本的winxp sp2支持多用户远程登录。 下面的脚步是用来进行文件替换， &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,83 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2007/01/12/multiple-user-login-to-windows-xp-sp2-remotely/">
+		
+			Windows XP SP2远程桌面多用户访问</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>winxp sp2 的早期版本5.1.2600.2055 (xpsp_sp2_beta1.031215-1745)可以配置成远程界面多用户访问。本文介绍通过替换系统文件termsrv.dll的方式让正式版本的winxp sp2支持多用户远程登录。</p></blockquote>
+
+<p>下面的脚步是用来进行文件替换，注册表修改等相关配置的，
+将分隔线中的代码拷贝到记事本中，重命名为clickme.cmd，
+然后放到与termsrv.dll同一目录双击运行即可。
+记得要重启电脑哦。</p>
+
+<pre><code>rem 修改注册表值
+@echo off
+setlocal
+set regkey="HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Licensing Core"
+reg add %regkey% /v EnableConcurrentSessions /T REG_DWORD /D 1 /f
+endlocal
+rem 替换termsvr.dll文件
+mkdir .\temp
+copy .\termsrv.dll .\temp\termsrv.dll
+replace .\temp\termsrv.dll %windir%\system32\dllcache
+del /Q .\temp\termsrv.dll
+copy .\termsrv.dll .\temp\termsrv.dll
+TASKKILL /F /FI "MODULES eq termsrv.dll"
+shutdown -a
+replace .\temp\termsrv.dll %windir%\system32  
+del /Q .\temp\termsrv.dll
+rmdir /Q .\temp
+rem 启动相关系统服务
+call %windir%\system32\svchost.exe -k DComLaunch
+call %windir%\system32\svchost.exe -k netsvcs
+</code></pre>
+
+<p>相关文件下载</p>
+
+<p><a href="http://windtear.net/images/termsrv.dll">termsrv.dll</a></p>
+
+<h3>参考文章</h3>
+
+<ol>
+<li><a href="http://windtear.net/archives/2006/04/13/000960.html">打开 XP Pro SP2 远程桌面的多用户支持 Enable Concurrent Sessions</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-01-12T23:41:26+08:00" pubdate data-updated="true">Jan 12<span>th</span>, 2007</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2007/01/12/multiple-user-login-to-windows-xp-sp2-remotely/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
