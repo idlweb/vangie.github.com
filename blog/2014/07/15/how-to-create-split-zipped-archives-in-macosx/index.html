@@ -1,0 +1,233 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mac OS X下如何分卷压缩 - Code Life</title>
+	<meta name="author" content="Vangie Du">
+
+	
+	<meta name="description" content="一朋友的公司邮箱只能接受5M的附件，还世界500强企业真心落后。无奈只能分卷压缩大文件，Mac OS X下没有盗版的WinRar可用，所以只好采用ZIP格式分卷了 创建分卷压缩文件 将目录分卷压缩 zip -s 100m -x "*.DS_Store" -r split-foo.zip foo &hellip;">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="Code Life" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//code.jquery.com/jquery-1.7.2.min.js"></script>
+	
+</head>
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">Code Life</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:codelife.me">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/vangie" title="GitHub">GitHub</a>
+		
+    
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+    
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:codelife.me">
+	</form>
+</nav>
+
+</header>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Mac OS X下如何分卷压缩</h2>
+	<div class="entry-content"><blockquote><p>一朋友的公司邮箱只能接受5M的附件，还世界500强企业真心落后。无奈只能分卷压缩大文件，Mac OS X下没有盗版的WinRar可用，所以只好采用ZIP格式分卷了</p></blockquote>
+
+<h3>创建分卷压缩文件</h3>
+
+<h4>将目录分卷压缩</h4>
+
+<pre><code>zip -s 100m -x "*.DS_Store" -r split-foo.zip foo/
+</code></pre>
+
+<ul>
+<li>-s 切分单元的大小，可选的单位有k(kB), m(MB), g(GB), t(TB),默认为m</li>
+<li>-r 或者 &mdash;recurse-paths 递归目录</li>
+<li>-x 或者 &mdash;exclude 忽略文件</li>
+</ul>
+
+
+<h4>切分已有zip文件</h4>
+
+<pre><code>zip existing.zip --out new.zip -s 50m
+</code></pre>
+
+<p>将创建</p>
+
+<blockquote><p>new.zip <br/>
+new.z01   <br/>
+new.z02 <br/>
+new.z03 <br/>
+&hellip;</p></blockquote>
+
+<!-- more -->
+
+
+<h3>解压分卷压缩文件</h3>
+
+<p>还原分为两步</p>
+
+<p>1.将切分文件合并成单一zip文件</p>
+
+<pre><code>zip -s 0 split.zip --out single.zip
+</code></pre>
+
+<ul>
+<li>-s 0 表示合并</li>
+</ul>
+
+
+<p>2.解压</p>
+
+<pre><code>unzip single.zip 
+</code></pre>
+
+<h3>参考文献</h3>
+
+<ol>
+<li><a href="http://superuser.com/questions/336219/how-do-i-split-a-zip-file-into-multiple-segments">How do I split a .zip file into multiple segments?</a></li>
+<li><a href="http://www.addictivetips.com/mac-os/how-to-create-a-split-zipped-archive-from-mac-os-x-terminal/">How To Create A Split Zipped Archive From Mac OS X Terminal</a></li>
+<li><a href="http://apple.stackexchange.com/questions/12371/how-can-i-compress-a-folder-into-multiple-zip-files">How can I compress a folder into multiple zip files?</a></li>
+<li><a href="http://notepad2.blogspot.jp/2012/12/mac-os-x-createextract-split-zip.html">Mac OS X: create/extract split zip archives</a></li>
+</ol>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-15T21:22:06+08:00" pubdate data-updated="true">Jul 15<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+		
+		
+		<a class="addthis_button_tweet"></a>
+		
+		
+		
+	</div>
+	
+</div>
+
+
+
+<section id="comment">
+    <h2 class="title">Comments</h2>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</section>
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2014
+
+    Vangie Du
+
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+<script type="text/javascript">
+      var disqus_shortname = 'code-life';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://codelife.me/blog/2014/07/15/how-to-create-split-zipped-archives-in-macosx/';
+        var disqus_url = 'http://codelife.me/blog/2014/07/15/how-to-create-split-zipped-archives-in-macosx/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//go.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34493191-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+
+
+</body>
+</html>

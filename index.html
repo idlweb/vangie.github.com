@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="最近帮外甥女写一段C程序作业。代码量不多，所有采用Sublime Text + gcc的方式。遇到了奇怪的segmentation fault,没有显示具体错误行号，所有需要借助gdb(The GNU Project Debugger 是*nix环境下著名的调试程序)返回更多有效信息和断点调试 &hellip;">
+	<meta name="description" content="一朋友的公司邮箱只能接受5M的附件，还世界500强企业真心落后。无奈只能分卷压缩大文件，Mac OS X下没有盗版的WinRar可用，所以只好采用ZIP格式分卷了 创建分卷压缩文件 将目录分卷压缩 zip -s 100m -x "*.DS_Store" -r split-foo.zip foo &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,73 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/07/15/how-to-create-split-zipped-archives-in-macosx/">
+		
+			Mac OS X下如何分卷压缩</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>一朋友的公司邮箱只能接受5M的附件，还世界500强企业真心落后。无奈只能分卷压缩大文件，Mac OS X下没有盗版的WinRar可用，所以只好采用ZIP格式分卷了</p></blockquote>
+
+<h3>创建分卷压缩文件</h3>
+
+<h4>将目录分卷压缩</h4>
+
+<pre><code>zip -s 100m -x "*.DS_Store" -r split-foo.zip foo/
+</code></pre>
+
+<ul>
+<li>-s 切分单元的大小，可选的单位有k(kB), m(MB), g(GB), t(TB),默认为m</li>
+<li>-r 或者 &mdash;recurse-paths 递归目录</li>
+<li>-x 或者 &mdash;exclude 忽略文件</li>
+</ul>
+
+
+<h4>切分已有zip文件</h4>
+
+<pre><code>zip existing.zip --out new.zip -s 50m
+</code></pre>
+
+<p>将创建</p>
+
+<blockquote><p>new.zip <br/>
+new.z01   <br/>
+new.z02 <br/>
+new.z03 <br/>
+&hellip;</p></blockquote>
+
+
+		
+		<a href="/blog/2014/07/15/how-to-create-split-zipped-archives-in-macosx/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-15T21:22:06+08:00" pubdate data-updated="true">Jul 15<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/07/15/how-to-create-split-zipped-archives-in-macosx/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -536,55 +603,6 @@ after :updated, :migrate_all
 </div>
 	
 	<div class="comments"><a href="/blog/2014/02/23/sql-select-and-relational-operations/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/02/03/modify-source-of-the-gemfile-template/">
-		
-			将Gemfile模板文件的source改成淘宝源</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>由于国内网络原因（你懂的），导致rubygems.org存放在Amazon S3上面的资源文件间歇性连接失败。所有你会遇到<code>gem install rack</code>或<code>bundle install</code>的时候半天没有响应。将默认源改成国内的淘宝源(<a href="http://ruby.taobao.org">http://ruby.taobao.org</a>)可以解决该问题。</p></blockquote>
-
-<p>对于Rails项目通常需要将Gemfile的第一行改为</p>
-
-<pre><code>    source 'http://ruby.taobao.org/'
-</code></pre>
-
-<p>但是通过<code>rails new my_project</code>创建项目时，由于Gemfile生成以后立即执行<code>bundle install</code>，此时source尚未修改，所以项目创建的过程仍然很慢。</p>
-
-<p>解决rails new 卡住的问题，有如下两种方法</p>
-
-
-		
-		<a href="/blog/2014/02/03/modify-source-of-the-gemfile-template/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-03T21:54:20+08:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2014</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2014/02/03/modify-source-of-the-gemfile-template/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>
