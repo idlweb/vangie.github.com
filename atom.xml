@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://codelife.me/atom.xml" rel="self"/>
   <link href="http://codelife.me/"/>
-  <updated>2014-07-27T10:10:11+08:00</updated>
+  <updated>2014-07-28T14:40:00+08:00</updated>
   <id>http://codelife.me/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -28,9 +28,9 @@
 </code></pre>
 
 <ul>
-<li>-s 切分单元的大小，可选的单位有k(kB), m(MB), g(GB), t(TB),默认为m</li>
-<li>-r 或者 &mdash;recurse-paths 递归目录</li>
-<li>-x 或者 &mdash;exclude 忽略文件</li>
+<li><code>-s</code> 切分单元的大小，可选的单位有k(kB), m(MB), g(GB), t(TB),默认为m</li>
+<li><code>-r</code> 或者 <code>--recurse-paths</code> 递归目录</li>
+<li><code>-x</code> 或者 <code>--exclude</code> 忽略文件</li>
 </ul>
 
 
@@ -60,7 +60,7 @@ new.z03 <br/>
 </code></pre>
 
 <ul>
-<li>-s 0 表示合并</li>
+<li><code>-s 0</code> 表示合并</li>
 </ul>
 
 
@@ -1381,7 +1381,7 @@ iface usb0 inet static
 <li>开启USBNetwork模式，Kindle的搜索框内，输入<code>;un</code>然后回车</li>
 <li><p>打开Kterm键入</p>
 
-<p> ssh <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#x69;&#64;&#x31;&#57;&#x32;&#46;&#49;&#54;&#x38;&#46;&#49;&#53;&#x2e;&#x31;">&#112;&#x69;&#64;&#49;&#57;&#x32;&#46;&#49;&#54;&#x38;&#46;&#x31;&#x35;&#x2e;&#x31;</a></p></li>
+<p> ssh <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#112;&#105;&#x40;&#49;&#x39;&#x32;&#46;&#x31;&#x36;&#56;&#46;&#x31;&#x35;&#x2e;&#x31;">&#x70;&#x69;&#64;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#x31;&#53;&#46;&#49;</a></p></li>
 </ol>
 
 
