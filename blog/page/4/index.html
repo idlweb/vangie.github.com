@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="亚马逊中国的kindle paperwhite开卖了，与之前坊间谣传的500块的价格相比，849元真的很不给力。正好碰上有个朋友去日本，托人捎了台过来，￥7980，是日元，折合人民币550左右。kindle paperwhite的屏幕已经比较细腻了，翻页时屏幕依然闪烁，电子墨水的通病。 &hellip;">
+	<meta name="description" content="国内网络环境下载rubygems那叫一个痛苦，最近把https改成http也不好用了。百般无耐，考虑在服务器环境下装个PPTP Client连接国外的PPTPD服务。 安装pptp和pptp-setup pptp就不用解释了，pptp-setup是一个设置脚本， &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,59 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2013/06/25/setup-pptp-vpn-client-in-centos-6/">
+		
+			CentOS 6下配置PPTP VPN客户端</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>国内网络环境下载rubygems那叫一个痛苦，最近把https改成http也不好用了。百般无耐，考虑在服务器环境下装个PPTP Client连接国外的PPTPD服务。</p></blockquote>
+
+<h3>安装pptp和pptp-setup</h3>
+
+<p>pptp就不用解释了，pptp-setup是一个设置脚本，通过该脚本可以使用方便地进行初始化设置，生成配置文件。</p>
+
+<pre><code># yum install pptp pptp-setup
+</code></pre>
+
+<h3>创建配置</h3>
+
+<pre><code># pptpsetup --create codelife --server vpn.codelife.me \
+--username codelife --password me --encrypt
+</code></pre>
+
+
+		
+		<a href="/blog/2013/06/25/setup-pptp-vpn-client-in-centos-6/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-25T21:34:00+08:00" pubdate data-updated="true">Jun 25<span>th</span>, 2013</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2013/06/25/setup-pptp-vpn-client-in-centos-6/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -505,47 +558,6 @@ ln -sf goagent-goagent-beadcf8 goagent
 </div>
 	
 	<div class="comments"><a href="/blog/2013/03/02/zmodem-integration-for-iterm2/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/02/07/install-kuaidial-on-ios6/">
-		
-			iOS6安装KuaiDial</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>iOS6 越狱程序<a href="http://evasi0n.com/">evasi0n</a>自本周一发布以来，累计被下载了170万次。果断升级了，升级以后发现KuaiDial没有用了。</p></blockquote>
-
-<p>kuaidial原来的升级源<a href="http://kuaidail.googlecode.com/svn/deb%E6%B2%A1%E6%9C%89%E7%94%A8%E4%BA%86%EF%BC%8C%E8%A3%85%E5%A8%81%E9%94%8B%E6%BA%90%E9%87%8C%E7%9A%84kuaidial%E4%B9%9F%E6%B2%A1%E6%9C%89%E7%94%A8%E3%80%82%E6%94%B9%E7%94%A8**%E7%AC%AC%E4%B8%80%E4%B8%AD%E6%96%87%E6%BA%90**http://apt.178.com,%E7%84%B6%E5%90%8E%E5%AE%89%E8%A3%85**Kuaidial">http://kuaidail.googlecode.com/svn/deb%E6%B2%A1%E6%9C%89%E7%94%A8%E4%BA%86%EF%BC%8C%E8%A3%85%E5%A8%81%E9%94%8B%E6%BA%90%E9%87%8C%E7%9A%84kuaidial%E4%B9%9F%E6%B2%A1%E6%9C%89%E7%94%A8%E3%80%82%E6%94%B9%E7%94%A8**%E7%AC%AC%E4%B8%80%E4%B8%AD%E6%96%87%E6%BA%90**http://apt.178.com,%E7%84%B6%E5%90%8E%E5%AE%89%E8%A3%85**Kuaidial</a> iOS6 测试版**</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-07T17:27:00+08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/02/07/install-kuaidial-on-ios6/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

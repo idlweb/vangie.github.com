@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://codelife.me/atom.xml" rel="self"/>
   <link href="http://codelife.me/"/>
-  <updated>2014-07-28T14:40:00+08:00</updated>
+  <updated>2014-08-31T09:28:28+08:00</updated>
   <id>http://codelife.me/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,63 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[实时web的4种实现方式]]></title>
+    <link href="http://codelife.me/blog/2014/08/16/4-ways-to-implement-real-time-web/"/>
+    <updated>2014-08-16T20:34:05+08:00</updated>
+    <id>http://codelife.me/blog/2014/08/16/4-ways-to-implement-real-time-web</id>
+    <content type="html"><![CDATA[<blockquote><p>随着互联网的飞速发展，我们在网页里完成越来越多的事情。Web应用程序开始逐渐替代传统的桌面程序，然而HTTP协议设计之初没有考虑到面向应用开发的需求，HTTP协议服务端只能被动的响应客户端（浏览器）的请求，若服务端需要实时的给客户端推送消息，HTTP协议就需要借助与轮询和长连接等变通的技术。这些技术虽然勉强能够实现，但是都有些弊端。直到websocket协议推出，才真正的意义上解决了实时数据传输问题。但是由于旧版本浏览器不兼容websocket协议，为了更好的向下兼容，社区遍有了socket.io框架，该框架能智能识别浏览器端对websocket的支持情况，对于不支持的旧版本浏览器采用长轮询的方式通讯。本文将讨论4中常见的实时Web通讯技术。</p></blockquote>
+
+<!-- more -->
+
+
+<h3>轮询（Polling）</h3>
+
+<p><img src="http://codelife.me/images/post/2014-08-16/polling.png" alt="轮询" /></p>
+
+<p>浏览器端连续发送请求以寻求新信息，服务端收到请求立即响应，无论请求的新信息是否已经就绪。此方式适用场景要求轮询的时间间隔相对宽松。例如，邮件客户端通常10分钟连接一次服务器检测是否有新邮件。</p>
+
+<p>轮询简单而且易于实现。然而如果对实时的要求提高，提升轮询的频率，这种方式就会变得低效。</p>
+
+<h3>长轮询 （Long Polling）</h3>
+
+<p><img src="http://codelife.me/images/post/2014-08-16/long_polling.png" alt="长轮询" /></p>
+
+<p>浏览器端连续发送请求，但是服务端并不立即响应，而是等待请求的资源准备好了才发送响应给客户端。从客户端的角度来看，和普通的轮询没有区别。从服务端的角度看这非常类似于长请求。</p>
+
+<p>那响应端口能保持多久不关闭呢？通常浏览器被设置成5分钟超时，若网络中间存在代理超时间隔可能更短。因此即使没有新消息需要发送，长轮询请求也需要周期性的完成，以触发浏览器重新发送一个新请求。这篇 <a href="http://tools.ietf.org/html/rfc6202" title="Known Issues and Best Practices for the Use of Long Polling and Streaming in Bidirectional HTTP">IETF 文档</a>建议超时设置成30~120秒，但是真实值如何设置依赖于你对服务器和客户端之间的网络设备的控制程度。</p>
+
+<p>长轮询能显著的降低请求数并保持响应的低延时，尤其是新消息以不规则的频率产生时。然而信息产生过于频繁，长轮询将接近于普通轮询。</p>
+
+<h3>流推送 （Streaming）</h3>
+
+<p><img src="http://codelife.me/images/post/2014-08-16/streaming.png" alt="流推送" /></p>
+
+<p>浏览器端连续发送请求，当服务端有新消息时响应请求。然后不同于长轮询，服务端保持响应端口不关闭，持续发送当更多的消息到达时。这种方式不需要轮询，但是它也背离了HTTP请求响应模式的语义。例如客户端和服务端需要协调如何解释响应流，客户端可以知道两个连续消息的分割边界。而且，网络中间设备对响应的缓存会让这种方式失效。这就是为何长轮询使用的更普遍。</p>
+
+<h3>WebSocket</h3>
+
+<p><img src="http://codelife.me/images/post/2014-08-16/websocket.png" alt="WebSocket" /></p>
+
+<p>浏览器发送一个HTTP 升级首部请求，服务端确认升级，HTTP协议升级为WebSocket协议。此后浏览器和服务器可以在TCP Socket之上双向的发送数据帧。</p>
+
+<p>WebSocket协议被设计用来替换轮询机制，它非常适合服务端和客户端需要高频率的双向交换数据的场景。初始的基于HTTP协议的握手确保WebSocket请求可以穿透防火墙。然后，最大的挑战是仍然后很多遗留的浏览器不支持该协议。</p>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://spring.io/blog/2012/05/08/spring-mvc-3-2-preview-techniques-for-real-time-updates/">Spring MVC 3.2 Preview: Techniques for Real-time Updates</a></li>
+<li><a href="http://www.slideshare.net/yongboy/real-time-web-14045690">Real time web实时信息流推送</a></li>
+<li><a href="http://tools.ietf.org/html/rfc6202" title="Known Issues and Best Practices for the Use of Long Polling and Streaming in Bidirectional HTTP">Known Issues and Best Practices for the Use of Long Polling and Streaming in Bidirectional HTTP</a></li>
+<li><a href="http://en.wikipedia.org/wiki/HTTP/1.1_Upgrade_header">HTTP/1.1 Upgrade header</a></li>
+<li><a href="http://en.wikipedia.org/wiki/WebSocket">WebSocket</a></li>
+<li><a href="https://www.websocket.org/aboutwebsocket.html">About HTML5 WebSockets</a></li>
+<li><a href="https://github.com/automattic/socket.io-protocol">Socket.IO 1.0 Protocol</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac OS X下如何分卷压缩]]></title>
@@ -1381,7 +1438,7 @@ iface usb0 inet static
 <li>开启USBNetwork模式，Kindle的搜索框内，输入<code>;un</code>然后回车</li>
 <li><p>打开Kterm键入</p>
 
-<p> ssh <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#112;&#105;&#x40;&#49;&#x39;&#x32;&#46;&#x31;&#x36;&#56;&#46;&#x31;&#x35;&#x2e;&#x31;">&#x70;&#x69;&#64;&#49;&#x39;&#x32;&#x2e;&#49;&#54;&#56;&#46;&#x31;&#53;&#46;&#49;</a></p></li>
+<p> ssh <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#112;&#105;&#64;&#49;&#x39;&#50;&#46;&#x31;&#54;&#x38;&#x2e;&#x31;&#53;&#x2e;&#x31;">&#x70;&#x69;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#49;&#53;&#x2e;&#x31;</a></p></li>
 </ol>
 
 
@@ -1821,55 +1878,6 @@ Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/R
 
 <ol>
 <li><a href="http://likidu.com/noppoo-chic-mini84-osx-support/">Noppoo Chic Mini 84支持Mac OS X</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[一个优雅的Mac OS服务管理程序launchctl的包装工具]]></title>
-    <link href="http://codelife.me/blog/2013/11/09/a-nice-launchctl-wrapper-for-macos-deamon-management/"/>
-    <updated>2013-11-09T17:32:00+08:00</updated>
-    <id>http://codelife.me/blog/2013/11/09/a-nice-launchctl-wrapper-for-macos-deamon-management</id>
-    <content type="html"><![CDATA[<blockquote><p>launchctl是mac os平台的服务管理程序，相当于linux平台的service。但是launchctl真心难用，比如不支持重启服务，关闭服务需要指定配置文件plist的全路径。<a href="https://github.com/mperham/lunchy">lunchy</a>是一个launchctl的包装程序，大大简化了agent的管理。</p></blockquote>
-
-<h3>安装</h3>
-
-<p>lunchy是一个ruby程序，可以通过gem直接安装</p>
-
-<pre><code>gem install lunchy
-</code></pre>
-
-<h3>命令</h3>
-
-<ul>
-<li>ls [pattern]</li>
-<li>start [pattern]</li>
-<li>stop [pattern]</li>
-<li>restart [pattern]</li>
-<li>status [pattern]</li>
-<li>install [file]</li>
-<li>show [pattern]</li>
-<li>edit [pattern]</li>
-</ul>
-
-
-<p>lunchy的一个重要功能改进是支持通配，除了安装install agent需要指定完整的文件路径外，其他命令只需要输入特征词即可。</p>
-
-<p>比如启动redis服务</p>
-
-<pre><code>launchctl load ~/Library/LaunchAgents/io.redis.redis-server.plist
-</code></pre>
-
-<p>使用lunchy非常简单</p>
-
-<pre><code>lunchy start redis
-</code></pre>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://v2ex.com/t/88644">OS X 下使用 lunchy 替换 launchctl 管理 daemon apps</a></li>
 </ol>
 
 ]]></content>

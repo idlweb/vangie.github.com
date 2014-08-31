@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="由于国内网络原因（你懂的），导致rubygems.org存放在Amazon S3上面的资源文件间歇性连接失败。所有你会遇到gem install rack或bundle install的时候半天没有响应。将默认源改成国内的淘宝源(http://ruby.taobao.org)可以解决该问题。 &hellip;">
+	<meta name="description" content="没有系统的学习过关系数据库，所以对SQL Select的理解有些浅薄，特别是group by和having语句。《SQLite 权威指南（第二版）》的第三章SQLite中的SQL，让我对Select，乃至SQL语言和关系数据库有了全新的认识。一时间激起了对关系数据库和理论的兴趣， &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,50 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/02/23/sql-select-and-relational-operations/">
+		
+			SQL Select和关系操作</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>没有系统的学习过关系数据库，所以对SQL Select的理解有些浅薄，特别是group by和having语句。<a href="http://book.douban.com/subject/7061934/">《SQLite 权威指南（第二版）》</a>的第三章SQLite中的SQL，让我对Select，乃至SQL语言和关系数据库有了全新的认识。一时间激起了对关系数据库和理论的兴趣，到豆瓣上淘了一本绝版的<a href="http://book.douban.com/subject/2122940/">《深度探索关系数据库》</a>，可惜基础太差，读了一半实在读不下去了，作罢。</p></blockquote>
+
+<p>最大的收获和发现莫过于下面这幅图了，</p>
+
+<p><img src="/images/post/2014-02-23/select.png" alt="select处理过程" /></p>
+
+
+		
+		<a href="/blog/2014/02/23/sql-select-and-relational-operations/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-23T19:55:31+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/02/23/sql-select-and-relational-operations/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -562,85 +606,6 @@ Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/R
 </div>
 	
 	<div class="comments"><a href="/blog/2013/11/13/noppoo-chic-mini84-osx-support/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2013/11/09/a-nice-launchctl-wrapper-for-macos-deamon-management/">
-		
-			一个优雅的Mac OS服务管理程序launchctl的包装工具</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>launchctl是mac os平台的服务管理程序，相当于linux平台的service。但是launchctl真心难用，比如不支持重启服务，关闭服务需要指定配置文件plist的全路径。<a href="https://github.com/mperham/lunchy">lunchy</a>是一个launchctl的包装程序，大大简化了agent的管理。</p></blockquote>
-
-<h3>安装</h3>
-
-<p>lunchy是一个ruby程序，可以通过gem直接安装</p>
-
-<pre><code>gem install lunchy
-</code></pre>
-
-<h3>命令</h3>
-
-<ul>
-<li>ls [pattern]</li>
-<li>start [pattern]</li>
-<li>stop [pattern]</li>
-<li>restart [pattern]</li>
-<li>status [pattern]</li>
-<li>install [file]</li>
-<li>show [pattern]</li>
-<li>edit [pattern]</li>
-</ul>
-
-
-<p>lunchy的一个重要功能改进是支持通配，除了安装install agent需要指定完整的文件路径外，其他命令只需要输入特征词即可。</p>
-
-<p>比如启动redis服务</p>
-
-<pre><code>launchctl load ~/Library/LaunchAgents/io.redis.redis-server.plist
-</code></pre>
-
-<p>使用lunchy非常简单</p>
-
-<pre><code>lunchy start redis
-</code></pre>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://v2ex.com/t/88644">OS X 下使用 lunchy 替换 launchctl 管理 daemon apps</a></li>
-</ol>
-
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-09T17:32:00+08:00" pubdate data-updated="true">Nov 9<span>th</span>, 2013</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2013/11/09/a-nice-launchctl-wrapper-for-macos-deamon-management/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>
