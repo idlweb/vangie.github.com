@@ -7,11 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="前不久在《程序员》上看到了关于Yaml的介绍。
-据说是现在Ruby下用的很火的配置文件。
-在其官方站点有其对文件格式的一些简单介绍。
-在sourceforge上也有两个开源的yaml配置文件的解析包JYaml和Yaml4J
-另外在dev.java.net上有另一个解析包Jvyaml， &hellip;">
+	<meta name="description" content="本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。 虽然windows没有对SSH的原生支持，但是XShell和Putty都挺好用的。 &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -80,6 +76,446 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/">
+		
+			MacOS X终端里SSH会话管理</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>本文介绍如何在终端里使用ssh命令方便的管理常用的ssh访问会话，主要针对MacOS X系统编纂，并在Mountain Lion下测试通过。但是同样适用与安装有Bash终端的*uix系统。</p></blockquote>
+
+<p>虽然windows没有对SSH的原生支持，但是<a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a>和<a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html" title="Putty">Putty</a>都挺好用的。日常工作需要维护多台linux服务器，用户名和密码多了记不住，所有非常依赖会话记忆功能。</p>
+
+
+		
+		<a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-01T23:31:00+08:00" pubdate data-updated="true">Sep 1<span>st</span>, 2012</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2012/09/01/ssh-session-profile-management-in-terminal-of-macos-x/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2007/01/16/convert-java-objects-to-xml-with-caster/">
+		
+			使用Castor实现对象数据绑定</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>在项目需要从配置文件中读取一些数据，
+yaml的作为一种可选的非XML方案已经宣告失败，
+同事给我推荐了另外两个XML的解决方案：
+<a href="http://www.castor.org/">Castor</a>或者<a href="http://jakarta.apache.org/commons/digester/">Digester</a></p></blockquote>
+
+<ul>
+<li>Castor是一种将Java对象和XML自动绑定的开源软件. 它可以在Java对象,XML文本,SQL数据表以及LDAP目录之间绑定.</li>
+<li>Digester原是Apache Jakarta Struts计划中的一部分，用来解析Web App中的XML配置文件，在开发一段时间之后，开发人员觉得这个小工具具有很普遍的使用场合，于是，将这个部分独立出来，放到Commons项目中。</li>
+</ul>
+
+
+<p>由于Digester只是支持由XML到JavaBean的单向转换，而我的项目还需要能够从JavaBean到XML的转换。
+所以我选择了Castor。</p>
+
+<p>下面是Castor的例子</p>
+
+<figure class='code'><figcaption><span>SearchField.java </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">scbit</span><span class="o">.</span><span class="na">lentinus</span><span class="o">.</span><span class="na">domain</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span>
+</span><span class='line'><span class="kd">class</span> <span class="nc">SearchField</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Table</span><span class="o">&gt;</span> <span class="n">tables</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">SearchField</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">tables</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Table</span><span class="o">&gt;();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Table</span><span class="o">&gt;</span> <span class="nf">getTables</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span>
+</span><span class='line'><span class="n">tables</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">addTable</span><span class="o">(</span><span class="n">Table</span> <span class="n">table</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">tables</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">table</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Table.java </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">scbit</span><span class="o">.</span><span class="na">lentinus</span><span class="o">.</span><span class="na">domain</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span>
+</span><span class='line'><span class="kd">class</span> <span class="nc">Table</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">tableDisplayName</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">tableClass</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Field</span><span class="o">&gt;</span> <span class="n">fields</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">Table</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">fields</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Field</span><span class="o">&gt;();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Field</span><span class="o">&gt;</span> <span class="nf">getFields</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">fields</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addField</span><span class="o">(</span><span class="n">Field</span> <span class="n">field</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">fields</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">field</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTableClass</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">tableClass</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTableClass</span><span class="o">(</span><span class="n">String</span> <span class="n">tableClass</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">tableClass</span> <span class="o">=</span> <span class="n">tableClass</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTableDisplayName</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">tableDisplayName</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTableDisplayName</span><span class="o">(</span><span class="n">String</span> <span class="n">tableDisplayName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">this</span><span class="o">.</span><span class="na">tableDisplayName</span> <span class="o">=</span> <span class="n">tableDisplayName</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Field.java </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">scbit</span><span class="o">.</span><span class="na">lentinus</span><span class="o">.</span><span class="na">domain</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span>
+</span><span class='line'><span class="kd">class</span> <span class="nc">Field</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">Field</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">fieldDisplay</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">fieldName</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFieldDisplay</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">fieldDisplay</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setFieldDisplay</span><span class="o">(</span><span class="n">String</span> <span class="n">fieldDisplay</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">fieldDisplay</span> <span class="o">=</span> <span class="n">fieldDisplay</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFieldName</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">fieldName</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setFieldName</span><span class="o">(</span><span class="n">String</span> <span class="n">fieldName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">fieldName</span> <span class="o">=</span> <span class="n">fieldName</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>转换代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class="nd">@Test</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testField</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">SearchField</span> <span class="n">searchField</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SearchField</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">Table</span> <span class="n">table</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">Field</span> <span class="n">field</span><span class="o">;</span>
+</span><span class='line'>        <span class="n">table</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Table</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">table</span><span class="o">.</span><span class="na">setTableDisplayName</span><span class="o">(</span><span class="s">&quot;级别信息&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">table</span><span class="o">.</span><span class="na">setTableClass</span><span class="o">(</span><span class="s">&quot;TbBasicInfor&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">field</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Field</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">field</span><span class="o">.</span><span class="na">setFieldDisplay</span><span class="o">(</span><span class="s">&quot;拉丁学名&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">field</span><span class="o">.</span><span class="na">setFieldName</span><span class="o">(</span><span class="s">&quot;latinName&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">table</span><span class="o">.</span><span class="na">addField</span><span class="o">(</span><span class="n">field</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">field</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Field</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">field</span><span class="o">.</span><span class="na">setFieldDisplay</span><span class="o">(</span><span class="s">&quot;拉丁别名&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">field</span><span class="o">.</span><span class="na">setFieldName</span><span class="o">(</span><span class="s">&quot;latinAlias&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">table</span><span class="o">.</span><span class="na">addField</span><span class="o">(</span><span class="n">field</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">searchField</span><span class="o">.</span><span class="na">addTable</span><span class="o">(</span><span class="n">table</span><span class="o">);</span>
+</span><span class='line'>        <span class="c1">// write it out as XML</span>
+</span><span class='line'>        <span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span>
+</span><span class='line'>                <span class="s">&quot;D:\\dev\\workplace\\eclipse_workspace\\LentinusEdodes\\WebRoot\\WEB-INF\\conf\\searchField.xml&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Writer</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OutputStreamWriter</span><span class="o">(</span><span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">),</span>
+</span><span class='line'>                <span class="s">&quot;utf-8&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Marshaller</span> <span class="n">marshaller</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Marshaller</span><span class="o">(</span><span class="n">writer</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">marshaller</span><span class="o">.</span><span class="na">setEncoding</span><span class="o">(</span><span class="s">&quot;utf-8&quot;</span><span class="o">);</span> <span class="c1">// 关键</span>
+</span><span class='line'>        <span class="n">marshaller</span><span class="o">.</span><span class="na">marshal</span><span class="o">(</span><span class="n">searchField</span><span class="o">);</span>
+</span><span class='line'>        <span class="c1">// now restore the value and list what we get</span>
+</span><span class='line'>        <span class="n">Reader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="n">file</span><span class="o">),</span>
+</span><span class='line'>                <span class="s">&quot;utf-8&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">SearchField</span> <span class="n">read</span> <span class="o">=</span> <span class="o">(</span><span class="n">SearchField</span><span class="o">)</span> <span class="n">Unmarshaller</span><span class="o">.</span><span class="na">unmarshal</span><span class="o">(</span>
+</span><span class='line'>                <span class="n">SearchField</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">reader</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">assertTrue</span><span class="o">(</span><span class="n">read</span><span class="o">.</span><span class="na">getTables</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getTableDisplayName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">&quot;级别信息&quot;</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">writer</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>转换后的XML文件</p>
+
+<p>searchField.xml</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;search-field&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;tables</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>        <span class="na">xsi:type=</span><span class="s">&quot;java:org.scbit.lentinus.domain.Table&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;fields</span> <span class="na">xsi:type=</span><span class="s">&quot;java:org.scbit.lentinus.domain.Field&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;field-display&gt;</span>拉丁学名<span class="nt">&lt;/field-display&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;field-name&gt;</span>latinName<span class="nt">&lt;/field-name&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/fields&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;fields</span> <span class="na">xsi:type=</span><span class="s">&quot;java:org.scbit.lentinus.domain.Field&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;field-display&gt;</span>拉丁别名<span class="nt">&lt;/field-display&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;field-name&gt;</span>latinAlias<span class="nt">&lt;/field-name&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/fields&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;table-class&gt;</span>TbBasicInfor<span class="nt">&lt;/table-class&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;table-display-name&gt;</span>级别信息<span class="nt">&lt;/table-display-name&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/tables&gt;</span>
+</span><span class='line'><span class="nt">&lt;/search-field&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Castor使用起来还是比较简单的，但在读取中文的时候，要注意可能会有乱码问题，在它官方的FAQ中有相应的解释和解决方法。</p>
+
+<blockquote><p>How do I set the encoding?
+Create a new instance of the Marshaller class and use the setEncoding method. You’ll also need to make sure the encoding for the Writer is set properly as well:
+…
+String encoding = &ldquo;ISO-8859-1&rdquo;;
+FileOutputStream fos = new FileOutputStream(&ldquo;result.xml&rdquo;);
+OutputStreamWriter osw = new OuputStreamWriter(fos, encoding);
+Marshaller marshaller = new Marshaller(osw);
+marshaller.setEncoding(encoding);
+…</p></blockquote>
+
+<h3>参考文章</h3>
+
+<ol>
+<li><a href="http://www.ibm.com/developerworks/cn/xml/x-bindcastor/">XML 与 Java 技术: 用 Castor 进行数据绑定</a></li>
+<li><a href="http://www-128.ibm.com/developerworks/cn/java/j-castor/index.html">Castor JDO 入门</a></li>
+<li><a href="http://www.blogchinese.com/06081/242496/archives/2006/200693205223.shtml">学习Digester笔记</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-01-16T19:11:07+08:00" pubdate data-updated="true">Jan 16<span>th</span>, 2007</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2007/01/16/convert-java-objects-to-xml-with-caster/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -1107,132 +1543,6 @@ call %windir%\system32\svchost.exe -k netsvcs
 </div>
 	
 	<div class="comments"><a href="/blog/2006/05/13/the-first-wm-size-message/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2006/04/04/the-travels-of-xitang/">
-		
-			西塘游记</a>
-	</h2>
-	<div class="entry-content">
-		<h2>愚人节之西塘游</h2>
-
-<p>昨晚，天气预报，多云转晴。 <br/>
-今晨，天气预报，大雨、大雨。 <br/>
-昨晚，兴奋难眠。 <br/>
-今晨，睡眼惺忪。 <br/>
-昨晚，狂风大雨。 <br/>
-今晨，微风细雨。 <br/>
-公交车，北广场，售票处，轻轨，汽车站，六点半，八点三刻，十二点，十四点。 <br/>
-好一个愚人节啊！</p>
-
-<h2>阳光下与天使游西塘</h2>
-
-<p>我的天使好喜欢看樱花，正逢樱花盛开，每每路过，或远观，或站在树下抬头细赏， 恰似一副美人赏花图。</p>
-
-<p>今天出游，带着一台数码相机，给我的天使拍个专辑，她一定会很开心的。天公做美，一出门雨就停了。正好路过她宿舍楼后面的樱花、雨后的樱花配着天使，在我的手中变成了一副赏心悦目的图画。</p>
-
-<p>天使还喜欢西塘青砖铺的小路，她像小鸟一样在我的身边，一会飞来飞去，一会叽叽喳喳，一会小鸟伊人。还老念着“小桥流水人家”，看来她向往淡薄宁静的生活。</p>
-
-<p>我们俩可以互拍，要合拍只能请人了。</p>
-
-<p>这里的游客个个都端着相机，找个人不难。一般都会相互帮拍，这样我们和另一对人还组成了帮拍小组，一起走了不少地方，每帮拍一次都互赞“绝配”。天使老“趁我之危”，拍下我帮拍的光辉形象。</p>
-
-<p>我的照片虽拍的不多，可张张都是精华，都是天使的“呕心之作”。她就让我在那站半天，琢磨什么光线啊，构图啊，搞得我都“表情僵化”了，下次得让她也尝尝“表情僵化”的味道。</p>
-
-<p>没想到在这儿也能看到樱花，于是又拍了几张樱花之照。</p>
-
-<p>乌蓬船上看西塘夜景还真是别有一番风味、河岸的红灯笼倒映在水中，随水波荡漾。</p>
-
-<p>一起在河边吃饭，吃臭豆腐，看两边的小店，拍河岸的风景，就是我和天使的幸福之游。</p>
-
-<h2>西塘印象</h2>
-
-<p>西塘是用来回忆，用来写意的。</p>
-
-<p>他的美是古朴，是宁静，是一条条的小弄，是一块快的青石，是一间间的木屋，是一座座的石桥。</p>
-
-<p>虽然塔的红灯笼里亮着的不是蜡烛，而是电灯，到处可见太阳能，电表，安全出口牌等等，标识出现代感的东西，有点遗憾，但依然感激历史留下了可以感知的过去，古镇在印象上还算是完整的。</p>
-
-<p>写着“客栈”，“酒”和”茶“的泛黄的招牌都把我们带回了过去，同时也把过去的印象写在了我们的脑海中。</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2006-04-04T15:16:09+08:00" pubdate data-updated="true">Apr 4<span>th</span>, 2006</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2006/04/04/the-travels-of-xitang/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2006/03/25/java.util.zip-chinese-character-garbled-problem/">
-		
-			java.util.zip不支持中文字符的解决办法</a>
-	</h2>
-	<div class="entry-content">
-		<p><code>java.util.zip</code>对中文的支持不好,不管是文件名,还是文件中有中文都会出现乱码,更有甚者含中文的doc文件压缩后无法解压,出现 <strong>&ldquo;未知的文件末端&rdquo;</strong>.</p>
-
-<p>java的中文问题还是挺多的,很多都要通过转码.
-我转来转去老是转不好,
-无奈.</p>
-
-<p>后来在网上看到
-Ant中的<code>org.apache.tools.zip</code>对中文支持比较好,
-这个类在ant.jar,
-解压import后,直接就可以用了,类名和<code>java.util.zip</code>完全一样,不需要改.</p>
-
-		
-		
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2006-03-25T14:35:10+08:00" pubdate data-updated="true">Mar 25<span>th</span>, 2006</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2006/03/25/java.util.zip-chinese-character-garbled-problem/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

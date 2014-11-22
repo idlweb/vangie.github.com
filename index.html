@@ -7,7 +7,7 @@
 	<meta name="author" content="Vangie Du">
 
 	
-	<meta name="description" content="随着互联网的飞速发展，我们在网页里完成越来越多的事情。Web应用程序开始逐渐替代传统的桌面程序，然而HTTP协议设计之初没有考虑到面向应用开发的需求，HTTP协议服务端只能被动的响应客户端（浏览器）的请求，若服务端需要实时的给客户端推送消息，HTTP协议就需要借助与轮询和长连接等变通的技术。 &hellip;">
+	<meta name="description" content="开发环境需要在本地映射域名和端口，无奈选择安装nginx。本文介绍如何将homebrew安装的nginx以符合MacOS标准的方式默认启动在80端口。 安装nginx brew install nginx 拷贝plist文件到启动脚本目录 sudo cp /usr/local/opt/nginx &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -76,6 +76,156 @@
 		
 	
 	<div id="content" class="inner">
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/10/29/how-to-start-nginx-on-part-80-as-daemon-at-osx/">
+		
+			MacOS X中如何让nginx以服务形式启动在80端口</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>开发环境需要在本地映射域名和端口，无奈选择安装nginx。本文介绍如何将homebrew安装的nginx以符合MacOS标准的方式默认启动在80端口。</p></blockquote>
+
+<p>安装nginx</p>
+
+<pre><code>brew install nginx
+</code></pre>
+
+<p>拷贝plist文件到启动脚本目录</p>
+
+<pre><code>sudo cp /usr/local/opt/nginx/homebrew.mxcl.nginx.plist /Library/LaunchDaemons/
+</code></pre>
+
+<p>文件内容如下</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+  &lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;homebrew.mxcl.nginx&lt;/string&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;KeepAlive&lt;/key&gt;
+    &lt;false/&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;/usr/local/opt/nginx/bin/nginx&lt;/string&gt;
+        &lt;string&gt;-g&lt;/string&gt;
+        &lt;string&gt;daemon off;&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;WorkingDirectory&lt;/key&gt;
+    &lt;string&gt;/usr/local&lt;/string&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre>
+
+<p>想要方便的启动和关闭nginx可以将下面两个别名添加到<code>$HOME/.profile</code></p>
+
+<pre><code># Nginx needs to bind to port 80 so must run as /Library/LaunchDaemon with sudo
+alias start-nginx='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
+alias stop-nginx='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://superuser.com/questions/304206/how-do-i-start-nginx-on-port-80-at-os-x-login">How do I start nginx on port 80 at OS X login?</a></li>
+<li><a href="https://coderwall.com/p/dgwwuq">Installing Nginx in Mac OS X Maverick With Homebrew</a></li>
+</ol>
+
+
+		
+		
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-29T15:52:49+08:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/10/29/how-to-start-nginx-on-part-80-as-daemon-at-osx/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
+
+
+    <article class="post">
+	<h2 class="title">
+		
+		<a href="/blog/2014/10/21/the-difference-between-throttle-and-debounce-in-underscorejs/">
+		
+			浅谈 _.throttle 和 _.debounce 的差异</a>
+	</h2>
+	<div class="entry-content">
+		<blockquote><p>Underscore.js是一个很精干的库，压缩后只有5.2KB。它提供了几十种函数式编程的方法，弥补了标准库的不足，大大方便了JavaScript的编程。</p>
+
+<p>本文仅探讨Underscore.js的两个函数方法 <code>_.throttle</code> 和 <code>_.debounce</code> 的原理、效果和用途。</p></blockquote>
+
+<p>通常的函数（或方法）调用过程分为三个部分：请求、执行和响应。（文中“请求”与“调用”同义，“响应”与“返回”同义，为了更好的表述，刻意采用请求和响应的说法。）</p>
+
+<p>某些场景下，比如响应鼠标移动或者窗口大小调整的事件，触发频率比较高。若稍处理函数微复杂，需要较多的运算执行时间，响应速度跟不上触发频率，往往会出现延迟，导致假死或者卡顿感。</p>
+
+<p>在运算资源不够的时候，最直观的解决办法就是升级硬件，诚然通过购买更好的硬件可以解决部分问题，但是也需要为此付出高额的成本。特别是客户端和服务器模式，要求客户端统一升级硬件基本不可能。</p>
+
+<p>在资源有限的前提下，处理函数无法即时响应高频调用。退而求其次，只响应部分请求是否可行呢？某些场景下的密集性请求，具备很强的同质和连续性。比如说，鼠标移动的轨迹参数。响应越及时效果越平滑，但是如果响应速度跟不上时，反而会出现卡顿感，如果适当的丢弃一些请求效果更流畅。</p>
+
+<p><code>throttle</code> 和 <code>debounce</code> 是解决请求和响应速度不匹配问题的两个方案。二者的差异在于选择不同的策略。</p>
+
+<h3>电梯超时</h3>
+
+<p>想象每天上班大厦底下的电梯。把电梯完成一次运送，类比为一次函数的执行和响应。假设电梯有两种运行策略 <code>throttle</code> 和 <code>debounce</code> ，超时设定为15秒，不考虑容量限制。</p>
+
+<ul>
+<li><code>throttle</code> 策略的电梯。保证如果电梯第一个人进来后，15秒后准时运送一次，不等待。如果没有人，则待机。</li>
+<li><code>debounce</code> 策略的电梯。如果电梯里有人进来，等待15秒。如果又人进来，15秒等待重新计时，直到15秒超时，开始运送。</li>
+</ul>
+
+
+
+		
+		<a href="/blog/2014/10/21/the-difference-between-throttle-and-debounce-in-underscorejs/" class="more-link">继续阅读 &rarr;</a>
+	</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-21T13:27:00+08:00" pubdate data-updated="true">Oct 21<span>st</span>, 2014</time></div>
+	<div class="tags">
+
+</div>
+	
+	<div class="comments"><a href="/blog/2014/10/21/the-difference-between-throttle-and-debounce-in-underscorejs/#disqus_thread">Comments</a></div>
+	
+</div>
+</article>
 
 
     <article class="post">
@@ -479,126 +629,6 @@ after :updated, :migrate_all
 </div>
 	
 	<div class="comments"><a href="/blog/2014/05/17/using-git-commit-version-as-version-number-of-rails-app/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/03/26/token-based-authentication-and-claims-based-identity/">
-		
-			基于Token的认证和基于声明的标识</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>OpenID解决跨站点的认证问题，OAuth解决跨站点的授权问题。认证和授权是密不可分的。而OpenID和OAuth这两套协议出自两个不同的组织，协议上有相似和重合的之处，所以想将二者整合有些难度。好在OpenID Connect作为OpenID的下一版本，在OAuth 2.0的协议基础上进行扩展，很好的解决了认证和授权的统一，给开发者带来的便利。在学习和研究OpenID Connect协议时，遇上两个概念基于Token的认证（token based authentication）和基于声明的标识（claims based identity）。本文就这两个概念展开讨论，为了更好的理解OpenID Connect协议的原理。</p></blockquote>
-
-<h3>基于Cookie的认证和基于Token的认证</h3>
-
-<p>有两种不同的方法实现服务端的认证</p>
-
-<ul>
-<li>常见方式是<strong>基于Cookie的认证</strong>,每个请求中携带Cookie信息以便于服务端识别</li>
-<li>另一种新方法，<strong>基于Token的认证</strong>，在每个请求中携带被签名过Token信息传送到服务端</li>
-</ul>
-
-
-<p><a href="https://docs.google.com/drawings/d/1IPgSFz2loaOIrnIKinGyrSoRm54slHFi8d_oRJ7BGPc/edit?usp=sharing"><img src="/images/post/2014-03-26/cookie-based-auth-vs-token-based-auth.png" alt="Cookie-based Auth vs Token-based Auth" /></a></p>
-
-
-		
-		<a href="/blog/2014/03/26/token-based-authentication-and-claims-based-identity/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-26T14:12:05+08:00" pubdate data-updated="true">Mar 26<span>th</span>, 2014</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2014/03/26/token-based-authentication-and-claims-based-identity/#disqus_thread">Comments</a></div>
-	
-</div>
-</article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics/">
-		
-			Java泛型让声明方法返回子类型</a>
-	</h2>
-	<div class="entry-content">
-		<blockquote><p>泛型典型的使用场景是集合。考虑到大多数情况下集合是同质的（同一类型），通过声明参数类型，可免去类型转换的麻烦。本文将讨论本人阅读Spring Security源码时遇到的一个关于<strong><em>泛型递归模式</em></strong>的问题。</p></blockquote>
-
-<h3>声明方法返回子类型</h3>
-
-<p>在Spring Security的源码里有一个<code>ProviderManagerBuilder</code>接口，声明如下</p>
-
-<pre><code>public interface ProviderManagerBuilder&lt;B extends ProviderManagerBuilder&lt;B&gt;&gt; extends SecurityBuilder&lt;AuthenticationManager&gt; {
-    B authenticationProvider(AuthenticationProvider authenticationProvider);
-}
-</code></pre>
-
-<p>其实现类<code>AuthenticationManagerBuilder</code></p>
-
-<pre><code>public class AuthenticationManagerBuilder extends AbstractConfiguredSecurityBuilder&lt;AuthenticationManager, AuthenticationManagerBuilder&gt; implements ProviderManagerBuilder&lt;AuthenticationManagerBuilder&gt; {
-
-    //...
-
-    public AuthenticationManagerBuilder authenticationProvider(
-        AuthenticationProvider authenticationProvider) {
-        this.authenticationProviders.add(authenticationProvider);
-        return this;
-    }
-
-    //...
-
-}
-</code></pre>
-
-<p>上面有很多干扰项，我们来简化一下</p>
-
-
-		
-		<a href="/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics/" class="more-link">继续阅读 &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-05T11:11:45+08:00" pubdate data-updated="true">Mar 5<span>th</span>, 2014</time></div>
-	<div class="tags">
-
-</div>
-	
-	<div class="comments"><a href="/blog/2014/03/05/returning-subtype-of-declared-type-from-method-by-java-generics/#disqus_thread">Comments</a></div>
 	
 </div>
 </article>

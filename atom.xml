@@ -4,7 +4,7 @@
   <title><![CDATA[Code Life]]></title>
   <link href="http://codelife.me/atom.xml" rel="self"/>
   <link href="http://codelife.me/"/>
-  <updated>2014-08-31T09:28:28+08:00</updated>
+  <updated>2014-11-22T22:37:41+08:00</updated>
   <id>http://codelife.me/</id>
   <author>
     <name><![CDATA[Vangie Du]]></name>
@@ -12,6 +12,378 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[MacOS X中如何让nginx以服务形式启动在80端口]]></title>
+    <link href="http://codelife.me/blog/2014/10/29/how-to-start-nginx-on-part-80-as-daemon-at-osx/"/>
+    <updated>2014-10-29T15:52:49+08:00</updated>
+    <id>http://codelife.me/blog/2014/10/29/how-to-start-nginx-on-part-80-as-daemon-at-osx</id>
+    <content type="html"><![CDATA[<blockquote><p>开发环境需要在本地映射域名和端口，无奈选择安装nginx。本文介绍如何将homebrew安装的nginx以符合MacOS标准的方式默认启动在80端口。</p></blockquote>
+
+<p>安装nginx</p>
+
+<pre><code>brew install nginx
+</code></pre>
+
+<p>拷贝plist文件到启动脚本目录</p>
+
+<pre><code>sudo cp /usr/local/opt/nginx/homebrew.mxcl.nginx.plist /Library/LaunchDaemons/
+</code></pre>
+
+<p>文件内容如下</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+  &lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;homebrew.mxcl.nginx&lt;/string&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;KeepAlive&lt;/key&gt;
+    &lt;false/&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;/usr/local/opt/nginx/bin/nginx&lt;/string&gt;
+        &lt;string&gt;-g&lt;/string&gt;
+        &lt;string&gt;daemon off;&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;WorkingDirectory&lt;/key&gt;
+    &lt;string&gt;/usr/local&lt;/string&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre>
+
+<p>想要方便的启动和关闭nginx可以将下面两个别名添加到<code>$HOME/.profile</code></p>
+
+<pre><code># Nginx needs to bind to port 80 so must run as /Library/LaunchDaemon with sudo
+alias start-nginx='sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
+alias stop-nginx='sudo launchctl unload /Library/LaunchDaemons/homebrew.mxcl.nginx.plist'
+</code></pre>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://superuser.com/questions/304206/how-do-i-start-nginx-on-port-80-at-os-x-login">How do I start nginx on port 80 at OS X login?</a></li>
+<li><a href="https://coderwall.com/p/dgwwuq">Installing Nginx in Mac OS X Maverick With Homebrew</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[浅谈 _.throttle 和 _.debounce 的差异]]></title>
+    <link href="http://codelife.me/blog/2014/10/21/the-difference-between-throttle-and-debounce-in-underscorejs/"/>
+    <updated>2014-10-21T13:27:00+08:00</updated>
+    <id>http://codelife.me/blog/2014/10/21/the-difference-between-throttle-and-debounce-in-underscorejs</id>
+    <content type="html"><![CDATA[<blockquote><p>Underscore.js是一个很精干的库，压缩后只有5.2KB。它提供了几十种函数式编程的方法，弥补了标准库的不足，大大方便了JavaScript的编程。</p>
+
+<p>本文仅探讨Underscore.js的两个函数方法 <code>_.throttle</code> 和 <code>_.debounce</code> 的原理、效果和用途。</p></blockquote>
+
+<p>通常的函数（或方法）调用过程分为三个部分：请求、执行和响应。（文中“请求”与“调用”同义，“响应”与“返回”同义，为了更好的表述，刻意采用请求和响应的说法。）</p>
+
+<p>某些场景下，比如响应鼠标移动或者窗口大小调整的事件，触发频率比较高。若稍处理函数微复杂，需要较多的运算执行时间，响应速度跟不上触发频率，往往会出现延迟，导致假死或者卡顿感。</p>
+
+<p>在运算资源不够的时候，最直观的解决办法就是升级硬件，诚然通过购买更好的硬件可以解决部分问题，但是也需要为此付出高额的成本。特别是客户端和服务器模式，要求客户端统一升级硬件基本不可能。</p>
+
+<p>在资源有限的前提下，处理函数无法即时响应高频调用。退而求其次，只响应部分请求是否可行呢？某些场景下的密集性请求，具备很强的同质和连续性。比如说，鼠标移动的轨迹参数。响应越及时效果越平滑，但是如果响应速度跟不上时，反而会出现卡顿感，如果适当的丢弃一些请求效果更流畅。</p>
+
+<p><code>throttle</code> 和 <code>debounce</code> 是解决请求和响应速度不匹配问题的两个方案。二者的差异在于选择不同的策略。</p>
+
+<h3>电梯超时</h3>
+
+<p>想象每天上班大厦底下的电梯。把电梯完成一次运送，类比为一次函数的执行和响应。假设电梯有两种运行策略 <code>throttle</code> 和 <code>debounce</code> ，超时设定为15秒，不考虑容量限制。</p>
+
+<ul>
+<li><code>throttle</code> 策略的电梯。保证如果电梯第一个人进来后，15秒后准时运送一次，不等待。如果没有人，则待机。</li>
+<li><code>debounce</code> 策略的电梯。如果电梯里有人进来，等待15秒。如果又人进来，15秒等待重新计时，直到15秒超时，开始运送。</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h3>使用示例</h3>
+
+<h4>_.throttle 使用示例</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">log</span><span class="p">(</span> <span class="nx">event</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">).</span><span class="nx">scrollTop</span><span class="p">(),</span> <span class="nx">event</span><span class="p">.</span><span class="nx">timeStamp</span> <span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 控制台记录窗口滚动事件，触发频率比你想象的要快</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">).</span><span class="nx">scroll</span><span class="p">(</span> <span class="nx">log</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 控制台记录窗口滚动事件，每250ms最多触发一次</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">window</span><span class="p">).</span><span class="nx">scroll</span><span class="p">(</span> <span class="nx">_</span><span class="p">.</span><span class="nx">throttle</span><span class="p">(</span> <span class="nx">log</span><span class="p">,</span> <span class="mi">250</span> <span class="p">)</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>_.debounce 使用示例</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">ajax_lookup</span><span class="p">(</span> <span class="nx">event</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// 对输入的内容$(this).val()执行 Ajax 查询</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 字符输入的频率比你预想的要快，Ajax 请求来不及回复。</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input:text&#39;</span><span class="p">).</span><span class="nx">keyup</span><span class="p">(</span> <span class="nx">ajax_lookup</span> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// 当用户停顿250毫秒以后才开始查找</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input:text&#39;</span><span class="p">).</span><span class="nx">keyup</span><span class="p">(</span> <span class="nx">_</span><span class="p">.</span><span class="nx">debounce</span><span class="p">(</span> <span class="nx">ajax_lookup</span><span class="p">,</span> <span class="mi">250</span> <span class="p">)</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>underscore源码注解</h3>
+
+<p>让我们来读读源码，探其究竟。基于开发版本（1.7.0）的源码，加上了一些注释以帮助理解。</p>
+
+<h3><code>_.throttle</code>方法源码</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 频率控制 返回函数连续调用时，func 执行频率限定为 次 / wait</span>
+</span><span class='line'><span class="cm"> * </span>
+</span><span class='line'><span class="cm"> * @param  {function}   func      传入函数</span>
+</span><span class='line'><span class="cm"> * @param  {number}     wait      表示时间窗口的间隔</span>
+</span><span class='line'><span class="cm"> * @param  {object}     options   如果想忽略开始边界上的调用，传入{leading: false}。</span>
+</span><span class='line'><span class="cm"> *                                如果想忽略结尾边界上的调用，传入{trailing: false}</span>
+</span><span class='line'><span class="cm"> * @return {function}             返回客户调用函数   </span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="nx">_</span><span class="p">.</span><span class="nx">throttle</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">func</span><span class="p">,</span> <span class="nx">wait</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">,</span> <span class="nx">result</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// 上次执行时间点</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">previous</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">options</span><span class="p">)</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>  <span class="c1">// 延迟执行函数</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">later</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 若设定了开始边界不执行选项，上次执行时间始终为0</span>
+</span><span class='line'>    <span class="nx">previous</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">leading</span> <span class="o">===</span> <span class="kc">false</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="nx">_</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">result</span> <span class="o">=</span> <span class="nx">func</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">args</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">now</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">// 首次执行时，如果设定了开始边界不执行选项，将上次执行时间设定为当前时间。</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">previous</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="p">.</span><span class="nx">leading</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="nx">previous</span> <span class="o">=</span> <span class="nx">now</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// 延迟执行时间间隔</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">remaining</span> <span class="o">=</span> <span class="nx">wait</span> <span class="o">-</span> <span class="p">(</span><span class="nx">now</span> <span class="o">-</span> <span class="nx">previous</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">context</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">args</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// 延迟时间间隔remaining小于等于0，表示上次执行至此所间隔时间已经超过一个时间窗口</span>
+</span><span class='line'>    <span class="c1">// remaining大于时间窗口wait，表示客户端系统时间被调整过</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">remaining</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">remaining</span> <span class="o">&gt;</span> <span class="nx">wait</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">clearTimeout</span><span class="p">(</span><span class="nx">timeout</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>      <span class="nx">previous</span> <span class="o">=</span> <span class="nx">now</span><span class="p">;</span>
+</span><span class='line'>      <span class="nx">result</span> <span class="o">=</span> <span class="nx">func</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">args</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">//如果延迟执行不存在，且没有设定结尾边界不执行选项</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="p">.</span><span class="nx">trailing</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">later</span><span class="p">,</span> <span class="nx">remaining</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3><code>_.debounce</code>方法源码</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 wait，func 才会执行</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @param  {function} func        传入函数</span>
+</span><span class='line'><span class="cm"> * @param  {number}   wait        表示时间窗口的间隔</span>
+</span><span class='line'><span class="cm"> * @param  {boolean}  immediate   设置为ture时，调用触发于开始边界而不是结束边界</span>
+</span><span class='line'><span class="cm"> * @return {function}             返回客户调用函数</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="nx">_</span><span class="p">.</span><span class="nx">debounce</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">func</span><span class="p">,</span> <span class="nx">wait</span><span class="p">,</span> <span class="nx">immediate</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">timeout</span><span class="p">,</span> <span class="nx">args</span><span class="p">,</span> <span class="nx">context</span><span class="p">,</span> <span class="nx">timestamp</span><span class="p">,</span> <span class="nx">result</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">later</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// 据上一次触发时间间隔</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">last</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">-</span> <span class="nx">timestamp</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// 上次被包装函数被调用时间间隔last小于设定时间间隔wait</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">last</span> <span class="o">&lt;</span> <span class="nx">wait</span> <span class="o">&amp;&amp;</span> <span class="nx">last</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">later</span><span class="p">,</span> <span class="nx">wait</span> <span class="o">-</span> <span class="nx">last</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">timeout</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>      <span class="c1">// 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">immediate</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">result</span> <span class="o">=</span> <span class="nx">func</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">args</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">context</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">args</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">timestamp</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">callNow</span> <span class="o">=</span> <span class="nx">immediate</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">timeout</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// 如果延时不存在，重新设定延时</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">timeout</span><span class="p">)</span> <span class="nx">timeout</span> <span class="o">=</span> <span class="nx">setTimeout</span><span class="p">(</span><span class="nx">later</span><span class="p">,</span> <span class="nx">wait</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">callNow</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">result</span> <span class="o">=</span> <span class="nx">func</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">args</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">context</span> <span class="o">=</span> <span class="nx">args</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>可视化演示</h3>
+
+<p><img src="http://throttle-debounce.coding.io/images/screenshot.png" alt="Throtte &amp; Debounce 可视化演示" /></p>
+
+<p>示例中每一行都以30ms的速度绘制时间轴，第一行Mousemove Events是参考基准，以50ms每次的响应频率，在时间轴上输出循环可见ASCII码字符。</p>
+
+<p>当鼠标进入左侧方型区域（mouseenter 事件）所有行开始绘制时间轴, 鼠标晃动（mousemove 事件）会在时间轴上绘制字符块，每个字符块表示事件被触发一次。为了展现延迟触发效果，相邻字符块的演示和文字是不同的。</p>
+
+<p>顶部的两个按钮<code>每100毫秒触发1次</code>和<code>每200毫秒触发2次</code>演示以固定频率匀速触发事件的效果。</p>
+
+<ul>
+<li>演示地址：<a href="http://throttle-debounce.coding.io/">http://throttle-debounce.coding.io/</a></li>
+<li>源码地址：<a href="https://coding.net/u/duwan/p/throttle-debounce/">https://coding.net/u/duwan/p/throttle-debounce/</a></li>
+</ul>
+
+
+<h3>使用场景</h3>
+
+<p>只要牵涉到连续事件或频率控制相关的应用都可以考虑到这两个函数，比如：</p>
+
+<ul>
+<li>游戏射击，keydown 事件</li>
+<li>文本输入、自动完成，keyup 事件</li>
+<li>鼠标移动，mousemove 事件</li>
+<li>DOM 元素动态定位，window 对象的 resize 和 scroll 事件</li>
+</ul>
+
+
+<p>前两者 debounce 和 throttle 都可以按需使用；后两者肯定是用 throttle 了。如果不做过滤处理，每秒种甚至会触发数十次相应的事件。尤其是 mousemove 事件，每移动一像素都可能触发一次事件。如果是在一个画布上做一个鼠标相关的应用，过滤事件处理是必须的，否则肯定会造成糟糕的体验。</p>
+
+<h3>参考阅读</h3>
+
+<ol>
+<li><a href="http://underscorejs.org/docs/underscore.html#section-70">UNDERSCORE.JS</a></li>
+<li><a href="http://www.cnblogs.com/ambar/archive/2011/10/08/throttle-and-debounce.html">高阶函数 debounce 和 throttle</a></li>
+<li><a href="http://benalman.com/projects/jquery-throttle-debounce-plugin/">jQuery throttle / debounce: Sometimes, less is more!</a></li>
+<li><a href="http://drupalmotion.com/article/debounce-and-throttle-visual-explanation">Debounce and Throttle: a visual explanation</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[实时web的4种实现方式]]></title>
@@ -1438,7 +1810,7 @@ iface usb0 inet static
 <li>开启USBNetwork模式，Kindle的搜索框内，输入<code>;un</code>然后回车</li>
 <li><p>打开Kterm键入</p>
 
-<p> ssh <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#112;&#105;&#64;&#49;&#x39;&#50;&#46;&#x31;&#54;&#x38;&#x2e;&#x31;&#53;&#x2e;&#x31;">&#x70;&#x69;&#64;&#x31;&#x39;&#50;&#x2e;&#49;&#x36;&#x38;&#46;&#49;&#53;&#x2e;&#x31;</a></p></li>
+<p> ssh <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#112;&#105;&#x40;&#x31;&#x39;&#x32;&#46;&#49;&#x36;&#x38;&#x2e;&#x31;&#53;&#x2e;&#x31;">&#112;&#105;&#64;&#49;&#57;&#50;&#x2e;&#49;&#54;&#x38;&#x2e;&#49;&#x35;&#46;&#49;</a></p></li>
 </ol>
 
 
@@ -1766,118 +2138,6 @@ network={
 <ol>
 <li><a href="https://forum.linode.com/viewtopic.php?f=20&amp;t=10436">Intermittent &ldquo;We&rsquo;re sorry&rdquo; error accessing Google via IPv6</a></li>
 <li><a href="http://en.kioskea.net/faq/759-ubuntu-disabling-ipv6-support">Ubuntu &ndash; Disabling IPv6 support</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac OS X替换Razer的状态栏图标]]></title>
-    <link href="http://codelife.me/blog/2013/11/16/replace-razer-status-bar-icon-in-macos/"/>
-    <updated>2013-11-16T01:37:00+08:00</updated>
-    <id>http://codelife.me/blog/2013/11/16/replace-razer-status-bar-icon-in-macos</id>
-    <content type="html"><![CDATA[<blockquote><p>心爱的QeathAdder炼狱蝰蛇变形金刚款，用了300多天左键坏了，联系易迅给换了个QeathAdder炼狱蝰蛇2013款。虽然黑色的外观不如变形金刚款银色的配MacBook，但是6400dpi的分辨率，着实给力。CS:GO的甩狙命中率显著提升，开始以为年纪大了水平下降了，换鼠标后，发现还是鼠标的问题。话说Razer鼠标的管理界面支持登录以后保存鼠标配置的功能很好，就是状态栏的蓝色图标和Mac OS统一的暗灰色图标比起来太不协调了。</p></blockquote>
-
-<p>默认效果</p>
-
-<p><img src="http://codelife.me/images/post/2013-11-16/replace_before.png" alt="" /></p>
-
-<p>替换后的效果</p>
-
-<p><img src="http://codelife.me/images/post/2013-11-16/replace_after.png" alt="" /></p>
-
-<p>替换图标</p>
-
-<p><img src="http://codelife.me/images/post/2013-11-16/Status.png" alt="" /></p>
-
-<h3>替换图标</h3>
-
-<ol>
-<li>在Finder里找到<code>/Library/Application Support/Razer/RzUpdater.app</code>
-Command+Shift+G打开GO to对话框，输入<code>/Library/Application Support/Razer</code></li>
-<li>右键RzUpdater.app显示包内容</li>
-<li>然后再进入<code>Contents/Resources</code>目录</li>
-<li>用上面的图标替换Status.png文件即可。</li>
-<li>重启系统或者杀掉RzUpdater进程</li>
-</ol>
-
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://forums.macrumors.com/showthread.php?t=1432198">Razer DeathAdder Icon in Menubar (Synapse 2.0)</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[让Mac正确的识别Noppoo Chic Mini84]]></title>
-    <link href="http://codelife.me/blog/2013/11/13/noppoo-chic-mini84-osx-support/"/>
-    <updated>2013-11-13T14:44:00+08:00</updated>
-    <id>http://codelife.me/blog/2013/11/13/noppoo-chic-mini84-osx-support</id>
-    <content type="html"><![CDATA[<blockquote><p>半年前入了一把Noppoo的84键茶轴机械键盘，这把键盘的手感真心不错，也非常的小巧，很短，放在桌上也一点都不占位置。唯一的缺点就是不支持Mac系统。官方未提供mac版本的驱动程序，在mac系统下有部分键不好用。网上倒是提供了两种解决方案：一种是usb转ps2，再ps2转usb两次转换以后就好用了（依靠转换器里的芯片）；另一个种是安装Github上的<a href="https://github.com/thefloweringash/iousbhiddriver-descriptor-override">第三方驱动</a>。</p></blockquote>
-
-<p><img src="http://codelife.me/images/post/2013-11-13/noppoo-chic-mini84.jpg" alt="Noppoo Chic Mini84" /></p>
-
-<p>两种方法都有试过，两次转换可以免去装驱动的麻烦，但是由于接了两个转换器，有时候会接触不好。最后选用了加装驱动的方案。</p>
-
-<!-- more -->
-
-
-<h3>加装驱动</h3>
-
-<ul>
-<li><p>pkg安装包 <a href="https://thefloweringash.com/iousbhiddriver-descriptor-override/downloads/IOUSBHIDDriverDescriptorOverride-2013-04-21-b545d15.pkg">https://thefloweringash.com/iousbhiddriver-descriptor-override/downloads/IOUSBHIDDriverDescriptorOverride-2013-04-21-b545d15.pkg</a></p></li>
-<li><p>编译安装</p>
-
-<ol>
-<li> 下载源码 <a href="https://github.com/thefloweringash/iousbhiddriver-descriptor-override/archive/master.zip">https://github.com/thefloweringash/iousbhiddriver-descriptor-override/archive/master.zip</a></li>
-<li> 编译</li>
-</ol>
-</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># dependencies
-</span><span class='line'>gem install bundler
-</span><span class='line'>bundle install --without scan
-</span><span class='line'>
-</span><span class='line'># build
-</span><span class='line'>xcodebuild
-</span><span class='line'>sudo cp -r build/Release/IOUSBHIDDriverDescriptorOverride.kext \
-</span><span class='line'>    /System/Library/Extensions
-</span><span class='line'>sudo kextutil \
-</span><span class='line'>    /System/Library/Extensions/IOUSBHIDDriverDescriptorOverride.kext</span></code></pre></td></tr></table></div></figure>
-
-
-<pre><code>3. 启动时加载，把com.apple.IOUSBHIDDriverDescriptorOverride.plist复制到/Library/LaunchDaemons/下面
-</code></pre>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>launchctl load -w /Library/LaunchDaemons/com.apple.IOUSBHIDDriverDescriptorOverride.plist
-</span><span class='line'>launchctl list | grep om.apple.IOUSBHIDDriverDescriptorOverride</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>安装KeyRemap4MacBook</h3>
-
-<p>下载地址 <a href="https://pqrs.org/macosx/keyremap4macbook/">https://pqrs.org/macosx/keyremap4macbook/</a></p>
-
-<h3>参考阅读</h3>
-
-<ol>
-<li><a href="http://likidu.com/noppoo-chic-mini84-osx-support/">Noppoo Chic Mini 84支持Mac OS X</a></li>
 </ol>
 
 ]]></content>
